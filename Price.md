@@ -1,2 +1,2 @@
 # price
-price 1000
+price 2000
