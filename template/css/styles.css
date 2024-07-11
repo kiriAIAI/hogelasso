@@ -5,6 +5,10 @@
     padding: 70px 68px;
     margin: 0 auto; /* ここを追加 */
   }
+.fas {
+    font-size: 20px;
+}
+
   @media (max-width: 991px) {
     .div {
       padding-left: 20px;
