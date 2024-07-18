@@ -2,11 +2,14 @@ a{
     text-decoration: none;
     margin: none;
 }
+div{
+    color: #000;
+}
 .category-section { 
     background-color: #fff; 
     display: flex; 
     justify-content: center;
-    padding-bottom: 80px; 
+    /* padding-bottom: 80px;  */
     flex-direction: column; 
 }
 .header { box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); background-color: #fff; padding: 5px 0px 0px 0px; margin-bottom: 10px; }
@@ -73,9 +76,16 @@ section:not(.category-section){
 .section-subtitle{
     margin: 0 0 0 5px;
 }
-.view-more { display: flex; gap: 20px; font-size: 24px; align-items: end; margin-left: auto;}
-.view-more-text { font-family: Noto Sans JP, sans-serif; font-size: 1.1rem;cursor:pointer}
-.view-more-icon { aspect-ratio: 1; object-fit: auto; object-position: center; width: 30px; cursor:pointer}
+.view-more { display: flex; width: 125px; gap: 20px; font-size: 24px; align-items: end; margin-left: auto; }
+.view-more div{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    margin-top: auto;
+}
+.view-more-text { font-family: Noto Sans JP, sans-serif; font-size: 1.1rem;cursor:pointer; }
+.view-more-icon { aspect-ratio: 1; object-fit: auto; object-position: center; width: 30px; cursor:pointer; }
 .book-grid { margin-top: 15px; width: 100%; max-width: 1201px; display: flex; justify-content: center; gap: 20px; }
 .book-item { display: flex; flex-direction: column; font-size: 32px; color: #000; font-weight: 400; cursor:pointer}
 .book-cover {width: 205px; height: 350px; border-radius: 30px; border: 3px solid #e1dddb; background-color: #fff; display: flex; flex-direction: column; padding: 20px 0 10px 0 ; align-items: center; }
@@ -100,6 +110,20 @@ section:not(.category-section){
 .category-icon { aspect-ratio: 1; object-fit: auto; object-position: center; width: 100px; }
 .category-name { font-family: Noto Sans JP, sans-serif; margin-top: 23px; }
 .scroll-to-top { aspect-ratio: 1; object-fit: auto; object-position: center; width: 80px; align-self: flex-end; margin: 56px 39px 0 0; }
+
+
+.footer{
+    margin-top: 100px;
+    background-color: #3b3b3b;
+    width: 100%;
+}
+.footer div{
+    display: flex;
+    justify-content: center;
+}
+.footer div h2{
+    color: #fff;
+}
 
 @media (max-width: 991px) {
   .header { max-width: 100%; flex-wrap: wrap; padding: 0 20px; }
