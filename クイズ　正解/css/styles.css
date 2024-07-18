@@ -1,0 +1,367 @@
+.div {
+    background-color: #fff;
+    display: flex;
+    padding-bottom: 80px;
+    flex-direction: column;
+  }
+  
+  .div-2 {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background-color: #fff;
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 20px 50px;
+  }
+  
+  @media (max-width: 991px) {
+    .div-2 {
+      max-width: 100%;
+      flex-wrap: wrap;
+      padding: 0 20px;
+    }
+  }
+  
+  .div-3 {
+    display: flex;
+    gap: 10px;
+    font-size: 48px;
+    color: #333;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  
+  @media (max-width: 991px) {
+    .div-3 {
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  
+  .img {
+    aspect-ratio: 1;
+    object-fit: auto;
+    object-position: center;
+    width: 80px;
+  }
+  
+  .div-4 {
+    font-family: Noto Sans JP, sans-serif;
+    flex-grow: 1;
+    flex-basis: auto;
+    margin: auto 0;
+  }
+  
+  @media (max-width: 991px) {
+    .div-4 {
+      font-size: 40px;
+    }
+  }
+  
+  .div-5 {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin: auto 0;
+  }
+  
+  .img-2, .img-3, .img-4, .img-5, .img-6 {
+    aspect-ratio: 1;
+    object-fit: auto;
+    object-position: center;
+    width: 50px;
+  }
+  
+  .div-6 {
+    align-self: center;
+    display: flex;
+    margin-top: 61px;
+    width: 100%;
+    max-width: 1027px;
+    flex-direction: column;
+    font-size: 48px;
+    color: #000;
+    font-weight: 700;
+    padding: 0 20px;
+  }
+  
+  @media (max-width: 991px) {
+    .div-6 {
+      max-width: 100%;
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  }
+  
+  .div-7 {
+    text-align: center;
+    align-self: center;
+    font: 64px Noto Sans JP, sans-serif;
+  }
+  
+  @media (max-width: 991px) {
+    .div-7 {
+      max-width: 100%;
+      font-size: 40px;
+    }
+  }
+  
+  .div-8 {
+    text-align: center;
+    align-self: center;
+    margin-top: 66px;
+    font: 32px Noto Sans JP, sans-serif;
+  }
+  
+  @media (max-width: 991px) {
+    .div-8 {
+      margin-top: 40px;
+    }
+  }
+  
+  .div-9 {
+    text-align: center;
+    font-family: Noto Sans JP, sans-serif;
+    margin-top: 120px;
+  }
+  
+  @media (max-width: 991px) {
+    .div-9 {
+      max-width: 100%;
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  }
+  
+  .div-10 {
+    text-align: center;
+    font-family: Noto Sans JP, sans-serif;
+    align-self: end;
+    margin-top: 54px;
+  }
+  
+  @media (max-width: 991px) {
+    .div-10 {
+      max-width: 100%;
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  }
+  
+  .div-11 {
+    align-self: end;
+    display: flex;
+    margin-top: 81px;
+    width: 820px;
+    max-width: 100%;
+    align-items: start;
+    gap: 20px;
+    white-space: nowrap;
+    text-align: center;
+  }
+  
+  @media (max-width: 991px) {
+    .div-11 {
+      flex-wrap: wrap;
+      margin-top: 40px;
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  
+  .div-12 {
+    display: flex;
+    margin-top: 10px;
+    gap: 20px;
+    flex: 1;
+  }
+  
+  @media (max-width: 991px) {
+    .div-12 {
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  
+  .div-13 {
+    font-family: Noto Sans JP, sans-serif;
+    align-self: start;
+    margin-top: 10px;
+    flex-grow: 1;
+    flex-basis: auto;
+  }
+  
+  @media (max-width: 991px) {
+    .div-13 {
+      font-size: 40px;
+    }
+  }
+  
+  .img-7 {
+    aspect-ratio: 1;
+    object-fit: auto;
+    object-position: center;
+    width: 75px;
+  }
+  
+  .div-14 {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+  }
+  
+  @media (max-width: 991px) {
+    .div-14 {
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  
+  .div-15 {
+    font-family: Noto Sans JP, sans-serif;
+    flex-grow: 1;
+    flex-basis: auto;
+    margin: auto 0;
+  }
+  
+  @media (max-width: 991px) {
+    .div-15 {
+      font-size: 40px;
+    }
+  }
+  
+  .img-8 {
+    aspect-ratio: 1;
+    object-fit: auto;
+    object-position: center;
+    width: 75px;
+    fill: #ef0303;
+  }
+  
+  .div-16 {
+    align-self: end;
+    display: flex;
+    margin-top: 53px;
+    width: 819px;
+    max-width: 100%;
+    gap: 20px;
+    white-space: nowrap;
+    text-align: center;
+  }
+  
+  @media (max-width: 991px) {
+    .div-16 {
+      flex-wrap: wrap;
+      margin-top: 40px;
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  
+  .div-17 {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+  }
+  
+  @media (max-width: 991px) {
+    .div-17 {
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  
+  .div-18 {
+    font-family: Noto Sans JP, sans-serif;
+    flex-grow: 1;
+    flex-basis: auto;
+    margin: auto 0;
+  }
+  
+  @media (max-width: 991px) {
+    .div-18 {
+      font-size: 40px;
+    }
+  }
+  
+  .img-9 {
+    aspect-ratio: 1;
+    object-fit: auto;
+    object-position: center;
+    width: 75px;
+    fill: #ef0303;
+  }
+  
+  .div-19 {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+  }
+  
+  @media (max-width: 991px) {
+    .div-19 {
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  
+  .div-20 {
+    font-family: Noto Sans JP, sans-serif;
+    flex-grow: 1;
+    flex-basis: auto;
+    margin: auto 0;
+  }
+  
+  @media (max-width: 991px) {
+    .div-20 {
+      font-size: 40px;
+    }
+  }
+  
+  .img-10 {
+    aspect-ratio: 1;
+    object-fit: auto;
+    object-position: center;
+    width: 75px;
+    fill: #ef0303;
+  }
+  
+  .div-21 {
+    align-self: center;
+    display: flex;
+    margin-top: 63px;
+    width: 752px;
+    max-width: 100%;
+    gap: 20px;
+  }
+  
+  @media (max-width: 991px) {
+    .div-21 {
+      flex-wrap: wrap;
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  }
+  
+  .div-22 {
+    font-family: Noto Sans JP, sans-serif;
+    flex-grow: 1;
+    flex-basis: auto;
+    margin: auto 0;
+  }
+  
+  @media (max-width: 991px) {
+    .div-22 {
+      max-width: 100%;
+      font-size: 40px;
+    }
+  }
+  
+  .img-11 {
+    aspect-ratio: 1;
+    object-fit: auto;
+    object-position: center;
+    width: 75px;
+  }
+  
