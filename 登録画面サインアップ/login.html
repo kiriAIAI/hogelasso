@@ -1,0 +1,71 @@
+import * as React from "react";
+
+function MyComponent() {
+  return (
+    <div className="py-16 pl-16 bg-white max-w-[960px] rounded-[30px] max-md:pl-5">
+      <div className="flex gap-5 max-md:flex-col max-md:gap-0">
+        <div className="flex flex-col w-[42%] max-md:ml-0 max-md:w-full">
+          <div className="flex flex-col grow mt-7 max-md:mt-10">
+            <div className="flex gap-5 w-full">
+              <div className="flex-auto text-3xl font-bold text-black">
+                ログイン
+              </div>
+              <div className="flex gap-2 self-start mt-1.5">
+                <img
+                  loading="lazy"
+                  srcSet="..."
+                  className="shrink-0 w-7 aspect-[0.93]"
+                />
+                <img
+                  loading="lazy"
+                  srcSet="..."
+                  className="shrink-0 self-start w-5 aspect-square"
+                />
+              </div>
+            </div>
+            <div className="mt-11 text-xl text-black max-md:mt-10">
+              ユーザー名
+            </div>
+            <div className="flex gap-5 justify-between px-5 py-2 mt-3.5 text-base font-bold whitespace-nowrap bg-white rounded-md border border-solid shadow-sm border-neutral-200 text-neutral-200">
+              <div className="my-auto">username</div>
+              <img
+                loading="lazy"
+                srcSet="..."
+                className="shrink-0 aspect-square w-[25px]"
+              />
+            </div>
+            <div className="mt-9 text-xl text-black">パスワード</div>
+            <div className="flex gap-5 justify-between px-5 py-2 mt-4 text-base font-bold whitespace-nowrap bg-white rounded-md border border-solid shadow-sm border-neutral-200 text-neutral-200">
+              <div className="my-auto">**********</div>
+              <img
+                loading="lazy"
+                srcSet="..."
+                className="shrink-0 aspect-square w-[25px]"
+              />
+            </div>
+            <div className="self-center mt-6 text-base font-bold text-stone-400">
+              初めての方はこちら
+            </div>
+            <div className="justify-center items-center px-16 py-3.5 mt-14 text-2xl font-bold text-white whitespace-nowrap bg-orange-500 rounded-xl max-md:px-5 max-md:mt-10">
+              ログイン
+            </div>
+            <div className="self-center mt-6 text-base font-bold text-stone-400">
+              ユーザー名を忘れた方はこちら
+            </div>
+            <div className="self-center mt-3 text-base font-bold text-stone-400">
+              パスワードを忘れた方はこちら
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col ml-5 w-[58%] max-md:ml-0 max-md:w-full">
+          <img
+            loading="lazy"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/c0ca72e7f98b8dad1d42bf753ad23a3eecd100ca9d68f16e45cfed272c2d9298?"
+            className="w-full aspect-[0.97] max-md:mt-10 max-md:max-w-full"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
