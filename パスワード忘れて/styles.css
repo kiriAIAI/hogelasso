@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+    background-color: #ccc;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,62 +8,76 @@ body {
     margin: 0;
 }
 
+
+
 .container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
+    background-color: white;
+    padding: 2em;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 400px;
-    width: 100%;
+}
+
+h1 {
+    margin-bottom: 1em;
 }
 
 h2 {
-    margin-bottom: 20px;
+    margin-bottom: 1em;
 }
 
-p {
-    margin-bottom: 20px;
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-input[type="email"] {
+input {
+    padding: 0.5em;
+    margin-bottom: 1em;
     width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
+    max-width: 300px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 300px;
+}
+
+.submit-button {
+    padding: 0.5em 2em;
+    background-color: #FF7F00;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
+    text-decoration: none;
+    text-align: center;
 }
 
-button:hover {
-    background-color: #45a049;
+.return-button {
+    padding: 0.5em 2em;
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+.submit-button:hover {
+    background-color: #e66b00;
+}
+
+.return-button:hover {
+    background-color: #333;
 }
 
 #message {
-    margin-top: 20px;
-    color: red;
-}
-
-a {
-    display: block;
-    margin-top: 20px;
-    color: #4CAF50;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
+    margin-top: 1em;
 }

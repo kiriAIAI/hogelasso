@@ -1,23 +1,27 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>忘记密码</title>
+    <title>パスワードの再設定</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h2>パスワードの再設定</h2>
-        <p>メールアドレスを入力してください。パスワード再設定用のリンクをお送りします。</p>
-        <form id="forgot-password-form">
-            <label for="email">邮箱地址:</label>
-            <input type="email" id="email" name="email" required>
-            <button type="submit">提交</button>
-        </form>
-        <p id="message"></p>
-        <a href="login.html">返回登录页面</a>
+    <div class="outer-container">
+        <h1>忘记密码</h1>
+        <div class="container">
+            <h2>パスワードの再設定</h2>
+            <p>ユーザー名を入力してください。</p>
+            <form id="forgot-password-form">
+                <input type="text" id="username" name="username" required>
+                <div class="button-group">
+                    <a href="login.html" class="return-button">返回</a>
+                    <button type="submit" class="submit-button">提交</button>
+
+                </div>
+                <p id="message"></p>
+            </form>
+        </div>
     </div>
-    <script src="script.js"></script>
 </body>
 </html>
