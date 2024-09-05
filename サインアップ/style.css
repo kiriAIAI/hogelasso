@@ -1,0 +1,207 @@
+
+   
+        .signup-container {
+          border-radius: 30px;
+          background-color: #fff;
+          max-width: 960px;
+          overflow: hidden;
+          padding: 43px 0 27px 65px;
+        }
+        
+        @media (max-width: 991px) {
+          .signup-container {
+            padding-left: 20px;
+          }
+        }
+        
+        .content-wrapper {
+          display: flex;
+          gap: 20px;
+        }
+        
+        @media (max-width: 991px) {
+          .content-wrapper {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+          }
+        }
+        
+        .form-column {
+          display: flex;
+          flex-direction: column;
+          line-height: normal;
+          width: 42%;
+          margin-left: 0;
+        }
+        
+        @media (max-width: 991px) {
+          .form-column {
+            width: 100%;
+            margin-top: 40px;
+          }
+        }
+        
+        .form-wrapper {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+        }
+        
+        .header-wrapper {
+          display: flex;
+          width: 100%;
+          gap: 20px;
+          justify-content: space-between;
+        }
+        
+        @media (max-width: 991px) {
+          .header-wrapper {
+            margin-left: 2px;
+          }
+        }
+        
+        .title-wrapper {
+          display: flex;
+          flex-direction: column;
+          font-family: Noto Sans JP, sans-serif;
+          color: #000;
+          white-space: nowrap;
+        }
+        
+        @media (max-width: 991px) {
+          .title-wrapper {
+            white-space: initial;
+          }
+        }
+        
+        .main-title {
+          font-size: 32px;
+          font-weight: 700;
+        }
+        
+        .form-label {
+          font-size: 20px;
+          font-weight: 400;
+          align-self: start;
+          margin-top: 20px;
+        }
+        
+        .icon-wrapper {
+          align-self: start;
+          display: flex;
+          margin-top: 14px;
+          gap: 8px;
+        }
+        
+        .icon {
+          aspect-ratio: 0.89;
+          object-fit: contain;
+          object-position: center;
+          width: 25px;
+        }
+        
+        .icon-small {
+          aspect-ratio: 1;
+          object-fit: contain;
+          object-position: center;
+          width: 20px;
+          align-self: start;
+        }
+        
+        .input-wrapper {
+          border-radius: 5px;
+          background-color: #fff;
+          box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+          display: flex;
+          margin-top: 10px;
+          gap: 20px;
+          color: #e1dddb;
+          white-space: nowrap;
+          justify-content: space-between;
+          padding: 8px 18px;
+          font: 700 16px Noto Sans JP, sans-serif;
+          border: 1px solid #e1dddb;
+        }
+        
+        @media (max-width: 991px) {
+          .input-wrapper {
+            margin-left: 2px;
+            white-space: initial;
+          }
+        }
+        
+        .input-icon {
+          aspect-ratio: 1;
+          object-fit: contain;
+          object-position: center;
+          width: 25px;
+        }
+        
+        .login-link {
+          color: #a19d97;
+          align-self: center;
+          margin-top: 10px;
+          font: 700 16px Noto Sans JP, sans-serif;
+        }
+        
+        .signup-button {
+          border-radius: 10px;
+          background-color: #ff6600;
+          margin-top: 15px;
+          color: #fff;
+          white-space: nowrap;
+          padding: 8px 70px;
+          font: 700 24px Noto Sans JP, sans-serif;
+        }
+        
+        @media (max-width: 991px) {
+          .signup-button {
+            margin-right: 2px;
+            white-space: initial;
+            padding: 0 20px;
+          }
+        }
+        
+        .image-column {
+          display: flex;
+          flex-direction: column;
+          line-height: normal;
+          width: 58%;
+          margin-left: 20px;
+        }
+        
+        @media (max-width: 991px) {
+          .image-column {
+            width: 100%;
+          }
+        }
+        
+        .hero-image {
+          aspect-ratio: 1.09;
+          object-fit: contain;
+          object-position: center;
+          width: 100%;
+          align-self: stretch;
+          margin: auto 0;
+        }
+        
+        @media (max-width: 991px) {
+          .hero-image {
+            max-width: 100%;
+            margin-top: 40px;
+          }
+        }
+        
+        .visually-hidden {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        }
+       
