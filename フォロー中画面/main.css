@@ -1,0 +1,182 @@
+.following-screen {
+    background-color: #fff;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    padding-bottom: 69px;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .header {
+    background-color: #fff;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 50px;
+  }
+  
+  .logo-container {
+    display: flex;
+    gap: 10px;
+    color: #333;
+    white-space: nowrap;
+    font: 700 48px 'Noto Sans JP', sans-serif;
+  }
+  
+  .logo {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 80px;
+  }
+  
+  .logo-text {
+    margin: auto 0;
+  }
+  
+  .icon-group {
+    display: flex;
+    gap: 30px;
+    margin: auto 0;
+  }
+  
+  .icon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 50px;
+  }
+  
+  .username {
+    color: #000;
+    text-align: center;
+    align-self: center;
+    margin: 77px 0 0 14px;
+    font: 700 64px 'Noto Sans JP', sans-serif;
+  }
+  
+  .profile-image {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 303px;
+    align-self: center;
+    max-width: 100%;
+    margin: 43px 0 0 16px;
+  }
+  
+  .following-count {
+    color: #000;
+    text-align: center;
+    align-self: start;
+    margin: 23px 0 0 107px;
+    font: 700 54px 'Noto Sans JP', sans-serif;
+  }
+  
+  .user-list {
+    align-self: center;
+    display: flex;
+    width: 100%;
+    max-width: 1033px;
+    padding-top: 25px;
+    flex-direction: column;
+    color: #000;
+    white-space: nowrap;
+    text-align: center;
+    margin: 100px 0 0 33px;
+    font: 700 48px 'Noto Sans JP', sans-serif;
+  }
+  
+  .user-item {
+    margin-top: 25px;
+  }
+  
+  .user-avatar {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 120px;
+    border-radius: 50%;
+    z-index: 10;
+    margin-top: -67px;
+    max-width: 100%;
+  }
+  
+  .follow-button {
+    border-radius: 10px;
+    background-color: #00bfff;
+    align-self: end;
+    margin-top: -107px;
+    padding: 12px 52px 57px;
+  }
+  
+  .following-button {
+    border-radius: 10px;
+    background-color: #00bfff;
+    align-self: end;
+    margin-top: -107px;
+    padding: 12px 28px 51px;
+  }
+  
+  @media (max-width: 991px) {
+    .header {
+      max-width: 100%;
+      padding: 0 20px;
+    }
+  
+    .logo-container {
+      font-size: 40px;
+      white-space: initial;
+    }
+  
+    .logo-text {
+      font-size: 40px;
+    }
+  
+    .username {
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  
+    .profile-image {
+      margin-top: 40px;
+    }
+  
+    .following-count {
+      margin-left: 10px;
+      font-size: 40px;
+    }
+  
+    .user-list {
+      max-width: 100%;
+      margin-top: 40px;
+      font-size: 40px;
+      white-space: initial;
+    }
+  
+    .user-item {
+      font-size: 40px;
+    }
+  
+    .follow-button,
+    .following-button {
+      font-size: 40px;
+      white-space: initial;
+      padding: 0 20px;
+    }
+  }
+  
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
