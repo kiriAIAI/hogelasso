@@ -1,46 +1,58 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
 
-</head>
-<body>
-  <section class="login-container">
-    <div class="login-content">
-      <div class="login-form-column">
-        <div class="login-form-wrapper">
-          <header class="login-header">
-            <h1 class="login-title">ログイン</h1>
-            <div class="login-icons">
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/adf4cd51f54f3ff54a67da42428709a011873f7dee2283fd28ff58b26fab0b91?placeholderIfAbsent=true&apiKey=b9335e5710cf452696babc04b0718005" class="login-icon" alt="" />
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/516de3d27103a86ae791c496575ecf43ff38646c5b97a213813aa573a9ff382f?placeholderIfAbsent=true&apiKey=b9335e5710cf452696babc04b0718005" class="login-icon-small" alt="" />
-            </div>
-          </header>
-          <form>
-            <label for="username" class="input-label">ユーザー名</label>
-            <div class="input-wrapper">
-              <input type="text" id="username" placeholder="username" aria-label="ユーザー名" />
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1398dca85e430e9c0c47e7bc09e8835a2abd3d0edd8a242a9f2cafb5f381862a?placeholderIfAbsent=true&apiKey=b9335e5710cf452696babc04b0718005" class="input-icon" alt="" />
-            </div>
-            <label for="password" class="input-label">パスワード</label>
-            <div class="input-wrapper">
-              <input type="password" id="password" placeholder="**********" aria-label="パスワード" />
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/840c1865cd898e181fb743bca70fbea1ecc717dddea33fff466aac362d964d31?placeholderIfAbsent=true&apiKey=b9335e5710cf452696babc04b0718005" class="input-icon" alt="" />
-            </div>
-            <a href="#" class="signup-link">初めての方はこちら</a>
-            <button type="submit" class="login-button">ログイン</button>
-          </form>
-          <a href="#" class="forgot-link">ユーザー名を忘れた方はこちら</a>
-          <a href="#" class="forgot-password-link">パスワードを忘れた方はこちら</a>
-        </div>
+<html lang="ja">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Login</title>
+
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <!-- font -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- icon -->
+    <link rel="icon" href="images/top/logo.ico" type="image/x-icon">
+    
+  </head>
+
+  <body>
+
+    <div class="main-login">
+
+      <div class="left-login">
+        <img src="login.png" alt="ログイン">
       </div>
-      <div class="image-column">
-        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c0ca72e7f98b8dad1d42bf753ad23a3eecd100ca9d68f16e45cfed272c2d9298?placeholderIfAbsent=true&apiKey=b9335e5710cf452696babc04b0718005" class="login-image" alt="Login illustration" />
+
+      <div class="right-login">
+
+        <form class="card-login">
+          <h1>
+            ログイン
+          </h1>
+          <div class="text">
+            <p>
+              Username
+            </p>
+            <input type="text" name="" placeholder="user">
+            <i class="fas fa-user-alt"></i>
+          </div>
+          <div class="text">
+            <p>
+              Password
+            </p>
+            <input type="text" name="" placeholder="***************">
+            <i class="fas fa-lock"></i>
+          </div>
+          <button class="btn-login">Login</button>
+        </form>
+
       </div>
+
     </div>
-  </section>
-</body>
+
+  </body>
+
 </html>
