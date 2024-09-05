@@ -1,0 +1,186 @@
+.follower-screen {
+    background-color: #fff;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    padding-bottom: 207px;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+  }
+  
+  .header {
+    align-self: stretch;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .header-content {
+    background-color: #fff;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 50px;
+  }
+  
+  .logo-container {
+    display: flex;
+    gap: 10px;
+    color: #333;
+    white-space: nowrap;
+    font: 700 48px 'Noto Sans JP', sans-serif;
+  }
+  
+  .logo {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 80px;
+  }
+  
+  .logo-text {
+    flex-basis: auto;
+    margin: auto 0;
+  }
+  
+  .nav-icons {
+    display: flex;
+    gap: 30px;
+    margin: auto 0;
+  }
+  
+  .nav-icon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 50px;
+  }
+  
+  .username {
+    color: #000;
+    text-align: center;
+    align-self: center;
+    margin: 30px 0 0 11px;
+    font: 700 64px 'Noto Sans JP', sans-serif;
+  }
+  
+  .profile-image {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 303px;
+    max-width: 100%;
+    margin: 48px 0 0 13px;
+  }
+  
+  .follower-list {
+    z-index: 10;
+    display: flex;
+    margin-top: -12px;
+    width: 100%;
+    max-width: 1162px;
+    flex-direction: column;
+    color: #000;
+    text-align: center;
+    font: 700 48px 'Noto Sans JP', sans-serif;
+  }
+  
+  .follower-count {
+    font-size: 54px;
+    align-self: start;
+  }
+  
+  .follower-item {
+    align-self: center;
+    margin-top: 127px;
+  }
+  
+  .follower-avatar {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 120px;
+    border-radius: 50%;
+    z-index: 10;
+    max-width: 100%;
+    margin: -67px 0 0 129px;
+  }
+  
+  .follow-button {
+    border-radius: 10px;
+    background-color: #00bfff;
+    align-self: end;
+    margin-top: -107px;
+    white-space: nowrap;
+    padding: 12px 52px 57px;
+  }
+  
+  .following-button {
+    border-radius: 10px;
+    background-color: #00bfff;
+    align-self: end;
+    margin-top: -54px;
+    white-space: nowrap;
+    padding: 12px 28px 51px;
+  }
+  
+  @media (max-width: 991px) {
+    .follower-screen {
+      padding-bottom: 100px;
+    }
+  
+    .header {
+      max-width: 100%;
+    }
+  
+    .header-content {
+      max-width: 100%;
+      padding: 0 20px;
+    }
+  
+    .logo-container {
+      font-size: 40px;
+      white-space: initial;
+    }
+  
+    .logo-text {
+      font-size: 40px;
+    }
+  
+    .username {
+      font-size: 40px;
+    }
+  
+    .profile-image {
+      margin-top: 40px;
+    }
+  
+    .follower-list {
+      max-width: 100%;
+      font-size: 40px;
+    }
+  
+    .follower-count {
+      font-size: 40px;
+    }
+  
+    .follower-item {
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  
+    .follower-avatar {
+      margin-left: 10px;
+    }
+  
+    .follow-button,
+    .following-button {
+      font-size: 40px;
+      white-space: initial;
+      padding: 0 20px;
+    }
+  }
+  
