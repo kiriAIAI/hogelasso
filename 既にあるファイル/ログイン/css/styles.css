@@ -3,7 +3,7 @@
     background-color: #fff;
     max-width: 960px;
     padding: 70px 68px;
-    margin: 0 auto; /* ここを追加 */
+    margin: 0 auto;
   }
 .fas {
     font-size: 20px;
@@ -12,7 +12,7 @@
   @media (max-width: 991px) {
     .div {
       padding-left: 20px;
-      padding-right: 20px; /* 新しく追加 */
+      padding-right: 20px; 
     }
   }
   .div-2 {
