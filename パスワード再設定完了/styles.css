@@ -42,8 +42,8 @@ p{
 
 .p1 {
     position: absolute;
-    top: 210px;
-    left:105px;
+    top: 240px;
+    left:250px;
     font-size: 40px;
     text-align: left;
 }
@@ -71,8 +71,6 @@ form {
 
 .right {
     background-color:white;
-    padding-left: 6%;
-    padding-right: 6%;
     padding-top: 3%;
     padding-bottom: 3%;
     border-radius: 8px;
@@ -80,6 +78,7 @@ form {
     border-bottom-left-radius: 0%;
     text-align: center;
     overflow: hidden;
+    background-color: white;
 }
 
 .right img{
@@ -105,8 +104,8 @@ input {
 
 .button-group {
     position: absolute;
-    top: 470px;
-    left:100px;
+    top: 390px;
+    left:250px;
     text-align: left;
     display: flex;
     justify-content: space-between;
@@ -114,26 +113,14 @@ input {
     max-width: 450px;
 }
 
-.submit-button {
-    padding-top: 0.7rem;
-    padding-bottom: 0.7rem;
-    padding-left: 3.3rem;
-    padding-right: 3.3rem;
-    background-color: #FF7F00;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-}
+
 
 .return-button {
     padding-top: 0.7rem;
     padding-bottom: 0.7rem;
-    padding-left: 3.3rem;
-    padding-right: 3.3rem;
-    background-color: black;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    background-color: #e66b00;
     color: white;
     border: none;
     border-radius: 4px;

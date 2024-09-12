@@ -1,145 +1,137 @@
+/* 全体設定 */
 .profile-screen {
-    background-color: #fff;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    display: flex;
-    padding: 0 0 94px;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  
+  background-color: #fff;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 60px; /* パディングを縮小 */
+  overflow: hidden;
+  align-items: center; /* 中央揃え */
+}
+
+.header {
+  background-color: #fff;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px 20px; /* パディングを縮小 */
+}
+
+.logo-container {
+  display: flex;
+  gap: 10px;
+  color: #333;
+  white-space: nowrap;
+  font: 700 36px 'Noto Sans JP', sans-serif; /* フォントサイズを縮小 */
+}
+
+.logo {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 60px; /* 幅を縮小 */
+}
+
+.brand-name {
+  margin: auto 0;
+}
+
+.nav-icons {
+  display: flex;
+  gap: 20px; /* ギャップを縮小 */
+  margin: auto 0;
+}
+
+.nav-icon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 40px; /* 幅を縮小 */
+}
+
+.profile-content {
+  align-self: center;
+  display: flex;
+  margin-top: 20px;
+  width: 80%; /* 幅を80%に設定 */
+  max-width: 800px; /* 最大幅を800pxに設定 */
+  flex-direction: column;
+  color: #000;
+  font: 700 36px 'Noto Sans JP', sans-serif; /* フォントサイズを縮小 */
+}
+
+.username {
+  font-size: 40px; /* フォントサイズを縮小 */
+  text-align: center;
+  align-self: center;
+  margin: 10px 0; /* マージンを縮小 */
+}
+
+.profile-picture {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 200px; /* 幅を縮小 */
+  align-self: center;
+  max-width: 100%;
+  margin-top: 40px; /* マージンを縮小 */
+}
+
+.follow-stats {
+  display: flex;
+  margin-top: 20px; /* マージンを縮小 */
+  gap: 10px; /* ギャップを縮小 */
+  text-align: center;
+  flex-wrap: wrap;
+  justify-content: center; /* 中央揃え */
+}
+
+.bio-title {
+  font-size: 36px; /* フォントサイズを縮小 */
+  text-align: center;
+  align-self: start;
+  margin-top: 40px; /* マージンを縮小 */
+}
+
+.bio-content {
+  font-weight: 400;
+  align-self: start;
+  margin-top: 20px; /* マージンを縮小 */
+}
+
+/* メディアクエリ */
+@media (max-width: 991px) {
   .header {
-    background-color: #fff;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    display: flex;
-    width: 100%;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px 50px;
+      padding: 0 10px; /* パディングを縮小 */
   }
-  
+
   .logo-container {
-    display: flex;
-    gap: 10px;
-    color: #333;
-    white-space: nowrap;
-    font: 700 48px 'Noto Sans JP', sans-serif;
+      font-size: 32px; /* フォントサイズを縮小 */
   }
-  
-  .logo {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 80px;
-  }
-  
-  .brand-name {
-    flex-basis: auto;
-    margin: auto 0;
-  }
-  
-  .nav-icons {
-    display: flex;
-    gap: 30px;
-    margin: auto 0;
-  }
-  
-  .nav-icon {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 50px;
-  }
-  
-  .profile-content {
-    align-self: center;
-    display: flex;
-    margin-top: 20px;
-    width: 896px;
-    max-width: 100%;
-    flex-direction: column;
-    color: #000;
-    font: 700 40px 'Noto Sans JP', sans-serif;
-  }
-  
+
   .username {
-    font-size: 64px;
-    text-align: center;
-    align-self: center;
-    margin-left: 11px;
+      font-size: 32px; /* フォントサイズを縮小 */
   }
-  
+
   .profile-picture {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 250px;
-    align-self: center;
-    max-width: 100%;
-    margin: 88px 0 0 12px;
+      width: 150px; /* 幅を縮小 */
+      margin-top: 20px; /* マージンを縮小 */
   }
-  
+
   .follow-stats {
-    display: flex;
-    margin-top: 36px;
-    gap: 20px;
-    text-align: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
+      gap: 15px; /* ギャップを縮小 */
   }
-  
-  .followers {
-    align-self: start;
-  }
-  
+
   .bio-title {
-    font-size: 48px;
-    text-align: center;
-    align-self: start;
-    margin-top: 101px;
+      font-size: 32px; /* フォントサイズを縮小 */
+      margin-top: 20px; /* マージンを縮小 */
   }
-  
+
   .bio-content {
-    font-weight: 400;
-    align-self: start;
-    margin-top: 55px;
+      max-width: 100%;
+      margin-top: 20px; /* マージンを縮小 */
   }
-  
-  @media (max-width: 991px) {
-    .header {
-      max-width: 100%;
-      padding: 0 20px;
-    }
-  
-    .logo-container {
-      font-size: 40px;
-      white-space: initial;
-    }
-  
-    .brand-name {
-      font-size: 40px;
-    }
-  
-    .username {
-      font-size: 40px;
-    }
-  
-    .profile-picture {
-      margin-top: 40px;
-    }
-  
-    .follow-stats {
-      max-width: 100%;
-    }
-  
-    .bio-title {
-      font-size: 40px;
-      margin: 40px 0 0 4px;
-    }
-  
-    .bio-content {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  }
-  
+}
