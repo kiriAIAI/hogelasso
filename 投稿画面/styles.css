@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 10px 0;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.icons {
+    display: flex;
+    gap: 15px;
+}
+
+.icons i {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+}
+
+.container > div {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    position: relative;
+}
+
+.left {
+    background-color: #e9ecef;
+    flex: 2;
+    position: relative;
+}
+
+.right {
+    background-color: #f1f3f5;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+}
+
+.color-picker {
+    margin-bottom: 20px;
+    text-align: center;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.text1, .text2 {
+    position: absolute;
+}
+
+.text1 {
+    top: 30px;
+    left: 60px;
+    font-size: 3ch;
+}
+
+.input1 {
+    position: absolute;
+    top: 100px;
+    left: 60px;
+    width: calc(90% - 60px);
+    height: 7ch;
+    
+}
+
+.text2 {
+    top: 190px;
+    left: 60px;
+    font-size: 3ch;
+}
+
+.input2 {
+    position: absolute;
+    top: 260px;
+    left: 60px;
+    width: calc(90% - 60px);
+    height: 35ch;
+}
+
+.icon-text-group {
+    position: absolute;
+    bottom: 100px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.submit-button {
+    position: absolute;
+    bottom: 40px;
+    right: 400px;
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.font-size-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: absolute;
+    top: 320px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.font-size-control button {
+    width: 30px;
+    height: 30px;
+}
+
+.font-size-control span {
+    width: 30px;
+    text-align: center;
+}
+
+.font-style-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: absolute;
+    top: 420px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.font-label {
+    margin-right: 10px;
+}
+
+.paragraph-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: absolute;
+    top: 500px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.paragraph-label {
+    margin-right: 10px;
+}
+
+
+.ccc{
+    width: 300px;
+    height: 200px;
+}
+
+
