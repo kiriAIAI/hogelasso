@@ -28,17 +28,16 @@
       <div class="div-8">今から1問クイズを出します。</div>
       <div class="div-9">問題１</div>
       <div class="div-10">
-        ああああああああああああああああああああああああ<br>
-        ああああああああああああああああああああああああ
+        {{ question.question_text }}
       </div>
       <div class="div-11">
         <div class="div-12">
-          <div class="div-13">1, xxxxx</div>
-          <div class="div-14">3, xxxxx</div>
+          <div class="div-13"><input type="radio" name="option" value="1"> {{ question.option1 }}<br></div>
+          <div class="div-14"><input type="radio" name="option" value="2"> {{ question.option2 }}<br></div>
         </div>
         <div class="div-15">
-          <div class="div-16">2, xxxxx</div>
-          <div class="div-17">4, xxxxx</div>
+          <div class="div-16"><input type="radio" name="option" value="3"> {{ question.option3 }}<br></div>
+          <div class="div-17"><input type="radio" name="option" value="4"> {{ question.option4 }}<br></div>
         </div>
       </div>
     </div>

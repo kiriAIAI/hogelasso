@@ -9,7 +9,7 @@ def conn_db():
         host="127.0.0.1", 
         user="root", 
         password="root", 
-        db="",
+        db="hew",
         charset='utf8'
         )
     return conn
@@ -17,6 +17,9 @@ def conn_db():
 
 @app.route('/')
 def index():
+
+
+    
     return render_template('index.html')
 
 @app.route('/index.html')
@@ -25,7 +28,7 @@ def index_html():
 
 @app.route('/create.html')
 def create():
-    return send_from_directory('static_pages', 'create.html')
+    return render_template('create.html')
 
 @app.route('/chatroom.html')
 def chatroom():
@@ -54,6 +57,26 @@ def shoppingcart():
 @app.route('/sign-up.html')
 def signup():
     return render_template('sign-up.html')
+
+@app.route('/quiz.html')
+def quiz():
+    conn = conn_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT question_text, option1, option2, option3, option4 FROM questions ORDER BY RAND() LIMIT 1")
+    question = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    
+    if question is None:
+        question = {
+            'question_text': 'No question available',
+            'option1': 'Option 1',
+            'option2': 'Option 2',
+            'option3': 'Option 3',
+            'option4': 'Option 4'
+        }
+    
+    return render_template('quiz.html', question=question)
 
 
 
