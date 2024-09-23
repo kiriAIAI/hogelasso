@@ -290,6 +290,7 @@
   width: 100%;
   max-height: 100vh;
   padding: 0 40px;
+  position: relative;
 }
 
 .login-image {
@@ -1265,6 +1266,9 @@
 }
 
 .comment-input.is-primary {
+  width: 100%;
+  max-width: 750px;
+  min-height: 70px;
   margin-top: 0;
 }
 
@@ -1272,7 +1276,9 @@
   z-index: 1;
   grid-column-gap: 1em;
   grid-row-gap: 1em;
+  align-items: flex-start;
   width: 100%;
+  display: flex;
   position: relative;
 }
 
@@ -2031,10 +2037,10 @@
   background-color: #c1c1c11a;
   border-radius: 1.5rem;
   width: 100%;
-  max-width: 56%;
+  max-width: 65%;
   height: 100%;
-  min-height: 90vh;
-  max-height: 95vh;
+  min-height: 85vh;
+  max-height: 85vh;
   margin-left: 30px;
   padding: 40px 20px 20px;
   font-family: Noto Sans JP, sans-serif;
@@ -2044,9 +2050,9 @@
 .people-list-block {
   color: var(--black);
   width: 100%;
-  max-width: 25%;
+  max-width: 30%;
   height: 100%;
-  max-height: 95vh;
+  max-height: 85vh;
   font-family: Noto Sans JP, sans-serif;
 }
 
@@ -2254,6 +2260,44 @@
   padding-bottom: 60px;
 }
 
+.link-block {
+  text-decoration: none;
+  position: absolute;
+}
+
+.link-block.w--current {
+  color: var(--black);
+  padding: 10px;
+  text-decoration: none;
+  position: absolute;
+}
+
+.text-block-7 {
+  aspect-ratio: auto;
+  color: var(--dark-gray);
+  font-family: "Fa Solid 900", sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.text-block-7:hover {
+  color: var(--light-gray);
+  position: absolute;
+}
+
+.chatroom-container {
+  order: 0;
+  width: 100%;
+  max-width: 1150px;
+  height: 100%;
+  max-height: 85vh;
+  margin-left: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+}
+
 @media screen and (min-width: 1440px) {
   .div-block-3 {
     padding-left: 60px;
@@ -2386,19 +2430,22 @@
 
   .chat-main-block {
     justify-content: space-between;
+    max-width: 100%;
+    max-height: 95vh;
     padding: 1.5rem;
     display: flex;
   }
 
   .chatroom-block {
     width: 100%;
-    max-width: 60%;
+    max-width: 55%;
     font-family: Noto Sans JP, sans-serif;
   }
 
   .people-list-block {
     width: 100%;
     max-width: 25%;
+    margin-left: 40px;
     padding-left: 5px;
     padding-right: 5px;
     font-family: Noto Sans JP, sans-serif;
@@ -2500,6 +2547,14 @@
 
   .text-block-7:hover {
     color: var(--light-gray);
+  }
+
+  .chatroom-container {
+    max-width: 100%;
+    max-height: 95vh;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem;
   }
 }
 

@@ -6,21 +6,23 @@
     <title>パスワードの再設定</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="outer-container">
-        <h1>忘记密码</h1>
-        <div class="container">
-            <h2>パスワードの再設定</h2>
-            <p>ユーザー名を入力してください。</p>
-            <form id="forgot-password-form">
+<body>      
+    <div class="outer-container" style="display: flex;">
+        <div class="container"  style="width: 750px;">
+            <p class="p1" style="width: 450px;">パスワードの再設定</p>
+            <p class="p2" style="width: 450px;">ユーザー名を入力してください</p>
+            <form id="forgot-password-form" style="width: 450px;">
                 <input type="text" id="username" name="username" required>
                 <div class="button-group">
-                    <a href="login.html" class="return-button">返回</a>
-                    <button type="submit" class="submit-button">提交</button>
-
+                    <a href="login.html" class="return-button">返  回</a>
+                    <button type="submit" class="submit-button">提  交</button>
                 </div>
-                <p id="message"></p>
             </form>
+            <p id="message"></p>
+        </div>    
+        
+        <div class="right"  style="width: 750px;">
+            <img src="image.jpg" alt="Image" class="image">
         </div>
     </div>
 </body>
