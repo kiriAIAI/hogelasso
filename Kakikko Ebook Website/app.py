@@ -17,9 +17,6 @@ def conn_db():
 
 @app.route('/')
 def index():
-
-
-    
     return render_template('index.html')
 
 @app.route('/index.html')
@@ -34,9 +31,27 @@ def create():
 def chatroom():
     return render_template('chatroom.html')
 
+@app.route('/chat.html')
+def chat():
+    return render_template('chat.html')
+
 @app.route('/login.html')
 def login_html():
     return render_template('login.html')
+
+@app.route('/logout.html')
+def logout():
+    return render_template('logout.html')
+
+@app.route('/forget-password.html')
+def forgetpassword():
+    return render_template('forget-password.html')
+
+
+@app.route('/confirm-logout.html')
+def confirmlogout():
+    return render_template('confirm-logout.html')
+
 
 @app.route('/filter.html')
 def filter_html():
@@ -54,9 +69,26 @@ def search():
 def shoppingcart():
     return render_template('shopping-cart.html')
 
-@app.route('/sign-up.html')
+@app.route('/profile.html')
+def profile():
+    return render_template('profile.html')
+
+@app.route('/purchase-history.html')
+def purchasehistory():
+    return render_template('purchase-history.html')
+
+@app.route('/read.html')
+def read():
+    return render_template('read.html')
+
+
+@app.route('/signup.html')
 def signup():
-    return render_template('sign-up.html')
+    return render_template('signup.html')
+
+@app.route('/signup-security-question.html')
+def signupsecurityquestion():
+    return render_template('signup-security-question.html')
 
 @app.route('/quiz.html')
 def quiz():
