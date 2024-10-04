@@ -111,6 +111,10 @@ def quiz():
     return render_template('quiz.html', question=question)
 
 
+@app.route('/FAQ.html')
+def FAQ():
+    return render_template("chatbot.html")
+
 
 
 
