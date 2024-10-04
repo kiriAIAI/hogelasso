@@ -7,9 +7,9 @@
   <meta content="Chat" property="twitter:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
-  <link href="css/normalize.css" rel="stylesheet" type="text/css">
-  <link href="css/webflow.css" rel="stylesheet" type="text/css">
-  <link href="css/kuans-ultra-awesome-site-a72fd8.webflow.css" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/normalize.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/webflow.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/kuans-ultra-awesome-site-a72fd8.webflow.css') }}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
@@ -21,14 +21,14 @@
 <body class="body">
   <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
     <div class="container w-container">
-      <a href="index.html" class="w-nav-brand"><img src="images/logo.png" loading="lazy" alt="" class="image"></a>
+      <a href="{{ url_for('index') }}" class="w-nav-brand"><img src="images/logo.png" loading="lazy" alt="" class="image"></a>
       <nav role="navigation" class="nav-menu w-nav-menu">
         <div data-delay="5" data-hover="false" class="notification-dropdown w-dropdown">
           <div class="notification-dropdown-toggle w-dropdown-toggle">
             <div class="notification-text"></div>
           </div>
           <figure class="dropdown-list w-dropdown-list">
-            <a href="read.html" class="notification-dropdown-link w-inline-block">
+            <a href="{{ url_for('read') }}" class="notification-dropdown-link w-inline-block">
               <div class="chatroom-content-block left notification">
                 <div class="chatroom-avatar-block left"><img loading="lazy" src="images/user-2_1user-2.png" alt="" class="chatroom-avatar"></div>
                 <div class="chatroom-content-text-block">
@@ -36,7 +36,7 @@
                 </div>
               </div>
             </a>
-            <a href="read.html" class="notification-dropdown-link w-inline-block">
+            <a href="{{ url_for('read') }}" class="notification-dropdown-link w-inline-block">
               <div class="chatroom-content-block left notification">
                 <div class="chatroom-avatar-block left"><img loading="lazy" src="images/user-2_1user-2.png" alt="" class="chatroom-avatar"></div>
                 <div class="chatroom-content-text-block">
@@ -44,7 +44,7 @@
                 </div>
               </div>
             </a>
-            <a href="read.html" class="notification-dropdown-link w-inline-block">
+            <a href="{{ url_for('read') }}" class="notification-dropdown-link w-inline-block">
               <div class="chatroom-content-block left notification">
                 <div class="chatroom-avatar-block left"><img loading="lazy" src="images/user-2_1user-2.png" alt="" class="chatroom-avatar"></div>
                 <div class="chatroom-content-text-block">
@@ -54,8 +54,8 @@
             </a>
           </figure>
         </div>
-        <a href="shopping-cart.html" class="navbar-icon shopping-cart w-nav-link"></a>
-        <a href="login.html" class="navbar-icon w-nav-link"></a>
+        <a href="{{ url_for('shopping-cart') }}" class="navbar-icon shopping-cart w-nav-link"></a>
+        <a href="{{ url_for('login') }}" class="navbar-icon w-nav-link"></a>
       </nav>
       <div class="w-nav-button">
         <div class="w-icon-nav-menu"></div>
@@ -69,7 +69,7 @@
           <div class="sidenavbar__top">
             <a href="#" class="square is--hamburger w-inline-block"><img loading="lazy" src="images/hamburger.svg" alt="" class="sidenavbar__icon is--1"><img loading="lazy" src="images/x.svg" alt="" class="sidenavbar__icon is--2"></a>
           </div>
-          <a href="search.html" class="sidenavbar__search w-inline-block">
+          <a href="{{ url_for('search') }}" class="sidenavbar__search w-inline-block">
             <div class="square is--search"><img loading="lazy" src="images/search.svg" alt="" class="sidenavbar__icon is--search"></div>
             <div class="hide-text">
               <p class="paragraph">検索</p>
@@ -78,7 +78,7 @@
           <div class="square is--line"></div>
         </div>
         <div class="sidenavbar__links">
-          <a href="index.html" class="navbar__link w-inline-block">
+          <a href="{{ url_for('index') }}" class="navbar__link w-inline-block">
             <div class="square is--link">
               <div class="text-block"></div>
             </div>
@@ -86,7 +86,7 @@
               <p class="hide-text-paragraph">ホーム</p>
             </div>
           </a>
-          <a href="create.html" class="navbar__link w-inline-block">
+          <a href="{{ url_for('create') }}" class="navbar__link w-inline-block">
             <div class="square is--link">
               <div class="sidenavbar-icon create">+</div>
             </div>
@@ -94,7 +94,7 @@
               <p class="hide-text-paragraph">作成</p>
             </div>
           </a>
-          <a href="purchase-history.html" class="navbar__link w-inline-block">
+          <a href="{{ url_for('purchase-history') }}" class="navbar__link w-inline-block">
             <div class="square is--link">
               <div class="text-block"></div>
             </div>
@@ -112,7 +112,7 @@
           </a>
         </div>
         <div class="sidenavbar__footer">
-          <a href="logout.html" class="footer__text w-inline-block">
+          <a href="{{ url_for('logout') }}" class="footer__text w-inline-block">
             <div class="square is--link">
               <div class="text-block"></div>
             </div>
