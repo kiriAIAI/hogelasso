@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>チャットボット</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('css', filename='style.css') }}">
     <script type="importmap">
         {
           "imports": {
@@ -67,12 +68,8 @@
 
         
         async function generateResponse(userInput) {
-//APIキーはここおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお-------------------------------------------------------------------------------------------------
-            
-            const API_KEY = "";
+            const API_KEY = "AIzaSyABj_cSWOTOHR1orwmM87qmwkE_ZFBWV80";
 
-//うおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお-------------------------------------------------------------------------------------------------------------------
-        
             const genAI = new GoogleGenerativeAI(API_KEY);
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
