@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チャットボット</title>
+    <style>
+        iframe{
+            width: 30%;
+            min-width: 450px;
+            height: 80%;
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            border: 1px #aaa solid;
+        }
+        #aaaaa{
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+        }
+        #button{
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div id="button"></div>
+    <div id="aaaaa" hidden></div>
+    <iframe id="iframe" src="20240926-1.html" hidden></iframe>
+
+
+
+
+    <script>
+
+
+        document.getElementById('button').addEventListener('click', () => {
+            document.getElementById("button").hidden = true;
+            document.getElementById("iframe").hidden = false;
+            document.getElementById("aaaaa").hidden = false;
+        })
+        document.getElementById('aaaaa').addEventListener('click', () => {
+            document.getElementById("button").hidden = false;
+            document.getElementById("iframe").hidden = true;
+            document.getElementById("aaaaa").hidden = true;
+        })
+
+        window.addEventListener('message', function(event) {
+
+            if (event.data === 'elementClicked') {
+                console.log('iframe内の要素がクリックされました。');
+                // ここに処理を書く
+                document.getElementById("button").hidden = false;
+                document.getElementById("iframe").hidden = true;
+                document.getElementById("aaaaa").hidden = true;
+            }
+        });
+
+
+    </script>
+</body>
+</html>
