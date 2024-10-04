@@ -4,13 +4,30 @@ body{
     background-color: #f2f0ff;
 }
 .title{
+    display: flex;
+    align-items: center;
     border-bottom:  1px #aaa solid;
     background-color: #fff;
+    height: 66px;
 }
 .title div{
-    padding: 10px 0 10px 5px;
-    width: fit-content;
     font-size: 30px;
+}
+.tlt{
+    margin: 0 0 0 20px;
+}
+#X{
+    width:66px;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 0 auto;
+    cursor: pointer;
+    border-left: 1px #aaa solid;
+}
+#X div{
+    font-size: 35px;
 }
 
 
@@ -34,7 +51,7 @@ body{
     
 }
 .chatbot{
-    margin: 25px auto 100px 5%;
+    margin: 25px 100px 0 5%;
     background-color: gray;
     color: white;
 }
@@ -70,19 +87,4 @@ body{
     border: 2px #aaa solid;
 }
 
-.X{
-    cursor: pointer;
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 66px;
-    height: 66px;
-    top: 0;
-    right: 0;
-    font-size: 35px;
-    border-left: 1px #aaa solid;
-}
-.X div{
-    width: fit-content;
-}
+
