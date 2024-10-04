@@ -21,14 +21,14 @@
 <body class="body">
   <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
     <div class="container w-container">
-      <a href="index.html" class="w-nav-brand"><img src="images/logo.png" loading="lazy" alt="" class="image"></a>
+      <a href="{{ url_for('index') }}" class="w-nav-brand"><img src="images/logo.png" loading="lazy" alt="" class="image"></a>
       <nav role="navigation" class="nav-menu w-nav-menu">
         <div data-delay="5" data-hover="false" class="notification-dropdown w-dropdown">
           <div class="notification-dropdown-toggle w-dropdown-toggle">
             <div class="notification-text"></div>
           </div>
           <figure class="dropdown-list w-dropdown-list">
-            <a href="read.html" class="notification-dropdown-link w-inline-block">
+            <a href="{{ url_for('read') }}" class="notification-dropdown-link w-inline-block">
               <div class="chatroom-content-block left notification">
                 <div class="chatroom-avatar-block left"><img loading="lazy" src="images/user-2_1user-2.png" alt="" class="chatroom-avatar"></div>
                 <div class="chatroom-content-text-block">
@@ -36,7 +36,7 @@
                 </div>
               </div>
             </a>
-            <a href="read.html" class="notification-dropdown-link w-inline-block">
+            <a href="{{ url_for('read') }}" class="notification-dropdown-link w-inline-block">
               <div class="chatroom-content-block left notification">
                 <div class="chatroom-avatar-block left"><img loading="lazy" src="images/user-2_1user-2.png" alt="" class="chatroom-avatar"></div>
                 <div class="chatroom-content-text-block">
@@ -44,7 +44,7 @@
                 </div>
               </div>
             </a>
-            <a href="read.html" class="notification-dropdown-link w-inline-block">
+            <a href="{{ url_for('read') }}" class="notification-dropdown-link w-inline-block">
               <div class="chatroom-content-block left notification">
                 <div class="chatroom-avatar-block left"><img loading="lazy" src="images/user-2_1user-2.png" alt="" class="chatroom-avatar"></div>
                 <div class="chatroom-content-text-block">
@@ -54,8 +54,8 @@
             </a>
           </figure>
         </div>
-        <a href="shopping-cart.html" class="navbar-icon shopping-cart w-nav-link"></a>
-        <a href="login.html" class="navbar-icon w-nav-link"></a>
+        <a href="{{ url_for('shopping-cart') }}" class="navbar-icon shopping-cart w-nav-link"></a>
+        <a href="{{ url_for('login') }}" class="navbar-icon w-nav-link"></a>
       </nav>
       <div class="w-nav-button">
         <div class="w-icon-nav-menu"></div>
