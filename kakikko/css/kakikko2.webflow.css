@@ -372,6 +372,9 @@
   overflow: hidden;
   transform: translate(0);
 }
+.product-image-wrapper .product-image{
+  aspect-ratio: 1/1;
+ }
 
 .title-block {
   justify-content: space-between;
