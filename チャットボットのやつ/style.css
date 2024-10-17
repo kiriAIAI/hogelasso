@@ -71,6 +71,7 @@ body{
 }
 
 .X{
+    visibility: hidden;
     cursor: pointer;
     position: fixed;
     display: flex;
@@ -86,3 +87,9 @@ body{
 .X div{
     width: fit-content;
 }
+
+@media screen and (max-width: 800px) {
+    .X{
+        visibility: visible;
+    }
+  }
