@@ -35,6 +35,29 @@ def logout():
 @app.route('/forget-password.html')
 def forgetpassword():
     return render_template('forget-password.html')
+@app.route('/notification')
+def notification():
+    return render_template('notification.html')
+@app.route('/login.html')
+def login():
+    return render_template('login.html')
+@app.route('/filter.html')
+def filter():
+    return render_template('filter.html')
+@app.route('/purchase-history.html')
+def purchase_history():
+    return render_template('purchase-history.html')
+@app.route('/confirm-logout.html')
+def confirm_logout():
+    return render_template('confirm-logout.html')
+@app.route('/product-details.html')
+def product_details():  # 関数名を修正（ハイフンは使えないのでアンダースコアを使用）
+    return render_template('product-details.html')
+
+
+
+
+
 
 @app.route('/confirm-logout.html')
 def confirmlogout():
@@ -51,6 +74,9 @@ def search():
     return render_template('search.html')
 @app.route('/shopping-cart.html')
 def shoppingcart():
+    return render_template('shopping-cart.html')
+@app.route('/shopping-cart.html')
+def shopping_cart():
     return render_template('shopping-cart.html')
 @app.route('/profile.html')
 def profile():
