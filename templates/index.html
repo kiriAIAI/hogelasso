@@ -43,7 +43,7 @@
               </a>
             </nav>
           </div>
-          <a href="{{ url_for('shopping-cart') }}" class="navbar-link shopping-cart w-nav-link"></a>
+          <a href="{{ url_for('shopping_cart') }}" class="navbar-link shopping-cart w-nav-link"></a>
           <a href="{{ url_for('login') }}" class="navbar-link w-nav-link"></a>
         </nav>
         <div class="menu-button w-nav-button">
@@ -72,7 +72,7 @@
         </div>
         <div class="nav__links">
           <a href="{{ url_for('index') }}" aria-current="page" class="sidenavbar-link w-inline-block w--current">
-            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename=('images/home.svg') }}" alt="" class="sidenavbar-icon"></div>
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/home.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ホーム</p>
             </div>
@@ -89,8 +89,8 @@
               <p class="sidenavbar-paragraph">チャット</p>
             </div>
           </a>
-          <a href="{{ url_for('purchase-history') }}" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/history.svg') }}" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('purchase_history') }}" class="sidenavbar-link w-inline-block">Purchase History</a>
+          <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/history.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">購入履歴</p>
             </div>
@@ -103,15 +103,15 @@
           </a>
         </div>
         <div class="nav__footer">
-          <a href="{{ url_for('confirm-logout') }}" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/logout.svg') }}" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('confirm_logout') }}" class="sidenavbar-link w-inline-block">Confirm Logout</a>
+          <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/logout.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ログアウト</p>
             </div>
           </a>
         </div>
       </div>
-      <div class="hero-image-grid"><img id="w-node-_406045bb-35b8-ebfe-a976-30ffafce12f4-0bdac7af" loading="lazy" alt="" src="{{ url_for('static', filename='images/bookshop.svg') }}" class="hero-image"><img loading="lazy" src="{{ url_for('static' filename='images/book1.svg') }}" alt="" class="hero-image"><img loading="lazy" src="{{ url_for('static' filename='images/book2.svg') }}" alt="" class="hero-image"><img loading="lazy" src="{{ url_for('static' filename='images/book3.svg') }}" alt="" class="hero-image"></div>
+      <div class="hero-image-grid"><img id="w-node-_406045bb-35b8-ebfe-a976-30ffafce12f4-0bdac7af" loading="lazy" alt="" src="{{ url_for('static', filename='images/bookshop.svg') }}" class="hero-image"><img loading="lazy" src="{{ url_for('static', filename='images/book1.svg') }}" alt="" class="hero-image"><img loading="lazy" src="{{ url_for('static', filename='images/book2.svg') }}" alt="" class="hero-image"><img loading="lazy" src="{{ url_for('static', filename='images/book3.svg') }}" alt="" class="hero-image"></div>
     </div>
   </section>
   <section class="section">
@@ -121,42 +121,42 @@
         <a href="#" class="more-link"></a>
       </div>
       <div class="w-layout-grid product-grid">
-        <a href="{{ url_for('product-details') }}" class="product-card w-inline-block">
-          <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename=('images/Recipe-book.png') }}" class="product-image"></div>
+        <a href="{{ url_for('product_details') }}" class="product-card w-inline-block">Product Details</a>
+        <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
           <div class="product-content-wrapper">
             <h3 class="product-title">タイトル</h3>
             <div class="product-price"><strong>¥</strong> 99.00</div>
           </div>
         </a>
-        <a id="w-node-ed36cb7d-5fc1-b0dc-337b-0209642a2b80-0bdac7af" href="{{ url_for('product-details') }}" class="product-card w-inline-block">
+        <a id="w-node-ed36cb7d-5fc1-b0dc-337b-0209642a2b80-0bdac7af" href="{{ url_for('product_details') }}" class="product-card w-inline-block">
           <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
           <div class="product-content-wrapper">
             <h3 class="product-title">タイトル</h3>
             <div class="product-price"><strong>¥</strong> 99.00</div>
           </div>
         </a>
-        <a id="w-node-e0c613bb-5dbb-e41b-c434-b2ade86b7688-0bdac7af" href="{{ url_for('product-details') }}" class="product-card w-inline-block">
+        <a id="w-node-e0c613bb-5dbb-e41b-c434-b2ade86b7688-0bdac7af" href="{{ url_for('product_details') }}" class="product-card w-inline-block">
           <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
           <div class="product-content-wrapper">
             <h3 class="product-title">タイトル</h3>
             <div class="product-price"><strong>¥</strong> 99.00</div>
           </div>
         </a>
-        <a id="w-node-aee485b6-76f7-6f61-c2c6-e96d41d6cc24-0bdac7af" href="{{ url_for('product-details') }}" class="product-card w-inline-block">
+        <a id="w-node-aee485b6-76f7-6f61-c2c6-e96d41d6cc24-0bdac7af" href="{{ url_for('product_details') }}" class="product-card w-inline-block">
           <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
           <div class="product-content-wrapper">
             <h3 class="product-title">タイトル</h3>
             <div class="product-price"><strong>¥</strong> 99.00</div>
           </div>
         </a>
-        <a id="w-node-_3400fc4a-ef52-6b3f-456f-f5435b3cc330-0bdac7af" href="{{ url_for('product-details') }}" class="product-card w-inline-block">
+        <a id="w-node-_3400fc4a-ef52-6b3f-456f-f5435b3cc330-0bdac7af" href="{{ url_for('product_details') }}" class="product-card w-inline-block">
           <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
           <div class="product-content-wrapper">
             <h3 class="product-title">タイトル</h3>
             <div class="product-price"><strong>¥</strong> 99.00</div>
           </div>
         </a>
-        <a id="w-node-f81b9db3-b622-430a-be31-7a9ddd6147ba-0bdac7af" href="{{ url_for('product-details') }}" class="product-card w-inline-block">
+        <a id="w-node-f81b9db3-b622-430a-be31-7a9ddd6147ba-0bdac7af" href="{{ url_for('product_details') }}" class="product-card w-inline-block">
           <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
           <div class="product-content-wrapper">
             <h3 class="product-title">タイトル</h3>
