@@ -68,40 +68,40 @@
           <div class="square is--line"></div>
         </div>
         <div class="nav__links">
-          <a href="index.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/home.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('index') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/home.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ホーム</p>
             </div>
           </a>
-          <a href="create.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/plus.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('create') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/plus.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">作成</p>
             </div>
           </a>
-          <a href="chatroom.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/chat.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('chatroom') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/chat.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">チャット</p>
             </div>
           </a>
-          <a href="purchase-history.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/history.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('purchase_history') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/history.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">購入履歴</p>
             </div>
           </a>
-          <a href="profile.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/user.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('profile') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/user.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">プロフィール</p>
             </div>
           </a>
         </div>
         <div class="nav__footer">
-          <a href="confirm-logout.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/logout.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('confirm_logout') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/logout.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ログアウト</p>
             </div>
@@ -117,9 +117,9 @@
           <div class="cart-item-list">
             <div class="cart-item">
               <div class="cart-detail-blcok">
-                <a href="product-details.html" class="cart-image-link-block w-inline-block"><img src="images/Recipe-book.png" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" srcset="images/Recipe-book-pana-p-500.png 500w, images/Recipe-book-pana-p-800.png 800w, images/Recipe-book-pana-p-1080.png 1080w, images/Recipe-book-pana-p-1600.png 1600w, images/Recipe-book.png 2000w" alt="" class="cart-item-image"></a>
+                <a href="{{ url_for('product_details') }}" class="cart-image-link-block w-inline-block"><img src="{{ url_for('static', filename='images/Recipe-book.png') }}" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" class="cart-item-image"></a>
                 <div class="cart-item-detail-block">
-                  <a href="product-details.html" class="cart-item-title-link">タイトル</a>
+                  <a href="{{ url_for('product_details') }}" class="cart-item-title-link">タイトル</a>
                   <div class="cart-item-price-text">￥99.0 </div>
                 </div>
               </div>
@@ -140,9 +140,9 @@
             </div>
             <div class="cart-item">
               <div class="cart-detail-blcok">
-                <a href="product-details.html" class="cart-image-link-block w-inline-block"><img src="images/Recipe-book.png" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" srcset="images/Recipe-book-pana-p-500.png 500w, images/Recipe-book-pana-p-800.png 800w, images/Recipe-book-pana-p-1080.png 1080w, images/Recipe-book-pana-p-1600.png 1600w, images/Recipe-book.png 2000w" alt="" class="cart-item-image"></a>
+                <a href="{{ url_for('product_details') }}" class="cart-image-link-block w-inline-block"><img src="{{ url_for('static', filename='images/Recipe-book.png') }}" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" class="cart-item-image"></a>
                 <div class="cart-item-detail-block">
-                  <a href="product-details.html" class="cart-item-title-link">タイトル</a>
+                  <a href="{{ url_for('product_details') }}" class="cart-item-title-link">タイトル</a>
                   <div class="cart-item-price-text">￥99.0 </div>
                 </div>
               </div>
@@ -163,9 +163,9 @@
             </div>
             <div class="cart-item">
               <div class="cart-detail-blcok">
-                <a href="product-details.html" class="cart-image-link-block w-inline-block"><img src="images/Recipe-book.png" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" srcset="images/Recipe-book-pana-p-500.png 500w, images/Recipe-book-pana-p-800.png 800w, images/Recipe-book-pana-p-1080.png 1080w, images/Recipe-book-pana-p-1600.png 1600w, images/Recipe-book.png 2000w" alt="" class="cart-item-image"></a>
+                <a href="{{ url_for('product_details') }}" class="cart-image-link-block w-inline-block"><img src="{{ url_for('static', filename='images/Recipe-book.png') }}" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" class="cart-item-image"></a>
                 <div class="cart-item-detail-block">
-                  <a href="product-details.html" class="cart-item-title-link">タイトル</a>
+                  <a href="{{ url_for('product_details') }}" class="cart-item-title-link">タイトル</a>
                   <div class="cart-item-price-text">￥99.0 </div>
                 </div>
               </div>
@@ -208,7 +208,7 @@
               <div>合計金額</div>
               <div class="text-block-3">￥99.0 </div>
             </div>
-            <a href="payment.html" class="checkout-btn w-button">レジに進む</a>
+            <a href="{{ url_for('payment') }}" class="checkout-btn w-button">レジに進む</a>
           </div>
         </div>
       </div>
