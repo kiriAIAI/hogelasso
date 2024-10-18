@@ -1,0 +1,213 @@
+
+.div {
+    background-color: #fff;
+    display: flex;
+    padding-bottom: 80px;
+    flex-direction: column;
+  }
+  .div-2 {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background-color: #fff;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 20px 50px;
+  }
+  @media (max-width: 991px) {
+    .div-2 {
+      flex-wrap: wrap;
+      padding: 0 20px;
+    }
+  }
+  .div-3 {
+    display: flex;
+    gap: 10px;
+    font-size: 48px;
+    color: #333;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  @media (max-width: 991px) {
+    .div-3 {
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  .img {
+    aspect-ratio: 1;
+    object-fit: auto;
+    object-position: center;
+    width: 80px;
+  }
+  .div-4 {
+    font-family: Noto Sans JP, sans-serif;
+    flex-grow: 1;
+    flex-basis: auto;
+    margin: auto 0;
+  }
+  @media (max-width: 991px) {
+    .div-4 {
+      font-size: 40px;
+    }
+  }
+  .div-5 {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin: auto 0;
+  }
+  .img-2,
+  .img-3,
+  .img-4,
+  .img-5,
+  .img-6 {
+    aspect-ratio: 1;
+    object-fit: auto;
+    object-position: center;
+    width: 50px;
+  }
+  .div-6 {
+    align-self: center;
+    display: flex;
+    margin-top: 61px;
+    width: 100%;
+    max-width: 1027px;
+    flex-direction: column;
+    align-items: center;
+    font-size: 48px;
+    color: #000;
+    font-weight: 700;
+    white-space: nowrap;
+    text-align: center;
+    padding: 0 20px;
+  }
+  @media (max-width: 991px) {
+    .div-6 {
+      max-width: 100%;
+      margin-top: 40px;
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  .div-7 {
+    font: 64px Noto Sans JP, sans-serif;
+  }
+  @media (max-width: 991px) {
+    .div-7 {
+      max-width: 100%;
+      font-size: 40px;
+    }
+  }
+  .div-8 {
+    margin-top: 66px;
+    font: 32px Noto Sans JP, sans-serif;
+  }
+  @media (max-width: 991px) {
+    .div-8 {
+      margin-top: 40px;
+    }
+  }
+  .div-9 {
+    font-family: Noto Sans JP, sans-serif;
+    align-self: stretch;
+    margin-top: 120px;
+  }
+  @media (max-width: 991px) {
+    .div-9 {
+      max-width: 100%;
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  }
+  .div-10 {
+    font-family: Noto Sans JP, sans-serif;
+    align-self: end;
+    margin-top: 54px;
+    display: flex; /* フレックスボックスを使用 */
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: center; /* 垂直方向の中央揃え */
+    width: 100%; /* 親要素の幅に合わせる */
+  }
+  
+  @media (max-width: 991px) {
+    .div-10 {
+      max-width: 100%;
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  }
+  .div-11 {
+    display: flex;
+    margin-top: 101px;
+    width: 699px;
+    max-width: 100%;
+    gap: 20px;
+  }
+  @media (max-width: 991px) {
+    .div-11 {
+      flex-wrap: wrap;
+      margin-top: 40px;
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  .div-12 {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  @media (max-width: 991px) {
+    .div-12 {
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  .div-13 {
+    font-family: Noto Sans JP, sans-serif;
+  }
+  @media (max-width: 991px) {
+    .div-13 {
+      font-size: 40px;
+    }
+  }
+  .div-14 {
+    font-family: Noto Sans JP, sans-serif;
+    margin-top: 96px;
+  }
+  @media (max-width: 991px) {
+    .div-14 {
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  }
+  .div-15 {
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  @media (max-width: 991px) {
+    .div-15 {
+      font-size: 40px;
+      white-space: initial;
+    }
+  }
+  .div-16 {
+    font-family: Noto Sans JP, sans-serif;
+  }
+  @media (max-width: 991px) {
+    .div-16 {
+      font-size: 40px;
+    }
+  }
+  .div-17 {
+    font-family: Noto Sans JP, sans-serif;
+    margin-top: 88px;
+  }
+  @media (max-width: 991px) {
+    .div-17 {
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  }
+  
