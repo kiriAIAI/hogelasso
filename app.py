@@ -74,12 +74,11 @@ def search():
 @app.route('/shopping-cart.html')
 def shoppingcart():
     return render_template('shopping-cart.html')
-<<<<<<<< HEAD:manage.py
+
 @app.route('/shopping-cart.html')
 def shopping_cart():
     return render_template('shopping-cart.html')
-========
->>>>>>>> 07008f77a9702dea37cd2c4e337121ac246622d8:app.py
+
 @app.route('/profile.html')
 def profile():
     return render_template('profile.html')
