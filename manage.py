@@ -58,7 +58,6 @@ def product_details():  # 関数名を修正（ハイフンは使えないので
 
 
 
-
 @app.route('/confirm-logout.html')
 def confirmlogout():
     return render_template('confirm-logout.html')
@@ -75,9 +74,11 @@ def search():
 @app.route('/shopping-cart.html')
 def shoppingcart():
     return render_template('shopping-cart.html')
+
 @app.route('/shopping-cart.html')
 def shopping_cart():
     return render_template('shopping-cart.html')
+
 @app.route('/profile.html')
 def profile():
     return render_template('profile.html')
