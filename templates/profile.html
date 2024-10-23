@@ -7,16 +7,16 @@
   <meta content="profile" property="twitter:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
-  <link href="css/normalize.css" rel="stylesheet" type="text/css">
-  <link href="css/webflow.css" rel="stylesheet" type="text/css">
-  <link href="css/kakikko2.webflow.css" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/normalize.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/webflow.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/kakikko2.webflow.css') }}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">WebFont.load({  google: {    families: ["Noto Sans JP:regular,500,600,700,900"]  }});</script>
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
-  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
-  <link href="images/webclip.png" rel="apple-touch-icon">
+  <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="shortcut icon" type="image/x-icon">
+  <link href="{{ url_for('static', filename='images/webclip.png') }}" rel="apple-touch-icon">
 </head>
 <body class="body">
   <div class="follower-pop-up">
@@ -26,7 +26,7 @@
       </div>
       <div class="follower-list-block">
         <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a h"{{ url_for('profile') }}" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -44,7 +44,7 @@
           </div>
         </div>
         <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}"aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -62,7 +62,7 @@
           </div>
         </div>
         <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -71,7 +71,7 @@
           </div>
         </div>
         <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -90,7 +90,7 @@
       </div>
       <div class="following-list-block">
         <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -99,7 +99,7 @@
           </div>
         </div>
         <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -108,7 +108,7 @@
           </div>
         </div>
         <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}"loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -117,7 +117,7 @@
           </div>
         </div>
         <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -126,7 +126,7 @@
           </div>
         </div>
         <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -135,7 +135,7 @@
           </div>
         </div>
         <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="follower-image"></a>
+          <a href="{{ url_for('profile') }}"aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
           <div class="follower-username-block">
             <a href="#" class="link">Username</a>
           </div>
@@ -154,8 +154,8 @@
           <form id="email-form" name="email-form" data-name="Email Form" method="get" data-ms-form="profile" data-wf-page-id="670b7499cd8231b48d0512b3" data-wf-element-id="4c83d7a3-7f1a-ffd4-d2f1-b657933c30a9">
             <div class="display_horizontal gap margin-top margin-small">
               <div class="profile_img-div">
-                <div class="profile_img-box"><img data-ms-member="profile-image" loading="lazy" alt="" src="images/circle-user.svg" class="profile_img">
-                  <a data-ms-action="profile-image" href="#" class="edit_icon-link w-inline-block"><img loading="lazy" src="images/edit-246.svg" alt="" class="edit_icon"></a>
+                <div class="profile_img-box"><img src="{{ url_for('static', filename='images/circle-user.svg') }}"data-ms-member="profile-image" loading="lazy" alt=""  class="profile_img">
+                  <a data-ms-action="profile-image" href="#" class="edit_icon-link w-inline-block"><img src="{{ url_for('static', filename='images/edit-246.svg') }}"loading="lazy"  alt="" class="edit_icon"></a>
                 </div>
               </div>
               <div class="fields_div">
@@ -188,22 +188,22 @@
               <div class="bell-icon"></div>
             </div>
             <nav class="dropdown-list w-dropdown-list">
-              <a href="notification.html" class="dropdown-link w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="bell-author-image">
+              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
                 <div>Username</div>
               </a>
-              <a href="notification.html" class="dropdown-link w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="bell-author-image">
+              <a href="{{ url_for('notification') }}"  class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
                 <div>Username</div>
               </a>
-              <a href="notification.html" class="dropdown-link w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="bell-author-image">
+              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}"  loading="lazy" alt="" class="bell-author-image">
                 <div>Username</div>
               </a>
-              <a href="notification.html" class="dropdown-link w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="bell-author-image">
+              <a href="{{ url_for('notification') }}"  class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}"  loading="lazy" alt="" class="bell-author-image">
                 <div>Username</div>
               </a>
             </nav>
           </div>
-          <a href="shopping-cart.html" class="navbar-link shopping-cart w-nav-link"></a>
-          <a href="login.html" class="navbar-link w-nav-link"></a>
+          <a href="{{ url_for('shopping-cart') }}" class="navbar-link shopping-cart w-nav-link"></a>
+          <a href="{{ url_for('login') }}" class="navbar-link w-nav-link"></a>
         </nav>
         <div class="menu-button w-nav-button">
           <div class="hamburger-menu w-icon-nav-menu"></div>
@@ -216,10 +216,10 @@
       <div class="sidenavbar">
         <div class="sindnavbar-header">
           <div class="sidenavbar-top">
-            <a href="#" class="square is--hamburger w-inline-block"><img loading="lazy" src="images/hamburger.svg" alt="" class="navbar__icon is--1"><img loading="lazy" src="images/x.svg" alt="" class="navbar__icon is--2"></a>
+            <a href="#" class="square is--hamburger w-inline-block"><img src="{{ url_for('static', filename='images/hamburger.svg') }}"loading="lazy"  alt="" class="navbar__icon is--1"><img loading="lazy" src="images/x.svg" alt="" class="navbar__icon is--2"></a>
           </div>
-          <a href="filter.html" class="sidenavbar-search w-inline-block">
-            <div class="square is--search"><img loading="lazy" src="images/search.svg" alt="" class="navbar__icon is--search"></div>
+          <a href="{{ url_for('filter') }}" class="sidenavbar-search w-inline-block">
+            <div class="square is--search"><img src="{{ url_for('static', filename='images/search.svg') }}"loading="lazy"  alt="" class="navbar__icon is--search"></div>
             <div class="hide-text">
               <p class="sidenavbar-paragraph">検索</p>
             </div>
@@ -227,40 +227,40 @@
           <div class="square is--line"></div>
         </div>
         <div class="nav__links">
-          <a href="index.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/home.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('index') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img src="{{ url_for('static', filename='images/home.svg') }}"loading="lazy"  alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ホーム</p>
             </div>
           </a>
-          <a href="create.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/plus.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('create') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img src="{{ url_for('static', filename='images/plus.svg') }}"loading="lazy"  alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">作成</p>
             </div>
           </a>
-          <a href="chatroom.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/chat.svg" alt="" class="sidenavbar-icon"></div>
+          <a href"{{ url_for('chatroom') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img src="{{ url_for('static', filename='"images/chat.svg') }}"loading="lazy"  alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">チャット</p>
             </div>
           </a>
-          <a href="purchase-history.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/history.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('purchase-history') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img src="{{ url_for('static', filename='images/history.svg') }}"loading="lazy"  alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">購入履歴</p>
             </div>
           </a>
-          <a href="profile.html" aria-current="page" class="sidenavbar-link w-inline-block w--current">
-            <div class="square is--link"><img loading="lazy" src="images/user.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('profile') }}" aria-current="page" class="sidenavbar-link w-inline-block w--current">
+            <div class="square is--link"><img src="{{ url_for('static', filename='images/user.svg') }}"loading="lazy"  alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">プロフィール</p>
             </div>
           </a>
         </div>
         <div class="nav__footer">
-          <a href="confirm-logout.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/logout.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('confirm-logout') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img src="{{ url_for('static', filename='images/logout.svg') }}"loading="lazy"  alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ログアウト</p>
             </div>
@@ -270,7 +270,7 @@
       <div class="profile-block">
         <div class="profile-left-block">
           <div class="profile-info-block">
-            <div class="profile-image-block"><img src="images/circle-user.svg" loading="lazy" width="140" alt="" class="profile-image"></div>
+            <div class="profile-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" width="140" alt="" class="profile-image"></div>
             <div class="follow-info-block">
               <div class="profile-username-block">
                 <h3 class="profile-username">Username</h3>
