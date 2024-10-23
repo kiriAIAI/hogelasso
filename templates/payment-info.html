@@ -21,7 +21,7 @@
 <body class="body">
   <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
     <div class="navbar-container">
-      <a href="{{ url_for('index') }}""index.html" class="w-nav-brand"><img loading="lazy" src="images/Logo.png" alt=""></a>
+      <a href="{{ url_for('index') }}" class="w-nav-brand"><img src="{{ url_for('static', filename='images/Logo.png') }}"loading="lazy"  alt=""></a>
       <div class="navbar-menu-wrapper">
         <nav role="navigation" class="nav-menu w-nav-menu">
           <div data-delay="0" data-hover="false" class="w-dropdown">
