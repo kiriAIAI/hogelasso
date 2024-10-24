@@ -75,7 +75,11 @@
             const prompt = 'あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput + "対処法を100文字ほどで出力"
 
             try {
+<<<<<<< HEAD
                 const result = await model.generateContent(prompt);
+=======
+                const result = await model.generateContent('あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput + "対処法を100文字ほどで出力");
+>>>>>>> 10d8066fc561e8f5489b5707b08d78947ebca715
                 document.getElementById('response').innerText = result.response.text();
             } catch (error) {
                 console.error("エラーが発生しました:", error);
