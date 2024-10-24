@@ -122,16 +122,16 @@ def FAQ():
     return render_template("chatbot.html")
 
 
-@app.route('/static/css/<path:filename>')
+@app.route('/css/<path:filename>')
 def css(filename):
     return send_from_directory('css', filename)
-@app.route('/static/js/<path:filename>')
+@app.route('/js/<path:filename>')
 def js(filename):
     return send_from_directory('js', filename)
-@app.route('/templates/fonts/<path:filename>')
+@app.route('/fonts/<path:filename>')
 def fonts(filename):
     return send_from_directory('fonts', filename)
-@app.route('/static/images/<path:filename>')
+@app.route('/images/<path:filename>')
 def images(filename):
     return send_from_directory('images', filename)
 
