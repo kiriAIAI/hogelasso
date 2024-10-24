@@ -74,7 +74,7 @@
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
             try {
-                const result = await model.generateContent('あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput + "対処法を100文字ほどで出力", { max_tokens: 100 });
+                const result = await model.generateContent('あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput + "対処法を100文字ほどで出力");
                 document.getElementById('response').innerText = result.response.text();
             } catch (error) {
                 console.error("エラーが発生しました:", error);
