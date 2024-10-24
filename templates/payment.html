@@ -43,7 +43,7 @@
               </a>
             </nav>
           </div>
-          <a href="{{ url_for('shopping-cart') }}" class="navbar-link shopping-cart w-nav-link"></a>
+          <a href="{{ url_for('shopping_cart') }}" class="navbar-link shopping-cart w-nav-link"></a>
           <a href="{{ url_for('login') }}" class="navbar-link w-nav-link"></a>
         </nav>
         <div class="menu-button w-nav-button">
@@ -100,7 +100,7 @@
           </a>
         </div>
         <div class="nav__footer">
-          <a href="{{ url_for('confirm-logout') }}"class="sidenavbar-link w-inline-block">
+          <a href="{{ url_for('confirmlogout') }}"class="sidenavbar-link w-inline-block">
             <div class="square is--link"><img src="{{ url_for('static', filename='images/logout.svg') }}"loading="lazy"  alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ログアウト</p>
