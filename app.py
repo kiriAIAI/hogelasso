@@ -49,10 +49,11 @@ def purchase_history():
     return render_template('purchase-history.html')
 @app.route('/confirm-logout.html')
 def confirm_logout():
-    return render_template('confirm-logout.html')
+    return render_template('confirm_logout.html')
+
 @app.route('/product-details.html')
-def product_details():  # 関数名を修正（ハイフンは使えないのでアンダースコアを使用）
-    return render_template('product-details.html')
+def product_details():
+    return render_template('product_details.html')
 
 
 
@@ -75,7 +76,7 @@ def search():
 def shoppingcart():
     return render_template('shopping-cart.html')
 
-@app.route('/shopping-cart.html')
+@app.route('/shopping_cart')
 def shopping_cart():
     return render_template('shopping-cart.html')
 
