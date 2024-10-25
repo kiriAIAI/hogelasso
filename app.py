@@ -2,7 +2,7 @@ from flask import Flask, render_template, send_from_directory
 
 import mysql.connector
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='kakikko')
 
 def conn_db():
     conn = mysql.connector.connect(
@@ -16,11 +16,8 @@ def conn_db():
 
 
 @app.route('/')
-def index():
-    return render_template('index.html')
-
 @app.route('/index.html')
-def index_html():
+def index():
     return render_template('index.html')
 
 @app.route('/create.html')
@@ -36,7 +33,7 @@ def chat():
     return render_template('chat.html')
 
 @app.route('/login.html')
-def login_html():
+def login():
     return render_template('login.html')
 
 @app.route('/logout.html')
@@ -52,9 +49,14 @@ def forgetpassword():
 def confirmlogout():
     return render_template('confirm-logout.html')
 
+@app.route('/notification.html')
+def notification():
+    return render_template('notification.html')
+
+
 
 @app.route('/filter.html')
-def filter_html():
+def filter():
     return render_template('filter.html')
 
 @app.route('/product-details.html')
@@ -74,7 +76,7 @@ def profile():
     return render_template('profile.html')
 
 @app.route('/purchase-history.html')
-def purchasehistory():
+def purchase_history():
     return render_template('purchase-history.html')
 
 @app.route('/read.html')
@@ -118,21 +120,22 @@ def FAQ():
 
 
 
-@app.route('/css/<path:filename>')
+@app.route('/static/css/<path:filename>')
 def css(filename):
-    return send_from_directory('css', filename)
+    return send_from_directory('kakikko/static/css', filename)
 
-@app.route('/js/<path:filename>')
+@app.route('/static/js/<path:filename>')
 def js(filename):
-    return send_from_directory('js', filename)
+    return send_from_directory('kakikko/static/js', filename)
 
-@app.route('/fonts/<path:filename>')
+@app.route('/static/fonts/<path:filename>')
 def fonts(filename):
-    return send_from_directory('fonts', filename)
+    return send_from_directory('kakikko/static/fonts', filename)
 
-@app.route('/images/<path:filename>')
+@app.route('/static/images/<path:filename>')
 def images(filename):
-    return send_from_directory('images', filename)
+    return send_from_directory('kakikko/static/images', filename)
+
 
 
 
