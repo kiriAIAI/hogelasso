@@ -21,30 +21,34 @@
 <body class="body">
   <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
     <div class="navbar-container">
-      <a href="index.html" class="w-nav-brand"><img loading="lazy" src="images/Logo.png" alt=""></a>
+      <a href="{{ url_for('index') }}" aria-current="page" class="w-nav-brand w--current">
+        <img loading="lazy" src="{{ url_for('static', filename='images/Logo.png') }}" alt="LOGO">
+      </a>
       <div class="navbar-menu-wrapper">
         <nav role="navigation" class="nav-menu w-nav-menu">
           <div data-delay="0" data-hover="false" class="w-dropdown">
             <div class="dropdown-toggle w-dropdown-toggle">
-              <div class="bell-icon"></div>
+              <div class="bell-icon">
+                <img src="{{ url_for('static', filename='images/bell.svg') }}" loading="lazy" alt="" class="navbar-icon">
+              </div>
             </div>
             <nav class="dropdown-list w-dropdown-list">
-              <a href="notification.html" aria-current="page" class="dropdown-link w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="bell-author-image">
+              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
                 <div>Username</div>
               </a>
-              <a href="notification.html" aria-current="page" class="dropdown-link w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="bell-author-image">
+              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
                 <div>Username</div>
               </a>
-              <a href="notification.html" aria-current="page" class="dropdown-link w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="bell-author-image">
+              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
                 <div>Username</div>
               </a>
-              <a href="notification.html" aria-current="page" class="dropdown-link w-inline-block w--current"><img src="images/circle-user.svg" loading="lazy" alt="" class="bell-author-image">
+              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
                 <div>Username</div>
               </a>
             </nav>
           </div>
-          <a href="shopping-cart.html" class="navbar-link shopping-cart w-nav-link"></a>
-          <a href="login.html" class="navbar-link w-nav-link"></a>
+          <a href="{{ url_for('shoppingcart') }}" class="navbar-link shopping-cart w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
+          <a href="{{ url_for('login') }}" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
         </nav>
         <div class="menu-button w-nav-button">
           <div class="hamburger-menu w-icon-nav-menu"></div>
