@@ -61,10 +61,13 @@
       <div class="sidenavbar">
         <div class="sindnavbar-header">
           <div class="sidenavbar-top">
-            <a href="#" class="square is--hamburger w-inline-block"><img loading="lazy" src="images/hamburger.svg" alt="" class="navbar__icon is--1"><img loading="lazy" src="images/x.svg" alt="" class="navbar__icon is--2"></a>
+            <a href="#" class="square is--hamburger w-inline-block">
+              <img loading="lazy" src="{{ url_for('static', filename='images/hamburger.svg') }}" alt="" class="navbar__icon is--1">
+              <img loading="lazy" src="{{ url_for('static', filename='images/x.svg') }}" alt="" class="navbar__icon is--2">
+            </a>
           </div>
-          <a href="filter.html" class="sidenavbar-search w-inline-block">
-            <div class="square is--search"><img loading="lazy" src="images/search.svg" alt="" class="navbar__icon is--search"></div>
+          <a href="{{ url_for('filter') }}" class="sidenavbar-search w-inline-block">
+            <div class="square is--search"><img loading="lazy" src="{{ url_for('static', filename='images/search.svg') }}" alt="" class="navbar__icon is--search"></div>
             <div class="hide-text">
               <p class="sidenavbar-paragraph">検索</p>
             </div>
@@ -72,40 +75,40 @@
           <div class="square is--line"></div>
         </div>
         <div class="nav__links">
-          <a href="index.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/home.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('index') }}" aria-current="page" class="sidenavbar-link w-inline-block w--current">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/home.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ホーム</p>
             </div>
           </a>
-          <a href="create.html" aria-current="page" class="sidenavbar-link w-inline-block w--current">
-            <div class="square is--link"><img loading="lazy" src="images/plus.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('create') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/plus.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">作成</p>
             </div>
           </a>
-          <a href="chatroom.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/chat.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('chatroom') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/chat.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">チャット</p>
             </div>
           </a>
-          <a href="purchase-history.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/history.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('purchase_history') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/history.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">購入履歴</p>
             </div>
           </a>
-          <a href="profile.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/user.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('profile') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/user.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">プロフィール</p>
             </div>
           </a>
         </div>
         <div class="nav__footer">
-          <a href="confirm-logout.html" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/logout.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('confirmlogout') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/logout.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ログアウト</p>
             </div>
