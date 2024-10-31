@@ -75,6 +75,18 @@ def search():
 def shoppingcart():
     return render_template('shopping-cart.html')
 
+@app.route('/payment.html')
+def payment():
+    return render_template('payment.html')
+
+@app.route('/payment-info.html')
+def paymentinfo():
+    return render_template('payment-info.html')
+
+@app.route('/payment-success.html')
+def paymentsuccess():
+    return render_template('payment-success.html')
+
 @app.route('/profile.html')
 def profile():
     return render_template('profile.html')

@@ -20,7 +20,7 @@ body{
 }
 .kaitou p{
     width: fit-content;
-    max-width: 65%;
+    max-width: 80%;
     font-size: 20px;
     padding: 8px 15px;
     border-radius: 20px;
@@ -29,12 +29,13 @@ body{
     display: flex;
     height: auto;
 }
-#hint{
-    font-size: 18px;
-}
 
 #preview{
-    width: 400px;
+    margin: 0 5% 10px auto;
+    padding: 20px;
+    width: 50%;
+    border-radius: 20px;
+    background-color: greenyellow;
 }
 .me{
     margin: 0 5% 0 auto;
@@ -42,9 +43,15 @@ body{
     
 }
 .chatbot{
-    margin: 25px auto 100px 5%;
     background-color: gray;
     color: white;
+}
+#response{
+    margin: 25px auto 100px 5%;
+}
+#hint{
+    font-size: 18px;
+    margin: 0 5%;
 }
 
 .kensaku{
@@ -53,7 +60,7 @@ body{
     left: 0px;
     right: 0px;
     margin: 0 auto 0 auto;
-    padding: 10px 0 0 0;
+    padding: 10px 3px 3px 3px;
     bottom: 0px;
     justify-content: center;
     background-color: white;
