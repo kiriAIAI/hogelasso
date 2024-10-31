@@ -272,6 +272,12 @@
   position: relative;
 }
 
+.navbar-icon{
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+
 .sidenavbar-icon {
   width: 1.3rem;
   height: 1.3rem;
