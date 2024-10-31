@@ -16,6 +16,7 @@ body{
 
 .kaitou{
     margin: 50px 0 0 0;
+    padding-bottom: 80px;
 }
 .kaitou p{
     width: fit-content;
@@ -39,7 +40,6 @@ body{
     color: white;
 }
 
-
 .kensaku{
     display: flex;
     position: fixed;
@@ -55,7 +55,7 @@ body{
 #user-input{
     height: 35px;
     width: 70%;
-    border-radius: 15px;
+    border-radius: 20px;
     padding: 0 5px;
     font-size: 20px;
     size: 40px;
@@ -78,15 +78,27 @@ body{
     justify-content: center;
     align-items: center;
     width: 66px;
-    height: 66px;
+    height: 65px;
     top: 0;
     right: 0;
     font-size: 35px;
     border-left: 1px #aaa solid;
+    border-bottom: 1px #aaa solid;
+    background-color: #fff ;
 }
 .X div{
     width: fit-content;
 }
+
+#fileInput{
+    display: none;
+}
+#image{
+    width: 50px;
+    height: 36px;
+}
+
+
 
 @media screen and (max-width: 800px) {
     .X{
