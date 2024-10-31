@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チャットボット</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('css', filename='style.css') }}">
+    <script type="importmap">
+        {
+          "imports": {
+            "@google/generative-ai": "https://esm.run/@google/generative-ai"
+          }
+        }
+    </script>
+    <!-- <script type="module" src="main.js"></script> -->
+</head>
+
+
+<body>
+    <div class="title">
+        <div>かきっこチャットボット</div>
+    </div>
+    <div class="kaitou">
+        <p id="hint" class="chatbot">すぐに答えが見つかるよお手伝いします！ご質問は何ですか？</p>
+        <p id="textbox" class="me" hidden></p>
+        <p id="response" class="chatbot" hidden></p>
+    </div>
+
+    <div class="kensaku">
+        <img src="{{ url_for('images', filename='clip.png') }}" alt="" id="image">
+        <input type="text" id="user-input" maxlength="50" placeholder="質問を入力">
+        <input type="file" id="fileInput">
+        <button id="send-btn">送信</button>
+    </div>
+    <div id="X" class="X">
+        <div>×</div>
+    </div>
+
+
+
+
+
+
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+
+        
+
+        const predefinedResponses = {
+            "送料": "送料は商品と配送先によって異なります。カートに入れた商品を確認し、配送先を入力すると送料が表示されます。",
+            "会員登録":"会員登録をすることで、次回以降の購入がスムーズになります。",
+            "パスワード": "パスワードをお忘れですか？ログイン画面の「パスワードを忘れた方はこちら」からリセットしてください。",
+            "返品": "大変申し訳ございませんが、弊社では商品の返品は受け付けておりません。購入前に商品情報をご確認いただき、ご理解の上でご注文いただきますようお願い申し上げます。",
+            "支払い": "クレジットカード、デビットカード、銀行振込などがご利用いただけます。",
+            "注文状況" : "マイアカウントから注文履歴を確認できます。",
+        };
+
+        document.getElementById('image').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+
+// 定型文を返す場合の判定
+        function checkForKeywords(userInput) {
+            // predefinedResponsesの中に含まれる単語をチェック
+            for (const keyword in predefinedResponses) {
+                if (userInput.includes(keyword)) {
+                    return predefinedResponses[keyword]; // 対応する定型文を返す
+                }
+            }
+            return null; // 定型文が見つからない場合
+        }
+
+
+//画像の変換
+        function fileToGenerativePart(file, mimeType) {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              
+              reader.onload = function(event) {
+                const base64Data = event.target.result.split(',')[1]; // Base64部分のみ取得
+                resolve({
+                  inlineData: {
+                    data: base64Data,
+                    mimeType,
+                  },
+                });
+              };
+              
+              reader.onerror = function(error) {
+                reject(error);
+              };
+              
+              reader.readAsDataURL(file); // ファイルをBase64形式で読み込む
+            });
+          }
+
+//FAQの処理
+        async function generateResponse(userInput) {
+            const API_KEY = "AIzaSyCvONVwyu80719lCCmrBtzSEjQ4BRl6pVc";
+
+            const genAI = new GoogleGenerativeAI(API_KEY);
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const prompt = 'あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput
+            const file = document.getElementById('fileInput').files[0];
+
+            try {
+                if (file == undefined){
+                    const result = await model.generateContent(prompt);
+                    document.getElementById('response').innerText = result.response.text();
+                }
+                else{
+                    const imagePart = await fileToGenerativePart(file, file.type); 
+                    const result = await model.generateContent([prompt+ "画像の内容を読み取り日本語で返信",imagePart]);
+                    document.getElementById('response').innerText = result.response.text();
+                }   
+            } catch (error) {
+                console.error("エラーが発生しました:", error);
+                document.getElementById('response').innerText = "エラーが発生しました。";
+            }
+        }
+
+
+        document.getElementById('send-btn').addEventListener('click', () => {
+            const tb = document.getElementById("response");
+            const tbp = document.getElementById("textbox");
+            const userInput = document.getElementById('user-input').value;
+            if (userInput == ""){
+                exit()
+            }
+            tbp.innerText = userInput;
+            tbp.hidden = false;
+            tb.hidden = false;
+            document.getElementById("hint").hidden = true;
+
+
+            if (userInput) {
+                const predefinedResponse = checkForKeywords(userInput); // 定型文チェック
+                if (! (predefinedResponse == null)) {
+                    console.log(predefinedResponse); 
+                    tb.innerText = predefinedResponse;
+                }else{
+                    console.log("ボタンが押されました")
+                    
+                    generateResponse(userInput);
+                    console.log(userInput)
+                    document.getElementById('user-input').value = '';
+                }
+            }
+        });
+
+        // iframe内のスクリプト
+    document.getElementById('X').addEventListener('click', function() {
+        window.parent.postMessage('elementClicked', '*');
+    });
+        
+    </script>
+</body>
+</html>
