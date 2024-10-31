@@ -126,7 +126,7 @@
                 <div class="creditcard-column"><label for="Expiration-Date" class="creditcard-label"><strong>有効期限</strong></label><input class="text-field-4 w-input" maxlength="256" name="Expiration-Date" data-name="Expiration Date" placeholder="" type="text" id="Expiration-Date" required=""></div>
                 <div class="creditcard-column"><label for="Security-Code" class="creditcard-label"><strong>セキュリティコード（CVV）</strong></label><input class="text-field-5 w-input" maxlength="256" name="Security-Code" data-name="Security Code" placeholder="" type="text" id="Security-Code" required=""></div>
               </div>
-              <a href="payment-success.html" class="order-btn w-button">注文を確定</a>
+              <a href="{{ url_for('paymentsuccess') }}" class="order-btn w-button">注文を確定</a>
             </form>
             <div class="w-form-done">
               <div>Thank you! Your submission has been received!</div>
