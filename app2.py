@@ -32,6 +32,10 @@ def chatroom():
 def chat():
     return render_template('chat.html')
 
+@app.route('/chatbot.html')
+def chatbot():
+    return render_template('chatbot.html')
+
 @app.route('/login.html')
 def login():
     return render_template('login.html')
@@ -112,10 +116,6 @@ def quiz():
     
     return render_template('quiz.html', question=question)
 
-
-@app.route('/FAQ.html')
-def FAQ():
-    return render_template("chatbot.html")
 
 
 
