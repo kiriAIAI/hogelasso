@@ -2,7 +2,7 @@ from flask import Flask, render_template, send_from_directory
 
 import mysql.connector
 
-app = Flask(__name__, template_folder='kakikko')
+app = Flask(__name__, template_folder='kakikko', static_folder='static')
 
 def conn_db():
     conn = mysql.connector.connect(
