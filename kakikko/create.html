@@ -118,7 +118,13 @@
       <div class="create-block">
         <div class="create-left-block">
           <div id="textForm" class="create-form-block w-form">
-            <form id="wf-form-Create-Form" name="wf-form-Create-Form" data-name="Create Form" method="get" class="create-form" data-wf-page-id="670b7401d43d7adda246babe" data-wf-element-id="8c65cdfb-f7bb-bff4-037b-43b70214289f"><label for="titleInput" class="create-form-label">タイトル</label><input class="create-form-field w-input" maxlength="256" name="title" data-name="title" placeholder="タイトルを入力" type="text" id="titleInput" contenteditable="true"><label for="contentInput" class="create-form-label">内容</label><textarea class="textarea w-input" maxlength="5000" name="content" data-name="content" placeholder="内容を入力" id="contentInput" contenteditable="true"></textarea><input type="submit" data-wait="Please wait..." class="post-btn w-button" value="投稿"></form>
+            <form id="wf-form-Create-Form" name="wf-form-Create-Form" data-name="Create Form" method="get" class="create-form" data-wf-page-id="670b7401d43d7adda246babe" data-wf-element-id="8c65cdfb-f7bb-bff4-037b-43b70214289f">
+              <label for="titleInput" class="create-form-label">タイトル</label>
+              <input class="create-form-field w-input" maxlength="256" name="title" data-name="title" placeholder="タイトルを入力" type="text" id="titleInput" contenteditable="true">
+              <label for="contentInput" class="create-form-label">内容</label>
+              <textarea class="textarea w-input" maxlength="5000" name="content" data-name="content" placeholder="内容を入力" id="contentInput" contenteditable="true"></textarea>
+              <input type="submit" data-wait="Please wait..." class="post-btn w-button" value="投稿">
+            </form>
             <div class="w-form-done">
               <div>Thank you! Your submission has been received!</div>
             </div>
@@ -154,8 +160,8 @@
               <div class="fontsize-block">
                 <h4 class="font-editor-heading">フォントサイズ</h4>
                 <div class="fontsize-change-block">
-                  <a id="decreaseFont" href="#" class="fontsize-minus-btn w-node-_3273b6a2-2cf0-f170-27bb-6de1b29a1728-a246babe w-button"></a><input fs-inputcounter-element="input" class="fontsize-input w-node-_455bd05e-e6d2-c1c1-24b1-e6bdce28ff70-a246babe w-input" fs-inputcounter-initial="0" maxlength="256" name="Fontsize" data-name="Fontsize" placeholder="12" type="text" id="Fontsize" required="">
-                  <a id="increaseFont" href="#" class="fontsize-plus-btn w-node-_2b9b7578-e288-0736-4e50-3843ca254a3d-a246babe w-button">+</a>
+                  <a id="decreaseFont" href="#" class="fontsize-minus-btn w-node-_3273b6a2-2cf0-f170-27bb-6de1b29a1728-a246babe w-button" onclick="toggleBold()"></a><input fs-inputcounter-element="input" class="fontsize-input w-node-_455bd05e-e6d2-c1c1-24b1-e6bdce28ff70-a246babe w-input" fs-inputcounter-initial="0" maxlength="256" name="Fontsize" data-name="Fontsize" placeholder="12" type="text" id="Fontsize" required="" onclick="toggleBold()">
+                  <a id="increaseFont" href="#" class="fontsize-plus-btn w-node-_2b9b7578-e288-0736-4e50-3843ca254a3d-a246babe w-button" onclick="toggleBold()">+</a>
                 </div>
               </div>
             </form>
@@ -169,25 +175,25 @@
           <div class="font-style-block">
             <h4 class="font-heading">フォント</h4>
             <div class="font-style-wrapper">
-              <a id="boldBtn" href="#" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c428-a246babe w-button"></a>
-              <a id="italicBtn" href="#" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c42a-a246babe w-button"></a>
-              <a id="underlineBtn" href="#" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c42c-a246babe w-button"></a>
+              <a id="boldBtn" href="#" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c428-a246babe w-button" onclick="toggleBold()"></a>
+              <a id="italicBtn" href="#" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c42a-a246babe w-button" onclick="toggleBold()"></a>
+              <a id="underlineBtn" href="#" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c42c-a246babe w-button" onclick="toggleBold()"></a>
             </div>
           </div>
           <div class="text-alignment-block">
             <h4 class="font-heading">段落</h4>
             <div class="font-style-wrapper">
-              <a id="alignLeftBtn" href="#" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442b-a246babe w-button"></a>
-              <a id="alignCenterBtn" href="#" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442d-a246babe w-button"></a>
-              <a id="alignRightBtn" href="#" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442f-a246babe w-button"></a>
+              <a id="alignLeftBtn" href="#" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442b-a246babe w-button" onclick="toggleBold()"></a>
+              <a id="alignCenterBtn" href="#" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442d-a246babe w-button" onclick="toggleBold()"></a>
+              <a id="alignRightBtn" href="#" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442f-a246babe w-button" onclick="toggleBold()"></a>
             </div>
           </div>
           <div class="list-controls-block">
             <h4 class="font-heading">項目</h4>
             <div class="font-style-wrapper">
-              <a id="bulletListBtn" href="#" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16a-a246babe w-button"></a>
-              <a id="numberedListBtn" href="#" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16c-a246babe w-button"></a>
-              <a id="checkboxListBtn" href="#" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16e-a246babe w-button"></a>
+              <a id="bulletListBtn" href="#" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16a-a246babe w-button" onclick="toggleBold()"></a>
+              <a id="numberedListBtn" href="#" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16c-a246babe w-button" onclick="toggleBold()"></a>
+              <a id="checkboxListBtn" href="#" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16e-a246babe w-button" onclick="toggleBold()"></a>
             </div>
           </div>
         </div>
@@ -225,6 +231,169 @@
        colorPicker.color.hexString = this.value;
        swatch.style.backgroundColor = this.value;
    });
+
+   document.addEventListener('DOMContentLoaded', function() {
+    // 獲取輸入元素
+    const titleInput = document.getElementById('titleInput');
+    const contentInput = document.getElementById('contentInput');
+  
+    // 防止 Enter 鍵在標題輸入時提交表單
+    titleInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        contentInput.focus();
+      }
+    });
+
+      // 獲取所有需要的DOM元素
+    const titleInput = document.getElementById('titleInput');
+    const contentInput = document.getElementById('contentInput');
+    const boldBtn = document.getElementById('boldBtn');
+    const italicBtn = document.getElementById('italicBtn');
+    const underlineBtn = document.getElementById('underlineBtn');
+    const alignLeftBtn = document.getElementById('alignLeftBtn');
+    const alignCenterBtn = document.getElementById('alignCenterBtn');
+    const alignRightBtn = document.getElementById('alignRightBtn');
+    const bulletListBtn = document.getElementById('bulletListBtn');
+    const numberedListBtn = document.getElementById('numberedListBtn');
+    const checkboxListBtn = document.getElementById('checkboxListBtn');
+    const decreaseFontBtn = document.getElementById('decreaseFont');
+    const increaseFontBtn = document.getElementById('increaseFont');
+    const fontSizeInput = document.getElementById('Fontsize');
+
+    // 使輸入區域可編輯
+    titleInput.contentEditable = 'true';
+    contentInput.contentEditable = 'true';
+
+    // 確保使用CSS樣式而不是HTML標籤
+    document.execCommand('styleWithCSS', false, true);
+
+    // 當前焦點元素追踪
+    let currentFocusedElement = null;
+
+    // 監聽焦點
+    titleInput.addEventListener('focus', () => currentFocusedElement = titleInput);
+    contentInput.addEventListener('focus', () => currentFocusedElement = contentInput);
+
+    // 文字顏色更改函數
+    function applyColor(color) {
+      if (!currentFocusedElement) return;
+      currentFocusedElement.focus();
+      document.execCommand('foreColor', false, color);
+    }
+
+    // 字體大小更改函數
+    function changeFontSize(size) {
+      if (!currentFocusedElement) return;
+      currentFocusedElement.focus();
+      document.execCommand('fontSize', false, size);
+    }
+
+    // 更新字體大小顯示
+    function updateFontSizeDisplay(change) {
+      let currentSize = parseInt(fontSizeInput.value) || 12;
+      currentSize += change;
+      if (currentSize < 1) currentSize = 1;
+      fontSizeInput.value = currentSize;
+      changeFontSize(currentSize);
+    }
+
+    // 文字樣式函數
+    function toggleStyle(command) {
+      if (!currentFocusedElement) return;
+      currentFocusedElement.focus();
+      document.execCommand(command, false, null);
+    }
+
+    // 文字對齊函數
+    function alignText(command) {
+      if (!currentFocusedElement) return;
+      currentFocusedElement.focus();
+      document.execCommand(command, false, null);
+    }
+
+    // 列表函數
+    function insertList(command) {
+      if (!currentFocusedElement) return;
+      currentFocusedElement.focus();
+      document.execCommand(command, false, null);
+    }
+
+    // 插入checkbox
+    function insertCheckbox() {
+      if (!currentFocusedElement) return;
+      currentFocusedElement.focus();
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      const selection = window.getSelection();
+      if (selection.rangeCount) {
+        const range = selection.getRangeAt(0);
+        range.insertNode(checkbox);
+      }
+    }
+
+    // 事件監聽器設置
+    boldBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleStyle('bold');
+    });
+
+    italicBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleStyle('italic');
+    });
+
+    underlineBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleStyle('underline');
+    });
+
+    alignLeftBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      alignText('justifyLeft');
+    });
+
+    alignCenterBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      alignText('justifyCenter');
+    });
+
+    alignRightBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      alignText('justifyRight');
+    });
+
+    bulletListBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      insertList('insertUnorderedList');
+    });
+
+    numberedListBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      insertList('insertOrderedList');
+    });
+
+    checkboxListBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      insertCheckbox();
+    });
+
+    // 字體大小控制
+    decreaseFontBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      updateFontSizeDisplay(-1);
+    });
+
+    increaseFontBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      updateFontSizeDisplay(1);
+    });
+
+    // 更新顏色選擇器的處理函數
+    colorPicker.on(['color:change'], function(color) {
+      applyColor(color.hexString);
+    });
+  
 </script>
 </body>
 </html>
