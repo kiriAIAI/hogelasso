@@ -91,8 +91,8 @@
               <p class="sidenavbar-paragraph">チャット</p>
             </div>
           </a>
-          <a href="{{ url_for('purchase-history') }}" class="sidenavbar-link w-inline-block">
-            <div class="square is--link"><img loading="lazy" src="images/history.svg" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('purchase_history') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/history.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">購入履歴</p>
             </div>
@@ -105,8 +105,8 @@
           </a>
         </div>
         <div class="nav__footer">
-          <a href="{{ url_for('confirmlogout') }}" class="sidenavbar-link w-inline-block"></a>
-          <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/logout.svg') }}" alt="" class="sidenavbar-icon"></div>
+          <a href="{{ url_for('confirmlogout') }}" class="sidenavbar-link w-inline-block">
+            <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/logout.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ログアウト</p>
             </div>
