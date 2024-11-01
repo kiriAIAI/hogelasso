@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>チャットボット</title>
-    <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('css', filename='style.css') }}">
     <script type="text/javascript">WebFont.load({  google: {    families: ["Noto Sans JP:regular,500,600,700,900"]  }});</script>
     <script type="importmap">
@@ -16,7 +15,6 @@
           }
         }
     </script>
-    <!-- <script type="module" src="main.js"></script> -->
 </head>
 
 
@@ -35,8 +33,8 @@
 
     <div class="kensaku">
         <img src="{{ url_for('images', filename='clip.png') }}" alt="" id="image">
-        <input type="text" id="user-input" maxlength="50" placeholder="質問を入力">
-        <input type="file" id="fileInput">
+        <input type="text" id="user-input" maxlength="100" placeholder="質問を入力">
+        <input type="file" id="fileInput" accept="image/png, image/jpg">
         <button id="send-btn">送信</button>
     </div>
     <div id="X" class="X">
@@ -159,7 +157,7 @@
         document.getElementById('send-btn').addEventListener('click', () => {
             const tb = document.getElementById("response");
             const tbp = document.getElementById("textbox");
-            const userInput = document.getElementById('user-input').value;
+            let userInput = document.getElementById('user-input').value;
             if (userInput == ""){
                 exit()
             }
@@ -174,6 +172,7 @@
                 if (! (predefinedResponse == null)) {
                     console.log(predefinedResponse); 
                     tb.innerHTML = predefinedResponse;
+                    document.getElementById('user-input').value = '';
                 }else{
                     console.log("ボタンが押されました")
                     
