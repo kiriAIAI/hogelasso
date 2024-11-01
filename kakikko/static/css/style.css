@@ -39,6 +39,7 @@ body{
 .me{
     margin: 0 5% 0 auto;
     background-color: #d1d1d1;
+    background-color: greenyellow;
     
 }
 .chatbot{
@@ -47,6 +48,7 @@ body{
 }
 #response{
     margin: 25px auto 100px 5%;
+    width: 65%;
 }
 #hint{
     font-size: 18px;
