@@ -1,16 +1,17 @@
 body{
     margin: 0 auto;
     height: 100vh;
-    background-color: #f2f0ff;
+    background-color: #f7f7f7;
 }
 .title{
-    border-bottom:  1px #aaa solid;
+    border-bottom:  1px #c1c1c159 solid;
     background-color: #fff;
 }
 .title div{
-    padding: 10px 0 10px 5px;
+    padding: 10px 0 10px 20px;
     width: fit-content;
-    font-size: 30px;
+    font-size: 1.6rem;
+    font-weight: 700;
 }
 
 
@@ -20,10 +21,8 @@ body{
 }
 .kaitou p{
     width: fit-content;
-    max-width: 80%;
-    font-size: 20px;
     padding: 8px 15px;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 .kaitou div{
     display: flex;
@@ -39,7 +38,7 @@ body{
 }
 .me{
     margin: 0 5% 0 auto;
-    background-color: greenyellow;
+    background-color: #d1d1d1;
     
 }
 .chatbot{
@@ -66,22 +65,35 @@ body{
     background-color: white;
     border-top: 1px #aaa solid;
 }
+
 #user-input{
     height: 35px;
     width: 70%;
     border-radius: 20px;
-    padding: 0 5px;
-    font-size: 20px;
+    padding: 0 0 0 15px;
+    font-size: 1rem;
     size: 40px;
     margin: 0 10px 10px 0;
-    border: 2px #aaa solid;
+    border: 1px #c1c1c1 solid;
 }
+
+#user-input::placeholder{
+    font-size: 1rem;
+}
+
+#user-input:focus{
+    background-color: #fff;
+}
+
+
+
 #send-btn{
     cursor: pointer;
     width: 80px;
     border-radius: 20px;
-    margin: 0 0 10px 0;
-    border: 2px #aaa solid;
+    font-size: 1rem;
+    margin: 0 8px 10px 0;
+    border: 1px #c1c1c1 solid;
 }
 
 .X{
@@ -91,13 +103,13 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 66px;
-    height: 63.6px;
+    width: 60px;
+    height: 58px;
     top: 0;
     right: 0;
-    font-size: 35px;
-    border-left: 1px #aaa solid;
-    border-bottom: 1px #aaa solid;
+    font-size: 30px;
+    border-left: 1px #c1c1c159 solid;
+    border-bottom: 1px #c1c1c159 solid;
     background-color: #fff ;
 }
 .X div{
@@ -108,8 +120,10 @@ body{
     display: none;
 }
 #image{
-    width: 50px;
-    height: 36px;
+    padding: 2px 0 0 0;
+    margin: 0 2px 0 0;
+    width: 40px;
+    height: 30px;
     cursor: pointer;
 }
 
