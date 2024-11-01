@@ -32,6 +32,10 @@ def chatroom():
 def chat():
     return render_template('chat.html')
 
+@app.route('/chatbot.html')
+def chatbot():
+    return render_template('chatbot.html')
+
 @app.route('/login.html')
 def login():
     return render_template('login.html')
@@ -70,6 +74,18 @@ def search():
 @app.route('/shopping-cart.html')
 def shoppingcart():
     return render_template('shopping-cart.html')
+
+@app.route('/payment.html')
+def payment():
+    return render_template('payment.html')
+
+@app.route('/payment-info.html')
+def paymentinfo():
+    return render_template('payment-info.html')
+
+@app.route('/payment-success.html')
+def paymentsuccess():
+    return render_template('payment-success.html')
 
 @app.route('/profile.html')
 def profile():
@@ -112,10 +128,6 @@ def quiz():
     
     return render_template('quiz.html', question=question)
 
-
-@app.route('/FAQ.html')
-def FAQ():
-    return render_template("chatbot.html")
 
 
 

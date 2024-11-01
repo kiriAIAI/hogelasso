@@ -1,0 +1,136 @@
+body{
+    margin: 0 auto;
+    height: 100vh;
+    background-color: #f7f7f7;
+}
+.title{
+    border-bottom:  1px #c1c1c159 solid;
+    background-color: #fff;
+}
+.title div{
+    padding: 10px 0 10px 20px;
+    width: fit-content;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+
+.kaitou{
+    margin: 50px 0 0 0;
+    padding-bottom: 80px; 
+}
+.kaitou p{
+    width: fit-content;
+    padding: 8px 15px;
+    border-radius: 10px;
+}
+.kaitou div{
+    display: flex;
+    height: auto;
+}
+
+#preview{
+    margin: 0 5% 10px auto;
+    padding: 20px;
+    width: 50%;
+    border-radius: 20px;
+    background-color: greenyellow;
+}
+.me{
+    margin: 0 5% 0 auto;
+    background-color: #d1d1d1;
+    
+}
+.chatbot{
+    background-color: gray;
+    color: white;
+}
+#response{
+    margin: 25px auto 100px 5%;
+}
+#hint{
+    font-size: 18px;
+    margin: 0 5%;
+}
+
+.kensaku{
+    display: flex;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    margin: 0 auto 0 auto;
+    padding: 10px 3px 3px 3px;
+    bottom: 0px;
+    justify-content: center;
+    background-color: white;
+    border-top: 1px #aaa solid;
+}
+
+#user-input{
+    height: 35px;
+    width: 70%;
+    border-radius: 20px;
+    padding: 0 0 0 15px;
+    font-size: 1rem;
+    size: 40px;
+    margin: 0 10px 10px 0;
+    border: 1px #c1c1c1 solid;
+}
+
+#user-input::placeholder{
+    font-size: 1rem;
+}
+
+#user-input:focus{
+    background-color: #fff;
+}
+
+
+
+#send-btn{
+    cursor: pointer;
+    width: 80px;
+    border-radius: 20px;
+    font-size: 1rem;
+    margin: 0 8px 10px 0;
+    border: 1px #c1c1c1 solid;
+}
+
+.X{
+    visibility: hidden;
+    cursor: pointer;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 58px;
+    top: 0;
+    right: 0;
+    font-size: 30px;
+    border-left: 1px #c1c1c159 solid;
+    border-bottom: 1px #c1c1c159 solid;
+    background-color: #fff ;
+}
+.X div{
+    width: fit-content;
+}
+
+#fileInput{
+    display: none;
+}
+#image{
+    padding: 2px 0 0 0;
+    margin: 0 2px 0 0;
+    width: 40px;
+    height: 30px;
+    cursor: pointer;
+}
+
+
+
+@media screen and (max-width: 800px) {
+    .X{
+        visibility: visible;
+    }
+  }
