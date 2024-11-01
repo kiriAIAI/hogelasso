@@ -231,7 +231,7 @@
    });    hexInput.addEventListener('change', function() {
        colorPicker.color.hexString = this.value;
        swatch.style.backgroundColor = this.value;
-   });
+   }); 
   </script>
 
   <script>
@@ -433,7 +433,6 @@
   colorPicker.on(['color:change'], function(color) {
       applyColor(color.hexString);
   });
-
 </script>
 
 </body>
