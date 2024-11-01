@@ -129,6 +129,14 @@ body{
     cursor: pointer;
 }
 
+.custom-link {
+    color: aqua; /* リンクの色を赤に設定 */
+    text-decoration: none; /* 下線を消す */
+}
+.custom-link:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
+
 
 
 @media screen and (max-width: 800px) {
