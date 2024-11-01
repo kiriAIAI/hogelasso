@@ -232,18 +232,7 @@
        swatch.style.backgroundColor = this.value;
    });
 
-   document.addEventListener('DOMContentLoaded', function() {
-    // 獲取輸入元素
-    const titleInput = document.getElementById('titleInput');
-    const contentInput = document.getElementById('contentInput');
-  
-    // 防止 Enter 鍵在標題輸入時提交表單
-    titleInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        contentInput.focus();
-      }
-    });
+   
 
       // 獲取所有需要的DOM元素
     const titleInput = document.getElementById('titleInput');
