@@ -160,7 +160,8 @@
               <div class="fontsize-block">
                 <h4 class="font-editor-heading">フォントサイズ</h4>
                 <div class="fontsize-change-block">
-                  <a id="decreaseFont" href="#" class="fontsize-minus-btn w-node-_3273b6a2-2cf0-f170-27bb-6de1b29a1728-a246babe w-button" onclick="toggleBold()"></a><input fs-inputcounter-element="input" class="fontsize-input w-node-_455bd05e-e6d2-c1c1-24b1-e6bdce28ff70-a246babe w-input" fs-inputcounter-initial="0" maxlength="256" name="Fontsize" data-name="Fontsize" placeholder="12" type="text" id="Fontsize" required="" onclick="toggleBold()">
+                  <a id="decreaseFont" href="#" class="fontsize-minus-btn w-node-_3273b6a2-2cf0-f170-27bb-6de1b29a1728-a246babe w-button" onclick="toggleBold()"></a>
+                  <input fs-inputcounter-element="input" class="fontsize-input w-node-_455bd05e-e6d2-c1c1-24b1-e6bdce28ff70-a246babe w-input" fs-inputcounter-initial="0" maxlength="256" name="Fontsize" data-name="Fontsize" placeholder="12" type="text" id="Fontsize" required="" onclick="toggleBold()">
                   <a id="increaseFont" href="#" class="fontsize-plus-btn w-node-_2b9b7578-e288-0736-4e50-3843ca254a3d-a246babe w-button" onclick="toggleBold()">+</a>
                 </div>
               </div>
@@ -232,168 +233,215 @@
        swatch.style.backgroundColor = this.value;
    });
 
-   document.addEventListener('DOMContentLoaded', function() {
-    // 獲取輸入元素
-    const titleInput = document.getElementById('titleInput');
-    const contentInput = document.getElementById('contentInput');
-  
-    // 防止 Enter 鍵在標題輸入時提交表單
-    titleInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        contentInput.focus();
-      }
-    });
+<<<<<<< HEAD
+  // 獲取所需的 DOM 元素
+  const titleInput = document.getElementById('titleInput');
+  const contentInput = document.getElementById('contentInput');
+  const boldBtn = document.getElementById('boldBtn');
+  const italicBtn = document.getElementById('italicBtn');
+  const underlineBtn = document.getElementById('underlineBtn');
+  const alignLeftBtn = document.getElementById('alignLeftBtn');
+  const alignCenterBtn = document.getElementById('alignCenterBtn');
+  const alignRightBtn = document.getElementById('alignRightBtn');
+  const bulletListBtn = document.getElementById('bulletListBtn');
+  const numberedListBtn = document.getElementById('numberedListBtn');
+  const checkboxListBtn = document.getElementById('checkboxListBtn');
+  const decreaseFontBtn = document.getElementById('decreaseFont');
+  const increaseFontBtn = document.getElementById('increaseFont');
+  const fontSizeInput = document.getElementById('Fontsize');
+=======
+   
+>>>>>>> 707f4bb73d74d3f56989054094e432c31ea2c69a
 
-      // 獲取所有需要的DOM元素
-    const titleInput = document.getElementById('titleInput');
-    const contentInput = document.getElementById('contentInput');
-    const boldBtn = document.getElementById('boldBtn');
-    const italicBtn = document.getElementById('italicBtn');
-    const underlineBtn = document.getElementById('underlineBtn');
-    const alignLeftBtn = document.getElementById('alignLeftBtn');
-    const alignCenterBtn = document.getElementById('alignCenterBtn');
-    const alignRightBtn = document.getElementById('alignRightBtn');
-    const bulletListBtn = document.getElementById('bulletListBtn');
-    const numberedListBtn = document.getElementById('numberedListBtn');
-    const checkboxListBtn = document.getElementById('checkboxListBtn');
-    const decreaseFontBtn = document.getElementById('decreaseFont');
-    const increaseFontBtn = document.getElementById('increaseFont');
-    const fontSizeInput = document.getElementById('Fontsize');
+  // 設置輸入區域為可編輯
+  titleInput.contentEditable = 'true';
+  contentInput.contentEditable = 'true';
 
-    // 使輸入區域可編輯
-    titleInput.contentEditable = 'true';
-    contentInput.contentEditable = 'true';
+  // 使用 CSS 樣式而不是 HTML 標籤
+  document.execCommand('styleWithCSS', false, true);
 
-    // 確保使用CSS樣式而不是HTML標籤
-    document.execCommand('styleWithCSS', false, true);
+  // 追蹤當前焦點元素
+  let currentFocusedElement = null;
 
-    // 當前焦點元素追踪
-    let currentFocusedElement = null;
+  // 監聽焦點事件
+  titleInput.addEventListener('focus', () => {
+      currentFocusedElement = titleInput;
+      updateToolbarState();
+  });
+  contentInput.addEventListener('focus', () => {
+      currentFocusedElement = contentInput;
+      updateToolbarState();
+  });
 
-    // 監聽焦點
-    titleInput.addEventListener('focus', () => currentFocusedElement = titleInput);
-    contentInput.addEventListener('focus', () => currentFocusedElement = contentInput);
+  // 更新工具列狀態
+  function updateToolbarState() {
+      if (!currentFocusedElement) return;
+      
+      // 更新按鈕狀態
+      boldBtn.classList.toggle('active', document.queryCommandState('bold'));
+      italicBtn.classList.toggle('active', document.queryCommandState('italic'));
+      underlineBtn.classList.toggle('active', document.queryCommandState('underline'));
+      alignLeftBtn.classList.toggle('active', document.queryCommandState('justifyLeft'));
+      alignCenterBtn.classList.toggle('active', document.queryCommandState('justifyCenter'));
+      alignRightBtn.classList.toggle('active', document.queryCommandState('justifyRight'));
+  }
 
-    // 文字顏色更改函數
-    function applyColor(color) {
+  // 文字顏色更改函數
+  function applyColor(color) {
       if (!currentFocusedElement) return;
       currentFocusedElement.focus();
       document.execCommand('foreColor', false, color);
-    }
+  }
 
-    // 字體大小更改函數
-    function changeFontSize(size) {
+  // 字體大小更改函數
+  function changeFontSize(size) {
       if (!currentFocusedElement) return;
       currentFocusedElement.focus();
-      document.execCommand('fontSize', false, size);
-    }
+      
+      // 轉換字體大小為 px
+      const pixelSize = size + 'px';
+      
+      // 使用 fontSize 命令
+      document.execCommand('fontSize', false, '7');
+      
+      // 獲取選中的文字範圍
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const span = document.createElement('span');
+          span.style.fontSize = pixelSize;
+          
+          // 將選中的文字包裝在具有特定字體大小的 span 中
+          range.surroundContents(span);
+      }
+  }
 
-    // 更新字體大小顯示
-    function updateFontSizeDisplay(change) {
+  // 更新字體大小顯示
+  function updateFontSizeDisplay(change) {
       let currentSize = parseInt(fontSizeInput.value) || 12;
       currentSize += change;
       if (currentSize < 1) currentSize = 1;
       fontSizeInput.value = currentSize;
       changeFontSize(currentSize);
-    }
+  }
 
-    // 文字樣式函數
-    function toggleStyle(command) {
+  // 文字樣式切換函數
+  function toggleStyle(command) {
       if (!currentFocusedElement) return;
       currentFocusedElement.focus();
       document.execCommand(command, false, null);
-    }
+      updateToolbarState();
+  }
 
-    // 文字對齊函數
-    function alignText(command) {
+  // 文字對齊函數
+  function alignText(command) {
       if (!currentFocusedElement) return;
       currentFocusedElement.focus();
       document.execCommand(command, false, null);
-    }
+      updateToolbarState();
+  }
 
-    // 列表函數
-    function insertList(command) {
+  // 列表插入函數
+  function insertList(command) {
       if (!currentFocusedElement) return;
       currentFocusedElement.focus();
       document.execCommand(command, false, null);
-    }
+  }
 
-    // 插入checkbox
-    function insertCheckbox() {
+  // Checkbox 列表插入函數
+  function insertCheckbox() {
       if (!currentFocusedElement) return;
       currentFocusedElement.focus();
+      
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
+      checkbox.style.marginRight = '5px';
+      
+      const span = document.createElement('span');
+      span.appendChild(checkbox);
+      span.appendChild(document.createTextNode('\u00A0')); // 增加空格
+      
       const selection = window.getSelection();
       if (selection.rangeCount) {
-        const range = selection.getRangeAt(0);
-        range.insertNode(checkbox);
+          const range = selection.getRangeAt(0);
+          range.insertNode(span);
+          range.collapse(false);
       }
-    }
+      
+      // 在checkbox後新增換行
+      document.execCommand('insertLineBreak', false, null);
+  }
 
-    // 事件監聽器設置
-    boldBtn.addEventListener('click', (e) => {
+  // 事件監聽器設置
+  boldBtn.addEventListener('click', (e) => {
       e.preventDefault();
       toggleStyle('bold');
-    });
+  });
 
-    italicBtn.addEventListener('click', (e) => {
+  italicBtn.addEventListener('click', (e) => {
       e.preventDefault();
       toggleStyle('italic');
-    });
+  });
 
-    underlineBtn.addEventListener('click', (e) => {
+  underlineBtn.addEventListener('click', (e) => {
       e.preventDefault();
       toggleStyle('underline');
-    });
+  });
 
-    alignLeftBtn.addEventListener('click', (e) => {
+  alignLeftBtn.addEventListener('click', (e) => {
       e.preventDefault();
       alignText('justifyLeft');
-    });
+  });
 
-    alignCenterBtn.addEventListener('click', (e) => {
+  alignCenterBtn.addEventListener('click', (e) => {
       e.preventDefault();
       alignText('justifyCenter');
-    });
+  });
 
-    alignRightBtn.addEventListener('click', (e) => {
+  alignRightBtn.addEventListener('click', (e) => {
       e.preventDefault();
       alignText('justifyRight');
-    });
+  });
 
-    bulletListBtn.addEventListener('click', (e) => {
+  bulletListBtn.addEventListener('click', (e) => {
       e.preventDefault();
       insertList('insertUnorderedList');
-    });
+  });
 
-    numberedListBtn.addEventListener('click', (e) => {
+  numberedListBtn.addEventListener('click', (e) => {
       e.preventDefault();
       insertList('insertOrderedList');
-    });
+  });
 
-    checkboxListBtn.addEventListener('click', (e) => {
+  checkboxListBtn.addEventListener('click', (e) => {
       e.preventDefault();
       insertCheckbox();
-    });
+  });
 
-    // 字體大小控制
-    decreaseFontBtn.addEventListener('click', (e) => {
+  decreaseFontBtn.addEventListener('click', (e) => {
       e.preventDefault();
       updateFontSizeDisplay(-1);
-    });
+  });
 
-    increaseFontBtn.addEventListener('click', (e) => {
+  increaseFontBtn.addEventListener('click', (e) => {
       e.preventDefault();
       updateFontSizeDisplay(1);
-    });
+  });
 
-    // 更新顏色選擇器的處理函數
-    colorPicker.on(['color:change'], function(color) {
+  // 監聽選擇範圍變更事件
+  document.addEventListener('selectionchange', updateToolbarState);
+
+  // 更新顏色選擇器的處理函數
+  colorPicker.on(['color:change'], function(color) {
       applyColor(color.hexString);
-    });
-  
+  });
+
+
+
+
+
+
 </script>
+
 </body>
 </html>
