@@ -12,6 +12,7 @@
   <link href="{{ url_for('static', filename='css/kakikko2.webflow.css') }}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
   <script type="text/javascript">WebFont.load({  google: {    families: ["Noto Sans JP:regular,500,600,700,900"]  }});</script>
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
@@ -120,81 +121,57 @@
           <div id="textForm" class="create-form-block w-form">
             <form id="wf-form-Create-Form" name="wf-form-Create-Form" data-name="Create Form" method="get" class="create-form" data-wf-page-id="670b7401d43d7adda246babe" data-wf-element-id="8c65cdfb-f7bb-bff4-037b-43b70214289f">
               <label for="titleInput" class="create-form-label">タイトル</label>
-              <input class="create-form-field w-input" maxlength="256" name="title" data-name="title" placeholder="タイトルを入力" type="text" id="titleInput" contenteditable="true">
+              <input class="create-form-field w-input" maxlength="256" name="title" data-name="title" type="text" id="titleInput" contenteditable="true">
               <label for="contentInput" class="create-form-label">内容</label>
-              <textarea class="textarea w-input" maxlength="5000" name="content" data-name="content" placeholder="内容を入力" id="contentInput" contenteditable="true"></textarea>
+              <textarea class="textarea w-input" maxlength="5000" name="content" data-name="content" id="contentInput" contenteditable="true"></textarea>
               <input type="submit" data-wait="Please wait..." class="post-btn w-button" value="投稿">
             </form>
-            <div class="w-form-done">
-              <div>Thank you! Your submission has been received!</div>
-            </div>
-            <div class="w-form-fail">
-              <div>Oops! Something went wrong while submitting the form.</div>
-            </div>
           </div>
         </div>
         <div class="create-right-block">
           <div class="editor-form-block w-form">
-            <form id="email-form" name="email-form" data-name="Email Form" method="get" class="editor-form" data-wf-page-id="670b7401d43d7adda246babe" data-wf-element-id="ed7a6ad1-e554-53a2-f3ec-61957538182a">
-              <div class="color-picker-block">
-                <h4 class="font-editor-heading">色選択</h4>
-                <div>
-                  <div data-delay="0" data-hover="false" class="ms-input-dropdown-wrap w-dropdown">
-                    <div class="ms-input-wrap w-dropdown-toggle">
-                      <div id="colorSwatch" class="ms-color-swatch"></div><input class="ms-input icon-left w-input" maxlength="256" name="hexInput" data-colorpicker="input" data-name="Hex Input" placeholder="#000111" type="text" id="hexInput">
-                      <div class="ms-dropdown-svg input w-embed"><svg xmlns="http://www.w3.org/2000/svg" height="32px" viewbox="0 0 24 24" width="32px" fill="currentColor">
-                          <path d="M0 0h24v24H0V0z" fill="none"></path>
-                          <path d="M8.71 11.71l2.59 2.59c.39.39 1.02.39 1.41 0l2.59-2.59c.63-.63.18-1.71-.71-1.71H9.41c-.89 0-1.33 1.08-.7 1.71z"></path>
-                        </svg></div>
-                    </div>
-                    <nav class="ms-colorpicker-dropdown w-dropdown-list">
-                      <div class="ms-margin-auto">
-                        <div class="ms-colorpicker"></div>
-                        <div class="ms-space"></div><label for="email" class="ms-input-label">Selected Color:</label>
-                        <div id="values">Values go here</div>
-                      </div>
-                    </nav>
-                  </div>
+            <div class="color-picker-block">
+              <h4 class="font-editor-heading">色選択</h4>
+              <div class="color-picker-container">
+                <input type="color" id="colorPicker" value="#ff0000" oninput="updateColorValue(this.value)">
+                <div class="color-display">
+                  <div class="color-swatch" id="swatch"></div>
+                  <span class="color-value" id="hexValue">#ff0000</span>
+                  <span class="dropdown-arrow"></span>
                 </div>
               </div>
-              <div class="fontsize-block">
-                <h4 class="font-editor-heading">フォントサイズ</h4>
-                <div class="fontsize-change-block">
-                  <a id="decreaseFont" href="#" class="fontsize-minus-btn w-node-_3273b6a2-2cf0-f170-27bb-6de1b29a1728-a246babe w-button" onclick="toggleBold()"></a>
-                  <input fs-inputcounter-element="input" class="fontsize-input w-node-_455bd05e-e6d2-c1c1-24b1-e6bdce28ff70-a246babe w-input" fs-inputcounter-initial="0" maxlength="256" name="Fontsize" data-name="Fontsize" placeholder="12" type="text" id="Fontsize" required="" onclick="toggleBold()">
-                  <a id="increaseFont" href="#" class="fontsize-plus-btn w-node-_2b9b7578-e288-0736-4e50-3843ca254a3d-a246babe w-button" onclick="toggleBold()">+</a>
-                </div>
-              </div>
-            </form>
-            <div class="w-form-done">
-              <div>Thank you! Your submission has been received!</div>
             </div>
-            <div class="w-form-fail">
-              <div>Oops! Something went wrong while submitting the form.</div>
+            <div class="fontsize-block">
+              <h4 class="font-editor-heading">フォントサイズ</h4>
+              <div class="fontsize-adjuster">
+                <button class="fontsize-btn">−</button>
+                <input type="number" id="sizeInput" class="fontsize-input" value="1" step="0.1" min="0.5" max="5">
+                <button class="fontsize-btn">+</button>
+              </div>
             </div>
           </div>
           <div class="font-style-block">
             <h4 class="font-heading">フォント</h4>
             <div class="font-style-wrapper">
-              <a id="boldBtn" href="#" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c428-a246babe w-button" onclick="toggleBold()"></a>
-              <a id="italicBtn" href="#" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c42a-a246babe w-button" onclick="toggleBold()"></a>
-              <a id="underlineBtn" href="#" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c42c-a246babe w-button" onclick="toggleBold()"></a>
+              <button id="boldBtn" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c428-a246babe w-button" onclick="formatDoc('bold')"><i class="fa-solid fa-bold"></i></button>
+              <button id="italicBtn" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c42a-a246babe w-button" onclick="formatDoc('italic')"><i class="fa-solid fa-italic"></i></button>
+              <button id="underlineBtn" class="font-btn w-node-_6db278e6-56f0-8372-7584-187d05b3c42c-a246babe w-button" onclick="formatDoc('underline')"><i class="fa-solid fa-underline"></i></button>
             </div>
           </div>
           <div class="text-alignment-block">
             <h4 class="font-heading">段落</h4>
             <div class="font-style-wrapper">
-              <a id="alignLeftBtn" href="#" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442b-a246babe w-button" onclick="toggleBold()"></a>
-              <a id="alignCenterBtn" href="#" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442d-a246babe w-button" onclick="toggleBold()"></a>
-              <a id="alignRightBtn" href="#" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442f-a246babe w-button" onclick="toggleBold()"></a>
+              <button id="alignLeftBtn" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442b-a246babe w-button" onclick="formatDoc('justifyLeft')"><i class="fa-solid fa-align-left"></i></button>
+              <button id="alignCenterBtn" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442d-a246babe w-button" onclick="formatDoc('justifyCenter')"><i class="fa-solid fa-align-center"></i></button>
+              <button id="alignRightBtn" class="font-btn w-node-_3968feec-64d2-33e6-f936-3ceaddd2442f-a246babe w-button" onclick="formatDoc('justifyRight')"><i class="fa-solid fa-align-right"></i></button>
             </div>
           </div>
           <div class="list-controls-block">
             <h4 class="font-heading">項目</h4>
             <div class="font-style-wrapper">
-              <a id="bulletListBtn" href="#" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16a-a246babe w-button" onclick="toggleBold()"></a>
-              <a id="numberedListBtn" href="#" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16c-a246babe w-button" onclick="toggleBold()"></a>
-              <a id="checkboxListBtn" href="#" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16e-a246babe w-button" onclick="toggleBold()"></a>
+              <button id="bulletListBtn" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16a-a246babe w-button" onclick="insertList('insertUnorderedList')"><i class="fa-solid fa-list-ul"></i></button>
+              <button id="numberedListBtn" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16c-a246babe w-button" onclick="insertList('insertOrderedList')"><i class="fa-solid fa-list-ol"></i></button>
+              <button id="checkboxListBtn" class="font-btn w-node-_77dac16e-7799-7813-43e7-2438d665b16e-a246babe w-button" onclick="insertCheckbox()"><i class="fa-solid fa-list-check"></i></button>
             </div>
           </div>
         </div>
@@ -235,205 +212,167 @@
   </script>
 
   <script>
-  // 獲取所需的 DOM 元素
+  // 編集要素の取得
   const titleInput = document.getElementById('titleInput');
   const contentInput = document.getElementById('contentInput');
-  const boldBtn = document.getElementById('boldBtn');
-  const italicBtn = document.getElementById('italicBtn');
-  const underlineBtn = document.getElementById('underlineBtn');
-  const alignLeftBtn = document.getElementById('alignLeftBtn');
-  const alignCenterBtn = document.getElementById('alignCenterBtn');
-  const alignRightBtn = document.getElementById('alignRightBtn');
-  const bulletListBtn = document.getElementById('bulletListBtn');
-  const numberedListBtn = document.getElementById('numberedListBtn');
-  const checkboxListBtn = document.getElementById('checkboxListBtn');
-  const decreaseFontBtn = document.getElementById('decreaseFont');
-  const increaseFontBtn = document.getElementById('increaseFont');
-  const fontSizeInput = document.getElementById('Fontsize');
 
-  // 設置輸入區域為可編輯
-  titleInput.contentEditable = 'true';
-  contentInput.contentEditable = 'true';
+  // 入力フィールドを編集可能な領域に変換する
+  function makeEditable(element) {
+      const editableDiv = document.createElement('div');
+      editableDiv.contentEditable = true;
+      editableDiv.className = element.className;
+      editableDiv.style.minHeight = element.offsetHeight + 'px';
+      editableDiv.style.width = '100%';
+      editableDiv.style.border = '1px solid #ccc';
+      editableDiv.style.padding = '8px';
+      editableDiv.innerHTML = element.value;
 
-  // 使用 CSS 樣式而不是 HTML 標籤
-  document.execCommand('styleWithCSS', false, true);
+      element.parentNode.insertBefore(editableDiv, element);
+      element.style.display = 'none';
 
-  // 追蹤當前焦點元素
-  let currentFocusedElement = null;
+      // 元の入力フィールドに内容を同期させる
+      editableDiv.addEventListener('input', () => {
+          element.value = editableDiv.innerHTML;
+      });
 
-  // 監聽焦點事件
-  titleInput.addEventListener('focus', () => {
-      currentFocusedElement = titleInput;
-      updateToolbarState();
-  });
-  contentInput.addEventListener('focus', () => {
-      currentFocusedElement = contentInput;
-      updateToolbarState();
-  });
-
-  // 更新工具列狀態
-  function updateToolbarState() {
-      if (!currentFocusedElement) return;
-      
-      // 更新按鈕狀態
-      boldBtn.classList.toggle('active', document.queryCommandState('bold'));
-      italicBtn.classList.toggle('active', document.queryCommandState('italic'));
-      underlineBtn.classList.toggle('active', document.queryCommandState('underline'));
-      alignLeftBtn.classList.toggle('active', document.queryCommandState('justifyLeft'));
-      alignCenterBtn.classList.toggle('active', document.queryCommandState('justifyCenter'));
-      alignRightBtn.classList.toggle('active', document.queryCommandState('justifyRight'));
+      return editableDiv;
   }
 
-  // 文字顏色更改函數
-  function applyColor(color) {
-      if (!currentFocusedElement) return;
-      currentFocusedElement.focus();
-      document.execCommand('foreColor', false, color);
+  // editableContent
+  const editableTitleDiv = makeEditable(titleInput);
+  const editableContentDiv = makeEditable(contentInput);
+
+  // formatDoc
+  function formatDoc(command, value = null) {
+      document.execCommand(command, false, value);
   }
 
-  // 字體大小更改函數
-  function changeFontSize(size) {
-      if (!currentFocusedElement) return;
-      currentFocusedElement.focus();
-      
-      // 轉換字體大小為 px
-      const pixelSize = size + 'px';
-      
-      // 使用 fontSize 命令
-      document.execCommand('fontSize', false, '7');
-      
-      // 獲取選中的文字範圍
+
+  // 色選択
+  function updateColorValue(color) {
+    document.getElementById('hexValue').textContent = color.toUpperCase();
+    document.getElementById('swatch').style.backgroundColor = color;
+    applyStyleToSelection('color', color); 
+  };
+
+  document.getElementById('colorPicker').addEventListener('input', function(e) {
+    updateColorValue(e.target.value);
+  });
+
+  updateColorValue('#ff0000');
+
+  document.getElementById('wf-form-Create-Form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const titleContent = document.getElementById('titleInput').innerHTML;
+    const textContent = document.getElementById('contentInput').innerHTML;
+    
+    console.log('Title:', titleContent);
+    console.log('Content:', textContent);
+  });
+
+  function updateColorValue(color) {
+    document.getElementById('hexValue').textContent = color.toUpperCase();
+    document.getElementById('swatch').style.backgroundColor = color;
+    document.execCommand('foreColor', false, color);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+      const editableTitleDiv = document.querySelector('[contenteditable="true"]');
+      const editableContentDiv = document.querySelector('div.textarea[contenteditable="true"]');
+
+      [editableTitleDiv, editableContentDiv].forEach(element => {
+          if (element) {
+              element.addEventListener('focus', function() {
+                  this.setAttribute('data-focused', 'true');
+              });
+              
+              element.addEventListener('blur', function() {
+                  this.removeAttribute('data-focused');
+              });
+          }
+      });
+  });
+
+
+  // フォントサイズ
+  let size = 1; // Initial font size
+  const sizeInput = document.getElementById('sizeInput');
+  const buttons = document.querySelectorAll('.fontsize-btn');
+  
+  // Adjust font size on button click
+  buttons[0].addEventListener('click', () => adjustFontSize(-0.1)); // Decrease font size
+  buttons[1].addEventListener('click', () => adjustFontSize(0.1));  // Increase font size
+
+  // Update font size from input
+  sizeInput.addEventListener('input', function() {
+      let value = parseFloat(this.value);
+      if (isNaN(value)) {
+          value = 1;
+      }
+      // Limit range
+      if (value < 0.5) value = 0.5;
+      if (value > 5) value = 5;
+
+      size = value;
+      updateDisplay();
+  });
+
+  // Adjust font size function
+  function adjustFontSize(delta) {
+      const selection = document.getSelection();
+      if (selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const selectedText = range.toString();
+
+          if (selectedText) {
+              const span = document.createElement('span');
+              span.style.fontSize = `${size + delta}rem`; // Calculate new font size
+              span.textContent = selectedText; // Set the selected text
+
+              range.deleteContents(); // Delete selected content
+              range.insertNode(span); // Insert new span with adjusted font size
+
+              size = Math.max(0.5, Math.min(size + delta, 5)); // Update global size
+              updateDisplay();
+          }
+      }
+  }
+
+  // Update display function
+  function updateDisplay() {
+      const displayValue = size === Math.floor(size) ? Math.floor(size) : size.toFixed(1);
+      sizeInput.value = displayValue;
+  }
+  
+  
+
+  // list
+  function insertList(command) {
+      formatDoc(command);
+  }
+  
+  // checkbox
+  function insertCheckbox() {
       const selection = window.getSelection();
       if (selection.rangeCount > 0) {
           const range = selection.getRangeAt(0);
-          const span = document.createElement('span');
-          span.style.fontSize = pixelSize;
-          
-          // 將選中的文字包裝在具有特定字體大小的 span 中
-          range.surroundContents(span);
+          const text = range.toString();
+          const div = document.createElement('div');
+          div.innerHTML = `<input type="checkbox"> ${text}`;
+          range.deleteContents();
+          range.insertNode(div);
       }
   }
 
-  // 更新字體大小顯示
-  function updateFontSizeDisplay(change) {
-      let currentSize = parseInt(fontSizeInput.value) || 12;
-      currentSize += change;
-      if (currentSize < 1) currentSize = 1;
-      fontSizeInput.value = currentSize;
-      changeFontSize(currentSize);
+  // form-submit
+  document.getElementById('wf-form-Create-Form').onsubmit = function(e) {
+      titleInput.value = editableTitleDiv.innerHTML;
+      contentInput.value = editableContentDiv.innerHTML;
+      return true;
   }
 
-  // 文字樣式切換函數
-  function toggleStyle(command) {
-      if (!currentFocusedElement) return;
-      currentFocusedElement.focus();
-      document.execCommand(command, false, null);
-      updateToolbarState();
-  }
-
-  // 文字對齊函數
-  function alignText(command) {
-      if (!currentFocusedElement) return;
-      currentFocusedElement.focus();
-      document.execCommand(command, false, null);
-      updateToolbarState();
-  }
-
-  // 列表插入函數
-  function insertList(command) {
-      if (!currentFocusedElement) return;
-      currentFocusedElement.focus();
-      document.execCommand(command, false, null);
-  }
-
-  // Checkbox 列表插入函數
-  function insertCheckbox() {
-      if (!currentFocusedElement) return;
-      currentFocusedElement.focus();
-      
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.style.marginRight = '5px';
-      
-      const span = document.createElement('span');
-      span.appendChild(checkbox);
-      span.appendChild(document.createTextNode('\u00A0')); // 增加空格
-      
-      const selection = window.getSelection();
-      if (selection.rangeCount) {
-          const range = selection.getRangeAt(0);
-          range.insertNode(span);
-          range.collapse(false);
-      }
-      
-      // 在checkbox後新增換行
-      document.execCommand('insertLineBreak', false, null);
-  }
-
-  // 事件監聽器設置
-  boldBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      toggleStyle('bold');
-  });
-
-  italicBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      toggleStyle('italic');
-  });
-
-  underlineBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      toggleStyle('underline');
-  });
-
-  alignLeftBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      alignText('justifyLeft');
-  });
-
-  alignCenterBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      alignText('justifyCenter');
-  });
-
-  alignRightBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      alignText('justifyRight');
-  });
-
-  bulletListBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      insertList('insertUnorderedList');
-  });
-
-  numberedListBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      insertList('insertOrderedList');
-  });
-
-  checkboxListBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      insertCheckbox();
-  });
-
-  decreaseFontBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      updateFontSizeDisplay(-1);
-  });
-
-  increaseFontBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      updateFontSizeDisplay(1);
-  });
-
-  // 監聽選擇範圍變更事件
-  document.addEventListener('selectionchange', updateToolbarState);
-
-  // 更新顏色選擇器的處理函數
-  colorPicker.on(['color:change'], function(color) {
-      applyColor(color.hexString);
-  });
-</script>
+  </script>
 
 </body>
 </html>
