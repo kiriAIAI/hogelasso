@@ -119,31 +119,16 @@
       <div class="chatroom-block">
         <div class="chatroom-left-block">
           <div class="member-list-block">
-            <a href="profile-info.html" class="member-block w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="author-image">
+            <a href="{{ url_for('profileinfo') }}" class="member-block w-inline-block">
+              <img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="author-image">
               <h4 class="member-username">Username</h4>
             </a>
-            <a href="profile-info.html" class="member-block w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="author-image">
+            <a href="{{ url_for('profileinfo') }}" class="member-block w-inline-block">
+              <img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="author-image">
               <h4 class="member-username">Username</h4>
             </a>
-            <a href="profile-info.html" class="member-block w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="author-image">
-              <h4 class="member-username">Username</h4>
-            </a>
-            <a href="profile-info.html" class="member-block w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="author-image">
-              <h4 class="member-username">Username</h4>
-            </a>
-            <a href="profile-info.html" class="member-block w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="author-image">
-              <h4 class="member-username">Username</h4>
-            </a>
-            <a href="profile-info.html" class="member-block w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="author-image">
-              <h4 class="member-username">Username</h4>
-            </a>
-            <a href="profile-info.html" class="member-block w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="author-image">
-              <h4 class="member-username">Username</h4>
-            </a>
-            <a href="profile-info.html" class="member-block w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="author-image">
-              <h4 class="member-username">Username</h4>
-            </a>
-            <a href="profile-info.html" class="member-block w-inline-block"><img src="images/circle-user.svg" loading="lazy" alt="" class="author-image">
+            <a href="{{ url_for('profileinfo') }}" class="member-block w-inline-block">
+              <img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="author-image">
               <h4 class="member-username">Username</h4>
             </a>
           </div>
@@ -155,13 +140,12 @@
           <div class="chatroom-content-block"></div>
           <div class="chatroom-send-block">
             <div class="chat-send-form-block w-form">
-              <form id="wf-form-Message-Send-Form" name="wf-form-Message-Send-Form" data-name="Message Send Form" method="get" class="chat-send-form" data-wf-page-id="670b74104ac577806fc343e8" data-wf-element-id="7c84ff89-b761-c88a-2e48-1a472eea7817"><input class="text-field w-input" maxlength="256" name="field" data-name="Field" placeholder="" type="text" id="field" required=""><input type="submit" data-wait="Please wait..." class="message-send-btn w-button" value=""></form>
-              <div class="w-form-done">
-                <div>Thank you! Your submission has been received!</div>
-              </div>
-              <div class="w-form-fail">
-                <div>Oops! Something went wrong while submitting the form.</div>
-              </div>
+              <form id="wf-form-Message-Send-Form" name="wf-form-Message-Send-Form" data-name="Message Send Form" method="get" class="chat-send-form" data-wf-page-id="670b74104ac577806fc343e8" data-wf-element-id="7c84ff89-b761-c88a-2e48-1a472eea7817">
+                <input class="text-field w-input" maxlength="256" name="field" data-name="Field" placeholder="" type="text" id="field" required="">
+                <button type="submit" data-wait="Please wait..." class="message-send-btn w-button">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+              </form>
             </div>
           </div>
         </div>

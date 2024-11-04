@@ -91,6 +91,10 @@ def paymentsuccess():
 def profile():
     return render_template('profile.html')
 
+@app.route('/profile-info.html')
+def profileinfo():
+    return render_template('profile-info.html')
+
 @app.route('/purchase-history.html')
 def purchase_history():
     return render_template('purchase-history.html')
@@ -107,6 +111,10 @@ def signup():
 @app.route('/signup-security-question.html')
 def signupsecurityquestion():
     return render_template('signup-security-question.html')
+
+@app.route('/security-question.html')
+def securityquestion():
+    return render_template('security-question.html')
 
 @app.route('/quiz.html')
 def quiz():

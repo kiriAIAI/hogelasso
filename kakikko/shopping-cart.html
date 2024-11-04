@@ -119,76 +119,68 @@
       <div class="shoppingcart-block">
         <div class="shoppingcart-left-block">
           <div class="order-heading-block">
-            <div class="shopping-cart-icon"></div>
+            <div class="shopping-cart-icon"><i class="fa-solid fa-cart-shopping"></i></div>
             <h2 class="order-headeing">ショッピングカート</h2>
           </div>
           <div class="cart-item-list">
             <div class="cart-item">
               <div class="cart-detail-blcok">
-                <a href="{{ url_for('productdetails') }}" class="cart-image-link-block w-inline-block"><img src="images/Recipe-book.png" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" srcset="images/Recipe-book-pana-p-500.png 500w, images/Recipe-book-pana-p-800.png 800w, images/Recipe-book-pana-p-1080.png 1080w, images/Recipe-book-pana-p-1600.png 1600w, images/Recipe-book.png 2000w" alt="" class="cart-item-image"></a>
+                <a href="{{ url_for('productdetails') }}" class="cart-image-link-block w-inline-block">
+                  <img src="{{ url_for('static', filename='images/Recipe-book.png') }}" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" alt="" class="cart-item-image">
+                </a>
                 <div class="cart-item-detail-block">
                   <a href="{{ url_for('productdetails') }}" class="cart-item-title-link">タイトル</a>
                   <div class="cart-item-price-text">￥99.0 </div>
                 </div>
               </div>
               <div class="cart-quantity-block">
-                <a href="#" class="cart-item-delete-btn w-button"></a>
+                <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
                 <div class="quantity-input-form-block w-form">
                   <form id="wf-form-" name="wf-form-" data-name="" method="get" class="quantity-input-form" data-wf-page-id="670f55bf8bc01fb1af74d259" data-wf-element-id="a5c1471b-1f26-8199-1b14-620f84dbd447">
-                    <div class="quantity-input-label"><input class="sysf-input sysf-medium w-input" maxlength="256" name="quantity-input" data-name="Quantity Input" placeholder="1" type="number" id="quantity-input" required=""></div>
+                    <div class="quantity-input-label">
+                      <input class="sysf-input sysf-medium w-input" maxlength="256" min="1" name="quantity-input" data-name="Quantity Input" placeholder="1" type="number" id="quantity-input" required="">
+                    </div>
                   </form>
-                  <div class="w-form-done">
-                    <div>Thank you! Your submission has been received!</div>
-                  </div>
-                  <div class="w-form-fail">
-                    <div>Oops! Something went wrong while submitting the form.</div>
-                  </div>
                 </div>
               </div>
             </div>
             <div class="cart-item">
               <div class="cart-detail-blcok">
-                <a href="{{ url_for('productdetails') }}" class="cart-image-link-block w-inline-block"><img src="images/Recipe-book.png" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" srcset="images/Recipe-book-pana-p-500.png 500w, images/Recipe-book-pana-p-800.png 800w, images/Recipe-book-pana-p-1080.png 1080w, images/Recipe-book-pana-p-1600.png 1600w, images/Recipe-book.png 2000w" alt="" class="cart-item-image"></a>
+                <a href="{{ url_for('productdetails') }}" class="cart-image-link-block w-inline-block">
+                  <img src="{{ url_for('static', filename='images/Recipe-book.png') }}" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" alt="" class="cart-item-image">
+                </a>
                 <div class="cart-item-detail-block">
                   <a href="{{ url_for('productdetails') }}" class="cart-item-title-link">タイトル</a>
                   <div class="cart-item-price-text">￥99.0 </div>
                 </div>
               </div>
               <div class="cart-quantity-block">
-                <a href="#" class="cart-item-delete-btn w-button"></a>
+                <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
                 <div class="quantity-input-form-block w-form">
                   <form id="wf-form-" name="wf-form-" data-name="" method="get" class="quantity-input-form" data-wf-page-id="670f55bf8bc01fb1af74d259" data-wf-element-id="b8cd0088-d165-8897-a0b7-9aeafe5efaaa">
-                    <div class="quantity-input-label"><input class="sysf-input sysf-medium w-input" maxlength="256" name="quantity-input-2" data-name="Quantity Input 2" placeholder="1" type="number" id="quantity-input-2" required=""></div>
+                    <div class="quantity-input-label"><input class="sysf-input sysf-medium w-input" maxlength="256" min="1" name="quantity-input-2" data-name="Quantity Input 2" placeholder="1" type="number" id="quantity-input-2" required=""></div>
                   </form>
-                  <div class="w-form-done">
-                    <div>Thank you! Your submission has been received!</div>
-                  </div>
-                  <div class="w-form-fail">
-                    <div>Oops! Something went wrong while submitting the form.</div>
-                  </div>
                 </div>
               </div>
             </div>
             <div class="cart-item">
               <div class="cart-detail-blcok">
-                <a href="{{ url_for('productdetails') }}" class="cart-image-link-block w-inline-block"><img src="images/Recipe-book.png" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" srcset="images/Recipe-book-pana-p-500.png 500w, images/Recipe-book-pana-p-800.png 800w, images/Recipe-book-pana-p-1080.png 1080w, images/Recipe-book-pana-p-1600.png 1600w, images/Recipe-book.png 2000w" alt="" class="cart-item-image"></a>
+                <a href="{{ url_for('productdetails') }}" class="cart-image-link-block w-inline-block">
+                  <img src="{{ url_for('static', filename='images/Recipe-book.png') }}" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" alt="" class="cart-item-image">
+                </a>
                 <div class="cart-item-detail-block">
                   <a href="{{ url_for('productdetails') }}" class="cart-item-title-link">タイトル</a>
                   <div class="cart-item-price-text">￥99.0 </div>
                 </div>
               </div>
               <div class="cart-quantity-block">
-                <a href="#" class="cart-item-delete-btn w-button"></a>
+                <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
                 <div class="quantity-input-form-block w-form">
                   <form id="wf-form-" name="wf-form-" data-name="" method="get" class="quantity-input-form" data-wf-page-id="670f55bf8bc01fb1af74d259" data-wf-element-id="795c7ae0-6512-5286-a7e4-57964a5cc3c6">
-                    <div class="quantity-input-label"><input class="sysf-input sysf-medium w-input" maxlength="256" name="quantity-input-2" data-name="Quantity Input 2" placeholder="1" type="number" id="quantity-input-2" required=""></div>
+                    <div class="quantity-input-label">
+                      <input class="sysf-input sysf-medium w-input" maxlength="256" min="1"name="quantity-input-2" data-name="Quantity Input 2" placeholder="1" type="number" id="quantity-input-2" required="">
+                    </div>
                   </form>
-                  <div class="w-form-done">
-                    <div>Thank you! Your submission has been received!</div>
-                  </div>
-                  <div class="w-form-fail">
-                    <div>Oops! Something went wrong while submitting the form.</div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -203,7 +195,12 @@
             <div class="point-form-block w-form">
               <form id="email-form" name="email-form" data-name="Email Form" method="get" class="point-form" data-wf-page-id="670f55bf8bc01fb1af74d259" data-wf-element-id="7fe0f46c-3ee0-c1b7-f3a0-d6f6dc7f73a2">
                 <div class="point-label"><label for="" class="field-label-2">ポイント</label></div>
-                <div class="point-input-block"><input class="text-field-3 w-input" maxlength="256" name="field" data-name="Field" placeholder="" type="text" id="field" required=""><input type="submit" data-wait="Please wait..." class="point-input-btn w-button" value=""></div>
+                <div class="point-input-block">
+                  <input class="text-field-3 w-input" maxlength="256" name="field" data-name="Field" placeholder="" type="text" id="field" required="">
+                  <button type="submit" data-wait="Please wait..." class="point-input-btn w-button">
+                      <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
               </form>
               <div class="w-form-done">
                 <div>Thank you! Your submission has been received!</div>

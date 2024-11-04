@@ -22,7 +22,9 @@
 <body class="body">
   <div class="logout-section">
     <div class="logout-block">
-      <div class="logout-image-block"><img src="images/logout_1.svg" loading="lazy" alt="" class="logout-image"></div>
+      <div class="logout-image-block">
+        <img src="{{ url_for('static', filename='images/logout_1.svg') }}" loading="lazy" alt="" class="logout-image">
+      </div>
       <div class="logout-message-block">
         <p class="logout-message">ログアウトしました！</p>
       </div>
