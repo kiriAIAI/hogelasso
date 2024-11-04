@@ -1345,12 +1345,39 @@
   display: flex;
 }
 
+/* --------------- product-tag-block --------------- */
 .product-tag-block {
   align-items: center;
   width: 100%;
   margin-bottom: 20px;
   padding-bottom: 0;
   display: flex;
+}
+
+.user-profile-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none; /* 移除下劃線 */
+  color: inherit; /* 保持原本的文字顏色 */
+  transition: opacity 0.3s ease; /* 添加過渡效果 */
+}
+
+.user-profile-wrapper:hover {
+  opacity: 0.8; /* 懸停時的效果 */
+}
+
+.user-profile-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #c1c1c1;
 }
 
 .tag-link {
@@ -1509,6 +1536,7 @@
   background-color: #0000000d;
 }
 
+/* ------------------- コメント ------------------- */
 .comment-unused {
   display: none;
 }
@@ -1784,6 +1812,18 @@
   background-color: #e9e9e9;
 }
 
+.comment-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+}
+
+.comment-btn i {
+  font-size: 16px;
+  color: inherit;
+}
+
 .shoppingcart-block {
   width: 100%;
   padding-left: 1.5rem;
@@ -2035,6 +2075,10 @@
   font-family: "Fa Solid 900", sans-serif;
   font-size: 1.6rem;
   font-weight: 900;
+}
+
+.heart-active {
+  color: #272727 !important;
 }
 
 .link-block {
@@ -2526,6 +2570,7 @@
 .favorite-heading {
   margin-top: 0;
   margin-bottom: 0;
+  margin-left: 1rem;
   font-size: 1.6rem;
   line-height: 3rem;
 }
@@ -3527,7 +3572,7 @@
   .chatroom-block {
     border: 1px solid #0000001a;
     width: 85%;
-    height: 100%;
+    height: 85vh;
     margin-left: 1.5rem;
     padding-bottom: 0;
     padding-left: 0;
@@ -3544,6 +3589,7 @@
   .order-history-heading {
     margin-top: 0;
     margin-bottom: 30px;
+    margin-left: 1.5rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     font-size: 2rem;

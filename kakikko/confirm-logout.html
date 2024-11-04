@@ -23,12 +23,12 @@
   <div class="confirm-logout-pop-up">
     <div class="confirm-logout-popup-block">
       <div class="confirm-logout-info-block">
-        <div class="error-icon"></div>
+        <div class="error-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
         <div class="confirm-logout-check-text">本当にログアウトしますか？</div>
       </div>
       <div class="confirm-logout-check-block">
-        <a href="logout.html" class="confirm-logout-check-btn w-button"></a>
-        <a href="index.html" class="confirm-logout-close-btn w-button"></a>
+        <a href="{{ url_for('logout') }}" class="confirm-logout-check-btn w-button"><i class="fa-solid fa-check"></i></a>
+        <a href="{{ url_for('index') }}" class="confirm-logout-close-btn w-button"><i class="fa-solid fa-xmark"></i></a>
       </div>
     </div>
   </div>
