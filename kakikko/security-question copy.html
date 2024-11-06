@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Thu Oct 17 2024 00:15:54 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="670b84a6eece147ec1fd1979" data-wf-site="670b6ec91824c1500bdac7a2">
 <head>
   <meta charset="utf-8">
@@ -23,34 +23,27 @@
     <div class="w-layout-blockcontainer login-signup-container w-container">
       <div class="login-signup-left-block">
         <div class="signup-form-block w-form">
-          <form method="POST" action="{{ url_for('signupsecurityquestion') }}" class="security-question-form">
+          <form id="wf-form-Security-Question-Form" name="wf-form-Security-Question-Form" data-name="Security Question Form" method="get" class="security-question-form" data-wf-page-id="670b84a6eece147ec1fd1979" data-wf-element-id="153d63af-0c95-41af-4c86-f84089b79ffd">
             <div class="form-header-block">
               <h2 class="form-header">秘密の質問</h2>
-            </div>
-            <label for="question-1" class="login-signup-form-label">質問1</label>
-            <select id="question-1" name="question-1" data-name="質問1" class="login-signup-form-selectfield w-select">
+            </div><label for="question-1" class="login-signup-form-label">質問1</label><select id="question-1" name="1" data-name="質問1" class="login-signup-form-selectfield w-select">
               <option value="">質問を選択</option>
-              <option value="question1">質問1</option>
-              <option value="question2">質問2</option>
-              <option value="question3">質問3</option>
-            </select>
-            <input class="login-signup-form-field w-input" maxlength="256" name="answer-1" data-name="question 1" placeholder="答え" type="text" id="answer-1" required="">
-            <label for="question-2" class="login-signup-form-label">質問2</label>
-            <select id="question-2" name="question-2" data-name="質問2" class="login-signup-form-selectfield w-select">
+              <option value="">質問1</option>
+              <option value="">質問2</option>
+              <option value="">質問3</option>
+            </select><input class="login-signup-form-field w-input" maxlength="256" name="question-1" data-name="question 1" placeholder="答え" type="text" id="question-1" required=""><label for="question-2" class="login-signup-form-label">質問2</label><select id="question-2" name="2" data-name="質問2" class="login-signup-form-selectfield w-select">
               <option value="">質問を選択</option>
-              <option value="question1">質問1</option>
-              <option value="question2">質問2</option>
-              <option value="question3">質問3</option>
-            </select>
-            <input class="login-signup-form-field w-input" maxlength="256" name="answer-2" data-name="question 2" placeholder="答え" type="text" id="answer-2" required="">
+              <option value="">質問1</option>
+              <option value="">質問2</option>
+              <option value="">質問3</option>
+            </select><input class="login-signup-form-field w-input" maxlength="256" name="question-2" data-name="question 2" placeholder="答え" type="text" id="question-2" required="">
             <div class="login-signup-btn-block">
               <a href="signup.html" class="signup-back-btn w-button">戻る</a>
-              <button type="submit" class="signup-btn w-button">サインアップ</button>
+              <a href="index.html" class="signup-btn w-button">サインアップ</a>
             </div>
           </form>
           <div class="success-message w-form-done">
-            <div class="success-block">
-              <img src="{{ url_for('static', filename='images/success.svg') }}" loading="lazy" alt="" class="success-image">
+            <div class="success-block"><img src="images/success.svg" loading="lazy" alt="" class="success-image">
               <div class="success-text">サインアップ成功</div>
             </div>
           </div>
@@ -59,9 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="login-signup-right-block">
-        <img src="{{ url_for('static', filename='images/signup.png') }}" loading="lazy" sizes="(max-width: 991px) 100vw, (max-width: 1439px) 46vw, (max-width: 4255px) 47vw, 2000px" srcset="{{ url_for('static', filename='images/signup-p-500.png') }} 500w, {{ url_for('static', filename='images/signup-p-800.png') }} 800w, {{ url_for('static', filename='images/signup-p-1080.png') }} 1080w, {{ url_for('static', filename='images/signup-p-1600.png') }} 1600w, {{ url_for('static', filename='images/signup.png') }} 2000w" alt="" class="signup-image">
-      </div>
+      <div class="login-signup-right-block"><img src="images/signup.png" loading="lazy" sizes="(max-width: 991px) 100vw, (max-width: 1439px) 46vw, (max-width: 4255px) 47vw, 2000px" srcset="images/signup-p-500.png 500w, images/signup-p-800.png 800w, images/signup-p-1080.png 1080w, images/signup-p-1600.png 1600w, images/signup.png 2000w" alt="" class="signup-image"></div>
       <a href="index.html" class="x-link"></a>
     </div>
   </section>

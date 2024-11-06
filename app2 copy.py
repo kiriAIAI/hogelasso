@@ -1,21 +1,8 @@
-from flask import Flask, render_template, send_from_directory, request, redirect, url_for
+from flask import Flask, render_template, send_from_directory
+
 import mysql.connector
-from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField
-from wtforms.validators import DataRequired, Email, EqualTo
-from flask_mail import Mail, Message  # 导入Flask-Mail
 
 app = Flask(__name__, template_folder='kakikko')
-app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # 邮件服务器
-app.config['MAIL_PORT'] = 587  # 邮件服务器端口
-app.config['MAIL_USE_TLS'] = True  # 启用TLS
-app.config['MAIL_USERNAME'] = 'your_email@gmail.com'  # 你的邮件地址
-app.config['MAIL_PASSWORD'] = 'your_email_password'  # 你的邮件密码
-db = SQLAlchemy(app)
-mail = Mail(app)  # 初始化Flask-Mail
 
 def conn_db():
     conn = mysql.connector.connect(
@@ -24,57 +11,9 @@ def conn_db():
         password="root", 
         db="hew",
         charset='utf8'
-    )
+        )
     return conn
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-
-class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
-
-@app.route('/signup.html', methods=['GET', 'POST'])
-def signup():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        
-        # 发送注册成功邮件
-        msg = Message('Registration Successful', 
-                      sender='your_email@gmail.com', 
-                      recipients=[form.email.data])
-        msg.body = 'Thank you for registering!'
-        mail.send(msg)
-
-        # 重定向到秘密问题页面
-        return redirect(url_for('signupsecurityquestion'))
-    return render_template('signup.html', form=form)
-
-@app.route('/signupsecurityquestion.html', methods=['GET', 'POST'])
-def signupsecurityquestion():
-    if request.method == 'POST':
-        question1 = request.form.get('question-1')
-        answer1 = request.form.get('answer-1')
-        question2 = request.form.get('question-2')
-        answer2 = request.form.get('answer-2')
-
-        # 在这里处理秘密问题和答案，例如保存到数据库
-
-        return redirect(url_for('signup_success'))
-    return render_template('signup-security-question.html')
-
-@app.route('/signup_success')
-def signup_success():
-    return "Registration successful!"
 
 @app.route('/')
 @app.route('/index.html')
@@ -109,6 +48,7 @@ def logout():
 def forgetpassword():
     return render_template('forget-password.html')
 
+
 @app.route('/confirm-logout.html')
 def confirmlogout():
     return render_template('confirm-logout.html')
@@ -116,6 +56,8 @@ def confirmlogout():
 @app.route('/notification.html')
 def notification():
     return render_template('notification.html')
+
+
 
 @app.route('/filter.html')
 def filter():
@@ -157,6 +99,15 @@ def purchase_history():
 def read():
     return render_template('read.html')
 
+
+@app.route('/signup.html')
+def signup():
+    return render_template('signup.html')
+
+@app.route('/signup-security-question.html')
+def signupsecurityquestion():
+    return render_template('signup-security-question.html')
+
 @app.route('/quiz.html')
 def quiz():
     conn = conn_db()
@@ -166,15 +117,20 @@ def quiz():
     cursor.close()
     conn.close()
     
-    if (question is None):
+    if question is None:
         question = {
             'question_text': 'No question available',
             'option1': 'Option 1',
             'option2': 'Option 2',
-            'option3': 'Option 3'
+            'option3': 'Option 3',
+            'option4': 'Option 4'
         }
     
     return render_template('quiz.html', question=question)
+
+
+
+
 
 @app.route('/static/css/<path:filename>')
 def css(filename):
@@ -192,7 +148,8 @@ def fonts(filename):
 def images(filename):
     return send_from_directory('kakikko/static/images', filename)
 
+
+
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
