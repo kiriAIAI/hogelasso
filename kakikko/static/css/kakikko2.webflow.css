@@ -703,6 +703,7 @@
   height: 4.5rem;
   margin-bottom: 30px;
   font-size: 1rem;
+  overflow: auto;
 }
 
 .textarea {
@@ -712,6 +713,7 @@
   max-height: 27rem;
   margin-bottom: 20px;
   font-size: 1rem;
+  overflow: auto;
 }
 
 .post-btn {
@@ -779,7 +781,7 @@
 .fontsize-adjuster {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .fontsize-btn {
@@ -803,7 +805,7 @@
 }
 
 .fontsize-input {
-  width: 250px;
+  width: 180px;
   height: 2.5rem;
   text-align: center;
   font-size: 1rem;
@@ -913,7 +915,7 @@
 }
 
 
-/* ---------------------- chatroom ---------------------- */
+/* -------------------- chatroom -------------------- */
 .chatroom-block {
   border: 1px solid #0000001a;
   border-radius: 24px;
@@ -1013,7 +1015,9 @@
   overflow: auto;
 }
 
-/* ---------------------- order-history ---------------------- */
+
+
+/* -------------------- order history -------------------- */
 .order-history-block {
   width: 100%;
 }
@@ -1105,6 +1109,9 @@
   font-weight: 600;
 }
 
+
+
+/* -------------------- filters -------------------- */
 .filters2_tablet-modal-menu {
   display: none;
 }
@@ -1345,7 +1352,9 @@
   display: flex;
 }
 
-/* --------------- product-tag-block --------------- */
+
+
+/* --------------- product-user-block --------------- */
 .product-tag-block {
   align-items: center;
   width: 100%;
@@ -1358,13 +1367,13 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  text-decoration: none; /* 移除下劃線 */
-  color: inherit; /* 保持原本的文字顏色 */
-  transition: opacity 0.3s ease; /* 添加過渡效果 */
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s ease; 
 }
 
 .user-profile-wrapper:hover {
-  opacity: 0.8; /* 懸停時的效果 */
+  opacity: 0.8;
 }
 
 .user-profile-image {
@@ -1535,6 +1544,8 @@
 .button-secondary.is-buy-now-button:hover {
   background-color: #0000000d;
 }
+
+
 
 /* ------------------- コメント ------------------- */
 .comment-unused {
@@ -1824,6 +1835,9 @@
   color: inherit;
 }
 
+
+
+/* -------------------- shopping cart -------------------- */
 .shoppingcart-block {
   width: 100%;
   padding-left: 1.5rem;
