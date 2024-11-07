@@ -122,6 +122,8 @@
             const API_KEY = "AIzaSyCvONVwyu80719lCCmrBtzSEjQ4BRl6pVc";
             const genAI = new GoogleGenerativeAI(API_KEY);
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            console.log(oldprompt);
+            console.log(oldresponse);
             const chat = model.startChat({
                 history: [
                   {
@@ -136,17 +138,20 @@
               });
             try {
                 if (file == undefined){
-                    const result = await chat.sendMessage(prompt);
+                    let result = await chat.sendMessage(prompt);
 
                     //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
                     const botMessage = document.createElement('p');
                     botMessage.classList.add('response', 'chatbot');
                     botMessage.innerText = result.response.text();
                     chatContainer.appendChild(botMessage);
+
+                    oldprompt = userInput;
+                    oldresponse = result.response.text();
                 }
                 else{
                     const imagePart = await fileToGenerativePart(file, file.type); 
-                    const result = await chat.sendMessage([prompt+ "画像の内容を読み取り日本語で返信",imagePart]);
+                    let result = await chat.sendMessage([prompt+ "画像の内容を読み取り日本語で返信",imagePart]);
                     
 
                     //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
@@ -156,10 +161,13 @@
                     chatContainer.appendChild(botMessage);
 
                     document.getElementById('fileInput').value = "";
+                    oldprompt = userInput;
+                    oldresponse = result.response.text();
                     
                 }
-                oldprompt = userInput;
-                oldresponse = result.response.text();
+
+                console.log(oldprompt);
+                console.log(oldresponse);
 
 
             } catch (error) {
