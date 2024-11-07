@@ -914,6 +914,43 @@
   display: flex;
 }
 
+.create-category-block{
+  margin: 60px 0 0 0;
+  width: 100%;
+}
+
+.create-category-heading{
+  font-size: 1.05 rem;
+  line-height: 1.6rem;
+}
+
+.categorySelect{
+  width: 100%;
+  background-color: var(--white);
+  color: #333333bf;
+  border-radius: 6px;
+  height: 2.5rem;
+  font-size: .95rem;
+  padding: 5px 10px;
+}
+
+.categorySelect option{
+  margin: 0 0 5px 0;
+}
+
+.categorySelect:hover{
+  cursor: pointer;
+}
+.categorySelect option{
+  margin: 0 0 5px 0;
+}
+
+.categorySelect option:hover{
+  cursor: pointer;
+  background-color: var(--light-gray);
+}
+
+
 
 /* -------------------- chatroom -------------------- */
 .chatroom-block {
