@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Thu Oct 17 2024 00:15:54 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="670b74a44ac577806fc3857b" data-wf-site="670b6ec91824c1500bdac7a2">
 <head>
   <meta charset="utf-8">
@@ -23,37 +23,30 @@
     <div class="w-layout-blockcontainer login-signup-container w-container">
       <div class="login-signup-left-block">
         <div class="login-form-block w-form">
-          <form method="POST" action="{{ url_for('login') }}" class="login-form">
-            {{ form.hidden_tag() }}
+          <form id="wf-form-Login-Form" name="wf-form-Login-Form" data-name="Login Form" method="get" class="login-form" data-wf-page-id="670b74a44ac577806fc3857b" data-wf-element-id="cf11908c-a90a-c330-83f0-e11636f873e3">
             <div class="form-header-block">
               <h2 class="form-header">ログイン</h2>
-            </div>
-            {% if error_message %}
-              <div class="error-message">{{ error_message }}</div>
-            {% endif %}
-            <label for="username" class="login-signup-form-label">ユーザー名</label>
-            {{ form.username(class="login-signup-form-field w-input") }}
-            <label for="password" class="login-signup-form-label">パスワード</label>
-            {{ form.password(class="login-signup-form-field w-input") }}
+            </div><label for="Username" class="login-signup-form-label">ユーザー名</label><input class="login-signup-form-field w-input" maxlength="256" name="Username" data-name="Username" placeholder="Username" type="text" id="Username" required=""><label for="Password" class="login-signup-form-label">パスワード</label><input class="login-signup-form-field w-input" maxlength="256" name="Password" data-name="Password" placeholder="Password" type="password" id="Password" required="">
             <div class="form-check-block">
               <a href="signup.html" class="login-signup-link">初めての方はこちら</a>
+            </div><input type="submit" data-wait="Please wait..." class="login-signup-button w-button" value="ログイン">
+            <div class="form-footer-block">
+              <a href="forget-password.html" class="login-signup-link">パスワードを忘れた方はこちら</a>
             </div>
-            {{ form.submit(class="login-signup-button w-button") }}
           </form>
-          <div class="w-form-done">
-            <div class="success-block"><img src="{{ url_for('static', filename='images/success.svg') }}" loading="lazy" alt="" class="success-image">
+          <div class="success-message w-form-done">
+            <div class="success-block"><img src="images/success.svg" loading="lazy" alt="" class="success-image">
               <div class="success-text">ログイン成功</div>
             </div>
           </div>
-          <div class="w-form-fail">
-            <div class="error-block"><img src="{{ url_for('static', filename='images/error.svg') }}" loading="lazy" alt="" class="image">
+          <div class="error-message w-form-fail">
+            <div class="error-block"><img src="images/error.svg" loading="lazy" alt="" class="image">
               <div class="error-text">ユーザー名、またはパスワードが間違っています</div>
             </div>
           </div>
         </div>
       </div>
-      <div class="login-signup-right-block"><img src="{{ url_for('static', filename='images/login.png') }}" loading="lazy" sizes="(max-width: 991px) 100vw, (max-width: 1439px) 46vw, (max-width: 4255px) 47vw, 2000px" srcset="{{ url_for('static', filename='images/login-p-500.png') }} 500w, {{ url_for('static', filename='images/login-p-800.png') }} 800w, {{ url_for('static', filename='images/login-p-1080.png') }} 1080w, {{ url_for('static', filename='images/login-p-1600.png') }} 1600w, {{ url_for('static', filename='images/login.png') }} 2000w" alt="" class="login-image">
-      </div>
+      <div class="login-signup-right-block"><img src="images/login.png" loading="lazy" sizes="(max-width: 991px) 100vw, (max-width: 1439px) 46vw, (max-width: 4255px) 47vw, 2000px" srcset="images/login-p-500.png 500w, images/login-p-800.png 800w, images/login-p-1080.png 1080w, images/login-p-1600.png 1600w, images/login.png 2000w" alt="" class="login-image"></div>
       <a href="index.html" class="x-link"></a>
     </div>
   </section>

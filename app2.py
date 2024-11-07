@@ -5,6 +5,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo
 from flask_mail import Mail, Message  # 导入Flask-Mail
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__, template_folder='kakikko')
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -16,6 +18,9 @@ app.config['MAIL_USERNAME'] = 'your_email@gmail.com'  # 你的邮件地址
 app.config['MAIL_PASSWORD'] = 'your_email_password'  # 你的邮件密码
 db = SQLAlchemy(app)
 mail = Mail(app)  # 初始化Flask-Mail
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 def conn_db():
     conn = mysql.connector.connect(
@@ -26,12 +31,21 @@ def conn_db():
         charset='utf8'
     )
     return conn
-
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)  # 确保传递了两个参数：存储的哈希密码和用户输入的密码
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -39,25 +53,51 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
-
 @app.route('/signup.html', methods=['GET', 'POST'])
 def signup():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
+        existing_user = User.query.filter((User.username == form.username.data) | (User.email == form.email.data)).first()
+        if existing_user:
+            error_message = "Username or email already exists."
+            return render_template('signup.html', form=form, error_message=error_message)
+
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        
-        # 发送注册成功邮件
-        msg = Message('Registration Successful', 
-                      sender='your_email@gmail.com', 
+
+        msg = Message('Registration Successful',
+                      sender='your_email@gmail.com',
                       recipients=[form.email.data])
         msg.body = 'Thank you for registering!'
         mail.send(msg)
 
-        # 重定向到秘密问题页面
         return redirect(url_for('signupsecurityquestion'))
     return render_template('signup.html', form=form)
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
+
+@app.route('/login.html', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.check_password(form.password.data):  # 确保传递了正确的参数
+            login_user(user)
+            return redirect(url_for('index'))
+        else:
+            error_message = "Invalid username or password."
+            return render_template('login.html', form=form, error_message=error_message)
+    return render_template('login.html', form=form)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 @app.route('/signupsecurityquestion.html', methods=['GET', 'POST'])
 def signupsecurityquestion():
@@ -71,7 +111,6 @@ def signupsecurityquestion():
 
         return redirect(url_for('signup_success'))
     return render_template('signup-security-question.html')
-
 @app.route('/signup_success')
 def signup_success():
     return "Registration successful!"
@@ -97,13 +136,7 @@ def chat():
 def chatbot():
     return render_template('chatbot.html')
 
-@app.route('/login.html')
-def login():
-    return render_template('login.html')
 
-@app.route('/logout.html')
-def logout():
-    return render_template('logout.html')
 
 @app.route('/forget-password.html')
 def forgetpassword():
@@ -166,7 +199,7 @@ def quiz():
     cursor.close()
     conn.close()
     
-    if (question is None):
+    if question is None:
         question = {
             'question_text': 'No question available',
             'option1': 'Option 1',
@@ -175,7 +208,6 @@ def quiz():
         }
     
     return render_template('quiz.html', question=question)
-
 @app.route('/static/css/<path:filename>')
 def css(filename):
     return send_from_directory('kakikko/static/css', filename)
@@ -196,3 +228,11 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
+
+
+
+
+
+
+
