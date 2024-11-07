@@ -22,13 +22,14 @@
     <div class="title">
         <div>かきっこチャットボット</div>
     </div>
-    <div class="kaitou">
+    <div id="kaitou" class="kaitou">
         <p id="hint" class="chatbot">すぐに答えが見つかるよお手伝いします！<br>ご質問は何ですか？</p>
         <div>
             <img id="preview" src="" alt="" hidden>
         </div>
-        <p id="textbox" class="me" hidden></p>
-        <p id="response" class="chatbot" hidden></p>
+        <div id="kaitouA"></div>
+        <!-- <p id="textbox" class="me" hidden></p> -->
+        <!-- <p id="response" class="chatbot" hidden></p> -->
     </div>
 
     <div class="kensaku">
@@ -48,6 +49,7 @@
 
     <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
+        let count = 0
 
         
 
@@ -117,11 +119,26 @@
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
             const prompt = 'あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput
             const file = document.getElementById('fileInput').files[0];
+            const chatContainer = document.getElementById('kaitouA');
 
             try {
                 if (file == undefined){
                     const result = await model.generateContent(prompt);
-                    document.getElementById('response').innerText = result.response.text();
+                    console.log("とりあえず");  
+                    //document.getElementById('response').innerText = result.response.text();
+
+            //ーーーーーーーーーーーー自分のメッセージの挿入ーーーーーーーーーーーーーー
+                    const userMessage = document.createElement('p');
+                    userMessage.classList.add('response', 'me');
+                    userMessage.innerText = userInput;
+                    chatContainer.appendChild(userMessage);
+
+            //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
+                    const botMessage = document.createElement('p');
+                    botMessage.classList.add('response', 'chatbot');
+                    botMessage.innerText = result.response.text();
+                    chatContainer.appendChild(botMessage);
+            
                 }
                 else{
                     const imagePart = await fileToGenerativePart(file, file.type); 
@@ -130,7 +147,7 @@
                 }   
             } catch (error) {
                 console.error("エラーが発生しました:", error);
-                document.getElementById('response').innerText = "エラーが発生しました。";
+                //document.getElementById('response').innerText = "エラーが発生しました。";
             }
         }
 
@@ -155,15 +172,10 @@
         });
 
         document.getElementById('send-btn').addEventListener('click', () => {
-            const tb = document.getElementById("response");
-            const tbp = document.getElementById("textbox");
             let userInput = document.getElementById('user-input').value;
             if (userInput == ""){
                 exit()
             }
-            tbp.innerText = userInput;
-            tbp.hidden = false;
-            tb.hidden = false;
             document.getElementById("hint").hidden = true;
 
 
@@ -171,11 +183,18 @@
                 const predefinedResponse = checkForKeywords(userInput); // 定型文チェック
                 if (! (predefinedResponse == null)) {
                     console.log(predefinedResponse); 
+
+        //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
+                    const botMessage = document.createElement('p');
+                    botMessage.classList.add('response', 'chatbot');
+                    botMessage.innerText = predefinedResponse;;
+                    chatContainer.appendChild(botMessage);
                     tb.innerHTML = predefinedResponse;
                     document.getElementById('user-input').value = '';
+
                 }else{
                     console.log("ボタンが押されました")
-                    
+                    count = count + 1;
                     generateResponse(userInput);
                     console.log(userInput)
                     document.getElementById('user-input').value = '';
