@@ -29,7 +29,7 @@ body{
     height: auto;
 }
 
-#preview{
+.preview{
     margin: 0 5% 10px auto;
     padding: 20px;
     width: 50%;

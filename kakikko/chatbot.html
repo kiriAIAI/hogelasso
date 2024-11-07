@@ -24,9 +24,9 @@
     </div>
     <div id="kaitou" class="kaitou">
         <p id="hint" class="chatbot">すぐに答えが見つかるよお手伝いします！<br>ご質問は何ですか？</p>
-        <div>
-            <img id="preview" src="" alt="" hidden>
-        </div>
+        <!-- <div> -->
+            <!-- <img id="preview" src="" alt="" hidden> -->
+        <!-- </div> -->
         <div id="kaitouA"></div>
         <!-- <p id="textbox" class="me" hidden></p> -->
         <!-- <p id="response" class="chatbot" hidden></p> -->
@@ -49,8 +49,11 @@
 
     <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
-        let count = 0
 
+        let count = 0
+        const chatContainer = document.getElementById('kaitouA');
+        let oldprompt = "";
+        let oldresponse = "";
         
 
         const predefinedResponses = {
@@ -113,56 +116,77 @@
 
 //FAQの処理
         async function generateResponse(userInput) {
-            const API_KEY = "AIzaSyCvONVwyu80719lCCmrBtzSEjQ4BRl6pVc";
 
+            const prompt = 'あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput + "100文字以内でに回答"
+            const file = document.getElementById('fileInput').files[0];
+            const API_KEY = "AIzaSyCvONVwyu80719lCCmrBtzSEjQ4BRl6pVc";
             const genAI = new GoogleGenerativeAI(API_KEY);
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-            const prompt = 'あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput
-            const file = document.getElementById('fileInput').files[0];
-            const chatContainer = document.getElementById('kaitouA');
-
+            const chat = model.startChat({
+                history: [
+                  {
+                    role: "user",
+                    parts: [{ text: oldprompt }],
+                  },
+                  {
+                    role: "model",
+                    parts: [{ text: oldresponse }],
+                  },
+                ],
+              });
             try {
                 if (file == undefined){
-                    const result = await model.generateContent(prompt);
-                    console.log("とりあえず");  
-                    //document.getElementById('response').innerText = result.response.text();
+                    const result = await chat.sendMessage(prompt);
 
-            //ーーーーーーーーーーーー自分のメッセージの挿入ーーーーーーーーーーーーーー
-                    const userMessage = document.createElement('p');
-                    userMessage.classList.add('response', 'me');
-                    userMessage.innerText = userInput;
-                    chatContainer.appendChild(userMessage);
-
-            //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
+                    //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
                     const botMessage = document.createElement('p');
                     botMessage.classList.add('response', 'chatbot');
                     botMessage.innerText = result.response.text();
                     chatContainer.appendChild(botMessage);
-            
                 }
                 else{
                     const imagePart = await fileToGenerativePart(file, file.type); 
-                    const result = await model.generateContent([prompt+ "画像の内容を読み取り日本語で返信",imagePart]);
-                    document.getElementById('response').innerText = result.response.text();
-                }   
+                    const result = await chat.sendMessage([prompt+ "画像の内容を読み取り日本語で返信",imagePart]);
+                    
+
+                    //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
+                    const botMessage = document.createElement('p');
+                    botMessage.classList.add('response', 'chatbot');
+                    botMessage.innerText = result.response.text();
+                    chatContainer.appendChild(botMessage);
+
+                    document.getElementById('fileInput').value = "";
+                    
+                }
+                oldprompt = userInput;
+                oldresponse = result.response.text();
+
+
             } catch (error) {
                 console.error("エラーが発生しました:", error);
-                //document.getElementById('response').innerText = "エラーが発生しました。";
+                document.getElementById('response').innerText = "エラーが発生しました。";
             }
         }
 
         
         document.getElementById('fileInput').addEventListener('change', function(event) {
             const file = event.target.files[0];
-            const preview = document.getElementById('preview');
-            preview.hidden = false;
             document.getElementById("hint").hidden = true;
             
             if (file) {
                 const reader = new FileReader();
+
+                //ーーーーーーーーーーーー画像のメッセージの挿入ーーーーーーーーーーーーーー
+                const previewdiv = document.createElement('div');
+                const botMessage = document.createElement('img');
+                botMessage.id = 'preview${index}';
+                botMessage.classList.add('preview');
+                previewdiv.appendChild(botMessage);
+                chatContainer.appendChild(previewdiv);
                 
+                const preview = document.getElementById('preview');
                 reader.onload = function(e) {
-                    preview.src = e.target.result;
+                    botMessage.src = e.target.result;
                 };
                 
                 reader.readAsDataURL(file);
@@ -180,6 +204,15 @@
 
 
             if (userInput) {
+                count = count + 1;
+
+        //ーーーーーーーーーーーー自分のメッセージの挿入ーーーーーーーーーーーーーー
+                const userMessage = document.createElement('p');
+                userMessage.classList.add('response', 'me');
+                userMessage.innerText = userInput;
+                chatContainer.appendChild(userMessage);
+
+
                 const predefinedResponse = checkForKeywords(userInput); // 定型文チェック
                 if (! (predefinedResponse == null)) {
                     console.log(predefinedResponse); 
@@ -187,14 +220,12 @@
         //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
                     const botMessage = document.createElement('p');
                     botMessage.classList.add('response', 'chatbot');
-                    botMessage.innerText = predefinedResponse;;
+                    botMessage.innerHTML = predefinedResponse;;
                     chatContainer.appendChild(botMessage);
-                    tb.innerHTML = predefinedResponse;
                     document.getElementById('user-input').value = '';
 
                 }else{
                     console.log("ボタンが押されました")
-                    count = count + 1;
                     generateResponse(userInput);
                     console.log(userInput)
                     document.getElementById('user-input').value = '';
