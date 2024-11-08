@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory,jsonify,request
+from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for
 
 import mysql.connector
 
@@ -84,8 +84,8 @@ def submit_data():
     # データの表示（必要に応じてデータベースへの保存処理を追加）
     print(f"アカウントID: {my_account_id}, ユーザー名: {username}, タイトル: {title}, 値段: {price}")
 
-    # JSON形式でクライアントに応答を返す
-    return jsonify({"message": f"{my_account_id}, {username}, {title}, {price} の送信に成功"}), 200
+    #支払い方法選択ページにリダイレクト
+    return redirect(url_for('payment'))
 # ----------------------------------------------------------------------------------------------------------------------------
 
 
@@ -97,7 +97,7 @@ def search():
 def shoppingcart():
     return render_template('shopping-cart.html')
 
-@app.route('/payment.html')
+@app.route('/payment')
 def payment():
     return render_template('payment.html')
 
