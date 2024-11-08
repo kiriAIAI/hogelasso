@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory,request
 
 import mysql.connector
 
@@ -39,6 +39,33 @@ def chatbot():
 @app.route('/login.html')
 def login():
     return render_template('login.html')
+
+@app.route('/login_check')
+def login_check():
+    ary = []
+    #login_form.htmlから渡された情報を格納
+    strId = request.args.get('txtid')
+    strPass = request.args.get('txtPass')
+
+    con = conn_db()
+    cur = con.cursor()
+    sql = " select * from t_user where f_id = %s and f_name = %s "
+
+    print("sql:"+sql)
+
+
+    cur.execute(sql,[ strId , strPass ])
+    rows = cur.fetchall()
+    for row in rows:
+        ary.append(row)
+        session["login_id"] = strId
+        session["login_name"] = row[1]
+
+
+    cur.close()
+    con.close()
+    return render_template('index.html',aryData=ary)
+
 
 @app.route('/logout.html')
 def logout():
