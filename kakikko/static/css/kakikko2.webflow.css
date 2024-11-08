@@ -538,6 +538,15 @@
   position: relative;
 }
 
+.forget-password-container {
+  width: 100vw;
+  max-width: 100vw;
+  height: 110vh;
+  max-height: 110vh;
+  display: flex;
+  position: relative;
+}
+
 .login-signup-left-block {
   flex-flow: column;
   justify-content: center;
@@ -557,7 +566,7 @@
 }
 
 .form-header-block {
-  margin-bottom: 60px;
+  margin-bottom: 2rem;
 }
 
 .form-header {
