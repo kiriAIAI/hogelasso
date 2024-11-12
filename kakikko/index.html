@@ -265,7 +265,28 @@
 
   <!-- チャットボットの処理ーーーーーーーーーーーーーーーーーーーーーーーーーー -->
   <style>
-    iframe{
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    @keyframes slideDown {
+        from {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+    }
+
+    iframe {
         width: 30%;
         min-width: 450px;
         height: 80%;
@@ -276,14 +297,15 @@
         border: 1px #aaa solid;
         background-color: #c1c1c1;
         border-radius: 8px;
+        animation: slideUp 0.5s ease-out;
     }
-    #aaaaa{ 
+    #aaaaa {
         position: fixed;
         top: 0px;
         width: 100%;
         height: 100%;
     }
-    #button{
+    #button {
         position: fixed;
         bottom: 50px;
         right: 50px;
@@ -292,14 +314,17 @@
         height: 80px;
         border-radius: 20px;
         cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    #button:hover {
+        box-shadow: 0 0 10px #aaa;
+        transform: scale(1.1);
     }
   </style>
-
 
   <div><img src="{{ url_for('images', filename='むしめがね.jpg') }}" alt="かきっこチャットボット" id="button"></div>
   <div id="aaaaa" hidden></div>
   <iframe id="iframe" src="chatbot.html" hidden></iframe>
-
 
   <script>
     document.getElementById('button').addEventListener('click', () => {
@@ -314,12 +339,19 @@
     })
 
     window.addEventListener('message', function(event) {
-
         if (event.data === 'elementClicked') {
             console.log('iframe内の要素がクリックされました。');
-            document.getElementById("button").hidden = false;
-            document.getElementById("iframe").hidden = true;
-            document.getElementById("aaaaa").hidden = true;
+            document.getElementById("iframe").animate([
+                { transform: 'translateY(0)' },
+                { transform: 'translateY(108%)' }
+            ], {
+                duration: 650,
+                easing: 'ease-out'
+            }).onfinish = () => {
+                document.getElementById("button").hidden = false;
+                document.getElementById("iframe").hidden = true;
+                document.getElementById("aaaaa").hidden = true;
+            };
         }
     });
   </script>
