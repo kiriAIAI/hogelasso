@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for
-import flask
+import os
 import mysql.connector
 
 app = Flask(__name__, template_folder='kakikko')
