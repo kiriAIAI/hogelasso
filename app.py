@@ -1,5 +1,4 @@
-from flask import Flask, render_template, send_from_directory
-
+from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for
 import mysql.connector
 
 app = Flask(__name__, template_folder='kakikko')
@@ -14,6 +13,11 @@ def conn_db():
         )
     return conn
 
+
+@app.route('/get_account_id', methods=['GET'])
+def get_account_id():
+    account_id = "123456"  # 例として固定のIDを使用
+    return jsonify({"account_id": account_id}), 200
 
 @app.route('/')
 @app.route('/index.html')
@@ -57,15 +61,32 @@ def confirmlogout():
 def notification():
     return render_template('notification.html')
 
-
-
 @app.route('/filter.html')
 def filter():
     return render_template('filter.html')
 
+
+# product-details.html ページのレンダリング-----------------------------------------------------------------------------------------
 @app.route('/product-details.html')
 def productdetails():
     return render_template('product-details.html')
+
+@app.route('/submit_product-details', methods=['POST'])
+def submit_data():
+    # JSONデータの取得
+    data = request.get_json()
+    my_account_id = data.get('my_account_id')
+    username = data.get('username')
+    title = data.get('title')
+    price = data.get('price')
+
+    # データの表示（必要に応じてデータベースへの保存処理を追加）
+    print(f"アカウントID: {my_account_id}, ユーザー名: {username}, タイトル: {title}, 値段: {price}")
+
+    #支払い方法選択ページにリダイレクト
+    return redirect(url_for('payment'))
+# ----------------------------------------------------------------------------------------------------------------------------
+
 
 @app.route('/search.html')
 def search():
@@ -75,7 +96,7 @@ def search():
 def shoppingcart():
     return render_template('shopping-cart.html')
 
-@app.route('/payment.html')
+@app.route('/payment')
 def payment():
     return render_template('payment.html')
 

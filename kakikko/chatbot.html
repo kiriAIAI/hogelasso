@@ -32,6 +32,12 @@
         <!-- <p id="response" class="chatbot" hidden></p> -->
     </div>
 
+    <style>
+        #image:hover, #send-btn:hover, #X:hover {
+            transform: scale(1.1);
+            transition: transform 0.3s ease;
+        }
+    </style>
     <div class="kensaku">
         <img src="{{ url_for('images', filename='clip.png') }}" alt="" id="image">
         <input type="text" id="user-input" maxlength="100" placeholder="質問を入力">
@@ -41,7 +47,6 @@
     <div id="X" class="X">
         <div>×</div>
     </div>
-
 
 
 
