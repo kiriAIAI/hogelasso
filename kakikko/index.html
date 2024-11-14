@@ -342,15 +342,16 @@
     window.addEventListener('message', function(event) {
         if (event.data === 'elementClicked') {
             console.log('iframe内の要素がクリックされました。');
-            document.getElementById("iframe").animate([
-                { transform: 'translateY(0)' },
-                { transform: 'translateY(108%)' }
+            const iframe = document.getElementById("iframe");
+            iframe.animate([
+                { opacity: '1', transform: 'translateY(0)' },
+                { opacity: '0', transform: 'translateY(108%)' }
             ], {
                 duration: 650,
-                easing: 'ease-out'
+                easing: 'ease-out',
             }).onfinish = () => {
+                iframe.hidden = true;
                 document.getElementById("button").hidden = false;
-                document.getElementById("iframe").hidden = true;
                 document.getElementById("aaaaa").hidden = true;
             };
         }
