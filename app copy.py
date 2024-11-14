@@ -34,14 +34,14 @@ def register():
         confirm_password = request.form.get('confirm_password')
 
         if not username or not email or not password or not confirm_password:
-            error = "すべてのフィールドは必須です"
+            error = "所有字段都是必填的"
             return render_template('register.html', error=error)
         
         if password != confirm_password:
-            error = "パスワードが一致しません"
+            error = "密码不匹配"
             return render_template('register.html', error=error)
         
-        # ユーザー名が既に存在するか確認
+        # 检查用户名是否已存在
         con = conn_db()
         cur = con.cursor(buffered=True)
         sql = "SELECT * FROM users WHERE username = %s"
@@ -51,7 +51,7 @@ def register():
         if existing_user:
             cur.close()
             con.close()
-            error = "ユーザー名は既に存在します。他のユーザー名を選んでください"
+            error = "用户名已存在，请选择另一个用户名"
             return render_template('register.html', error=error)
         
         cur.close()
@@ -85,7 +85,7 @@ def complete_registration():
         con.commit()
     except Exception as e:
         con.rollback()
-        error = "登録に失敗しました。再度お試しください"
+        error = "注册失败，请重试"
         return render_template('register.html', error=error)
     finally:
         cur.close()
@@ -101,8 +101,8 @@ def login():
         password = request.form.get('password')
 
         if not username or not email or not password:
-            error = "すべてのフィールドは必須です"
-            return render_template('login.html', error=error)
+            error = "所有字段都是必填的"
+            return render_template('login_form.html', error=error)
 
         con = conn_db()
         cur = con.cursor(buffered=True)
@@ -117,11 +117,10 @@ def login():
             session['login_name'] = user[1]
             return redirect(url_for('index'))
         else:
-            error = "無効なユーザー名、メールアドレスまたはパスワード"
+            error = "无效的用户名、邮箱或密码"
             return render_template('login.html', error=error)
     
     return render_template('login.html')
-
 
 @app.route('/logout.html')
 def logout():
