@@ -1,6 +1,6 @@
-from flask import Flask, render_template, send_from_directory,request
-
+from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for
 import mysql.connector
+import datetime
 
 app = Flask(__name__, template_folder='kakikko')
 
@@ -14,6 +14,11 @@ def conn_db():
         )
     return conn
 
+
+@app.route('/get_account_id', methods=['GET'])
+def get_account_id():
+    account_id = "123456"  # 例として固定のIDを使用
+    return jsonify({"account_id": account_id}), 200
 
 @app.route('/')
 @app.route('/index.html')
@@ -40,33 +45,6 @@ def chatbot():
 def login():
     return render_template('login.html')
 
-@app.route('/login_check')
-def login_check():
-    ary = []
-    #login_form.htmlから渡された情報を格納
-    strId = request.args.get('txtid')
-    strPass = request.args.get('txtPass')
-
-    con = conn_db()
-    cur = con.cursor()
-    sql = " select * from t_user where f_id = %s and f_name = %s "
-
-    print("sql:"+sql)
-
-
-    cur.execute(sql,[ strId , strPass ])
-    rows = cur.fetchall()
-    for row in rows:
-        ary.append(row)
-        session["login_id"] = strId
-        session["login_name"] = row[1]
-
-
-    cur.close()
-    con.close()
-    return render_template('index.html',aryData=ary)
-
-
 @app.route('/logout.html')
 def logout():
     return render_template('logout.html')
@@ -84,15 +62,47 @@ def confirmlogout():
 def notification():
     return render_template('notification.html')
 
-
-
 @app.route('/filter.html')
 def filter():
     return render_template('filter.html')
 
+
+# product-details.html ページのレンダリング---------------------------------------------------
 @app.route('/product-details.html')
 def productdetails():
     return render_template('product-details.html')
+
+@app.route('/submit_product-details', methods=['POST'])
+def submit_data():
+    # JSONデータの取得
+    data = request.get_json()
+    accountID = data.get('accountID')
+    productID = data.get('productID')
+
+    # データの表示（必要に応じてデータベースへの保存処理を追加）
+    
+    #conn = conn_db()
+    #cursor = conn.cursor()
+    sql = ('''
+    INSERT INTO student 
+        (first_name, last_name,)
+    VALUES 
+        (%s, %s,)
+    ''')
+
+    #data = [
+    #    (accountID, productID,)
+    #]
+
+    #cursor.executemany(sql, data)
+    #conn.commit()
+    #cursor.close()
+
+    #支払い方法選択ページにリダイレクト
+    print("paymentにリダイレクト")
+    return redirect(url_for('payment'))
+# --------------------------------------------------------------------------------------
+
 
 @app.route('/search.html')
 def search():
@@ -102,7 +112,7 @@ def search():
 def shoppingcart():
     return render_template('shopping-cart.html')
 
-@app.route('/payment.html')
+@app.route('/payment')
 def payment():
     return render_template('payment.html')
 
@@ -117,6 +127,10 @@ def paymentsuccess():
 @app.route('/profile.html')
 def profile():
     return render_template('profile.html')
+
+@app.route('/profile-info.html')
+def profileinfo():
+    return render_template('profile-info.html')
 
 @app.route('/purchase-history.html')
 def purchase_history():
@@ -134,6 +148,10 @@ def signup():
 @app.route('/signup-security-question.html')
 def signupsecurityquestion():
     return render_template('signup-security-question.html')
+
+@app.route('/security-question.html')
+def securityquestion():
+    return render_template('security-question.html')
 
 @app.route('/quiz.html')
 def quiz():
