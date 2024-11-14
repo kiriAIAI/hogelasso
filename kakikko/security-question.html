@@ -24,25 +24,27 @@
     <div class="w-layout-blockcontainer login-signup-container w-container">
       <div class="login-signup-left-block">
         <div class="signup-form-block w-form">
-          <form id="wf-form-Security-Question-Form" name="wf-form-Security-Question-Form" data-name="Security Question Form" method="get" class="security-question-form" data-wf-page-id="670b84a6eece147ec1fd1979" data-wf-element-id="153d63af-0c95-41af-4c86-f84089b79ffd">
+          <form action="/complete_registration" method="post" id="wf-form-Security-Question-Form" name="wf-form-Security-Question-Form" data-name="Security Question Form"  class="security-question-form" data-wf-page-id="670b84a6eece147ec1fd1979" data-wf-element-id="153d63af-0c95-41af-4c86-f84089b79ffd">
+            <input type="hidden" name="username" value="{{ username }}">
+            <input type="hidden" name="email" value="{{ email }}">
+            <input type="hidden" name="password" value="{{ password }}">
             <div class="form-header-block">
               <h2 class="form-header">秘密の質問</h2>
             </div>
             <label for="question-1" class="login-signup-form-label">質問1</label>
-            <select id="question-1" name="1" data-name="質問1" class="login-signup-form-selectfield w-select">
-              <option value="">質問を選択</option>
-              <option value="">小学校の時のあだ名</option>
-              <option value="">母親の産まれた地域</option>
+            <select id="question-1" name="question1" required data-name="質問1" class="login-signup-form-selectfield w-select">
+              <option value="小学校の時のあだ名">小学校の時のあだ名</option>
+              <option value="母親の産まれた地域">母親の産まれた地域</option>
             </select>
-            <input class="login-signup-form-field w-input" maxlength="256" name="question-1" data-name="question 1" placeholder="答え" type="text" id="question-1" required=""><label for="question-2" class="login-signup-form-label">質問2</label><select id="question-2" name="2" data-name="質問2" class="login-signup-form-selectfield w-select">
-              <option value="">質問を選択</option>
-              <option value="">高校の時のあだ名</option>
-              <option value="">将来の夢</option>
+            <input type="text" name="answer1" required class="login-signup-form-field w-input" maxlength="256"  data-name="question 1" placeholder="答え" id="question-1"><label for="question-2" class="login-signup-form-label">質問2</label><select name="question2" required id="question-2" data-name="質問2" class="login-signup-form-selectfield w-select">
+              <option value="高校の時のあだ名">高校の時のあだ名</option>
+              <option value="将来の夢">将来の夢</option>
             </select>
-            <input class="login-signup-form-field w-input" maxlength="256" name="question-2" data-name="question 2" placeholder="答え" type="text" id="question-2" required="">
+            <input type="text" name="answer2" required class="login-signup-form-field w-input" maxlength="256"  data-name="question 2" placeholder="答え"  id="question-2">
             <div class="login-signup-btn-block">
-              <a href="{{ url_for('signup') }}" class="signup-back-btn w-button">戻る</a>
-              <a href="{{ url_for('index') }}" class="signup-btn w-button">サインアップ</a>
+              <a href="{{ url_for('register') }}" class="signup-back-btn w-button">戻る</a>
+              <input type="submit" value="サインアップ" class="signup-btn w-button">
+              <!-- <a href="{{ url_for('index') }}" class="signup-btn w-button">サインアップ</a> -->
             </div>
           </form>
           <div class="success-message w-form-done">

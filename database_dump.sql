@@ -43,30 +43,6 @@ LOCK TABLES `books` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `product_details`
---
-
-DROP TABLE IF EXISTS `product_details`;
-CREATE TABLE `product_details` (
-  `id` int(11) NOT NULL auto_increment,
-  `my_account_id` varchar(255) default NULL,
-  `username` varchar(255) default NULL,
-  `title` varchar(255) default NULL,
-  `price` decimal(10,2) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `product_details`
---
-
-LOCK TABLES `product_details` WRITE;
-/*!40000 ALTER TABLE `product_details` DISABLE KEYS */;
-INSERT INTO `product_details` VALUES (1,'12345','test_user','Sample Product','99.99');
-/*!40000 ALTER TABLE `product_details` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `transactions`
 --
 
@@ -116,7 +92,7 @@ CREATE TABLE `user_security_questions` (
 
 LOCK TABLES `user_security_questions` WRITE;
 /*!40000 ALTER TABLE `user_security_questions` DISABLE KEYS */;
-INSERT INTO `user_security_questions` VALUES (1,'','haha','','dada'),(2,'','11','','11'),(3,'小学校の時のあだ名','11','高校の時のあだ名','11');
+INSERT INTO `user_security_questions` VALUES (1,'小学校の時のあだ名','平平','将来の夢','金持ちなりたい');
 /*!40000 ALTER TABLE `user_security_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +107,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
@@ -139,7 +115,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'翔平','919672365@qq.com','xiangping'),(2,'建业','919672365@qq.com','jianye'),(3,'123','919672365@qq.com','123');
+INSERT INTO `users` VALUES (1,'翔平','xiangping@gmail.com','xiangping');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -152,4 +128,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-14  8:46:30
+-- Dump completed on 2024-11-14  9:14:02

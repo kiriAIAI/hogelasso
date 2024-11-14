@@ -1,15 +1,19 @@
-from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for
+from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session
 import mysql.connector
+
 import datetime
 
 app = Flask(__name__, template_folder='kakikko')
+
+app.secret_key = 'kakikko'
+
 
 def conn_db():
     conn = mysql.connector.connect(
         host="127.0.0.1", 
         user="root", 
         password="root", 
-        db="hew",
+        db="kakikko",
         charset='utf8'
         )
     return conn
@@ -24,6 +28,107 @@ def get_account_id():
 @app.route('/index.html')
 def index():
     return render_template('index.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+
+        if not username or not email or not password or not confirm_password:
+            error = "所有字段都是必填的"
+            return render_template('register.html', error=error)
+        
+        if password != confirm_password:
+            error = "密码不匹配"
+            return render_template('register.html', error=error)
+        
+        # 检查用户名是否已存在
+        con = conn_db()
+        cur = con.cursor(buffered=True)
+        sql = "SELECT * FROM users WHERE username = %s"
+        cur.execute(sql, [username])
+        existing_user = cur.fetchone()
+        
+        if existing_user:
+            cur.close()
+            con.close()
+            error = "用户名已存在，请选择另一个用户名"
+            return render_template('register.html', error=error)
+        
+        cur.close()
+        con.close()
+        
+        return render_template('security-question.html', username=username, email=email, password=password)
+    
+    return render_template('register.html')
+
+@app.route('/complete_registration', methods=['POST'])
+def complete_registration():
+    username = request.form.get('username')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    question1 = request.form.get('question1')
+    answer1 = request.form.get('answer1')
+    question2 = request.form.get('question2')
+    answer2 = request.form.get('answer2')
+
+    con = conn_db()
+    cur = con.cursor()
+    
+    try:
+        sql = "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)"
+        cur.execute(sql, [username, email, password])
+        user_id = cur.lastrowid
+        
+        sql = "INSERT INTO user_security_questions (user_id, question1, answer1, question2, answer2) VALUES (%s, %s, %s, %s, %s)"
+        cur.execute(sql, [user_id, question1, answer1, question2, answer2])
+        
+        con.commit()
+    except Exception as e:
+        con.rollback()
+        error = "注册失败，请重试"
+        return render_template('register.html', error=error)
+    finally:
+        cur.close()
+        con.close()
+    
+    return redirect(url_for('login'))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        if not username or not email or not password:
+            error = "所有字段都是必填的"
+            return render_template('login_form.html', error=error)
+
+        con = conn_db()
+        cur = con.cursor(buffered=True)
+        sql = "SELECT * FROM users WHERE username = %s AND email = %s AND password = %s"
+        cur.execute(sql, [username, email, password])
+        user = cur.fetchone()
+        cur.close()
+        con.close()
+
+        if user:
+            session['login_id'] = user[0]
+            session['login_name'] = user[1]
+            return redirect(url_for('index'))
+        else:
+            error = "无效的用户名、邮箱或密码"
+            return render_template('login.html', error=error)
+    
+    return render_template('login.html')
+
+@app.route('/logout.html')
+def logout():
+    return render_template('logout.html')
 
 @app.route('/create.html')
 def create():
@@ -41,13 +146,7 @@ def chat():
 def chatbot():
     return render_template('chatbot.html')
 
-@app.route('/login.html')
-def login():
-    return render_template('login.html')
 
-@app.route('/logout.html')
-def logout():
-    return render_template('logout.html')
 
 @app.route('/forget-password.html')
 def forgetpassword():
@@ -141,17 +240,7 @@ def read():
     return render_template('read.html')
 
 
-@app.route('/signup.html')
-def signup():
-    return render_template('signup.html')
 
-@app.route('/signup-security-question.html')
-def signupsecurityquestion():
-    return render_template('signup-security-question.html')
-
-@app.route('/security-question.html')
-def securityquestion():
-    return render_template('security-question.html')
 
 @app.route('/quiz.html')
 def quiz():
