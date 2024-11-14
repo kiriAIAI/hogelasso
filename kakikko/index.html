@@ -299,6 +299,19 @@
         border-radius: 8px;
         animation: slideUp 0.5s ease-out;
     }
+    .sample-img {
+      cursor: pointer;
+      max-width: 500px;
+      overflow: hidden;
+      width: 100%;
+    }
+    .sample-img img {
+      height: auto;
+      transition: transform .6s ease; /* ゆっくり変化させる */
+    }
+    .sample-img:hover img {
+      transform: scale(1.1); /* 拡大 */
+    }
     #aaaaa {
         position: fixed;
         top: 0px;
