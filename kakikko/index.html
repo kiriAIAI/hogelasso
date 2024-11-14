@@ -166,19 +166,6 @@
             <div class="product-price"><strong>¥</strong> 99.00</div>
           </div>
         </a>
-        {% for product in products %}
-        <a href="{{ url_for('productdetails', product_id=product.id) }}" class="product-card w-inline-block">
-          <div class="product-image-wrapper">
-            <img src="{{ url_for('static', filename='images/' + product.cover_image_path) }}" alt="" class="product-image">
-          </div>
-          <div class="product-content-wrapper">
-            <h3 class="product-title {{ product.styles.class }}">
-              {{ product.title }}
-            </h3>
-            <div class="product-price"><strong>¥</strong> {{ product.price }}</div>
-          </div>
-        </a>
-        {% endfor %}
       </div>
     </div>
   </section>
@@ -266,7 +253,7 @@
   </section>
   <section class="footer">
     <div class="footer-divider"></div>
-    <div class="footer-content"><img loading="lazy" src="{{ url_for('static', filename='images/logo_1.png') }}" alt="" class="footer-logo">
+    <div class="footer-content"><img loading="lazy" src="{{ url_for('static', filename='images/logo.png') }}" alt="" class="footer-logo">
       <div class="code-embed w-embed w-script">
         <p>Copyright ©
           <script>document.write(new Date().getFullYear())</script> HEWG Teams | All Rights Reserved

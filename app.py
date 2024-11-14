@@ -29,29 +29,6 @@ def index():
 def create():
     return render_template('create.html')
 
-@app.route('/submit_create', methods=['POST'])
-def submit_create():
-    data = request.get_json()
-    title = data.get('title')
-    content = data.get('content')
-    styles = data.get('styles')
-    category = data.get('category')
-    price = data.get('price')
-    cover_image_path = data.get('cover_image_path')
-
-    conn = conn_db()
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO products (title, content, styles, category, price, cover_image_path)
-        VALUES (%s, %s, %s, %s, %s, %s)
-    """, (title, content, json.dumps(styles), category, price, cover_image_path))
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-    return jsonify({"message": "Product created successfully"}), 200
-
-
 @app.route('/chatroom.html')
 def chatroom():
     return render_template('chatroom.html')
