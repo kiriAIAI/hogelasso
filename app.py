@@ -1,5 +1,6 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for
 import mysql.connector
+import datetime
 
 app = Flask(__name__, template_folder='kakikko')
 
@@ -66,7 +67,7 @@ def filter():
     return render_template('filter.html')
 
 
-# product-details.html ページのレンダリング-----------------------------------------------------------------------------------------
+# product-details.html ページのレンダリング---------------------------------------------------
 @app.route('/product-details.html')
 def productdetails():
     return render_template('product-details.html')
@@ -75,17 +76,32 @@ def productdetails():
 def submit_data():
     # JSONデータの取得
     data = request.get_json()
-    my_account_id = data.get('my_account_id')
-    username = data.get('username')
-    title = data.get('title')
-    price = data.get('price')
+    accountID = data.get('accountID')
+    productID = data.get('productID')
 
     # データの表示（必要に応じてデータベースへの保存処理を追加）
-    print(f"アカウントID: {my_account_id}, ユーザー名: {username}, タイトル: {title}, 値段: {price}")
+    
+    #conn = conn_db()
+    #cursor = conn.cursor()
+    sql = ('''
+    INSERT INTO student 
+        (first_name, last_name,)
+    VALUES 
+        (%s, %s,)
+    ''')
+
+    #data = [
+    #    (accountID, productID,)
+    #]
+
+    #cursor.executemany(sql, data)
+    #conn.commit()
+    #cursor.close()
 
     #支払い方法選択ページにリダイレクト
+    print("paymentにリダイレクト")
     return redirect(url_for('payment'))
-# ----------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------
 
 
 @app.route('/search.html')
