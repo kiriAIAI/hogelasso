@@ -119,11 +119,11 @@
       <div class="create-block">
         <div class="create-left-block">
           <div id="textForm" class="create-form-block w-form">
-            <form id="wf-form-Create-Form" name="wf-form-Create-Form" data-name="Create Form" method="get" class="create-form" data-wf-page-id="670b7401d43d7adda246babe" data-wf-element-id="8c65cdfb-f7bb-bff4-037b-43b70214289f">
+            <form id="wf-form-Create-Form" name="wf-form-Create-Form" data-name="Create Form" method="POST" class="create-form" data-wf-page-id="670b7401d43d7adda246babe" data-wf-element-id="8c65cdfb-f7bb-bff4-037b-43b70214289f">
               <label for="titleInput" class="create-form-label">タイトル</label>
-              <input class="create-form-field w-input" maxlength="256" name="title" data-name="title" type="text" id="titleInput" contenteditable="true">
+              <input class="create-form-field w-input" maxlength="256" name="title" data-name="title" type="text" id="titleInput" contenteditable="true" required>
               <label for="contentInput" class="create-form-label">内容</label>
-              <textarea class="textarea w-input" maxlength="5000" name="content" data-name="content" id="contentInput" contenteditable="true"></textarea>
+              <textarea class="textarea w-input" maxlength="5000" name="content" data-name="content" id="contentInput" contenteditable="true" required></textarea>
               <input type="submit" data-wait="Please wait..." class="post-btn w-button" value="投稿">
             </form>
           </div>
@@ -440,24 +440,16 @@
   // JSでデータを収集して、flaskに送る
   document.getElementById('wf-form-Create-Form').addEventListener('submit', function(e) {
     e.preventDefault();
-
     const titleContent = document.getElementById('titleInput').innerHTML;
     const textContent = document.getElementById('contentInput').innerHTML;
-
-    const styles = {
-        color: document.getElementById('colorPicker').value,
-        fontSize: sizeInput.value,
-        bold: document.querySelector('#boldBtn').classList.contains('active'),
-        italic: document.querySelector('#italicBtn').classList.contains('active'),
-        underline: document.querySelector('#underlineBtn').classList.contains('active'),
-        align: document.querySelector('.selected-align').dataset.align, 
-    };
-
     const category = document.getElementById('categorySelect').value;
     const price = document.getElementById('priceInput').value;
-    const coverImagePath = document.getElementById('fileUpload').files[0].name;
+    const coverImageFile = document.getElementById('fileUpload').files[0];
 
-    fetch('/save', {
+    // 假設您已經處理了圖片上傳，並獲得了圖片路徑
+    const coverImagePath = 'path/to/uploaded/image.jpg';
+
+    fetch('/submit_create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -465,16 +457,21 @@
         body: JSON.stringify({
             title: titleContent,
             content: textContent,
-            styles: styles,
             category: category,
             price: price,
             cover_image_path: coverImagePath
-        }),
-    }).then(response => response.json())
-      .then(data => console.log(data));
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        window.location.href = '/';  // 重定向到首頁
+    })
+    .catch(error => console.error('Error:', error));
   });
 
   </script>
+
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=670b6ec91824c1500bdac7a2" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="{{ url_for('static', filename='js/webflow.js') }}" type="text/javascript"></script>
 
