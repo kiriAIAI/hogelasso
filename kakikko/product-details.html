@@ -244,11 +244,6 @@
 
   // JavaScriptでデータをFlaskに送信する関数
   function sendData() {
-    const username = document.getElementById('subusername').textContent;
-    const title = document.getElementById('subtitle').textContent;
-    const price = document.getElementById('subprice').textContent;
-    console.log(username);
- 
     // userIDの取得
     fetch('/get_account_id')
         .then(response => response.json())
@@ -263,10 +258,8 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ 
-                    my_account_id: My_account_id,
-                    username: username,
-                    title: title,
-                    price: price 
+                  myaccountID: My_account_id,
+                  productID:productID
                 })
             });
         })
