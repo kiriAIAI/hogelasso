@@ -117,8 +117,8 @@ def login():
         con.close()
 
         if user:
-            session['login_id'] = user[0]
-            session['login_name'] = user[1]
+            session['login_id'] = user[0] # type: ignore
+            session['login_name'] = user[1] # type: ignore
             return redirect(url_for('index'))
         else:
             error = "无效的用户名、邮箱或密码"
