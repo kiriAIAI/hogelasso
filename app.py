@@ -37,7 +37,24 @@ def get_account_id():
 @app.route('/')
 @app.route('/index.html')
 def index():
-    return render_template('index.html')
+    conn = conn_db()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("""
+        SELECT b.book_id, b.book_title, b.book_price, b.book_cover_image,
+               u.username as owner_name
+        FROM books b
+        JOIN users u ON b.owner_id = u.id
+        ORDER BY b.book_id DESC 
+        LIMIT 6
+    """)
+    books = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    
+    return render_template('index.html', books=books)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -143,6 +160,79 @@ def logout():
 @app.route('/create.html')
 def create():
     return render_template('create.html')
+
+@app.route('/submit_create', methods=['POST'])
+def submit_create():
+    if 'login_id' not in session:
+        return jsonify({'message': 'ログインしてください'}), 401
+        
+    conn = None
+    cursor = None
+    try:
+        data = request.get_json()
+        
+        # 验证图片数据
+        cover_image = data.get('cover_image_path', '')
+        if not cover_image:
+            return jsonify({'message': '表紙画像をアップロードしてください'}), 400
+            
+        # 如果是 base64 数据，确保它是有效的格式
+        if cover_image.startswith('data:image'):
+            # 可以选择在这里进行额外的图片验证
+            pass
+        else:
+            return jsonify({'message': '無効な画像形式です'}), 400
+
+        # 插入数据
+        conn = conn_db()
+        cursor = conn.cursor()
+        
+        insert_sql = """
+        INSERT INTO books (
+            book_title,
+            book_content,
+            book_category,
+            book_price,
+            book_cover_image,
+            owner_id
+        ) VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        
+        values = [
+            data['title'],
+            data['content'],
+            data['category'],
+            float(data['price']),
+            cover_image,
+            session['login_id']
+        ]
+        
+        cursor.execute(insert_sql, values)
+        book_id = cursor.lastrowid
+        conn.commit()
+        
+        return jsonify({
+            'message': '成功',
+            'book_id': book_id
+        }), 200
+        
+    except mysql.connector.Error as e:
+        print(f"Database error: {e}")
+        if conn:
+            conn.rollback()
+        return jsonify({'message': f'データベースエラー: {str(e)}'}), 500
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        if conn:
+            conn.rollback()
+        return jsonify({'message': f'エラー: {str(e)}'}), 500
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 @app.route('/chatroom.html')
 def chatroom():
