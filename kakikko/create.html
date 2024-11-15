@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Thu Oct 17 2024 00:15:54 GMT+0000 (Coordinated Universal Time)  -->
+<!DOCTYPE html>
 <html data-wf-page="670b7401d43d7adda246babe" data-wf-site="670b6ec91824c1500bdac7a2">
 <head>
   <meta charset="utf-8">
@@ -244,7 +244,7 @@
         return editableDiv;
     }
 
-    // editableContent
+    // 編集可能コンテンツ
     const editableTitleDiv = makeEditable(titleInput);
     const editableContentDiv = makeEditable(contentInput);
 
@@ -302,21 +302,21 @@
 
 
     // フォントサイズ
-    let size = 1; // Initial font size
+    let size = 1; // 初期フォントサイズ
     const sizeInput = document.getElementById('sizeInput');
     const buttons = document.querySelectorAll('.fontsize-btn');
     
-    // Adjust font size on button click
-    buttons[0].addEventListener('click', () => adjustFontSize(-0.1)); // Decrease font size
-    buttons[1].addEventListener('click', () => adjustFontSize(0.1));  // Increase font size
+    // ボタンクリック時のフォントサイズ調整
+    buttons[0].addEventListener('click', () => adjustFontSize(-0.1)); // フォントサイズを小さくする
+    buttons[1].addEventListener('click', () => adjustFontSize(0.1));  // フォントサイズを大きくする
 
-    // Update font size from input
+    // 入力からフォントサイズを更新
     sizeInput.addEventListener('input', function() {
         let value = parseFloat(this.value);
         if (isNaN(value)) {
             value = 1;
         }
-        // Limit range
+        // 限界範囲
         if (value < 0.5) value = 0.5;
         if (value > 5) value = 5;
 
@@ -324,7 +324,7 @@
         updateDisplay();
     });
 
-    // Adjust font size function
+    // フォントサイズ調整機能
     function adjustFontSize(delta) {
         const selection = document.getSelection();
         if (selection.rangeCount > 0) {
@@ -333,19 +333,19 @@
 
             if (selectedText) {
                 const span = document.createElement('span');
-                span.style.fontSize = `${size + delta}rem`; // Calculate new font size
-                span.textContent = selectedText; // Set the selected text
+                span.style.fontSize = `${size + delta}rem`;
+                span.textContent = selectedText;
 
-                range.deleteContents(); // Delete selected content
-                range.insertNode(span); // Insert new span with adjusted font size
+                range.deleteContents();
+                range.insertNode(span);
 
-                size = Math.max(0.5, Math.min(size + delta, 5)); // Update global size
+                size = Math.max(0.5, Math.min(size + delta, 5));
                 updateDisplay();
             }
         }
     }
 
-    // Update display function
+    // アップデート表示機能
     function updateDisplay() {
         const displayValue = size === Math.floor(size) ? Math.floor(size) : size.toFixed(1);
         sizeInput.value = displayValue;
@@ -353,12 +353,12 @@
     
     
 
-    // list
+    // 挿入リスト
     function insertList(command) {
         formatDoc(command);
     }
     
-    // checkbox
+    // チェックボックス
     function insertCheckbox() {
         const selection = window.getSelection();
         if (selection.rangeCount > 0) {
@@ -413,20 +413,20 @@
             const reader = new FileReader();
             
             reader.onload = function(e) {
-                // 压缩图片
+                // 圧縮画像
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     
-                    // 设置最大尺寸
+                    // 最大サイズの設定
                     const MAX_WIDTH = 800;
                     const MAX_HEIGHT = 800;
                     
                     let width = img.width;
                     let height = img.height;
                     
-                    // 计算缩放比例
+                    // スケーリング計算
                     if (width > height) {
                         if (width > MAX_WIDTH) {
                             height *= MAX_WIDTH / width;
@@ -442,10 +442,10 @@
                     canvas.width = width;
                     canvas.height = height;
                     
-                    // 绘制压缩后的图片
+                    // 圧縮された画像を描く
                     ctx.drawImage(img, 0, 0, width, height);
                     
-                    // 转换为较小的 JPEG 格式
+                    // より小さなJPEGフォーマットに変換
                     const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
                     
                     preview.src = compressedDataUrl;
@@ -477,7 +477,7 @@
       const price = document.getElementById('priceInput').value;
       const coverImagePath = document.getElementById('preview').src;
   
-      console.log('Form data:', {  // 调试日志
+      console.log('Form data:', {
           title,
           content,
           category,
@@ -519,7 +519,7 @@
           cover_image_path: coverImagePath
       };
   
-      console.log('Sending data:', formData);  // 调试日志
+      console.log('Sending data:', formData);
   
       fetch('/submit_create', {
           method: 'POST',
@@ -530,7 +530,7 @@
       })
       .then(response => response.json())
       .then(data => {
-          console.log('Server response:', data);  // 调试日志
+          console.log('Server response:', data);
           if (data.message === '成功') {
               alert('投稿が完了しました！');
               window.location.href = '/';

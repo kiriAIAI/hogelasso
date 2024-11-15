@@ -65,11 +65,11 @@ def register():
         confirm_password = request.form.get('confirm_password')
 
         if not username or not email or not password or not confirm_password:
-            error = "所有字段都是必填的"
+            error = "すべての項目は必須です"
             return render_template('register.html', error=error)
         
         if password != confirm_password:
-            error = "密码不匹配"
+            error = "パスワード不一致"
             return render_template('register.html', error=error)
         
         # 检查用户名是否已存在
@@ -82,7 +82,7 @@ def register():
         if existing_user:
             cur.close()
             con.close()
-            error = "用户名已存在，请选择另一个用户名"
+            error = "ユーザー名はすでに存在します"
             return render_template('register.html', error=error)
         
         cur.close()
@@ -116,7 +116,7 @@ def complete_registration():
         con.commit()
     except Exception as e:
         con.rollback()
-        error = "注册失败，请重试"
+        error = "登録に失敗しました、もう一度お試しください"
         return render_template('register.html', error=error)
     finally:
         cur.close()
@@ -132,7 +132,7 @@ def login():
         password = request.form.get('password')
 
         if not username or not email or not password:
-            error = "所有字段都是必填的"
+            error = "すべての項目は必須です"
             return render_template('login_form.html', error=error)
 
         con = conn_db()
@@ -148,7 +148,7 @@ def login():
             session['login_name'] = user[1] # type: ignore
             return redirect(url_for('index'))
         else:
-            error = "无效的用户名、邮箱或密码"
+            error = "無効なユーザー名、メールアドレス、パスワード"
             return render_template('login.html', error=error)
     
     return render_template('login.html')
