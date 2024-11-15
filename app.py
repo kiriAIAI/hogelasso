@@ -19,6 +19,16 @@ def conn_db():
     return conn
 
 
+
+# 現在の日付と時刻を取得して、秒まで表示
+
+def gettime():
+    current_datetime = datetime.now()
+    current_datetime_str = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+
+    return current_datetime_str
+
+
 @app.route('/get_account_id', methods=['GET'])
 def get_account_id():
     account_id = "123456"  # 例として固定のIDを使用
@@ -177,20 +187,22 @@ def submit_data():
     data = request.get_json()
     accountID = data.get('accountID')
     productID = data.get('productID')
+    date = gettime()
 
     # データの表示（必要に応じてデータベースへの保存処理を追加）
+    print(f'アカウントID:{accountID} , プロダクトID:{productID} , 取引日付:{date} ')
     
     #conn = conn_db()
     #cursor = conn.cursor()
     sql = ('''
     INSERT INTO student 
-        (first_name, last_name,)
+        (accountID, productID, date)
     VALUES 
-        (%s, %s,)
+        (%s, %s, %s)
     ''')
 
     #data = [
-    #    (accountID, productID,)
+    #    (accountID, productID,date)
     #]
 
     #cursor.executemany(sql, data)
@@ -199,7 +211,7 @@ def submit_data():
 
     #支払い方法選択ページにリダイレクト
     print("paymentにリダイレクト")
-    return redirect(url_for('payment'))
+    return redirect(url_for('payment',account=accountID,product=productID))
 # --------------------------------------------------------------------------------------
 
 
@@ -211,10 +223,23 @@ def search():
 def shoppingcart():
     return render_template('shopping-cart.html')
 
+#--------------------------------------------------------------------------------------
 @app.route('/payment')
 def payment():
     return render_template('payment.html')
 
+@app.route('/submit_payment', methods=['POST'])
+def submit_data1():
+    # JSONデータの取得
+    data = request.get_json()
+    description = data.get('description')
+    print(description)
+    
+    accountID = request.args.get('account')
+    print(accountID)
+    return redirect(url_for('paymentinfo'))
+    
+#-------------------------------------------------------------------------------------
 @app.route('/payment-info.html')
 def paymentinfo():
     return render_template('payment-info.html')
