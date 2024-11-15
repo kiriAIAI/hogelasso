@@ -253,7 +253,7 @@
   </section>
   <section class="footer">
     <div class="footer-divider"></div>
-    <div class="footer-content"><img loading="lazy" src="{{ url_for('static', filename='images/logo_1.png') }}" alt="" class="footer-logo">
+    <div class="footer-content"><img loading="lazy" src="{{ url_for('static', filename='images/logo.png') }}" alt="" class="footer-logo">
       <div class="code-embed w-embed w-script">
         <p>Copyright ©
           <script>document.write(new Date().getFullYear())</script> HEWG Teams | All Rights Reserved
@@ -298,6 +298,7 @@
         background-color: #c1c1c1;
         border-radius: 8px;
         animation: slideUp 0.5s ease-out;
+        z-index: 20;
     }
     #aaaaa {
         position: fixed;
@@ -341,15 +342,16 @@
     window.addEventListener('message', function(event) {
         if (event.data === 'elementClicked') {
             console.log('iframe内の要素がクリックされました。');
-            document.getElementById("iframe").animate([
-                { transform: 'translateY(0)' },
-                { transform: 'translateY(108%)' }
+            const iframe = document.getElementById("iframe");
+            iframe.animate([
+                { opacity: '1', transform: 'translateY(0)' },
+                { opacity: '0', transform: 'translateY(108%)' }
             ], {
                 duration: 650,
-                easing: 'ease-out'
+                easing: 'ease-out',
             }).onfinish = () => {
+                iframe.hidden = true;
                 document.getElementById("button").hidden = false;
-                document.getElementById("iframe").hidden = true;
                 document.getElementById("aaaaa").hidden = true;
             };
         }

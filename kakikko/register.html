@@ -20,18 +20,21 @@
   <link href="{{ url_for('static', filename='images/webclip.png') }}" rel="apple-touch-icon">
 </head>
 <body class="body">
+  {% if error %}
+      <p style="color:red;">{{ error }}</p>
+  {% endif %}
   <section class="login-signup-section">
     <div class="w-layout-blockcontainer login-signup-container w-container">
       <div class="login-signup-left-block">
         <div class="signup-form-block w-form">
-          <form id="wf-form-Signup-Form" name="wf-form-Signup-Form" data-name="Signup Form" method="get" class="signup-form" data-wf-page-id="670b74ad66919c5b887b70e0" data-wf-element-id="d93d7827-d5a0-9c3b-06f2-a58c85670a95">
+          <form action="/register" method="post" id="wf-form-Signup-Form" name="wf-form-Signup-Form" data-name="Signup Form"  class="signup-form" data-wf-page-id="670b74ad66919c5b887b70e0" data-wf-element-id="d93d7827-d5a0-9c3b-06f2-a58c85670a95">
             <div class="form-header-block">
               <h2 class="form-header">サインアップ</h2>
-            </div><label for="Username" class="login-signup-form-label">ユーザー名</label><input class="login-signup-form-field w-input" maxlength="256" name="Username" data-name="Username" placeholder="Username" type="text" id="Username" required=""><label for="Email" class="login-signup-form-label">メールアドレス</label><input class="login-signup-form-field w-input" maxlength="256" name="Email" data-name="Email" placeholder="example@gmail.com" type="email" id="Email" required=""><label for="Password" class="login-signup-form-label">パスワード</label><input class="login-signup-form-field w-input" maxlength="256" name="Password" data-name="Password" placeholder="Password" type="password" id="Password" required=""><label for="Password-Check" class="login-signup-form-label">パスワード再確認</label><input class="login-signup-form-field w-input" maxlength="256" name="Password-Check" data-name="Password Check" placeholder="Password" type="password" id="Password-Check" required="">
+            </div><label for="Username" class="login-signup-form-label">ユーザー名</label><input input type="text" name="username" required class="login-signup-form-field w-input" maxlength="256" name="Username" data-name="Username" placeholder="Username" type="text" id="Username" required=""><label for="Email" class="login-signup-form-label">メールアドレス</label><input input type="email" name="email" required class="login-signup-form-field w-input" maxlength="256" name="Email" data-name="Email" placeholder="example@gmail.com" type="email" id="Email" required=""><label for="Password" class="login-signup-form-label">パスワード</label><input input type="password" name="password" required class="login-signup-form-field w-input" maxlength="256" name="Password" data-name="Password" placeholder="Password" type="password" id="Password" required=""><label for="Password-Check" class="login-signup-form-label">パスワード再確認</label><input type="password" name="confirm_password" required class="login-signup-form-field w-input" maxlength="256" name="Password-Check" data-name="Password Check" placeholder="Password" type="password" id="Password-Check" required="">
             <div class="form-check-block">
               <a href="{{ url_for('login') }}" class="login-signup-link">既にアカウントをお持ちの方</a>
             </div>
-            <a href="{{ url_for('securityquestion') }}" class="login-signup-button w-button">次へ</a>
+              <input type="submit" value="次へ" class="login-signup-button w-button">
           </form>
         </div>
       </div>
