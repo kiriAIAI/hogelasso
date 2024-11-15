@@ -92,7 +92,7 @@ CREATE TABLE `user_security_questions` (
 
 LOCK TABLES `user_security_questions` WRITE;
 /*!40000 ALTER TABLE `user_security_questions` DISABLE KEYS */;
-INSERT INTO `user_security_questions` VALUES (1,'Ð¡Ñ§Ð£¤Î•r¤Î¤¢¤ÀÃû','Æ½Æ½','½«À´¤Î‰ô','½ð³Ö¤Á¤Ê¤ê¤¿¤¤');
+INSERT INTO `user_security_questions` VALUES (1,'Ð¡Ñ§Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','Æ½Æ½','ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½','ï¿½ï¿½Ö¤ï¿½ï¿½Ê¤ê¤¿ï¿½ï¿½');
 /*!40000 ALTER TABLE `user_security_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'ÏèÆ½','xiangping@gmail.com','xiangping');
+INSERT INTO `users` VALUES (1,'ï¿½ï¿½Æ½','xiangping@gmail.com','xiangping');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

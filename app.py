@@ -1,7 +1,7 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session
 import mysql.connector
 
-import datetime
+from datetime import datetime
 
 app = Flask(__name__, template_folder='kakikko')
 
@@ -187,27 +187,28 @@ def submit_data():
     data = request.get_json()
     accountID = data.get('accountID')
     productID = data.get('productID')
-    date = gettime()
+    sellerID = '1234567890'
+    # date = gettime()
 
     # データの表示（必要に応じてデータベースへの保存処理を追加）
-    print(f'アカウントID:{accountID} , プロダクトID:{productID} , 取引日付:{date} ')
+    print(f'プロダクトID:{productID} , 購入者ID:{accountID} , 出品者ID:{sellerID}')
     
-    #conn = conn_db()
-    #cursor = conn.cursor()
+    conn = conn_db()
+    cursor = conn.cursor()
     sql = ('''
-    INSERT INTO student 
-        (accountID, productID, date)
+    INSERT INTO transactions 
+        (book_id, buyer_id, seller_id)
     VALUES 
         (%s, %s, %s)
     ''')
 
-    #data = [
-    #    (accountID, productID,date)
-    #]
+    data = [
+       (productID, accountID, sellerID)
+    ]
 
-    #cursor.executemany(sql, data)
-    #conn.commit()
-    #cursor.close()
+    cursor.executemany(sql, data)
+    conn.commit()
+    cursor.close()
 
     #支払い方法選択ページにリダイレクト
     print("paymentにリダイレクト")
