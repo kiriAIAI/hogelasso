@@ -23,7 +23,7 @@ def conn_db():
 # 現在の日付と時刻を取得して、秒まで表示
 
 def gettime():
-    current_datetime = datetime.now()
+    current_datetime = datetime.now() # type: ignore
     current_datetime_str = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
 
     return current_datetime_str
