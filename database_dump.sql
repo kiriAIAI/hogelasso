@@ -92,7 +92,7 @@ CREATE TABLE `user_security_questions` (
 
 LOCK TABLES `user_security_questions` WRITE;
 /*!40000 ALTER TABLE `user_security_questions` DISABLE KEYS */;
-INSERT INTO `user_security_questions` VALUES (1,'Ð¡Ñ§Ð£¤Î•r¤Î¤¢¤ÀÃû','Æ½Æ½','½«À´¤Î‰ô','½ð³Ö¤Á¤Ê¤ê¤¿¤¤'),(2,'Ð¡Ñ§Ð£¤Î•r¤Î¤¢¤ÀÃû','111','¸ßÐ£¤Î•r¤Î¤¢¤ÀÃû','111'),(3,'Ð¡Ñ§Ð£¤Î•r¤Î¤¢¤ÀÃû','123','¸ßÐ£¤Î•r¤Î¤¢¤ÀÃû','123'),(4,'Ð¡Ñ§Ð£¤Î•r¤Î¤¢¤ÀÃû','123','¸ßÐ£¤Î•r¤Î¤¢¤ÀÃû','123'),(5,'Ð¡Ñ§Ð£¤Î•r¤Î¤¢¤ÀÃû','123','¸ßÐ£¤Î•r¤Î¤¢¤ÀÃû','123'),(6,'Ð¡Ñ§Ð£¤Î•r¤Î¤¢¤ÀÃû','test1','½«À´¤Î‰ô','test1');
+INSERT INTO `user_security_questions` VALUES (1,'Ð¡Ñ§Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','Æ½Æ½','ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½','ï¿½ï¿½Ö¤ï¿½ï¿½Ê¤ê¤¿ï¿½ï¿½'),(2,'Ð¡Ñ§Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','111','ï¿½ï¿½Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','111'),(3,'Ð¡Ñ§Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','123','ï¿½ï¿½Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','123'),(4,'Ð¡Ñ§Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','123','ï¿½ï¿½Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','123'),(5,'Ð¡Ñ§Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','123','ï¿½ï¿½Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','123'),(6,'Ð¡Ñ§Ð£ï¿½Î•rï¿½Î¤ï¿½ï¿½ï¿½ï¿½ï¿½','test1','ï¿½ï¿½ï¿½ï¿½ï¿½Î‰ï¿½','test1');
 /*!40000 ALTER TABLE `user_security_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'ÏèÆ½','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1');
+INSERT INTO `users` VALUES (1,'ï¿½ï¿½Æ½','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

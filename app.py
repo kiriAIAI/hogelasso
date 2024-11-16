@@ -1,9 +1,12 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session
 import mysql.connector
 
-import datetime
+# import datetime
+from datetime import timedelta
+
 
 app = Flask(__name__, template_folder='kakikko')
+app.permanent_session_lifetime = timedelta(days=5)
 
 app.secret_key = 'kakikko'
 
@@ -31,7 +34,7 @@ def gettime():
 
 @app.route('/get_account_id', methods=['GET'])
 def get_account_id():
-    account_id = "123456"  # 例として固定のIDを使用
+    account_id = "20000"  # 例として固定のIDを使用
     return jsonify({"account_id": account_id}), 200
 
 @app.route('/')
@@ -187,7 +190,7 @@ def submit_data():
     data = request.get_json()
     accountID = data.get('accountID')
     productID = data.get('productID')
-    sellerID = '1234567890'
+    sellerID = '20000'
     # date = gettime()
 
     # データの表示（必要に応じてデータベースへの保存処理を追加）
