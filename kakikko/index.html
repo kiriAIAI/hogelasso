@@ -128,7 +128,7 @@
         <a id="w-node-ed36cb7d-5fc1-b0dc-337b-0209642a2b80-0bdac7af" href="{{ url_for('productdetails', book_id=book.book_id) }}" class="product-card w-inline-block">
             <div class="product-image-wrapper">
                 <img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" 
-                    src="{{ book.book_cover_image }}" 
+                    src="{{ url_for('static', filename='users_images/' + book.book_cover_image) }}" 
                     alt="{{ book.book_title }}" 
                     class="product-image">
             </div>
