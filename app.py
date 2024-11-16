@@ -210,7 +210,7 @@ def submit_create():
             data['content'],
             data['category'],
             float(data['price']),
-            data['cover_image_path'],
+            cover_image,
             session['login_id']
         ]
         
