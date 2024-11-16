@@ -55,6 +55,8 @@ def index():
     
     cursor.close()
     conn.close()
+    print("login_idを表示")
+    print(session['login_id'])
     
     return render_template('index.html', books=books)
 
@@ -148,6 +150,8 @@ def login():
 
         if user:
             session['login_id'] = user[0] # type: ignore
+            print("login_idを表示")
+            print(session['login_id'])
             session['login_name'] = user[1] # type: ignore
             return redirect(url_for('index'))
         else:
@@ -276,12 +280,12 @@ def productdetails():
 
 @app.route('/submit_product-details', methods=['POST'])
 def submit_data():
+    accountID = session['login_id']
     # JSONデータの取得
     data = request.get_json()
-    accountID = data.get('accountID')
+    #accountID = data.get('accountID')
     productID = data.get('productID')
     sellerID = '20000'
-    # date = gettime()
 
     # データの表示（必要に応じてデータベースへの保存処理を追加）
     print(f'プロダクトID:{productID} , 購入者ID:{accountID} , 出品者ID:{sellerID}')
