@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES gbk */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -31,7 +31,7 @@ CREATE TABLE `books` (
   PRIMARY KEY  (`book_id`),
   KEY `owner_id` (`owner_id`),
   CONSTRAINT `books_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `books`
@@ -39,6 +39,7 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
+INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'Python入門','Pythonプログラミングを基礎から学べる初心者向けのガイドです。','プログラミング','2200.00','/images/python_intro.jpg',20000),(3,'MySQL完全攻略','MySQLのデータベース管理を深く理解するための実践的な書籍です。','データベース','3500.00','/images/mysql_mastery.jpg',20000),(4,'ウェブ開発の基礎','HTML、CSS、JavaScriptの基本を学べる初心者向けの一冊です。','ウェブ開発','2800.00','/images/web_basics.jpg',20000),(5,'AIと機械学習の基礎','人工知能と機械学習の基本的な仕組みをわかりやすく解説します。','人工知能','4500.00','/images/ai_ml.jpg',20000),(6,'サイバーセキュリティの基礎','ネットワークや情報セキュリティの重要な概念を網羅した一冊です。','セキュリティ','3200.00','/images/cybersecurity.jpg',20000);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +61,7 @@ CREATE TABLE `transactions` (
   CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`),
   CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`),
   CONSTRAINT `transactions_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transactions`
@@ -68,6 +69,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
+INSERT INTO `transactions` VALUES (1,1,2,1,'2024-11-15 03:00:00'),(2,1,20000,20000,'2024-11-15 12:23:22'),(3,1,2,20000,'2024-11-16 04:04:46'),(4,1,99999,20000,'2024-11-16 04:05:46'),(5,1,99999,20000,'2024-11-16 04:17:32'),(6,1,99999,20000,'2024-11-16 05:04:32'),(7,1,99999,NULL,'2024-11-16 05:46:07'),(8,1,99999,1,'2024-11-16 05:58:44'),(9,6,99999,20000,'2024-11-16 06:06:09'),(10,4,2,20000,'2024-11-16 06:06:43');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +94,7 @@ CREATE TABLE `user_security_questions` (
 
 LOCK TABLES `user_security_questions` WRITE;
 /*!40000 ALTER TABLE `user_security_questions` DISABLE KEYS */;
-INSERT INTO `user_security_questions` VALUES (1,'СѧУ�Εr�Τ�����','ƽƽ','�����Ή�','��֤��ʤꤿ��'),(2,'СѧУ�Εr�Τ�����','111','��У�Εr�Τ�����','111'),(3,'СѧУ�Εr�Τ�����','123','��У�Εr�Τ�����','123'),(4,'СѧУ�Εr�Τ�����','123','��У�Εr�Τ�����','123'),(5,'СѧУ�Εr�Τ�����','123','��У�Εr�Τ�����','123'),(6,'СѧУ�Εr�Τ�����','test1','�����Ή�','test1');
+INSERT INTO `user_security_questions` VALUES (1,'小学校の時のあだ名','平平','将来の夢','金持ちなりたい'),(2,'小学校の時のあだ名','111','高校の時のあだ名','111'),(3,'小学校の時のあだ名','123','高校の時のあだ名','123'),(4,'小学校の時のあだ名','123','高校の時のあだ名','123'),(5,'小学校の時のあだ名','123','高校の時のあだ名','123'),(6,'小学校の時のあだ名','test1','将来の夢','test1');
 /*!40000 ALTER TABLE `user_security_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,7 +109,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100000 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
@@ -115,7 +117,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'��ƽ','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1');
+INSERT INTO `users` VALUES (1,'翔平','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1'),(20000,'BuyerUser','buyer@example.com','buyerpassword'),(99999,'kazuto','kazuto@gmail.com','kazuto0330');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -128,4 +130,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-15  6:13:49
+-- Dump completed on 2024-11-16  6:16:42

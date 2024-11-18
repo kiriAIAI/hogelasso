@@ -1,9 +1,12 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session
 import mysql.connector
 
-import datetime
+# import datetime
+from datetime import timedelta
+
 
 app = Flask(__name__, template_folder='kakikko')
+app.permanent_session_lifetime = timedelta(days=5)
 
 app.secret_key = 'kakikko'
 
@@ -31,7 +34,7 @@ def gettime():
 
 @app.route('/get_account_id', methods=['GET'])
 def get_account_id():
-    account_id = "123456"  # 例として固定のIDを使用
+    account_id = "20000"  # 例として固定のIDを使用
     return jsonify({"account_id": account_id}), 200
 
 @app.route('/')
@@ -52,6 +55,8 @@ def index():
     
     cursor.close()
     conn.close()
+    print("login_idを表示")
+    print(session['login_id'])
     
     return render_template('index.html', books=books)
 
@@ -145,6 +150,8 @@ def login():
 
         if user:
             session['login_id'] = user[0] # type: ignore
+            print("login_idを更新")
+            print(session['login_id'])
             session['login_name'] = user[1] # type: ignore
             return redirect(url_for('index'))
         else:
@@ -265,7 +272,6 @@ def notification():
 def filter():
     return render_template('filter.html')
 
-
 @app.route('/product-details/<int:book_id>')
 def product_details(book_id):
     if 'login_id' not in session:
@@ -300,7 +306,6 @@ def product_details(book_id):
             cursor.close()
         if conn:
             conn.close()
-
 
 @app.route('/search.html')
 def search():
