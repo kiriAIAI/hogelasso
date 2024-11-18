@@ -491,13 +491,13 @@ def purchase_history():
     if 'login_id' not in session:
         return redirect(url_for('login'))
     
-    print("当前用户ID:", session.get('login_id'))
+    print("現ユーザーID:", session.get('login_id'))
         
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # 获取用户出品的书籍
+        # ユーザーが出品した本
         listed_books_sql = """
         SELECT 
             b.book_id,
@@ -515,7 +515,7 @@ def purchase_history():
         cursor.execute(listed_books_sql, (session['login_id'],))
         listed_books = cursor.fetchall()
         
-        # 获取用户购买的书籍
+        # ユーザーが購入した本
         purchased_books_sql = """
         SELECT 
             b.book_id,
