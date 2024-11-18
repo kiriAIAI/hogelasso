@@ -450,7 +450,7 @@ def profile():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # 获取用户信息
+        # ユーザー情報の取得
         cursor.execute("""
             SELECT username, email, profile_image, bio
             FROM users 
@@ -463,7 +463,7 @@ def profile():
             return redirect(url_for('login'))
             
         return render_template('profile.html', 
-                             username=user_info['username'],  # 传递用户名到模板
+                             username=user_info['username'],  # ユーザー名をテンプレートに渡す
                              user_info=user_info)
                              
     except Exception as e:
@@ -488,7 +488,67 @@ def profileinfo():
 # -------------------- purchase-history.html --------------------
 @app.route('/purchase-history.html')
 def purchase_history():
-    return render_template('purchase-history.html')
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+    
+    print("当前用户ID:", session.get('login_id'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # 获取用户出品的书籍
+        listed_books_sql = """
+        SELECT 
+            b.book_id,
+            b.book_title,
+            b.book_price,
+            b.book_cover_image,
+            b.created_at,
+            u.user_name as owner_name,
+            DATE_FORMAT(b.created_at, '%Y-%m-%d') as formatted_date
+        FROM books b
+        LEFT JOIN users u ON b.owner_id = u.user_id
+        WHERE b.owner_id = %s
+        ORDER BY b.created_at DESC
+        """
+        cursor.execute(listed_books_sql, (session['login_id'],))
+        listed_books = cursor.fetchall()
+        
+        # 获取用户购买的书籍
+        purchased_books_sql = """
+        SELECT 
+            b.book_id,
+            b.book_title,
+            b.book_price,
+            b.book_cover_image,
+            p.purchase_date,
+            u.user_name as seller_name
+        FROM purchases p
+        JOIN books b ON p.book_id = b.book_id
+        JOIN users u ON b.owner_id = u.user_id
+        WHERE p.buyer_id = %s
+        ORDER BY p.purchase_date DESC
+        """
+        cursor.execute(purchased_books_sql, (session['login_id'],))
+        purchased_books = cursor.fetchall()
+        
+        return render_template('purchase-history.html', 
+                             purchased_books=purchased_books,
+                             listed_books=listed_books)
+                             
+    except Exception as e:
+        print("Error:", e)
+        import traceback
+        traceback.print_exc()
+        return render_template('purchase-history.html', 
+                             purchased_books=[],
+                             listed_books=[])
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 
 
