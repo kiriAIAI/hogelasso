@@ -272,76 +272,40 @@ def notification():
 def filter():
     return render_template('filter.html')
 
-
-# product-details.html ページのレンダリング---------------------------------------------------
-@app.route('/product-details.html')
-def productdetails():
-    #book_idを取得して保存
-    productID = request.args.get('book_id')
-    session['product_id'] = productID
-    
-    conn = conn_db()
-    cursor = conn.cursor(dictionary=True)
-    sql = """
-    SELECT 
-        b.book_id, 
-        b.book_title, 
-        b.book_content, 
-        b.book_category, 
-        b.book_price, 
-        b.book_cover_image, 
-        b.owner_id, 
-        u.username AS owner_name
-    FROM 
-        books b
-    JOIN 
-        users u ON b.owner_id = u.id
-    WHERE
-        b.book_id = %s
-    """
-    cursor.execute(sql, (productID,))
-    book = cursor.fetchone()
-    cursor.close()
-    conn.close()
-    
-    return render_template('product-details.html', book=book)
-
-
-
-@app.route('/submit_product-details', methods=['POST'])
-def submit_data():
-    # JSONデータの取得
-    data = request.get_json()
-    sellerID = data.get('sellerID')
-    
-    #sessionの情報を取得
-    productID = session['product_id']
-    accountID = session['login_id']
-
-    # 取得できたデータを表示
-    print(f'プロダクトID:{productID} , 購入者ID:{accountID} , 出品者ID:{sellerID}')
-    
-    # 取得できたデータを保存
-    conn = conn_db()
-    cursor = conn.cursor()
-    sql = ('''
-    INSERT INTO transactions 
-        (book_id, buyer_id, seller_id)
-    VALUES 
-        (%s, %s, %s)
-    ''')
-    data = [
-       (productID, accountID, sellerID)
-    ]
-    cursor.executemany(sql, data)
-    conn.commit()
-    cursor.close()
-
-    #支払い方法選択ページにリダイレクト
-    print("paymentにリダイレクト")
-    return redirect(url_for('payment',account=accountID,product=productID))
-# --------------------------------------------------------------------------------------
-
+@app.route('/product-details/<int:book_id>')
+def product_details(book_id):
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # 获取书籍信息
+        cursor.execute("""
+            SELECT b.*, u.username 
+            FROM books b 
+            JOIN users u ON b.owner_id = u.id 
+            WHERE b.book_id = %s
+        """, (book_id,))
+        book = cursor.fetchone()
+        
+        if not book:
+            return redirect(url_for('index'))
+            
+        return render_template('product-details.html', 
+                             book=book,
+                             username=book['username'])
+                             
+    except Exception as e:
+        print(f"Error: {e}")
+        return redirect(url_for('index'))
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 @app.route('/search.html')
 def search():

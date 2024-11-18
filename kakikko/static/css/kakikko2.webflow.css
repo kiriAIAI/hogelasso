@@ -283,7 +283,9 @@
 .navbar-icon{
   width: 1.6rem;
   height: 1.6rem;
+  transition: all 0.3s ease;
 }
+
 
 
 .sidenavbar-icon {
@@ -369,14 +371,14 @@
   margin-left: auto;
   font-family: Noto Sans JP, sans-serif;
   text-decoration: none;
-  box-shadow: 0 2px 12px 2px #0003;
+  box-shadow: 0 2px 12px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 400px;
   background-color: var(--white);
   overflow: hidden;
-  transition: transform 0.3s ease;
 }
 
 .product-card:hover {
@@ -388,14 +390,16 @@
   padding: 1.5rem 2rem 2rem;
 }
 
+/* ---------- 商品画像コンテナ ---------- */
 .product-image-wrapper {
   object-fit: fill;
-  border-radius: 24px 24px 0 0;
-  position: relative;
-  overflow: hidden;
   transform: translate(0);
   width: 100%;
-  height: 250px;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+  background-color: #f5f5f5;
 }
 
 .title-block {
@@ -445,11 +449,17 @@
   padding-right: 30px;
 }
 
+/* ---------- 商品画像 ---------- */
 .product-image {
-  color: #333;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease;
 }
 
 .product-grid {
@@ -1487,14 +1497,26 @@
   display: flex;
 }
 
+/* ---------- 商品詳細ページ画像 ---------- */
 .product-left-block {
-  justify-content: center;
-  align-items: center;
   width: 100%;
-  max-width: 45%;
-  margin-right: 40px;
-  padding: 1.5rem;
-  display: flex;
+  max-width: 500px;  /* 限制最大宽度 */
+  height: 90vh;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.product-left-block .product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease;
 }
 
 .product-right-block {
@@ -1589,9 +1611,11 @@
   display: flex;
 }
 
+/* ---------- レビュー ---------- */
 .product-rating-wrapper {
-  margin-right: .5rem;
   display: flex;
+  gap: 0.2rem;
+  color: #FFD700;
 }
 
 .product-header4_rating-icon {
@@ -1611,7 +1635,8 @@
 }
 
 .product-reviews-text {
-  font-size: .875rem;
+  color: var(--light-gray);
+  font-size: 0.9rem;
 }
 
 .product-content-block {
@@ -1669,10 +1694,13 @@
   color: #0009;
 }
 
+/* ---------- 数量入力ボックス ---------- */
 .form_input.is-quantity-input {
   color: var(--font);
-  border-radius: 6px;
   width: 4rem;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
 }
 
 .product-form-block {
@@ -2238,12 +2266,20 @@
   line-height: 24px;
 }
 
+/* ---------- ブックマークボタン ---------- */
 .text-14.text-14-30 {
-  opacity: .3;
   padding: 10px;
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.6rem;
-  font-weight: 900;
+  color: #c1c1c1;
+  transition: all 0.3s ease;
+}
+
+.text-14.text-14-30:hover {
+  color: var(--error);
+}
+
+.text-14.text-14-30.active {
+  color: var(--error);
 }
 
 .heart-active {
@@ -4120,6 +4156,8 @@
 
   .product-left-block {
     padding: .5rem;
+    max-width: 100%;
+    height: 400px;
   }
 
   .product-right-block {
@@ -4147,8 +4185,15 @@
     grid-template-columns: 1fr;
   }
 
+  /* ---------- 購入ボタン ---------- */
   .add-to-cart-btn {
-    padding-left: 1rem;
+    background-color: var(--dark-gray);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
 
   .sysf-input {
@@ -4212,8 +4257,12 @@
   }
 
   .product-image-wrapper {
-    height: 210px;
+    height: 250px;
   }
+
+  .product-left-block {
+    height: 350px;
+}
 
   .product-title {
     font-size: 20px;
@@ -4379,6 +4428,10 @@
   
   .product-image-wrapper {
     height: 200px;
+  }
+
+  .product-left-block {
+    height: 300px;
   }
 
   .product-price {
@@ -4552,10 +4605,20 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Fa Solid 900';
   src: url('../fonts/fa-solid-900.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
+}
+
+@keyframes imageLoading {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.product-image {
+  animation: imageLoading 0.3s ease;
 }
