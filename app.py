@@ -271,38 +271,40 @@ def filter():
 def productdetails():
     return render_template('product-details.html')
 
-@app.route('/submit_product-details', methods=['POST'])
-def submit_data():
-    # JSONデータの取得
-    data = request.get_json()
-    accountID = data.get('accountID')
-    productID = data.get('productID')
-    sellerID = '1234567890'
-    # date = gettime()
-
-    # データの表示（必要に応じてデータベースへの保存処理を追加）
-    print(f'プロダクトID:{productID} , 購入者ID:{accountID} , 出品者ID:{sellerID}')
-    
-    conn = conn_db()
-    cursor = conn.cursor()
-    sql = ('''
-    INSERT INTO transactions 
-        (book_id, buyer_id, seller_id)
-    VALUES 
-        (%s, %s, %s)
-    ''')
-
-    data = [
-       (productID, accountID, sellerID)
-    ]
-
-    cursor.executemany(sql, data)
-    conn.commit()
-    cursor.close()
-
-    #支払い方法選択ページにリダイレクト
-    print("paymentにリダイレクト")
-    return redirect(url_for('payment',account=accountID,product=productID))
+@app.route('/product-details/<int:book_id>')
+def product_details(book_id):
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # 获取书籍信息
+        cursor.execute("""
+            SELECT b.*, u.username 
+            FROM books b 
+            JOIN users u ON b.owner_id = u.id 
+            WHERE b.book_id = %s
+        """, (book_id,))
+        book = cursor.fetchone()
+        
+        if not book:
+            return redirect(url_for('index'))
+            
+        return render_template('product-details.html', 
+                             book=book,
+                             username=book['username'])
+                             
+    except Exception as e:
+        print(f"Error: {e}")
+        return redirect(url_for('index'))
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 # --------------------------------------------------------------------------------------
 
 
