@@ -283,7 +283,12 @@
 .navbar-icon{
   width: 1.6rem;
   height: 1.6rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  filter: brightness(0);
+}
+
+.navbar-icon:hover {
+  filter: brightness(0) saturate(100%) invert(77%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(89%) contrast(85%); /* 转换为 #C1C1C1 */
 }
 
 

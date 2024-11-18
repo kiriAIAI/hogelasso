@@ -123,67 +123,35 @@
             <h2 class="order-headeing">ショッピングカート</h2>
           </div>
           <div class="cart-item-list">
-            <div class="cart-item">
-              <div class="cart-detail-blcok">
-                <a href="{{ url_for('productdetails') }}" class="cart-image-link-block w-inline-block">
-                  <img src="{{ url_for('static', filename='images/Recipe-book.png') }}" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" alt="" class="cart-item-image">
-                </a>
-                <div class="cart-item-detail-block">
-                  <a href="{{ url_for('productdetails') }}" class="cart-item-title-link">タイトル</a>
-                  <div class="cart-item-price-text">￥99.0 </div>
-                </div>
-              </div>
-              <div class="cart-quantity-block">
-                <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
-                <div class="quantity-input-form-block w-form">
-                  <form id="wf-form-" name="wf-form-" data-name="" method="get" class="quantity-input-form" data-wf-page-id="670f55bf8bc01fb1af74d259" data-wf-element-id="a5c1471b-1f26-8199-1b14-620f84dbd447">
-                    <div class="quantity-input-label">
-                      <input class="sysf-input sysf-medium w-input" maxlength="256" min="1" name="quantity-input" data-name="Quantity Input" placeholder="1" type="number" id="quantity-input" required="">
+            {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="cart-detail-blcok">
+                        <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-image-link-block w-inline-block">
+                            <img src="{{ item.book_cover_image }}" loading="lazy" alt="" class="cart-item-image">
+                        </a>
+                        <div class="cart-item-detail-block">
+                            <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-item-title-link">{{ item.book_title }}</a>
+                            <div class="cart-item-price-text">￥{{ item.book_price }}</div>
+                        </div>
                     </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div class="cart-item">
-              <div class="cart-detail-blcok">
-                <a href="{{ url_for('productdetails') }}" class="cart-image-link-block w-inline-block">
-                  <img src="{{ url_for('static', filename='images/Recipe-book.png') }}" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" alt="" class="cart-item-image">
-                </a>
-                <div class="cart-item-detail-block">
-                  <a href="{{ url_for('productdetails') }}" class="cart-item-title-link">タイトル</a>
-                  <div class="cart-item-price-text">￥99.0 </div>
-                </div>
-              </div>
-              <div class="cart-quantity-block">
-                <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
-                <div class="quantity-input-form-block w-form">
-                  <form id="wf-form-" name="wf-form-" data-name="" method="get" class="quantity-input-form" data-wf-page-id="670f55bf8bc01fb1af74d259" data-wf-element-id="b8cd0088-d165-8897-a0b7-9aeafe5efaaa">
-                    <div class="quantity-input-label"><input class="sysf-input sysf-medium w-input" maxlength="256" min="1" name="quantity-input-2" data-name="Quantity Input 2" placeholder="1" type="number" id="quantity-input-2" required=""></div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div class="cart-item">
-              <div class="cart-detail-blcok">
-                <a href="{{ url_for('productdetails') }}" class="cart-image-link-block w-inline-block">
-                  <img src="{{ url_for('static', filename='images/Recipe-book.png') }}" loading="lazy" sizes="(max-width: 479px) 80.453125px, (max-width: 767px) 17vw, 96px" alt="" class="cart-item-image">
-                </a>
-                <div class="cart-item-detail-block">
-                  <a href="{{ url_for('productdetails') }}" class="cart-item-title-link">タイトル</a>
-                  <div class="cart-item-price-text">￥99.0 </div>
-                </div>
-              </div>
-              <div class="cart-quantity-block">
-                <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
-                <div class="quantity-input-form-block w-form">
-                  <form id="wf-form-" name="wf-form-" data-name="" method="get" class="quantity-input-form" data-wf-page-id="670f55bf8bc01fb1af74d259" data-wf-element-id="795c7ae0-6512-5286-a7e4-57964a5cc3c6">
-                    <div class="quantity-input-label">
-                      <input class="sysf-input sysf-medium w-input" maxlength="256" min="1"name="quantity-input-2" data-name="Quantity Input 2" placeholder="1" type="number" id="quantity-input-2" required="">
+                    <div class="cart-quantity-block">
+                        <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
+                        <div class="quantity-input-form-block w-form">
+                            <form class="quantity-input-form">
+                                <div class="quantity-input-label">
+                                    <input class="sysf-input sysf-medium w-input" type="number" value="{{ item.quantity }}" min="1" required>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                  </form>
                 </div>
-              </div>
-            </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-cart-message">
+                    <p>カートに商品がありません</p>
+                </div>
+            {% endif %}
           </div>
         </div>
         <div class="shopping-right-block">

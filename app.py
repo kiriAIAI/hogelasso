@@ -24,7 +24,6 @@ def conn_db():
 
 
 # 現在の日付と時刻を取得して、秒まで表示
-
 def gettime():
     current_datetime = datetime.now() # type: ignore
     current_datetime_str = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
@@ -37,6 +36,9 @@ def get_account_id():
     account_id = "20000"  # 例として固定のIDを使用
     return jsonify({"account_id": account_id}), 200
 
+
+
+# -------------------- index.html --------------------
 @app.route('/')
 @app.route('/index.html')
 def index():
@@ -61,6 +63,8 @@ def index():
     return render_template('index.html', books=books)
 
 
+
+# -------------------- register.html --------------------
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -77,7 +81,7 @@ def register():
             error = "パスワード不一致"
             return render_template('register.html', error=error)
         
-        # 检查用户名是否已存在
+        # ユーザー名が既に存在するかどうかをチェックする
         con = conn_db()
         cur = con.cursor(buffered=True)
         sql = "SELECT * FROM users WHERE username = %s"
@@ -97,6 +101,9 @@ def register():
     
     return render_template('register.html')
 
+
+
+# -------------------- complete_registration.html --------------------
 @app.route('/complete_registration', methods=['POST'])
 def complete_registration():
     username = request.form.get('username')
@@ -129,6 +136,9 @@ def complete_registration():
     
     return redirect(url_for('login'))
 
+
+
+# -------------------- login.html --------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -160,14 +170,23 @@ def login():
     
     return render_template('login.html')
 
+
+
+# -------------------- logout.html --------------------
 @app.route('/logout.html')
 def logout():
     return render_template('logout.html')
 
+
+
+# -------------------- create.html --------------------
 @app.route('/create.html')
 def create():
     return render_template('create.html')
 
+
+
+# -------------------- submit_create.html --------------------
 @app.route('/submit_create', methods=['POST'])
 def submit_create():
     if 'login_id' not in session:
@@ -178,19 +197,18 @@ def submit_create():
     try:
         data = request.get_json()
         
-        # 验证图片数据
+        # 画像データを検証
         cover_image = data.get('cover_image_path', '')
         if not cover_image:
             return jsonify({'message': '表紙画像をアップロードしてください'}), 400
             
-        # 如果是 base64 数据，确保它是有效的格式
+        # base64データの場合は、有効なフォーマットであることを確認する
         if cover_image.startswith('data:image'):
-            # 可以选择在这里进行额外的图片验证
             pass
         else:
             return jsonify({'message': '無効な画像形式です'}), 400
 
-        # 插入数据
+        # データ挿入
         conn = conn_db()
         cursor = conn.cursor()
         
@@ -241,10 +259,16 @@ def submit_create():
         if conn:
             conn.close()
 
+
+
+# -------------------- chatroom.html --------------------
 @app.route('/chatroom.html')
 def chatroom():
     return render_template('chatroom.html')
 
+
+
+# -------------------- chat.html --------------------
 @app.route('/chat.html')
 def chat():
     return render_template('chat.html')
@@ -255,11 +279,14 @@ def chatbot():
 
 
 
+# -------------------- forget-password.html --------------------
 @app.route('/forget-password.html')
 def forgetpassword():
     return render_template('forget-password.html')
 
 
+
+# -------------------- confirm-logout.html --------------------
 @app.route('/confirm-logout.html')
 def confirmlogout():
     return render_template('confirm-logout.html')
@@ -268,10 +295,42 @@ def confirmlogout():
 def notification():
     return render_template('notification.html')
 
+
+
+# -------------------- filter.html --------------------
 @app.route('/filter.html')
 def filter():
-    return render_template('filter.html')
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # すべての書籍
+        cursor.execute("""
+            SELECT b.*, u.username as owner_name
+            FROM books b
+            JOIN users u ON b.owner_id = u.id
+            ORDER BY b.book_id DESC
+        """)
+        books = cursor.fetchall()
+        
+        return render_template('filter.html', books=books)
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return render_template('filter.html', books=[])
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
+
+
+# -------------------- product-details.html --------------------
 @app.route('/product-details/<int:book_id>')
 def product_details(book_id):
     if 'login_id' not in session:
@@ -281,7 +340,7 @@ def product_details(book_id):
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # 获取书籍信息
+        # 書籍情報を入手
         cursor.execute("""
             SELECT b.*, u.username 
             FROM books b 
@@ -307,15 +366,49 @@ def product_details(book_id):
         if conn:
             conn.close()
 
+
+
+# -------------------- search.html --------------------
 @app.route('/search.html')
 def search():
     return render_template('search.html')
 
+
+
+# -------------------- shopping-cart.html --------------------
 @app.route('/shopping-cart.html')
 def shoppingcart():
-    return render_template('shopping-cart.html')
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # ショッピングカートに商品を入れる
+        cursor.execute("""
+            SELECT b.*, c.quantity 
+            FROM cart c
+            JOIN books b ON c.book_id = b.book_id
+            WHERE c.user_id = %s
+        """, (session['login_id'],))
+        cart_items = cursor.fetchall()
+        
+        return render_template('shopping-cart.html', cart_items=cart_items)
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return render_template('shopping-cart.html', cart_items=[])
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
-#--------------------------------------------------------------------------------------
+
+
+# -------------------- payment.html --------------------
 @app.route('/payment')
 def payment():
     return render_template('payment.html')
@@ -330,35 +423,83 @@ def submit_data1():
     accountID = request.args.get('account')
     print(accountID)
     return redirect(url_for('paymentinfo'))
-    
-#-------------------------------------------------------------------------------------
+
+
+
+# -------------------- payment-info.html --------------------
 @app.route('/payment-info.html')
 def paymentinfo():
     return render_template('payment-info.html')
 
+
+
+# -------------------- payment-success.html --------------------
 @app.route('/payment-success.html')
 def paymentsuccess():
     return render_template('payment-success.html')
 
-@app.route('/profile.html')
-def profile():
-    return render_template('profile.html')
 
+
+# -------------------- profile.html --------------------
+@app.route('/profile')
+def profile():
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # 获取用户信息
+        cursor.execute("""
+            SELECT username, email, profile_image, bio
+            FROM users 
+            WHERE id = %s
+        """, (session['login_id'],))
+        
+        user_info = cursor.fetchone()
+        
+        if not user_info:
+            return redirect(url_for('login'))
+            
+        return render_template('profile.html', 
+                             username=user_info['username'],  # 传递用户名到模板
+                             user_info=user_info)
+                             
+    except Exception as e:
+        print(f"Error: {e}")
+        return redirect(url_for('login'))
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
+
+# -------------------- profile-info.html --------------------
 @app.route('/profile-info.html')
 def profileinfo():
     return render_template('profile-info.html')
 
+
+
+# -------------------- purchase-history.html --------------------
 @app.route('/purchase-history.html')
 def purchase_history():
     return render_template('purchase-history.html')
 
+
+
+# -------------------- read.html --------------------
 @app.route('/read.html')
 def read():
     return render_template('read.html')
 
 
 
-
+# -------------------- quiz.html --------------------
 @app.route('/quiz.html')
 def quiz():
     conn = conn_db()
@@ -383,6 +524,7 @@ def quiz():
 
 
 
+# -------------------- static --------------------
 @app.route('/static/css/<path:filename>')
 def css(filename):
     return send_from_directory('kakikko/static/css', filename)
