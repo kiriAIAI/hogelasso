@@ -266,11 +266,6 @@ def filter():
     return render_template('filter.html')
 
 
-# product-details.html ページのレンダリング---------------------------------------------------
-@app.route('/product-details.html')
-def productdetails():
-    return render_template('product-details.html')
-
 @app.route('/product-details/<int:book_id>')
 def product_details(book_id):
     if 'login_id' not in session:
@@ -305,7 +300,6 @@ def product_details(book_id):
             cursor.close()
         if conn:
             conn.close()
-# --------------------------------------------------------------------------------------
 
 
 @app.route('/search.html')
