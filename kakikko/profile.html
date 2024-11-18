@@ -275,7 +275,7 @@
             <div class="profile-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" width="140" alt="" class="profile-image"></div>
             <div class="follow-info-block">
               <div class="profile-username-block">
-                <h3 class="profile-username">Username</h3>
+                <h3 class="profile-username">{{ username }}</h3>
               </div>
               <a data-w-id="407e3533-0b27-cda4-0456-be601b4c8724" href="#" class="profile-follower-link w-inline-block">
                 <div class="profile-follower">フォロワー</div>
@@ -302,48 +302,17 @@
             <h2 class="favorite-heading">お気に入り</h2>
           </div>
           <div class="w-layout-grid product-grid">
-            <a id="w-node-ed36cb7d-5fc1-b0dc-337b-0209642a2b80-0bdac7af" href="{{ url_for('productdetails') }}" class="product-card w-inline-block">
-              <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
+            {% for product in favorite_products %}
+            <a href="{{ url_for('product_details', product_id=product.id) }}" class="product-card w-inline-block">
+              <div class="product-image-wrapper">
+                <img src="{{ product.image_url }}" alt="{{ product.title }}" class="product-image">
+              </div>
               <div class="product-content-wrapper">
-                <h3 class="product-title">タイトル</h3>
-                <div class="product-price"><strong>¥</strong> 99.00</div>
+                <h3 class="product-title">{{ product.title }}</h3>
+                <div class="product-price"><strong>¥</strong> {{ product.price }}</div>
               </div>
             </a>
-            <a id="w-node-ed36cb7d-5fc1-b0dc-337b-0209642a2b80-0bdac7af" href="{{ url_for('productdetails') }}" class="product-card w-inline-block">
-              <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
-              <div class="product-content-wrapper">
-                <h3 class="product-title">タイトル</h3>
-                <div class="product-price"><strong>¥</strong> 99.00</div>
-              </div>
-            </a>
-            <a id="w-node-e0c613bb-5dbb-e41b-c434-b2ade86b7688-0bdac7af" href="{{ url_for('productdetails') }}" class="product-card w-inline-block">
-              <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
-              <div class="product-content-wrapper">
-                <h3 class="product-title">タイトル</h3>
-                <div class="product-price"><strong>¥</strong> 99.00</div>
-              </div>
-            </a>
-            <a id="w-node-aee485b6-76f7-6f61-c2c6-e96d41d6cc24-0bdac7af" href="{{ url_for('productdetails') }}" class="product-card w-inline-block">
-              <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
-              <div class="product-content-wrapper">
-                <h3 class="product-title">タイトル</h3>
-                <div class="product-price"><strong>¥</strong> 99.00</div>
-              </div>
-            </a>
-            <a id="w-node-_3400fc4a-ef52-6b3f-456f-f5435b3cc330-0bdac7af" href="{{ url_for('productdetails') }}" class="product-card w-inline-block">
-              <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
-              <div class="product-content-wrapper">
-                <h3 class="product-title">タイトル</h3>
-                <div class="product-price"><strong>¥</strong> 99.00</div>
-              </div>
-            </a>
-            <a id="w-node-f81b9db3-b622-430a-be31-7a9ddd6147ba-0bdac7af" href="{{ url_for('productdetails') }}" class="product-card w-inline-block">
-              <div class="product-image-wrapper"><img sizes="(max-width: 767px) 77vw, (max-width: 991px) 40vw, (max-width: 1439px) 26vw, 330.3999938964844px" srcset="static/images/Recipe-book-pana-p-500.png 500w, static/images/Recipe-book-pana-p-800.png 800w, static/images/Recipe-book-pana-p-1080.png 1080w, static/images/Recipe-book-pana-p-1600.png 1600w, static/images/Recipe-book.png 2000w" alt="" src="{{ url_for('static', filename='images/Recipe-book.png') }}" class="product-image"></div>
-              <div class="product-content-wrapper">
-                <h3 class="product-title">タイトル</h3>
-                <div class="product-price"><strong>¥</strong> 99.00</div>
-              </div>
-            </a>
+            {% endfor %}
           </div>
         </div>
       </div>
