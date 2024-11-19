@@ -204,10 +204,10 @@ def submit_create():
         if not cover_image:
             return jsonify({'message': '表紙画像をアップロードしてください'}), 400
            
-        app.config['UPLOAD_FOLDER'] = 'kakikko/static/images'
-        file = request.files['Image_data']
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], cover_image)
-        file.save(file_path)
+        # app.config['UPLOAD_FOLDER'] = 'kakikko/static/images'
+        # file = request.files['Image_data']
+        # file_path = os.path.join(app.config['UPLOAD_FOLDER'], cover_image)
+        # file.save(file_path)
          
         # # base64データの場合は、有効なフォーマットであることを確認する
         # if cover_image.startswith('data:image'):
