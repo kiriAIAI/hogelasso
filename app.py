@@ -1,5 +1,6 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session
 import mysql.connector
+import os
 
 # import datetime
 from datetime import timedelta
@@ -195,13 +196,18 @@ def submit_create():
     conn = None
     cursor = None
     try:
+
         data = request.get_json()
-        
+
         # 画像データを検証
         cover_image = data.get('cover_image_path', '')
         if not cover_image:
             return jsonify({'message': '表紙画像をアップロードしてください'}), 400
            
+        app.config['UPLOAD_FOLDER'] = 'kakikko/static/images'
+        file = request.files['Image_data']
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], cover_image)
+        file.save(file_path)
          
         # # base64データの場合は、有効なフォーマットであることを確認する
         # if cover_image.startswith('data:image'):

@@ -477,13 +477,15 @@
       const category = document.getElementById('categorySelect').value;
       const price = document.getElementById('priceInput').value;
       const coverImagePath = for_flask;
+      const Image_data = document.getElementById('fileUpload').name;
   
       console.log('Form data:', {
           title,
           content,
           category,
           price,
-          coverImagePath
+          coverImagePath,
+          Image_data
       });
   
       // 表单验证
