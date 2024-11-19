@@ -57,8 +57,8 @@ def index():
     
     cursor.close()
     conn.close()
-    print("login_idを表示")
-    print(session['login_id'])
+    # print("login_idを表示")
+    # print(session['login_id'])
     
     return render_template('index.html', books=books)
 
