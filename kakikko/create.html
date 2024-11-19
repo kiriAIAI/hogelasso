@@ -387,6 +387,7 @@
 
       function handleFileSelect(e) {
         const file = e.target.files[0];
+        for_flask = file.name;
         displayPreview(file);
       }
 
@@ -475,7 +476,7 @@
       const content = editableContentDiv.innerHTML;
       const category = document.getElementById('categorySelect').value;
       const price = document.getElementById('priceInput').value;
-      const coverImagePath = document.getElementById('preview').src;
+      const coverImagePath = for_flask;
   
       console.log('Form data:', {
           title,
