@@ -525,47 +525,31 @@ def profileinfo():
 def purchase_history():
     if 'login_id' not in session:
         return redirect(url_for('login'))
-    
-    print("現ユーザーID:", session.get('login_id'))
+    else :
+        login_id = str(session.get('login_id'))
+    print("現ユーザーID:", login_id)
         
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
         # ユーザーが出品した本
-        listed_books_sql = """
-        SELECT 
-            b.book_id,
-            b.book_title,
-            b.book_price,
-            b.book_cover_image,
-            b.created_at,
-            u.user_name as owner_name,
-            DATE_FORMAT(b.created_at, '%Y-%m-%d') as formatted_date
-        FROM books b
-        LEFT JOIN users u ON b.owner_id = u.user_id
-        WHERE b.owner_id = %s
-        ORDER BY b.created_at DESC
+        listed_books_sql =  """
+        SELECT book_id, book_title, book_content, book_price, book_cover_image
+        FROM books
+        WHERE owner_id = %s
         """
-        cursor.execute(listed_books_sql, (session['login_id'],))
+        cursor.execute(listed_books_sql, (login_id,))
         listed_books = cursor.fetchall()
         
         # ユーザーが購入した本
         purchased_books_sql = """
-        SELECT 
-            b.book_id,
-            b.book_title,
-            b.book_price,
-            b.book_cover_image,
-            p.purchase_date,
-            u.user_name as seller_name
-        FROM purchases p
-        JOIN books b ON p.book_id = b.book_id
-        JOIN users u ON b.owner_id = u.user_id
-        WHERE p.buyer_id = %s
-        ORDER BY p.purchase_date DESC
+        SELECT t.book_id, b.book_title, b.book_content, b.book_price, b.book_cover_image
+        FROM transactions t
+        JOIN books b ON t.book_id = b.book_id
+        WHERE t.buyer_id = %s
         """
-        cursor.execute(purchased_books_sql, (session['login_id'],))
+        cursor.execute(purchased_books_sql, (login_id,))
         purchased_books = cursor.fetchall()
         
         return render_template('purchase-history.html', 
