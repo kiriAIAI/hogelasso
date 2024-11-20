@@ -201,12 +201,13 @@ def submit_create():
         cover_image = data.get('cover_image_path', '')
         if not cover_image:
             return jsonify({'message': '表紙画像をアップロードしてください'}), 400
-            
-        # base64データの場合は、有効なフォーマットであることを確認する
-        if cover_image.startswith('data:image'):
-            pass
-        else:
-            return jsonify({'message': '無効な画像形式です'}), 400
+           
+         
+        # # base64データの場合は、有効なフォーマットであることを確認する
+        # if cover_image.startswith('data:image'):
+        #     pass
+        # else:
+        #     return jsonify({'message': '無効な画像形式です'}), 400
 
         # データ挿入
         conn = conn_db()
