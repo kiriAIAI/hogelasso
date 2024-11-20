@@ -477,13 +477,15 @@
       const category = document.getElementById('categorySelect').value;
       const price = document.getElementById('priceInput').value;
       const coverImagePath = for_flask;
+      const Image_data = document.getElementById('fileUpload');
   
       console.log('Form data:', {
           title,
           content,
           category,
           price,
-          coverImagePath
+          coverImagePath,
+          Image_data
       });
   
       // 表单验证
@@ -517,8 +519,10 @@
           content: content.trim(),
           category: category,
           price: price,
-          cover_image_path: coverImagePath
+          cover_image_path: coverImagePath,
       };
+      const ImageData = new FormData();
+      ImageData.append('image_data', Image_data.files[0]);
   
       console.log('Sending data:', formData);
   
@@ -527,13 +531,18 @@
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(formData),
+          
       })
       .then(response => response.json())
       .then(data => {
           console.log('Server response:', data);
           if (data.message === '成功') {
               alert('投稿が完了しました！');
+              fetch('/image_upload', {
+                method: 'POST',
+                body: ImageData
+              })
               window.location.href = '/';
           } else {
               alert('エラー：' + data.message);
@@ -543,6 +552,7 @@
           console.error('Error:', error);
           alert('エラーが発生しました。もう一度お試しください。');
       });
+
     };
   </script>
 
