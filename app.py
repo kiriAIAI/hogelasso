@@ -186,6 +186,14 @@ def create():
     return render_template('create.html')
 
 
+# @app.route('/image_upload', methods=['POST'])
+# def image_upload():
+#     app.config['UPLOAD_FOLDER'] = 'kakikko/static/images'
+#     file = request.files['Image_data']
+#     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+#     file.save(file_path)
+    
+#     return jsonify({'message': '画像をアップロードしました'}), 200
 
 # -------------------- submit_create.html --------------------
 @app.route('/submit_create', methods=['POST'])
@@ -198,9 +206,10 @@ def submit_create():
     try:
 
         data = request.get_json()
-
+        print(request.files['image_data'])
         # 画像データを検証
         cover_image = data.get('cover_image_path', '')
+        print(cover_image)
         if not cover_image:
             return jsonify({'message': '表紙画像をアップロードしてください'}), 400
            

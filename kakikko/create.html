@@ -477,7 +477,7 @@
       const category = document.getElementById('categorySelect').value;
       const price = document.getElementById('priceInput').value;
       const coverImagePath = for_flask;
-      const Image_data = document.getElementById('fileUpload').name;
+      const Image_data = document.getElementById('fileUpload').files[0];
   
       console.log('Form data:', {
           title,
@@ -519,7 +519,7 @@
           content: content.trim(),
           category: category,
           price: price,
-          cover_image_path: coverImagePath
+          cover_image_path: coverImagePath,
       };
   
       console.log('Sending data:', formData);
@@ -529,7 +529,8 @@
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(formData),
+          
       })
       .then(response => response.json())
       .then(data => {
@@ -545,6 +546,7 @@
           console.error('Error:', error);
           alert('エラーが発生しました。もう一度お試しください。');
       });
+
     };
   </script>
 
