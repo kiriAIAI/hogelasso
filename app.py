@@ -190,8 +190,7 @@ def create():
 def image_upload():
     app.config['UPLOAD_FOLDER'] = 'kakikko/static/images/users_images'
     file = request.files['image_data']
-    print(file)
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename) # type: ignore
     file.save(file_path)
     
     return jsonify({'message': '画像をアップロードしました'}), 200
@@ -371,7 +370,7 @@ def product_details(book_id):
             
         return render_template('product-details.html', 
                              book=book,
-                             username=book['username'])
+                             username=book['username']) # type: ignore
                              
     except Exception as e:
         print(f"Error: {e}")
@@ -496,7 +495,7 @@ def paymentsuccess():
 def profile():
     if 'login_id' not in session:
         return redirect(url_for('login'))
-        
+
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
@@ -514,7 +513,7 @@ def profile():
             return redirect(url_for('login'))
             
         return render_template('profile.html', 
-                             username=user_info['username'],  # ユーザー名をテンプレートに渡す
+                             username=user_info['username'],  # ユーザー名をテンプレートに渡す # type: ignore
                              user_info=user_info)
                              
     except Exception as e:
