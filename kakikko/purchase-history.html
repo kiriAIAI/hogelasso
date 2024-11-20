@@ -124,7 +124,9 @@
             <button class="history-tab" onclick="switchTab('listed')">出品した本</button>
           </div>
       
+          
           <!-- 購入履歴 -->
+           
           <div id="purchased" class="history-content active">
             <div class="w-layout-grid product-grid purchased">
               {% if purchased_books %}
@@ -137,7 +139,7 @@
                       <h3 class="product-title">{{ book.book_title }}</h3>
                       <div class="product-price"><strong>¥</strong> {{ book.book_price }}</div>
                       <div class="product-author">{{ book.seller_name }}</div>
-                      <div class="purchase-date">購入日: {{ book.purchase_date.strftime('%Y-%m-%d') }}</div>
+                      
                     </div>
                   </a>
                 {% endfor %}
@@ -148,6 +150,7 @@
           </div>
       
           <!-- 出品した本 -->
+           
           <div id="listed" class="history-content">
             <div class="w-layout-grid product-grid purchased">
               {% if listed_books %}
@@ -176,6 +179,7 @@
                 <div class="no-items-message">出品した本がありません</div>
               {% endif %}
             </div>
+            
           </div>
         </div>
       </div>
