@@ -477,7 +477,7 @@
       const category = document.getElementById('categorySelect').value;
       const price = document.getElementById('priceInput').value;
       const coverImagePath = for_flask;
-      const Image_data = document.getElementById('fileUpload').files[0];
+      const Image_data = document.getElementById('fileUpload');
   
       console.log('Form data:', {
           title,
@@ -521,6 +521,8 @@
           price: price,
           cover_image_path: coverImagePath,
       };
+      const ImageData = new FormData();
+      ImageData.append('image_data', Image_data.files[0]);
   
       console.log('Sending data:', formData);
   
@@ -537,6 +539,10 @@
           console.log('Server response:', data);
           if (data.message === '成功') {
               alert('投稿が完了しました！');
+              fetch('/image_upload', {
+                method: 'POST',
+                body: ImageData
+              })
               window.location.href = '/';
           } else {
               alert('エラー：' + data.message);
