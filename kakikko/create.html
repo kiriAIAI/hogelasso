@@ -387,7 +387,7 @@
 
       function handleFileSelect(e) {
         const file = e.target.files[0];
-        for_flask = file.name;
+        <!-- for_flask = file.name; -->
         displayPreview(file);
       }
 
@@ -476,7 +476,6 @@
       const content = editableContentDiv.innerHTML;
       const category = document.getElementById('categorySelect').value;
       const price = document.getElementById('priceInput').value;
-      const coverImagePath = for_flask;
       const Image_data = document.getElementById('fileUpload');
   
       console.log('Form data:', {
@@ -484,7 +483,6 @@
           content,
           category,
           price,
-          coverImagePath,
           Image_data
       });
   
@@ -509,11 +507,13 @@
           return;
       }
   
-      if (!coverImagePath || coverImagePath === 'data:,') {
+      if (!Image_data) {
           alert('表紙画像をアップロードしてください');
           return;
       }
-  
+
+      const coverImagePath = document.getElementById('fileUpload').files[0].name;
+
       const formData = {
           title: title.trim(),
           content: content.trim(),
