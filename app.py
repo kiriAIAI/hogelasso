@@ -367,6 +367,40 @@ def product_details(book_id):
         if conn:
             conn.close()
 
+# --------------------------------------------------------------------------------------
+
+@app.route('/submit_product-details', methods=['POST'])
+def submit_data():
+    # JSONデータの取得
+    data = request.get_json()
+    sellerID = int(data.get('sellerID'))
+    productID = int(data.get('productID'))
+    
+    #sessionの情報を取得
+    accountID = session['login_id']
+
+    # 取得できたデータを表示
+    print(f'プロダクトID:{productID} , 購入者ID:{accountID} , 出品者ID:{sellerID}')
+    
+    # 取得できたデータを保存
+    conn = conn_db()
+    cursor = conn.cursor()
+    sql = ('''
+    INSERT INTO transactions 
+        (book_id, buyer_id, seller_id)
+    VALUES 
+        (%s, %s, %s)
+    ''')
+    data = [
+       (productID, accountID, sellerID)
+    ]
+    cursor.executemany(sql, data)
+    conn.commit()
+    cursor.close()
+
+    #支払い方法選択ページにリダイレクト
+    print("paymentにリダイレクト")
+    return redirect(url_for('payment',account=accountID,product=productID))
 
 
 # -------------------- search.html --------------------

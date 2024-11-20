@@ -247,7 +247,10 @@
     function sendData() {
         event.preventDefault();
         const quantity = document.getElementById('Quantity').value || 1;
+        const sellerID = '{{ book.owner_id }}';
         const bookId = '{{ book.book_id }}';
+        console.log("sellerID" + sellerID)
+        console.log("bookId" + bookId)
         
         fetch('/submit_product-details', {
             method: 'POST',
@@ -256,7 +259,7 @@
             },
             body: JSON.stringify({ 
                 productID: bookId,
-                quantity: quantity
+                sellerID: sellerID,
             })
         })
         .then(response => {
