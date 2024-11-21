@@ -121,7 +121,7 @@
           <!-- タブ切り替えボタン -->
           <div class="history-tabs">
             <button class="history-tab active" onclick="switchTab('purchased')">購入履歴</button>
-            <button class="history-tab" onclick="switchTab('listed')">出品した本</button>
+            <button class="history-tab" onclick="switchTab('listed')">出品履歴</button>
           </div>
       
           
@@ -133,7 +133,7 @@
                 {% for book in purchased_books %}
                   <a href="{{ url_for('product_details', book_id=book.book_id) }}" class="product-card">
                     <div class="product-image-wrapper">
-                      <img src="{{ book.book_cover_image }}" alt="{{ book.book_title }}" class="product-image">
+                      <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" alt="{{ book.book_title }}" class="product-image">
                     </div>
                     <div class="product-content-wrapper">
                       <h3 class="product-title">{{ book.book_title }}</h3>
@@ -149,7 +149,7 @@
             </div>
           </div>
       
-          <!-- 出品した本 -->
+          <!-- 出品履歴 -->
            
           <div id="listed" class="history-content">
             <div class="w-layout-grid product-grid purchased">
@@ -159,12 +159,12 @@
                     <div class="product-image-wrapper">
                       {% if book.book_cover_image %}
                         {% if book.book_cover_image.startswith('data:image') %}
-                          <img src="{{ book.book_cover_image }}" alt="{{ book.book_title }}" class="product-image">
+                          <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" alt="{{ book.book_title }}" class="product-image">
                         {% else %}
-                          <img src="{{ url_for('static', filename=book.book_cover_image) }}" alt="{{ book.book_title }}" class="product-image">
+                          <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" alt="{{ book.book_title }}" class="product-image">
                         {% endif %}
                       {% else %}
-                        <img src="{{ url_for('static', filename='images/no-image.png') }}" alt="No Image" class="product-image">
+                        <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" alt="No Image" class="product-image">
                       {% endif %}
                     </div>
                     <div class="product-content-wrapper">
@@ -176,7 +176,7 @@
                   </a>
                 {% endfor %}
               {% else %}
-                <div class="no-items-message">出品した本がありません</div>
+                <div class="no-items-message">出品履歴がありません</div>
               {% endif %}
             </div>
             

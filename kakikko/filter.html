@@ -269,7 +269,7 @@
                 {% for book in books %}
                 <a href="{{ url_for('product_details', book_id=book.book_id) }}" class="product-card w-inline-block">
                     <div class="product-image-wrapper">
-                        <img src="{{ book.book_cover_image }}" loading="lazy" alt="" class="product-image">
+                        <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" loading="lazy" alt="" class="product-image">
                     </div>
                     <div class="product-content-wrapper">
                         <h3 class="product-title">{{ book.book_title }}</h3>
