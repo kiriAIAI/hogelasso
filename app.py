@@ -553,6 +553,7 @@ def purchase_history():
         SELECT book_id, book_title, book_content, book_price, book_cover_image
         FROM books
         WHERE owner_id = %s
+        ORDER BY book_id DESC
         """
         cursor.execute(listed_books_sql, (login_id,))
         listed_books = cursor.fetchall()
@@ -563,6 +564,7 @@ def purchase_history():
         FROM transactions t
         JOIN books b ON t.book_id = b.book_id
         WHERE t.buyer_id = %s
+        ORDER BY book_id DESC
         """
         cursor.execute(purchased_books_sql, (login_id,))
         purchased_books = cursor.fetchall()
