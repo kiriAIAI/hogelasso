@@ -31,7 +31,7 @@ CREATE TABLE `books` (
   PRIMARY KEY  (`book_id`),
   KEY `owner_id` (`owner_id`),
   CONSTRAINT `books_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `books`
@@ -39,7 +39,7 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'Python入門','Pythonプログラミングを基礎から学べる初心者向けのガイドです。','プログラミング','2200.00','/images/python_intro.jpg',20000),(3,'MySQL完全攻略','MySQLのデータベース管理を深く理解するための実践的な書籍です。','データベース','3500.00','/images/mysql_mastery.jpg',20000),(4,'ウェブ開発の基礎','HTML、CSS、JavaScriptの基本を学べる初心者向けの一冊です。','ウェブ開発','2800.00','/images/web_basics.jpg',20000),(5,'AIと機械学習の基礎','人工知能と機械学習の基本的な仕組みをわかりやすく解説します。','人工知能','4500.00','/images/ai_ml.jpg',20000),(6,'サイバーセキュリティの基礎','ネットワークや情報セキュリティの重要な概念を網羅した一冊です。','セキュリティ','3200.00','/images/cybersecurity.jpg',20000),(7,'あああ','ああ','lifestyle','280000.00','GGG.jpg',20000),(8,'直った！！','aa','lifestyle','0.00','G (3).jpg',20000),(9,'aaa','aaaa','lifestyle','0.00','unnamed.jpg',20000),(10,'aa','aa','lifestyle','280000.00','unnamed.jpg',20000),(11,'a','aaa','certification','280000.00','G (3).jpg',20000),(12,'aa','aa','lifestyle','280000.00','GGG.jpg',20000),(13,'a','aaa','lifestyle','0.00','GGG.jpg',20000),(14,'aa','aa','social','280000.00','スクショ.png',20000),(15,'a','aaa','history','280000.00','file',20000),(16,'a','aa','lifestyle','0.00','GGG.jpg',20000),(17,'a','aa','social','0.00','file',20000),(18,'a','aa','history','280000.00','GGG.jpg',20000),(19,'きたこれ','あああ','lifestyle','222.00','G (3).jpg',20000),(20,'皆ホントにありがとう','aaa','lifestyle','0.00','GGG.jpg',100000),(21,'今日も今日とて','aa','certification','280000.00','スクリーンショット 2023-03-19 004028.png',100000),(22,'基本情報取らなければならない','ああ','lifestyle','303000.00','スクリーンショット 2024-04-26 224626.png',100000),(23,'kakikko','あああ','lifestyle','280000.00','スクリーンショット 2024-11-13 190333.png',100000);
+INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'Python入門','Pythonプログラミングを基礎から学べる初心者向けのガイドです。','プログラミング','2200.00','/images/python_intro.jpg',20000),(3,'MySQL完全攻略','MySQLのデータベース管理を深く理解するための実践的な書籍です。','データベース','3500.00','/images/mysql_mastery.jpg',20000),(4,'ウェブ開発の基礎','HTML、CSS、JavaScriptの基本を学べる初心者向けの一冊です。','ウェブ開発','2800.00','/images/web_basics.jpg',20000),(5,'AIと機械学習の基礎','人工知能と機械学習の基本的な仕組みをわかりやすく解説します。','人工知能','4500.00','/images/ai_ml.jpg',20000),(6,'サイバーセキュリティの基礎','ネットワークや情報セキュリティの重要な概念を網羅した一冊です。','セキュリティ','3200.00','/images/cybersecurity.jpg',20000),(7,'あああ','ああ','lifestyle','280000.00','GGG.jpg',20000),(8,'直った！！','aa','lifestyle','0.00','G (3).jpg',20000),(9,'aaa','aaaa','lifestyle','0.00','unnamed.jpg',20000),(10,'aa','aa','lifestyle','280000.00','unnamed.jpg',20000),(11,'a','aaa','certification','280000.00','G (3).jpg',20000),(12,'aa','aa','lifestyle','280000.00','GGG.jpg',20000),(13,'a','aaa','lifestyle','0.00','GGG.jpg',20000),(14,'aa','aa','social','280000.00','スクショ.png',20000),(15,'a','aaa','history','280000.00','file',20000),(16,'a','aa','lifestyle','0.00','GGG.jpg',20000),(17,'a','aa','social','0.00','file',20000),(18,'a','aa','history','280000.00','GGG.jpg',20000),(19,'きたこれ','あああ','lifestyle','222.00','G (3).jpg',20000),(20,'皆ホントにありがとう','aaa','lifestyle','0.00','GGG.jpg',100000),(21,'今日も今日とて','aa','certification','280000.00','スクリーンショット 2023-03-19 004028.png',100000),(22,'基本情報取らなければならない','ああ','lifestyle','303000.00','スクリーンショット 2024-04-26 224626.png',100000),(23,'kakikko','あああ','lifestyle','280000.00','スクリーンショット 2024-11-13 190333.png',100000),(24,'a','aa','lifestyle','303000.00','G (3).jpg',100000),(25,'あ','ああ','lifestyle','303000.00','IMG_5959.jpg',100000),(26,'a','a','lifestyle','303000.00','GGG.jpg',20000),(27,'aa','aa','lifestyle','303000.00','GGGx.jpg',20000),(28,'aa','aaa','certification','303000.00','GGGx.jpg',20000),(29,'aa','aa','lifestyle','303000.00','28_GGGx.jpg',20000),(30,'a','aaa','lifestyle','303000.00','30_GGGx.jpg',20000),(31,'a','aaaa','lifestyle','303000.00','31_GGGx.jpg',20000);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `transactions` (
   CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`),
   CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`),
   CONSTRAINT `transactions_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transactions`
@@ -69,7 +69,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,1,2,1,'2024-11-15 03:00:00'),(2,1,20000,20000,'2024-11-15 12:23:22'),(3,1,2,20000,'2024-11-16 04:04:46'),(4,1,99999,20000,'2024-11-16 04:05:46'),(5,1,99999,20000,'2024-11-16 04:17:32'),(6,1,99999,20000,'2024-11-16 05:04:32'),(7,1,99999,NULL,'2024-11-16 05:46:07'),(8,1,99999,1,'2024-11-16 05:58:44'),(9,6,99999,20000,'2024-11-16 06:06:09'),(10,4,2,20000,'2024-11-16 06:06:43');
+INSERT INTO `transactions` VALUES (1,1,2,1,'2024-11-15 03:00:00'),(2,1,20000,20000,'2024-11-15 12:23:22'),(3,1,2,20000,'2024-11-16 04:04:46'),(4,1,99999,20000,'2024-11-16 04:05:46'),(5,1,99999,20000,'2024-11-16 04:17:32'),(6,1,99999,20000,'2024-11-16 05:04:32'),(7,1,99999,NULL,'2024-11-16 05:46:07'),(8,1,99999,1,'2024-11-16 05:58:44'),(9,6,99999,20000,'2024-11-16 06:06:09'),(10,4,2,20000,'2024-11-16 06:06:43'),(11,23,100000,100000,'2024-11-21 03:15:14'),(12,25,20000,100000,'2024-11-21 07:32:47'),(13,25,20000,100000,'2024-11-21 07:33:15'),(14,25,20000,100000,'2024-11-21 07:33:26');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,4 +130,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-20 16:55:17
+-- Dump completed on 2024-11-21 16:23:11
