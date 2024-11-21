@@ -1053,6 +1053,7 @@
   margin-top: 10px;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .drop-zone {
