@@ -455,7 +455,7 @@ def submit_comment():
     conn.commit()
     cursor.close()
     """
-    return
+    return redirect(url_for('product_details',book_id=productID))
     
 
 
