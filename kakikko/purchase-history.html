@@ -131,7 +131,7 @@
             <div class="w-layout-grid product-grid purchased">
               {% if purchased_books %}
                 {% for book in purchased_books %}
-                  <a href="{{ url_for('product_details', book_id=book.book_id) }}" class="product-card">
+                  <a href="{{ url_for('read', book_id=book.book_id) }}" class="product-card">
                     <div class="product-image-wrapper">
                       <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" alt="{{ book.book_title }}" class="product-image">
                     </div>
@@ -155,7 +155,7 @@
             <div class="w-layout-grid product-grid purchased">
               {% if listed_books %}
                 {% for book in listed_books %}
-                  <a href="{{ url_for('product_details', book_id=book.book_id) }}" class="product-card">
+                  <a href="{{ url_for('read', book_id=book.book_id) }}" class="product-card">
                     <div class="product-image-wrapper">
                       {% if book.book_cover_image %}
                         {% if book.book_cover_image.startswith('data:image') %}
@@ -171,7 +171,6 @@
                       <h3 class="product-title">{{ book.book_title }}</h3>
                       <div class="product-price"><strong>¥</strong> {{ book.book_price }}</div>
                       <div class="product-author">{{ book.owner_name }}</div>
-                      <div class="purchase-date">出品日: {{ book.formatted_date }}</div>
                     </div>
                   </a>
                 {% endfor %}

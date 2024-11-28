@@ -604,9 +604,38 @@ def purchase_history():
 
 
 # -------------------- read.html --------------------
-@app.route('/read.html')
-def read():
-    return render_template('read.html')
+@app.route('/read.html/<int:book_id>')
+def read(book_id):
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # 書籍情報を入手
+        cursor.execute("""
+            SELECT b.*, u.username 
+            FROM books b 
+            JOIN users u ON b.owner_id = u.id 
+            WHERE b.book_id = %s
+        """, (book_id,))
+        book = cursor.fetchone()
+        
+        if not book:
+            return redirect(url_for('purchase_history'))
+            
+        return render_template('read.html', book=book)
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return redirect(url_for('purchase_history'))
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 
 
