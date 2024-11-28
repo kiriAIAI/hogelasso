@@ -233,7 +233,6 @@ def submit_create():
         cursor.execute('SELECT book_id FROM books ORDER BY book_id DESC LIMIT 1')
         latest_book_id = cursor.fetchone() # 取得した結果を表示 
         cover_image = f"{latest_book_id[0] + 1}_{cover_image}" # type: ignore
-        print(cover_image)
             
         insert_sql = """
         INSERT INTO books (
