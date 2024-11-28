@@ -10,6 +10,7 @@
   <link href="{{ url_for('static', filename='css/normalize.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ url_for('static', filename='css/webflow.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ url_for('static', filename='css/kakikko2.webflow.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -186,12 +187,26 @@
       </div>
     </div>
   </section>
+  <!-- コメントの表示と投稿セクション -->
   <section class="section">
     <div class="w-layout-blockcontainer container w-container">
       <div class="comment-block">
+        <!-- コメントの表示部分 -->
+        <div class="comment-window">
+          <div class="comment-blocks">
+            <div class="left-block">
+              <img src="{{ url_for('static', filename='images/circle-user.svg') }}" alt="">
+            </div>
+            <div class="right-block">
+              <div class="comment-username">ゆーざー名</div>
+              <div class="comment-body">うおおおうおうおうおうおおおおおおおおおおおおおおおおおおおおうおうおううおおおおおおおおお</div>
+            </div>
+          </div>
+        </div>
+         <!-- 
         <div data-ms-channel-sort="newest" data-ms-channel="user-comments" class="comment-wrapper">
           <div class="comment-section-heading">
-            <h3 class="comment-h3"><span data-ms-post="count">0</span> コメント</h3>
+            <h3 class="comment-h3"><span data-ms-post="count">0</span> コメント</h3>  
           </div>
           <div data-ms-content="members" class="comment-form w-form"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="comment-author-image">
             <form id="wf-form-New-Comment-Form" name="wf-form-New-Comment-Form" data-name="New Comment Form" method="get" data-ms-form="post" class="new-comment-input-wrapper" data-wf-page-id="670b752701de0ce1386810ba" data-wf-element-id="b535171e-a3ac-0a08-c6c4-e5b838f35627">
@@ -205,6 +220,8 @@
           </div>
           <div data-ms-channel-content="has-posts" class="comment-has-posts">
             <div data-ms-post-load="100" data-ms-post="container" class="comment-post-container">
+               -->
+              <!-- コメント投稿部分 -->
               <div data-ms-post="item" class="comment-row">
                 <div class="comment-image-wrap"><img data-ms-post="ownerProfileImage" loading="lazy" alt="" src="{{ url_for('static', filename='images/circle-user.svg') }}" class="comment-image"></div>
                 <div class="comment-content">
@@ -244,6 +261,7 @@
   
   <!-- JavaScript -->
   <script>
+    //購入の処理
     function sendData() {
         event.preventDefault();
         const quantity = document.getElementById('Quantity').value || 1;
@@ -273,6 +291,36 @@
         });
     }
     
+    //コメント投稿の処理
+    function sendData() {
+      event.preventDefault();
+      const quantity = document.getElementById('Quantity').value || 1;
+      const sellerID = '{{ book.owner_id }}';
+      const bookId = '{{ book.book_id }}';
+      console.log("sellerID" + sellerID)
+      console.log("bookId" + bookId)
+      
+      fetch('/submit_product-details', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+              productID: bookId,
+              sellerID: sellerID,
+          })
+      })
+      .then(response => {
+          if (response.redirected) {
+              window.location.href = response.url;
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          alert('エラーが発生しました。');
+      });
+  }
+
     // お気に入り機能
     document.getElementById('heart-icon').addEventListener('click', function(e) {
         e.preventDefault();

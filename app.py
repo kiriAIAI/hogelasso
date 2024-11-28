@@ -432,6 +432,41 @@ def submit_data():
     print("paymentにリダイレクト")
     return redirect(url_for('payment',account=accountID,product=productID))
 
+#-----------------------------商品につけるコメントのぺーじ-----------------------------------------
+@app.route('/submit_product-comment', methods=['POST'])
+def submit_comment():
+    print("コメントの投稿")
+    # JSONデータの取得
+    data = request.get_json()
+    maintxt = data.get('maintxt')
+    productID = int(data.get('productID'))
+    
+    #sessionの情報を取得
+    accountID = session['login_id']
+
+    # 取得できたデータを表示
+    print(f'プロダクトID:{productID} , コメント投稿者ID:{accountID} , 本文:{maintxt}')
+    
+    # 取得できたデータを保存
+    """
+    conn = conn_db()
+    cursor = conn.cursor()
+    sql = ('''
+    INSERT INTO transactions 
+        (book_id, buyer_id, seller_id)
+    VALUES 
+        (%s, %s, %s)
+    ''')
+    data = [
+       (productID, accountID, sellerID)
+    ]
+    cursor.executemany(sql, data)
+    conn.commit()
+    cursor.close()
+    """
+    return
+    
+
 
 # -------------------- search.html --------------------
 @app.route('/search.html')
