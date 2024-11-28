@@ -384,7 +384,7 @@ def product_details(book_id):
             return redirect(url_for('index'))
         
         # 現在のユーザーが本の所有者かどうかをチェックする
-        is_owner = book['owner_id'] == session['login_id']
+        is_owner = book['owner_id'] == session['login_id'] # type: ignore
         
         # 現在のユーザーが本を購入したかどうかをチェックする
         cursor.execute("""
@@ -393,11 +393,11 @@ def product_details(book_id):
             WHERE book_id = %s AND buyer_id = %s
         """, (book_id, session['login_id']))
         purchase_info = cursor.fetchone()
-        is_purchased = purchase_info['count'] > 0
+        is_purchased = purchase_info['count'] > 0 # type: ignore
         
         return render_template('product-details.html', 
                              book=book,
-                             username=book['username'],
+                             username=book['username'], # type: ignore
                              is_owner=is_owner,
                              is_purchased=is_purchased)
                              
