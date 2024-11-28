@@ -1727,10 +1727,12 @@
   border-radius: 6px;
   padding: .75rem 1.5rem;
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .add-to-cart-btn:hover {
   background-color: var(--dark-gray-hover);
+  transform: translateY(-1px);
 }
 
 .form_input {
@@ -2329,12 +2331,12 @@
   padding: 1rem;
   font-size: 1.05rem;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .checkout-btn:hover {
   background-color: var(--dark-gray-hover);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .products1-actions-wrap {
@@ -4287,8 +4289,7 @@
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: background-color 0.3s;
-  }
+}
 
   .sysf-input {
     font-size: 16px;

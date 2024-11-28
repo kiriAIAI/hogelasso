@@ -371,7 +371,7 @@ def product_details(book_id):
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # 書籍情報を入手
+        # 書籍情報入手
         cursor.execute("""
             SELECT b.*, u.username 
             FROM books b 
@@ -382,10 +382,24 @@ def product_details(book_id):
         
         if not book:
             return redirect(url_for('index'))
-            
+        
+        # 現在のユーザーが本の所有者かどうかをチェックする
+        is_owner = book['owner_id'] == session['login_id']
+        
+        # 現在のユーザーが本を購入したかどうかをチェックする
+        cursor.execute("""
+            SELECT COUNT(*) as count
+            FROM transactions
+            WHERE book_id = %s AND buyer_id = %s
+        """, (book_id, session['login_id']))
+        purchase_info = cursor.fetchone()
+        is_purchased = purchase_info['count'] > 0
+        
         return render_template('product-details.html', 
                              book=book,
-                             username=book['username']) # type: ignore
+                             username=book['username'],
+                             is_owner=is_owner,
+                             is_purchased=is_purchased)
                              
     except Exception as e:
         print(f"Error: {e}")
@@ -397,8 +411,9 @@ def product_details(book_id):
         if conn:
             conn.close()
 
-# --------------------------------------------------------------------------------------
 
+
+# -------------------- submit_product-details --------------------
 @app.route('/submit_product-details', methods=['POST'])
 def submit_data():
     # JSONデータの取得
@@ -432,7 +447,9 @@ def submit_data():
     print("paymentにリダイレクト")
     return redirect(url_for('payment',account=accountID,product=productID))
 
-#-----------------------------商品につけるコメントのぺーじ-----------------------------------------
+
+
+#----------------------------- 商品につけるコメントのぺーじ -----------------------------------------
 @app.route('/submit_product-comment', methods=['POST'])
 def submit_comment():
     print("コメントの投稿")
