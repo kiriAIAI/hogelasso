@@ -387,7 +387,6 @@
 
       function handleFileSelect(e) {
         const file = e.target.files[0];
-        <!-- for_flask = file.name; -->
         displayPreview(file);
       }
 
@@ -466,6 +465,11 @@
       dropZone.addEventListener('click', function() {
         fileUpload.click();
       });
+
+      preview.addEventListener('click', function() {
+        fileUpload.click();
+      });
+      
     });
 
     // JSでデータを収集して、flaskに送る

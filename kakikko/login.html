@@ -20,9 +20,7 @@
   <link href="{{ url_for('static', filename='images/webclip.png') }}" rel="apple-touch-icon">
 </head>
 <body class="body">
-  {% if error %}
-  <p style="color:red;">{{ error }}</p>
-  {% endif %}
+  
   <section class="login-signup-section">
     <div class="w-layout-blockcontainer login-signup-container w-container">
       <div class="login-signup-left-block">
@@ -37,6 +35,9 @@
             <input type="email" name="email" required class="login-signup-form-field w-input" maxlength="256"  data-name="Email" placeholder="example@gmail.com"  id="Email">
             <label for="Password" class="login-signup-form-label">パスワード</label>
             <input type="password" name="password" required class="login-signup-form-field w-input" maxlength="256"  data-name="Password" placeholder="Password"  id="Password">
+            {% if error %}
+            <p class="error-message">{{ error }}</p>
+            {% endif %}
             <div class="form-check-block">
               <a href="{{ url_for('register') }}" class="login-signup-link">初めての方はこちら</a>
             </div><input type="submit" data-wait="Please wait..." class="login-signup-button w-button" value="ログイン">
@@ -44,18 +45,6 @@
               <a href="{{ url_for('forgetpassword') }}" class="login-signup-link">パスワードを忘れた方はこちら</a>
             </div>
           </form>
-          <div class="success-message w-form-done">
-            <div class="success-block">
-              <img src="{{ url_for('static', filename='images/success.svg') }}" loading="lazy" alt="" class="success-image">
-              <div class="success-text">ログイン成功</div>
-            </div>
-          </div>
-          <div class="error-message w-form-fail">
-            <div class="error-block">
-              <img src="{{ url_for('static', filename='images/error.svg') }}" loading="lazy" alt="" class="image">
-              <div class="error-text">ユーザー名、またはパスワードが間違っています</div>
-            </div>
-          </div>
         </div>
       </div>
       <div class="login-signup-right-block">

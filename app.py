@@ -197,9 +197,16 @@ def create():
 
 @app.route('/image_upload', methods=['POST'])
 def image_upload():
+    conn = conn_db()
+    cursor = conn.cursor()
+        
+    cursor.execute('SELECT book_id FROM books ORDER BY book_id DESC LIMIT 1')
+    latest_book_id = cursor.fetchone() # 取得した結果を表示 
+    
     app.config['UPLOAD_FOLDER'] = 'kakikko/static/images/users_images'
     file = request.files['image_data']
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename) # type: ignore
+    file_name = f"{latest_book_id[0]}_{file.filename}" # type: ignore
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name) # type: ignore
     file.save(file_path)
     
     return jsonify({'message': '画像をアップロードしました'}), 200
@@ -218,15 +225,10 @@ def submit_create():
         # print(request.files['image_data'])
         # 画像データを検証
         cover_image = data.get('cover_image_path', '')
-        print(cover_image)
         if not cover_image:
             return jsonify({'message': '表紙画像をアップロードしてください'}), 400
-           
-        # app.config['UPLOAD_FOLDER'] = 'kakikko/static/images'
-        # file = request.files['Image_data']
-        # file_path = os.path.join(app.config['UPLOAD_FOLDER'], cover_image)
-        # file.save(file_path)
-         
+        
+        
         # # base64データの場合は、有効なフォーマットであることを確認する
         # if cover_image.startswith('data:image'):
         #     pass
@@ -237,6 +239,10 @@ def submit_create():
         conn = conn_db()
         cursor = conn.cursor()
         
+        cursor.execute('SELECT book_id FROM books ORDER BY book_id DESC LIMIT 1')
+        latest_book_id = cursor.fetchone() # 取得した結果を表示 
+        cover_image = f"{latest_book_id[0] + 1}_{cover_image}" # type: ignore
+            
         insert_sql = """
         INSERT INTO books (
             book_title,
@@ -562,6 +568,7 @@ def purchase_history():
         SELECT book_id, book_title, book_content, book_price, book_cover_image
         FROM books
         WHERE owner_id = %s
+        ORDER BY book_id DESC
         """
         cursor.execute(listed_books_sql, (login_id,))
         listed_books = cursor.fetchall()
@@ -572,6 +579,7 @@ def purchase_history():
         FROM transactions t
         JOIN books b ON t.book_id = b.book_id
         WHERE t.buyer_id = %s
+        ORDER BY book_id DESC
         """
         cursor.execute(purchased_books_sql, (login_id,))
         purchased_books = cursor.fetchall()
