@@ -23,21 +23,9 @@
         <div>かきっこチャットボット</div>
     </div>
     <div id="kaitou" class="kaitou">
-        <p id="hint" class="chatbot">すぐに答えが見つかるよお手伝いします！<br>ご質問は何ですか？</p>
-        <!-- <div> -->
-            <!-- <img id="preview" src="" alt="" hidden> -->
-        <!-- </div> -->
+        <p id="hint" class="chatbot">すぐに答えが見つかるよお手伝いします！<br>ご質問は何ですか？</p>   
         <div id="kaitouA"></div>
-        <!-- <p id="textbox" class="me" hidden></p> -->
-        <!-- <p id="response" class="chatbot" hidden></p> -->
     </div>
-
-    <style>
-        #image:hover, #send-btn:hover, #X:hover {
-            transform: scale(1.1);
-            transition: transform 0.3s ease;
-        }
-    </style>
     <div class="kensaku">
         <img src="{{ url_for('images', filename='clip.png') }}" alt="" id="image">
         <input type="text" id="user-input" maxlength="100" placeholder="質問を入力">
@@ -81,6 +69,12 @@
 
         document.getElementById('image').addEventListener('click', function() {
             document.getElementById('fileInput').click();
+        });
+        document.getElementById('user-input').addEventListener('keydown', function(event) {
+            // エンターキー(Enter)が押された場合
+            if (event.key === 'Enter') {
+                document.getElementById('send-btn').click();
+            }
         });
 
 
@@ -211,7 +205,7 @@
         document.getElementById('send-btn').addEventListener('click', () => {
             let userInput = document.getElementById('user-input').value;
             if (userInput == ""){
-                exit()
+                return;
             }
             document.getElementById("hint").hidden = true;
 
