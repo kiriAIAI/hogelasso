@@ -176,7 +176,16 @@ def login():
 # -------------------- logout.html --------------------
 @app.route('/logout.html')
 def logout():
-    return render_template('logout.html')
+    session.pop('user_id', None)  # 清除用户的会话信息
+    return render_template('logout.html')  # 渲染登出页面
+
+@app.route('/dashboard')
+def dashboard():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    return render_template('dashboard.html')
+
+
 
 
 
