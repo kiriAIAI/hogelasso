@@ -1,0 +1,21 @@
+.comment-window{
+    margin-bottom: 50px;
+    background-color: aqua;
+}
+.comment-blocks{
+    display: flex;
+    margin: 0 0 20px 0;
+    background-color: green;
+}
+
+.left-block{}
+.left-block img{
+    width: 50px;
+}
+
+
+.right-block{
+    width: 92%;
+    margin: 0 0 0 auto;
+    padding: 3px;
+}
