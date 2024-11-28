@@ -203,53 +203,32 @@
             </div>
           </div>
         </div>
-         <!-- 
-        <div data-ms-channel-sort="newest" data-ms-channel="user-comments" class="comment-wrapper">
-          <div class="comment-section-heading">
-            <h3 class="comment-h3"><span data-ms-post="count">0</span> コメント</h3>  
-          </div>
-          <div data-ms-content="members" class="comment-form w-form"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="comment-author-image">
-            <form id="wf-form-New-Comment-Form" name="wf-form-New-Comment-Form" data-name="New Comment Form" method="get" data-ms-form="post" class="new-comment-input-wrapper" data-wf-page-id="670b752701de0ce1386810ba" data-wf-element-id="b535171e-a3ac-0a08-c6c4-e5b838f35627">
-              <div class="comment-form-input-row">
-                <div class="comment-input-wrap"><textarea class="comment-input is-primary w-input" data-ms-post="content" maxlength="5000" name="New-Comment" data-name="New Comment" placeholder="コメントを入力" data-ms-content="members" id="New-Comment"></textarea><input type="submit" data-wait="Please wait..." data-ms-content="members" class="comment-btn is-icon w-button" value="Send"></div>
-              </div>
-            </form>
-          </div>
-          <div data-ms-post="loading" class="comment-loader-wrap is-fixed"><img src="{{ url_for('static', filename='images/Z5xD4JlDI7-min.gif') }}" loading="lazy" width="75" alt="" class="comment-loader">
-            <div>Loading</div>
-          </div>
-          <div data-ms-channel-content="has-posts" class="comment-has-posts">
-            <div data-ms-post-load="100" data-ms-post="container" class="comment-post-container">
-               -->
-              <!-- コメント投稿部分 -->
-              <div data-ms-post="item" class="comment-row">
-                <div class="comment-image-wrap"><img data-ms-post="ownerProfileImage" loading="lazy" alt="" src="{{ url_for('static', filename='images/circle-user.svg') }}" class="comment-image"></div>
-                <div class="comment-content">
-                  <div class="comment-hover">
-                    <div class="comment-name-row">
-                      <div class="comment-inline-block">
-                        <div class="commenter-name">
-                          <div data-ms-post-creator="first-name">Username</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div data-ms-post="content" class="comment-text">コメント</div>
-                    <div data-ms-post-edit="section" class="comment-edit-section">
-                      <div class="comment-no-margin w-form">
-                        <form id="wf-form-Edit-Comment-Form" name="wf-form-Edit-Comment-Form" data-name="Edit Comment Form" method="get" data-ms-post-edit="form" data-wf-page-id="670b752701de0ce1386810ba" data-wf-element-id="b535171e-a3ac-0a08-c6c4-e5b838f35653"><textarea class="comment-input w-input" maxlength="5000" name="Edit-Comment" data-name="Edit Comment" data-ms-post-edit="content" placeholder="コメントを入力" id="Edit-Comment"></textarea>
-                          <div class="comment-form-button-row">
-                            <div class="comment-delete-wrap">
-                              <a href="#" class="comment-delete-btn w-button">削除</a>
-                            </div>
-                            <a data-ms-post-edit="cancel" href="#" class="comment-btn is-cancel w-button">キャンセル</a>
-                            <button type="submit" data-wait="Please wait..." class="comment-btn w-button">
-                              <i class="fa-solid fa-paper-plane"></i>
-                          </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+        <!-- コメント投稿部分 -->
+        <div data-ms-post="item" class="comment-row">
+          <div class="comment-image-wrap"><img data-ms-post="ownerProfileImage" loading="lazy" alt="" src="{{ url_for('static', filename='images/circle-user.svg') }}" class="comment-image"></div>
+          <div class="comment-content">
+            <div class="comment-hover">
+              <div class="comment-name-row">
+                <div class="comment-inline-block">
+                  <div class="commenter-name">
+                    <div data-ms-post-creator="first-name">Username</div>
                   </div>
+                </div>
+              </div>
+              <div data-ms-post="content" class="comment-text">コメント</div>
+              <div data-ms-post-edit="section" class="comment-edit-section">
+                <div class="comment-no-margin w-form">
+                  <form id="wf-form-Edit-Comment-Form" name="wf-form-Edit-Comment-Form" data-name="Edit Comment Form" method="get" data-ms-post-edit="form" data-wf-page-id="670b752701de0ce1386810ba" data-wf-element-id="b535171e-a3ac-0a08-c6c4-e5b838f35653"><textarea class="comment-input w-input" maxlength="5000" name="Edit-Comment" data-name="Edit Comment" data-ms-post-edit="content" placeholder="コメントを入力" id="Edit-Comment"></textarea>
+                    <div class="comment-form-button-row">
+                      <div class="comment-delete-wrap">
+                        <a href="#" class="comment-delete-btn w-button">削除</a>
+                      </div>
+                      <a data-ms-post-edit="cancel" href="#" class="comment-btn is-cancel w-button">キャンセル</a>
+                      <button type="submit" id="Comment_Submission" class="comment-btn w-button">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -292,22 +271,22 @@
     }
     
     //コメント投稿の処理
-    function sendData() {
+    document.getElementById("Comment_Submission").addEventListener("click",function(){
+      console.log("コメント投稿機能");
       event.preventDefault();
-      const quantity = document.getElementById('Quantity').value || 1;
-      const sellerID = '{{ book.owner_id }}';
+      const maintxt = document.getElementById('Edit-Comment').value;
       const bookId = '{{ book.book_id }}';
-      console.log("sellerID" + sellerID)
-      console.log("bookId" + bookId)
+      console.log("maintxt : " + maintxt);
+      console.log("bookId : " + bookId);
       
-      fetch('/submit_product-details', {
+      fetch('/submit_product-comment', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
           },
           body: JSON.stringify({ 
               productID: bookId,
-              sellerID: sellerID,
+              maintxt: maintxt,
           })
       })
       .then(response => {
@@ -319,8 +298,9 @@
           console.error('Error:', error);
           alert('エラーが発生しました。');
       });
-  }
+    });
 
+      
     // お気に入り機能
     document.getElementById('heart-icon').addEventListener('click', function(e) {
         e.preventDefault();
