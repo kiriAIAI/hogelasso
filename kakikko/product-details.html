@@ -176,20 +176,19 @@
                              maxlength="256" name="Quantity" data-name="Quantity" placeholder="1" type="number" min="1" id="Quantity"> -->
                   </div>
                   {% endif %}
-                      {% if is_owner or is_purchased %}
-                      <div class="products1-actions-wrap" style="margin-top: 60px;">
-                        <a href="{{ url_for('read', book_id=book.book_id) }}" class="button-secondary is-buy-now-button w-button">読む</a>
-                      {% else %}
-                      <div class="products1-actions-wrap">
-                        <a href="#" onclick="sendData()" class="button-secondary is-buy-now-button w-button">今すぐ買う</a>
-                      
-                      {% endif %}
-                      <a href="#" class="link-block w-inline-block">
-                          <div class="text-14 text-14-30" id="heart-icon">
-                              <i class="fa-solid fa-heart"></i>
-                          </div>
-                        </a>
+                  {% if is_owner or is_purchased %}
+                  <div class="products1-actions-wrap" style="margin-top: 60px;">
+                    <a href="{{ url_for('read', book_id=book.book_id) }}" class="button-secondary is-buy-now-button w-button">読む</a>
+                  {% else %}
+                  <div class="products1-actions-wrap">
+                    <a href="#" onclick="sendData()" class="button-secondary is-buy-now-button w-button">今すぐ買う</a>
+                  {% endif %}
+                    <a href="#" class="link-block w-inline-block">
+                      <div class="text-14 text-14-30" id="heart-icon">
+                          <i class="fa-solid fa-heart"></i>
                       </div>
+                    </a>
+                  </div>
               </form>
             </div>
         </div>
@@ -279,7 +278,6 @@
     //購入の処理
     function sendData() {
         event.preventDefault();
-        const quantity = document.getElementById('Quantity').value || 1;
         const sellerID = '{{ book.owner_id }}';
         const bookId = '{{ book.book_id }}';
         console.log("sellerID" + sellerID)
