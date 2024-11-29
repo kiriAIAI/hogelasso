@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES gbk */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -31,7 +31,7 @@ CREATE TABLE `books` (
   PRIMARY KEY  (`book_id`),
   KEY `owner_id` (`owner_id`),
   CONSTRAINT `books_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `books`
@@ -39,7 +39,7 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'PythonÈëéT','Python¥×¥í¥°¥é¥ß¥ó¥°¤ò»ùµA¤«¤éÑ§¤Ù¤ë³õĞÄÕßÏò¤±¤Î¥¬¥¤¥É¤Ç¤¹¡£','¥×¥í¥°¥é¥ß¥ó¥°','2200.00','/images/python_intro.jpg',20000),(3,'MySQLÍêÈ«¹¥ÂÔ','MySQL¤Î¥Ç©`¥¿¥Ù©`¥¹¹ÜÀí¤òÉî¤¯Àí½â¤¹¤ë¤¿¤á¤ÎŒg¼ùµÄ¤Ê•ø¼®¤Ç¤¹¡£','¥Ç©`¥¿¥Ù©`¥¹','3500.00','/images/mysql_mastery.jpg',20000),(4,'¥¦¥§¥Öé_°k¤Î»ùµA','HTML¡¢CSS¡¢JavaScript¤Î»ù±¾¤òÑ§¤Ù¤ë³õĞÄÕßÏò¤±¤ÎÒ»ƒÔ¤Ç¤¹¡£','¥¦¥§¥Öé_°k','2800.00','/images/web_basics.jpg',20000),(5,'AI¤È™CĞµÑ§Á•¤Î»ùµA','ÈË¹¤ÖªÄÜ¤È™CĞµÑ§Á•¤Î»ù±¾µÄ¤ÊÊË½M¤ß¤ò¤ï¤«¤ê¤ä¤¹¤¯½âÕh¤·¤Ş¤¹¡£','ÈË¹¤ÖªÄÜ','4500.00','/images/ai_ml.jpg',20000),(6,'¥µ¥¤¥Ğ©`¥»¥­¥å¥ê¥Æ¥£¤Î»ùµA','¥Í¥Ã¥È¥ï©`¥¯¤äÇéˆó¥»¥­¥å¥ê¥Æ¥£¤ÎÖØÒª¤Ê¸ÅÄî¤ò¾WÁ_¤·¤¿Ò»ƒÔ¤Ç¤¹¡£','¥»¥­¥å¥ê¥Æ¥£','3200.00','/images/cybersecurity.jpg',20000),(7,'¤¢¤¢¤¢','¤¢¤¢','lifestyle','280000.00','GGG.jpg',20000),(8,'Ö±¤Ã¤¿£¡£¡','aa','lifestyle','0.00','G (3).jpg',20000),(9,'aaa','aaaa','lifestyle','0.00','unnamed.jpg',20000),(10,'aa','aa','lifestyle','280000.00','unnamed.jpg',20000),(11,'a','aaa','certification','280000.00','G (3).jpg',20000),(12,'aa','aa','lifestyle','280000.00','GGG.jpg',20000),(13,'a','aaa','lifestyle','0.00','GGG.jpg',20000),(14,'aa','aa','social','280000.00','¥¹¥¯¥·¥ç.png',20000),(15,'a','aaa','history','280000.00','file',20000),(16,'a','aa','lifestyle','0.00','GGG.jpg',20000),(17,'a','aa','social','0.00','file',20000),(18,'a','aa','history','280000.00','GGG.jpg',20000),(19,'¤­¤¿¤³¤ì','¤¢¤¢¤¢','lifestyle','222.00','G (3).jpg',20000),(20,'½Ô¥Û¥ó¥È¤Ë¤¢¤ê¤¬¤È¤¦','aaa','lifestyle','0.00','GGG.jpg',100000),(21,'½ñÈÕ¤â½ñÈÕ¤È¤Æ','aa','certification','280000.00','¥¹¥¯¥ê©`¥ó¥·¥ç¥Ã¥È 2023-03-19 004028.png',100000),(22,'»ù±¾ÇéˆóÈ¡¤é¤Ê¤±¤ì¤Ğ¤Ê¤é¤Ê¤¤','¤¢¤¢','lifestyle','303000.00','¥¹¥¯¥ê©`¥ó¥·¥ç¥Ã¥È 2024-04-26 224626.png',100000),(23,'kakikko','¤¢¤¢¤¢','lifestyle','280000.00','¥¹¥¯¥ê©`¥ó¥·¥ç¥Ã¥È 2024-11-13 190333.png',100000),(24,'test','<div style=\"text-align: right;\"><i style=\"font-size: 1.7rem; color: var(--dark-gray);\">test</i></div>','literature','3000.00','133571682160460525.jpg',1),(25,'test2','test2','history','2000.00','133590530057476704.jpg',1);
+INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'Pythonå…¥é–€','Pythonãƒ—ãƒ­ã‚°ãƒ©ãƒŸãƒ³ã‚°ã‚’åŸºç¤ã‹ã‚‰å­¦ã¹ã‚‹åˆå¿ƒè€…å‘ã‘ã®ã‚¬ã‚¤ãƒ‰ã§ã™ã€‚','ãƒ—ãƒ­ã‚°ãƒ©ãƒŸãƒ³ã‚°','2200.00','/images/python_intro.jpg',20000),(3,'MySQLå®Œå…¨æ”»ç•¥','MySQLã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ç®¡ç†ã‚’æ·±ãç†è§£ã™ã‚‹ãŸã‚ã®å®Ÿè·µçš„ãªæ›¸ç±ã§ã™ã€‚','ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹','3500.00','/images/mysql_mastery.jpg',20000),(4,'ã‚¦ã‚§ãƒ–é–‹ç™ºã®åŸºç¤','HTMLã€CSSã€JavaScriptã®åŸºæœ¬ã‚’å­¦ã¹ã‚‹åˆå¿ƒè€…å‘ã‘ã®ä¸€å†Šã§ã™ã€‚','ã‚¦ã‚§ãƒ–é–‹ç™º','2800.00','/images/web_basics.jpg',20000),(5,'AIã¨æ©Ÿæ¢°å­¦ç¿’ã®åŸºç¤','äººå·¥çŸ¥èƒ½ã¨æ©Ÿæ¢°å­¦ç¿’ã®åŸºæœ¬çš„ãªä»•çµ„ã¿ã‚’ã‚ã‹ã‚Šã‚„ã™ãè§£èª¬ã—ã¾ã™ã€‚','äººå·¥çŸ¥èƒ½','4500.00','/images/ai_ml.jpg',20000),(6,'ã‚µã‚¤ãƒãƒ¼ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã®åŸºç¤','ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚„æƒ…å ±ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã®é‡è¦ãªæ¦‚å¿µã‚’ç¶²ç¾…ã—ãŸä¸€å†Šã§ã™ã€‚','ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£','3200.00','/images/cybersecurity.jpg',20000),(7,'ã‚ã‚ã‚','ã‚ã‚','lifestyle','280000.00','GGG.jpg',20000),(8,'ç›´ã£ãŸï¼ï¼','aa','lifestyle','0.00','G (3).jpg',20000),(9,'aaa','aaaa','lifestyle','0.00','unnamed.jpg',20000),(10,'aa','aa','lifestyle','280000.00','unnamed.jpg',20000),(11,'a','aaa','certification','280000.00','G (3).jpg',20000),(12,'aa','aa','lifestyle','280000.00','GGG.jpg',20000),(13,'a','aaa','lifestyle','0.00','GGG.jpg',20000),(14,'aa','aa','social','280000.00','ã‚¹ã‚¯ã‚·ãƒ§.png',20000),(15,'a','aaa','history','280000.00','file',20000),(16,'a','aa','lifestyle','0.00','GGG.jpg',20000),(17,'a','aa','social','0.00','file',20000),(18,'a','aa','history','280000.00','GGG.jpg',20000),(19,'ããŸã“ã‚Œ','ã‚ã‚ã‚','lifestyle','222.00','G (3).jpg',20000),(20,'çš†ãƒ›ãƒ³ãƒˆã«ã‚ã‚ŠãŒã¨ã†','aaa','lifestyle','0.00','GGG.jpg',100000),(21,'ä»Šæ—¥ã‚‚ä»Šæ—¥ã¨ã¦','aa','certification','280000.00','ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆ 2023-03-19 004028.png',100000),(22,'åŸºæœ¬æƒ…å ±å–ã‚‰ãªã‘ã‚Œã°ãªã‚‰ãªã„','ã‚ã‚','lifestyle','303000.00','ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆ 2024-04-26 224626.png',100000),(23,'kakikko','ã‚ã‚ã‚','lifestyle','280000.00','ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆ 2024-11-13 190333.png',100000),(24,'test','<div style=\"text-align: right;\"><i style=\"font-size: 1.7rem; color: var(--dark-gray);\">test</i></div>','literature','3000.00','133571682160460525.jpg',1),(25,'test2','test2','history','2000.00','133590530057476704.jpg',1),(26,'<font color=\"#f50000\">é †èª¿ã®æ¥µã¿</font>','<div style=\"text-align: center;\"><span style=\"font-size: 1rem;\"><span style=\"font-size: 2rem;\"><font color=\"#0008ff\"><b>é †èª¿ã®æ¥µã¿</b></font></span></span></div>','lifestyle','303000.00','26_image_fx_ (3).jpg',20000),(27,'aa','aaa','lifestyle','303000.00','27_image_fx_ (3).jpg',20000),(28,'aa','aaa','lifestyle','303000.00','28_image_fx_ (4).jpg',20000),(29,'<font color=\"#ff0000\">é †èª¿ã®æ¥µã¿</font>','<div style=\"text-align: center;\"><span style=\"font-size: 2rem;\"><b style=\"\"><font color=\"#0011ff\">é †èª¿ã®æ¥µã¿</font></b></span></div><div style=\"text-align: center;\"><span style=\"font-size: 32px;\"><b style=\"\"><u style=\"\"><font color=\"#00d624\"></font></u><span style=\"font-size: 2.1rem;\"><span style=\"font-size: 1.5rem;\"><u style=\"\"><font color=\"#00d624\">ãƒã‚¸ã§å¤©æ‰â†ã“ã‚Œ</font></u></span></span></b></span></div>','lifestyle','100.00','29_image_fx_ (3).jpg',20000);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +59,7 @@ CREATE TABLE `comments` (
   KEY `book_id` (`book_id`),
   CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `comments`
@@ -67,6 +67,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+INSERT INTO `comments` VALUES (1,20000,23,'ã¯ã‚','2024-11-29 07:04:23'),(2,20000,28,'ã‚¹ãƒãƒ›æº¶æ¥ä¸­ï¼Ÿ','2024-11-29 07:21:02'),(3,100000,28,'ãã†ã£ã½ã„','2024-11-29 07:21:32'),(4,100000,14,'ã‚ã‚ã‚','2024-11-29 07:27:59'),(5,20000,14,'wawaaaa','2024-11-29 07:28:33');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -266,7 +267,7 @@ CREATE TABLE `user_security_questions` (
 
 LOCK TABLES `user_security_questions` WRITE;
 /*!40000 ALTER TABLE `user_security_questions` DISABLE KEYS */;
-INSERT INTO `user_security_questions` VALUES (1,'Ğ¡Ñ§Ğ£¤Î•r¤Î¤¢¤ÀÃû','Æ½Æ½','½«À´¤Î‰ô','½ğ³Ö¤Á¤Ê¤ê¤¿¤¤'),(2,'Ğ¡Ñ§Ğ£¤Î•r¤Î¤¢¤ÀÃû','111','¸ßĞ£¤Î•r¤Î¤¢¤ÀÃû','111'),(3,'Ğ¡Ñ§Ğ£¤Î•r¤Î¤¢¤ÀÃû','123','¸ßĞ£¤Î•r¤Î¤¢¤ÀÃû','123'),(4,'Ğ¡Ñ§Ğ£¤Î•r¤Î¤¢¤ÀÃû','123','¸ßĞ£¤Î•r¤Î¤¢¤ÀÃû','123'),(5,'Ğ¡Ñ§Ğ£¤Î•r¤Î¤¢¤ÀÃû','123','¸ßĞ£¤Î•r¤Î¤¢¤ÀÃû','123'),(6,'Ğ¡Ñ§Ğ£¤Î•r¤Î¤¢¤ÀÃû','test1','½«À´¤Î‰ô','test1'),(100000,'Ğ¡Ñ§Ğ£¤Î•r¤Î¤¢¤ÀÃû','¤Ü¤Ç','¸ßĞ£¤Î•r¤Î¤¢¤ÀÃû','¤Ü¤Ç'),(100001,'Ğ¡Ñ§Ğ£¤Î•r¤Î¤¢¤ÀÃû','haha','¸ßĞ£¤Î•r¤Î¤¢¤ÀÃû','haha');
+INSERT INTO `user_security_questions` VALUES (1,'å°å­¦æ ¡ã®æ™‚ã®ã‚ã å','å¹³å¹³','å°†æ¥ã®å¤¢','é‡‘æŒã¡ãªã‚ŠãŸã„'),(2,'å°å­¦æ ¡ã®æ™‚ã®ã‚ã å','111','é«˜æ ¡ã®æ™‚ã®ã‚ã å','111'),(3,'å°å­¦æ ¡ã®æ™‚ã®ã‚ã å','123','é«˜æ ¡ã®æ™‚ã®ã‚ã å','123'),(4,'å°å­¦æ ¡ã®æ™‚ã®ã‚ã å','123','é«˜æ ¡ã®æ™‚ã®ã‚ã å','123'),(5,'å°å­¦æ ¡ã®æ™‚ã®ã‚ã å','123','é«˜æ ¡ã®æ™‚ã®ã‚ã å','123'),(6,'å°å­¦æ ¡ã®æ™‚ã®ã‚ã å','test1','å°†æ¥ã®å¤¢','test1'),(100000,'å°å­¦æ ¡ã®æ™‚ã®ã‚ã å','ã¼ã§','é«˜æ ¡ã®æ™‚ã®ã‚ã å','ã¼ã§'),(100001,'å°å­¦æ ¡ã®æ™‚ã®ã‚ã å','haha','é«˜æ ¡ã®æ™‚ã®ã‚ã å','haha');
 /*!40000 ALTER TABLE `user_security_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,7 +290,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'ÏèÆ½','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1'),(20000,'BuyerUser','buyer@example.com','buyerpassword'),(99999,'kazuto','kazuto@gmail.com','kazuto0330'),(100000,'bode','bode@gmail.com','bode'),(100001,'haha','haha@qq.com','haha');
+INSERT INTO `users` VALUES (1,'ç¿”å¹³','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1'),(20000,'BuyerUser','buyer@example.com','buyerpassword'),(99999,'kazuto','kazuto@gmail.com','kazuto0330'),(100000,'bode','bode@gmail.com','bode'),(100001,'haha','haha@qq.com','haha');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -302,4 +303,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-29  4:47:29
+-- Dump completed on 2024-11-29  7:47:36

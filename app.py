@@ -445,9 +445,9 @@ def product_details(book_id):
         """, (book_id,))
         comments = cursor.fetchall()
         comment_data = [{
-            'comment': comment['comment'],
-            'created_at': comment['timestamp'],
-            'username': comment['username']
+            'comment': comment['comment'], # type: ignore
+            'created_at': comment['timestamp'], # type: ignore
+            'username': comment['username'] # type: ignore
         } for comment in comments]
         
 
