@@ -65,6 +65,58 @@ def index():
 
 
 
+# -------------------- category.html --------------------
+@app.route('/category/<category>')
+def category(category):
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+        
+    try:
+        # カテゴリー名の対応表
+        category_names = {
+            'literature': '文学・評論',
+            'social': '社会・政治',
+            'history': '歴史・地理',
+            'business': 'ビジネス・経済',
+            'science': '科学・テクノロジー',
+            'medical': '医学・薬学',
+            'it': 'コンピュータ・IT',
+            'design': '建築・デザイン',
+            'hobby': '趣味・実用',
+            'sports': 'スポーツ',
+            'certification': '資格・検定',
+            'lifestyle': '暮らし・健康'
+        }
+        
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # カテゴリーに属する書籍を取得
+        cursor.execute("""
+            SELECT b.*, u.username as owner_name
+            FROM books b
+            JOIN users u ON b.owner_id = u.id
+            WHERE b.book_category = %s
+            ORDER BY b.book_id DESC
+        """, (category,))
+        books = cursor.fetchall()
+        
+        return render_template('category.html', 
+                             books=books,
+                             category_name=category_names.get(category, 'Unknown Category'))
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return render_template('category.html', books=[], category_name='Error')
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
+
 # -------------------- register.html --------------------
 @app.route('/register', methods=['GET', 'POST'])
 def register():
