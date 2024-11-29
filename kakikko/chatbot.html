@@ -42,11 +42,27 @@
 
     <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
-
-        let count = 0
         const chatContainer = document.getElementById('kaitouA');
         let oldprompt = " ";
         let oldresponse = " ";
+        let cnt = false;
+
+        //チャットボット関連の変数
+        const API_KEY = "AIzaSyAqBJyUV1K_Ry_haBSiNVDACERbtDHc8_w";
+        const genAI = new GoogleGenerativeAI(API_KEY);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        let chat = model.startChat({
+            history: [
+              {
+                role: "user",
+                parts: [{ text: oldprompt }],
+              },
+              {
+                role: "model",
+                parts: [{ text: oldresponse }],
+              },
+            ],
+          });
         
 
         const predefinedResponses = {
@@ -67,30 +83,31 @@
             "プレビュー" : "書籍の詳細ページからプレビューを確認することができます。「<a href='http://127.0.0.1:5000/product-details.html' target='_blank'  class='custom-link'>プレビューはこちら</a>」",
         };
 
+
+//ファイル添付ボタンの変更
         document.getElementById('image').addEventListener('click', function() {
             document.getElementById('fileInput').click();
         });
+// エンターキー(Enter)の検知
         document.getElementById('user-input').addEventListener('keydown', function(event) {
-            // エンターキー(Enter)が押された場合
             if (event.key === 'Enter') {
                 document.getElementById('send-btn').click();
             }
         });
 
 
-// 定型文を返す場合の判定
+// 定型文の表示関数
         function checkForKeywords(userInput) {
-            // predefinedResponsesの中に含まれる単語をチェック
             for (const keyword in predefinedResponses) {
                 if (userInput.includes(keyword)) {
                     return predefinedResponses[keyword]; // 対応する定型文を返す
                 }
             }
-            return null; // 定型文が見つからない場合
+            return null;
         }
 
 
-//画像の変換
+//画像の変換関数
         function fileToGenerativePart(file, mimeType) {
             return new Promise((resolve, reject) => {
               const reader = new FileReader();
@@ -112,70 +129,7 @@
               reader.readAsDataURL(file); // ファイルをBase64形式で読み込む
             });
           }
-
-//FAQの処理
-        async function generateResponse(userInput) {
-
-            const prompt = 'あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput + "100文字以内でに回答"
-            const file = document.getElementById('fileInput').files[0];
-            const API_KEY = "AIzaSyAqBJyUV1K_Ry_haBSiNVDACERbtDHc8_w";
-            const genAI = new GoogleGenerativeAI(API_KEY);
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-            console.log(oldprompt);
-            console.log(oldresponse);
-            const chat = model.startChat({
-                history: [
-                  {
-                    role: "user",
-                    parts: [{ text: oldprompt }],
-                  },
-                  {
-                    role: "model",
-                    parts: [{ text: oldresponse }],
-                  },
-                ],
-              });
-            try {
-                if (file == undefined){
-                    let result = await chat.sendMessage(prompt);
-
-                    //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
-                    const botMessage = document.createElement('p');
-                    botMessage.classList.add('response', 'chatbot');
-                    botMessage.innerText = result.response.text();
-                    chatContainer.appendChild(botMessage);
-
-                    oldprompt = userInput;
-                    oldresponse = result.response.text();
-                }
-                else{
-                    const imagePart = await fileToGenerativePart(file, file.type); 
-                    let result = await chat.sendMessage([prompt+ "画像の内容を読み取り日本語で返信",imagePart]);
-                    
-
-                    //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
-                    const botMessage = document.createElement('p');
-                    botMessage.classList.add('response', 'chatbot');
-                    botMessage.innerText = result.response.text();
-                    chatContainer.appendChild(botMessage);
-
-                    document.getElementById('fileInput').value = "";
-                    oldprompt = userInput;
-                    oldresponse = result.response.text();
-                    
-                }
-
-                console.log(oldprompt);
-                console.log(oldresponse);
-
-
-            } catch (error) {
-                console.error("エラーが発生しました:", error);
-                document.getElementById('response').innerText = "エラーが発生しました。";
-            }
-        }
-
-        
+//画像のプレビュー関数
         document.getElementById('fileInput').addEventListener('change', function(event) {
             const file = event.target.files[0];
             document.getElementById("hint").hidden = true;
@@ -202,49 +156,83 @@
             }
         });
 
+//botのメッセージ挿入関数
+          function insertMessageBot(txt){
+            const botMessage = document.createElement('p');
+            botMessage.classList.add('response', 'chatbot');
+            botMessage.innerHTML = txt;
+            chatContainer.appendChild(botMessage);
+            console.log("回答 : ",txt);
+          }
+//自分のメッセージ挿入関数
+          function insertMessageSelf(txt){
+            const userMessage = document.createElement('p');
+            userMessage.classList.add('response', 'me');
+            userMessage.innerText = txt;
+            chatContainer.appendChild(userMessage);
+            document.getElementById('user-input').value = '';
+          }
+
+//FAQの処理
+        async function generateResponse(userInput) {
+
+            const file = document.getElementById('fileInput').files[0];
+            try {
+                let prompt = userInput;
+                if (cnt == false){
+                    prompt = 'あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput + "200文字以内でに回答"
+                    cnt = true;
+                }
+                //ファイルが添付されていない場合
+                if (file == undefined){
+                    const result = await chat.sendMessage(prompt);
+                    insertMessageBot(result.response.text());
+                    oldprompt = userInput;
+                    oldresponse = result.response.text();
+                }
+                //ファイルが添付されている場合
+                else{
+                    const imagePart = await fileToGenerativePart(file, file.type); 
+                    let result = await chat.sendMessage([prompt,imagePart]);
+                    insertMessageBot(result.response.text());
+                    document.getElementById('fileInput').value = "";
+                    oldprompt = userInput;
+                    oldresponse = result.response.text();
+                    
+                }
+            } catch (error) {
+                insertMessageBot("エラーが発生しました。しばらく時間をおいてもう一度試してください。")
+            }
+        }
+
+//送信ボタンが押されたときの処理
         document.getElementById('send-btn').addEventListener('click', () => {
             let userInput = document.getElementById('user-input').value;
             if (userInput == ""){
+                insertMessageBot("メッセージを入力してください。");
                 return;
             }
             document.getElementById("hint").hidden = true;
-
-
             if (userInput) {
-                count = count + 1;
-
-        //ーーーーーーーーーーーー自分のメッセージの挿入ーーーーーーーーーーーーーー
-                const userMessage = document.createElement('p');
-                userMessage.classList.add('response', 'me');
-                userMessage.innerText = userInput;
-                chatContainer.appendChild(userMessage);
-
-
+                insertMessageSelf(userInput);
+                console.log("メッセージが送信されました : ",userInput);
                 const predefinedResponse = checkForKeywords(userInput); // 定型文チェック
                 if (! (predefinedResponse == null)) {
-                    console.log(predefinedResponse); 
-
-        //ーーーーーーーーーーーーボットのメッセージの挿入ーーーーーーーーーーーーーー
-                    const botMessage = document.createElement('p');
-                    botMessage.classList.add('response', 'chatbot');
-                    botMessage.innerHTML = predefinedResponse;;
-                    chatContainer.appendChild(botMessage);
-                    document.getElementById('user-input').value = '';
+                    insertMessageBot(predefinedResponse);
 
                 }else{
-                    console.log("ボタンが押されました")
                     generateResponse(userInput);
-                    console.log(userInput)
-                    document.getElementById('user-input').value = '';
                 }
             }
         });
 
-        // iframe内のスクリプト
+
+
+// iframe内のスクリプト
+    //×ボタンの有効化
     document.getElementById('X').addEventListener('click', function() {
         window.parent.postMessage('elementClicked', '*');
-    });
-        
+    });    
     </script>
 </body>
 </html>
