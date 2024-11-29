@@ -1,11 +1,9 @@
 .comment-window{
     margin-bottom: 50px;
-    background-color: aqua;
 }
 .comment-blocks{
     display: flex;
     margin: 0 0 20px 0;
-    background-color: green;
 }
 
 .left-block{}
@@ -18,4 +16,17 @@
     width: 92%;
     margin: 0 0 0 auto;
     padding: 3px;
+}
+.right-block-top{
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.comment-username{
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.comment-date{
+    font-size: 0.9rem;
+    margin: 0 0 0 30px;
 }

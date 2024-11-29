@@ -431,9 +431,26 @@ def product_details(book_id):
             WHERE b.book_id = %s
         """, (book_id,))
         book = cursor.fetchone()
-        
         if not book:
             return redirect(url_for('index'))
+        
+        #コメント情報入手
+        cursor.execute("""
+            SELECT c.*, u.username 
+            FROM comments c
+            JOIN users u ON c.user_id = u.id 
+            WHERE c.book_id = %s
+            ORDER BY c.timestamp DESC
+            LIMIT 6
+        """, (book_id,))
+        comments = cursor.fetchall()
+        comment_data = [{
+            'comment': comment['comment'],
+            'created_at': comment['timestamp'],
+            'username': comment['username']
+        } for comment in comments]
+        
+
         
         # 現在のユーザーが本の所有者かどうかをチェックする
         is_owner = book['owner_id'] == session['login_id'] # type: ignore
@@ -449,6 +466,7 @@ def product_details(book_id):
         
         return render_template('product-details.html', 
                              book=book,
+                             comments=comment_data,
                              username=book['username'], # type: ignore
                              is_owner=is_owner,
                              is_purchased=is_purchased)
@@ -552,22 +570,20 @@ def submit_comment():
     print(f'プロダクトID:{productID} , コメント投稿者ID:{accountID} , 本文:{maintxt}')
     
     # 取得できたデータを保存
-    """
+    
     conn = conn_db()
     cursor = conn.cursor()
     sql = ('''
-    INSERT INTO transactions 
-        (book_id, buyer_id, seller_id)
-    VALUES 
-        (%s, %s, %s)
-    ''')
+        INSERT INTO comments (user_id, book_id, comment)
+        VALUES (%s, %s, %s)
+        ''')
     data = [
-       (productID, accountID, sellerID)
+       (accountID,productID,maintxt)
     ]
     cursor.executemany(sql, data)
     conn.commit()
     cursor.close()
-    """
+    
     return redirect(url_for('product_details',book_id=productID))
     
 
