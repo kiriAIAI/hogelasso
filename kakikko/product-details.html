@@ -201,15 +201,20 @@
       <div class="comment-block">
         <!-- コメントの表示部分 -->
         <div class="comment-window">
+          {% for comment in comments %}
           <div class="comment-blocks">
             <div class="left-block">
               <img src="{{ url_for('static', filename='images/circle-user.svg') }}" alt="">
             </div>
             <div class="right-block">
-              <div class="comment-username">ゆーざー名</div>
-              <div class="comment-body">うおおおうおうおうおうおおおおおおおおおおおおおおおおおおおおうおうおううおおおおおおおおお</div>
+              <div class="right-block-top">
+                <div class="comment-username">{{comment.username}}</div>
+                <div class="comment-date">{{comment.created_at}}</div>
+              </div>
+              <div class="comment-body">{{comment.comment}}</div>
             </div>
           </div>
+          {% endfor %}
         </div>
         <!-- コメント投稿部分 -->
         <div data-ms-post="item" class="comment-row">
