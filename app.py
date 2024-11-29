@@ -18,7 +18,7 @@ def conn_db():
         user="root", 
         password="root", 
         db="kakikko",
-        charset='utf8mb4'
+        charset='utf8'
         )
     return conn
 
