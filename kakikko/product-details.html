@@ -133,7 +133,7 @@
                     <div class="user-name">{{ book.username }}</div>
                 </a>
             </div>
-            <h2 class="product-heading">{{ book.book_title }}</h2>
+            <h2 class="product-heading">{{ book.book_title|safe }}</h2>
             <div class="product-price-reviews-wrapper">
                 <div class="product-price-text">￥{{ "%.2f"|format(book.book_price) }}</div>
                 <div class="product-text-divider"></div>
@@ -171,8 +171,9 @@
                   {% if not is_owner and not is_purchased %}
                   <div class="product-form-wrapper">
                       <a id="w-node-f7fc365a-1696-4f30-9a03-c4e98e79678a-386810ba" href="#" class="add-to-cart-btn w-button">カートに入れる</a>
-                      <input class="form_input is-quantity-input w-node-f7fc365a-1696-4f30-9a03-c4e98e79678c-386810ba w-input" 
-                             maxlength="256" name="Quantity" data-name="Quantity" placeholder="1" type="number" min="1" id="Quantity">
+                      <!-- 数量選択（非表示中） -->
+                      <!-- <input class="form_input is-quantity-input w-node-f7fc365a-1696-4f30-9a03-c4e98e79678c-386810ba w-input" 
+                             maxlength="256" name="Quantity" data-name="Quantity" placeholder="1" type="number" min="1" id="Quantity"> -->
                   </div>
                   {% endif %}
                       {% if is_owner or is_purchased %}
