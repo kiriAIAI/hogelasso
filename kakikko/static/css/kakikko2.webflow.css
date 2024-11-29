@@ -145,8 +145,8 @@
 }
 
 .navbar-link {
-  font-family: "Fa Solid 900", sans-serif;
-  font-size: 1.6rem;
+  color: var(--font);
+  text-decoration: none;
 }
 
 .navbar-link.shopping-cart {
@@ -288,7 +288,7 @@
 }
 
 .navbar-icon:hover {
-  filter: brightness(0) saturate(100%) invert(77%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(89%) contrast(85%); /* 转换为 #C1C1C1 */
+  filter: brightness(0) saturate(100%) invert(77%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(89%) contrast(85%);
 }
 
 
@@ -444,10 +444,12 @@
   font-size: 2rem;
   font-weight: 900;
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .more-link:hover {
-  color: #969696;
+  color: #808080;
+  transform: translateX(5px);
 }
 
 .container {
@@ -739,6 +741,7 @@
   padding: 1rem 1.5rem 3rem;
 }
 
+/* ---------- create Input ---------- */
 .create-form-label {
   margin-bottom: 10px;
   font-size: 1.3rem;
@@ -747,41 +750,66 @@
 
 .create-form-field {
   color: var(--font);
-  border-radius: 6px;
   height: 4.5rem;
   margin-bottom: 30px;
   font-size: 1rem;
   overflow: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.create-form-field:focus {
+  border-color: var(--dark-gray) !important;
+  outline: none !important;
+  box-shadow: 0 3px 10px 0 #0001;
+  transform: translateY(-1px);
 }
 
 .textarea {
-  color: var(--dark-gray);
+  color: var(--font);
   border-radius: 6px;
   min-height: 30rem;
   max-height: 30rem;
   margin-bottom: 20px;
   font-size: 1rem;
   overflow: auto;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
 }
 
+.textarea:focus {
+  border-color: var(--dark-gray) !important;
+  outline: none !important;
+  box-shadow: 0 3px 10px 0 #0001;
+  transform: translateY(-1px);
+}
+
+/* ---------- 投稿ボタン ---------- */
 .post-btn {
+  color: var(--white);
   background-color: var(--dark-gray);
   border-radius: 6px;
   width: 100%;
   height: 3rem;
   margin-top: 0;
   font-weight: 700;
+  transition: all 0.3s ease;
 }
 
 .post-btn:hover {
   background-color: var(--dark-gray-hover);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
+
+/* ---------- 文字編集エリア ---------- */
 .editor-form-block {
   margin-bottom: 60px;
 }
 
-/* color-picker */
+/* ---------- 色選択 ---------- */
 .color-picker-container {
   position: relative;
   width: 100%;
@@ -825,7 +853,7 @@
   border-top: 4px solid #666;
 }
 
-/* font size */
+/* ---------- フォントサイズ ---------- */
 .fontsize-adjuster {
   display: flex;
   align-items: center;
@@ -842,14 +870,17 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  color: white;
+  color: var(--white);
   font-size: 1.3rem;
   padding: 0;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .fontsize-btn:hover {
   background-color: var(--dark-gray-hover);
+  transform: translateY(-0.5px);
+  box-shadow: 4px 4px 8px rgba(235, 220, 220, 0.25), -4px -4px 8px rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 .fontsize-input {
@@ -857,12 +888,20 @@
   height: 2.5rem;
   text-align: center;
   font-size: 1rem;
+  font-weight: 500;
   color: #333333;
   background-color: #f3f3f3;
-  border: none;
+  border: 1px solid #d2d2d2;
   border-radius: 4px;
   padding: 0;
   outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.fontsize-input:focus {
+  outline: none;
+  border: 1px solid #dddd;
 }
 
 .fontsize-input::-webkit-inner-spin-button,
@@ -872,8 +911,9 @@
 }
 .fontsize-input[type=number] {
   -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
 }
-
 
 
 /* font style */
@@ -962,6 +1002,7 @@
   display: flex;
 }
 
+/* ---------- カテゴリ選択 ---------- */
 .create-category-block{
   margin: 60px 0 0 0;
   width: 100%;
@@ -974,7 +1015,6 @@
 
 .categorySelect{
   width: 100%;
-  background-color: var(--white);
   color: #333333bf;
   height: 2.5rem;
   font-size: .95rem;
@@ -983,23 +1023,27 @@
   border: 1px solid #ccc;
 }
 
-.categorySelect option{
-  margin: 0 0 5px 0;
-}
-
 .categorySelect:hover{
   cursor: pointer;
 }
+
 .categorySelect option{
   margin: 0 0 5px 0;
 }
 
 .categorySelect option:hover{
   cursor: pointer;
-  background-color: var(--light-gray);
+  background-color: var(--black) !important;
+  color: #fff !important;
 }
 
-/* ---------- price-input-block ---------- */
+.categorySelect option:checked {
+  background-color: var(--black) !important;
+  color: #fff !important;
+}
+
+
+/* ---------- 価格入力 ---------- */
 .price-input-block{
   margin: 40px 0 40px 0;
   width: 100%;
@@ -1031,7 +1075,8 @@
   color: #666;
 }
 
-/* ---------- file-upload-block ---------- */
+
+/* ---------- 表紙画像アップロード ---------- */
 .file-upload-block{
   width: 100%;
 }
@@ -1191,17 +1236,19 @@
 
 
 
-/* -------------------- order history -------------------- */
+/* -------------------- 購入履歴 & 出品履歴.html -------------------- */
 .order-history-block {
   width: 100%;
 }
 
+/* ---------- タブ切り替え ---------- */
 .history-tabs {
   display: flex;
   gap: 20px;
   margin-bottom: 30px;
   border-bottom: 1px solid #e1e1e1;
   padding: 0 20px;
+  transition: all 0.3s ease;
 }
 
 .history-tab {
@@ -1228,7 +1275,6 @@
 
 .history-content {
   display: none;
-  width: 100%;
 }
 
 .history-content.active {
@@ -1693,6 +1739,7 @@
   display: flex;
 }
 
+
 .product-reviews-text {
   color: var(--light-gray);
   font-size: 0.9rem;
@@ -1719,6 +1766,8 @@
   display: grid;
 }
 
+
+/* ---------- カートに入れるボタン ---------- */
 .add-to-cart-btn {
   background-color: var(--dark-gray);
   text-align: center;
@@ -1732,10 +1781,11 @@
 
 .add-to-cart-btn:hover {
   background-color: var(--dark-gray-hover);
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
 }
 
-.form_input {
+/* ---------- 数量入力ボックス ---------- */
+/* .form_input {
   border-style: solid;
   border-width: 1px;
   border-radius: 0;
@@ -1755,7 +1805,6 @@
   color: #0009;
 }
 
-/* ---------- 数量入力ボックス ---------- */
 .form_input.is-quantity-input {
   color: var(--font);
   width: 4rem;
@@ -1767,28 +1816,41 @@
 .product-form-block {
   width: 100%;
   margin-bottom: 1.5rem;
-}
+} */
 
+
+/* ---------- 今すぐ買うボタン ---------- */
 .button-secondary {
   color: #1b1b1b;
   text-align: center;
-  background-color: #0000;
+  background-color: transparent;
   border: 1px solid #1b1b1b;
   padding: .75rem 1.5rem;
+  transition: all 0.3s ease;
 }
 
 .button-secondary.is-buy-now-button {
-  border-color: #cccc;
-  border-radius: .5rem;
+  color: #333;
+  background-color: transparent;
+  border-color: #ccc;
+  border-radius: 0.5rem;
   width: 100%;
   margin-right: 1.5rem;
   font-weight: 700;
+  transition: all 0.3s ease;
 }
 
 .button-secondary.is-buy-now-button:hover {
-  background-color: #0000000d;
+  color: #ffffff !important;
+  background-color: #3b3b3b !important;
+  border-color: #3b3b3b !important;
+  transform: translateY(-2px);
 }
 
+.button-secondary.is-buy-now-button:active {
+  transform: translateY(0px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
 
 /* ------------------- コメント ------------------- */

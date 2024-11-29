@@ -18,7 +18,7 @@ def conn_db():
         user="root", 
         password="root", 
         db="kakikko",
-        charset='utf8'
+        charset='utf8mb4'
         )
     return conn
 
@@ -62,7 +62,6 @@ def index():
     # print(session['login_id'])
     
     return render_template('index.html', books=books)
-
 
 
 # -------------------- category.html --------------------
@@ -239,8 +238,6 @@ def dashboard():
 
 
 
-
-
 # -------------------- create.html --------------------
 @app.route('/create.html')
 def create():
@@ -262,6 +259,8 @@ def image_upload():
     file.save(file_path)
     
     return jsonify({'message': '画像をアップロードしました'}), 200
+
+
 
 # -------------------- submit_create.html --------------------
 @app.route('/submit_create', methods=['POST'])
@@ -690,6 +689,7 @@ def profileinfo():
 
 
 # -------------------- purchase-history.html --------------------
+# -------------------- purchase-history.html --------------------
 @app.route('/purchase-history.html')
 def purchase_history():
     if 'login_id' not in session:
@@ -697,11 +697,11 @@ def purchase_history():
     else :
         login_id = str(session.get('login_id'))
     print("現ユーザーID:", login_id)
-        
+       
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
-        
+       
         # ユーザーが出品した本
         listed_books_sql =  """
         SELECT book_id, book_title, book_content, book_price, book_cover_image
@@ -711,7 +711,7 @@ def purchase_history():
         """
         cursor.execute(listed_books_sql, (login_id,))
         listed_books = cursor.fetchall()
-        
+       
         # ユーザーが購入した本
         purchased_books_sql = """
         SELECT t.book_id, b.book_title, b.book_content, b.book_price, b.book_cover_image
@@ -722,8 +722,8 @@ def purchase_history():
         """
         cursor.execute(purchased_books_sql, (login_id,))
         purchased_books = cursor.fetchall()
-        
-        return render_template('purchase-history.html', 
+       
+        return render_template('purchase-history.html',
                              purchased_books=purchased_books,
                              listed_books=listed_books)
                              
@@ -731,7 +731,7 @@ def purchase_history():
         print("Error:", e)
         import traceback
         traceback.print_exc()
-        return render_template('purchase-history.html', 
+        return render_template('purchase-history.html',
                              purchased_books=[],
                              listed_books=[])
     finally:
