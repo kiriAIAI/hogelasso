@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES gbk */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -31,7 +31,7 @@ CREATE TABLE `books` (
   PRIMARY KEY  (`book_id`),
   KEY `owner_id` (`owner_id`),
   CONSTRAINT `books_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `books`
@@ -39,8 +39,132 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'PythonÂÖ•ÈñÄ','Python„Éó„É≠„Ç∞„É©„Éü„É≥„Ç∞„ÇíÂü∫Á§é„Åã„ÇâÂ≠¶„Åπ„ÇãÂàùÂøÉËÄÖÂêë„Åë„ÅÆ„Ç¨„Ç§„Éâ„Åß„Åô„ÄÇ','„Éó„É≠„Ç∞„É©„Éü„É≥„Ç∞','2200.00','/images/python_intro.jpg',20000),(3,'MySQLÂÆåÂÖ®ÊîªÁï•','MySQL„ÅÆ„Éá„Éº„Çø„Éô„Éº„ÇπÁÆ°ÁêÜ„ÇíÊ∑±„ÅèÁêÜËß£„Åô„Çã„Åü„ÇÅ„ÅÆÂÆüË∑µÁöÑ„Å™Êõ∏Á±ç„Åß„Åô„ÄÇ','„Éá„Éº„Çø„Éô„Éº„Çπ','3500.00','/images/mysql_mastery.jpg',20000),(4,'„Ç¶„Çß„ÉñÈñãÁô∫„ÅÆÂü∫Á§é','HTML„ÄÅCSS„ÄÅJavaScript„ÅÆÂü∫Êú¨„ÇíÂ≠¶„Åπ„ÇãÂàùÂøÉËÄÖÂêë„Åë„ÅÆ‰∏ÄÂÜä„Åß„Åô„ÄÇ','„Ç¶„Çß„ÉñÈñãÁô∫','2800.00','/images/web_basics.jpg',20000),(5,'AI„Å®Ê©üÊ¢∞Â≠¶Áøí„ÅÆÂü∫Á§é','‰∫∫Â∑•Áü•ËÉΩ„Å®Ê©üÊ¢∞Â≠¶Áøí„ÅÆÂü∫Êú¨ÁöÑ„Å™‰ªïÁµÑ„Åø„Çí„Çè„Åã„Çä„ÇÑ„Åô„ÅèËß£Ë™¨„Åó„Åæ„Åô„ÄÇ','‰∫∫Â∑•Áü•ËÉΩ','4500.00','/images/ai_ml.jpg',20000),(6,'„Çµ„Ç§„Éê„Éº„Çª„Ç≠„É•„É™„ÉÜ„Ç£„ÅÆÂü∫Á§é','„Éç„ÉÉ„Éà„ÉØ„Éº„ÇØ„ÇÑÊÉÖÂ†±„Çª„Ç≠„É•„É™„ÉÜ„Ç£„ÅÆÈáçË¶Å„Å™Ê¶ÇÂøµ„ÇíÁ∂≤ÁæÖ„Åó„Åü‰∏ÄÂÜä„Åß„Åô„ÄÇ','„Çª„Ç≠„É•„É™„ÉÜ„Ç£','3200.00','/images/cybersecurity.jpg',20000),(7,'„ÅÇ„ÅÇ„ÅÇ','„ÅÇ„ÅÇ','lifestyle','280000.00','GGG.jpg',20000),(8,'Áõ¥„Å£„ÅüÔºÅÔºÅ','aa','lifestyle','0.00','G (3).jpg',20000),(9,'aaa','aaaa','lifestyle','0.00','unnamed.jpg',20000),(10,'aa','aa','lifestyle','280000.00','unnamed.jpg',20000),(11,'a','aaa','certification','280000.00','G (3).jpg',20000),(12,'aa','aa','lifestyle','280000.00','GGG.jpg',20000),(13,'a','aaa','lifestyle','0.00','GGG.jpg',20000),(14,'aa','aa','social','280000.00','„Çπ„ÇØ„Ç∑„Éß.png',20000),(15,'a','aaa','history','280000.00','file',20000),(16,'a','aa','lifestyle','0.00','GGG.jpg',20000),(17,'a','aa','social','0.00','file',20000),(18,'a','aa','history','280000.00','GGG.jpg',20000),(19,'„Åç„Åü„Åì„Çå','„ÅÇ„ÅÇ„ÅÇ','lifestyle','222.00','G (3).jpg',20000),(20,'ÁöÜ„Éõ„É≥„Éà„Å´„ÅÇ„Çä„Åå„Å®„ÅÜ','aaa','lifestyle','0.00','GGG.jpg',100000),(21,'‰ªäÊó•„ÇÇ‰ªäÊó•„Å®„Å¶','aa','certification','280000.00','„Çπ„ÇØ„É™„Éº„É≥„Ç∑„Éß„ÉÉ„Éà 2023-03-19 004028.png',100000),(22,'Âü∫Êú¨ÊÉÖÂ†±Âèñ„Çâ„Å™„Åë„Çå„Å∞„Å™„Çâ„Å™„ÅÑ','„ÅÇ„ÅÇ','lifestyle','303000.00','„Çπ„ÇØ„É™„Éº„É≥„Ç∑„Éß„ÉÉ„Éà 2024-04-26 224626.png',100000),(23,'kakikko','„ÅÇ„ÅÇ„ÅÇ','lifestyle','280000.00','„Çπ„ÇØ„É™„Éº„É≥„Ç∑„Éß„ÉÉ„Éà 2024-11-13 190333.png',100000),(24,'dddd','dddd','history','2535.00','icon.png',6),(25,'aaaaa','aaaaaa<font color=\"#ff0000\">aaaaaaaa</font>aaa<div><b>aa</b></div><div><ul><li>ddd</li></ul></div><div><b><br></b></div>','literature','2434.00','25_Bookshop-pana.png',6),(26,'dd','ddddd<font color=\"#ff0000\"><b>dddd</b></font>ddddd<div><ul><li>dddd</li></ul></div>','social','2222.00','26_Bookshop-pana.png',6),(27,'AAA','<div style=\"text-align: center;\"><span style=\"color: var(--dark-gray); font-size: 1rem;\">AAAAA</span></div>','business','76.00','27_Bookshop-pana.png',6),(28,'aaaa','aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa','history','999.00','28_Bookshop-pana.png',6);
+INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'Python»ÎÈT','Python•◊•Ì•∞•È•ﬂ•Û•∞§Úª˘µA§´§È—ß§Ÿ§Î≥ı–ƒ’ﬂœÚ§±§Œ•¨•§•…§«§π°£','•◊•Ì•∞•È•ﬂ•Û•∞','2200.00','/images/python_intro.jpg',20000),(3,'MySQLÕÍ»´π•¬‘','MySQL§Œ•«©`•ø•Ÿ©`•ππ‹¿Ì§Ú…Ó§Ø¿ÌΩ‚§π§Î§ø§·§Œågº˘µƒ§ ï¯ºÆ§«§π°£','•«©`•ø•Ÿ©`•π','3500.00','/images/mysql_mastery.jpg',20000),(4,'•¶•ß•÷È_∞k§Œª˘µA','HTML°¢CSS°¢JavaScript§Œª˘±æ§Ú—ß§Ÿ§Î≥ı–ƒ’ﬂœÚ§±§Œ“ªÉ‘§«§π°£','•¶•ß•÷È_∞k','2800.00','/images/web_basics.jpg',20000),(5,'AI§»ôC–µ—ß¡ï§Œª˘µA','»Àπ§÷™ƒ‹§»ôC–µ—ß¡ï§Œª˘±æµƒ§  ÀΩM§ﬂ§Ú§Ô§´§Í§‰§π§ØΩ‚’h§∑§ﬁ§π°£','»Àπ§÷™ƒ‹','4500.00','/images/ai_ml.jpg',20000),(6,'•µ•§•–©`•ª•≠•Â•Í•∆•£§Œª˘µA','•Õ•√•»•Ô©`•Ø§‰«ÈàÛ•ª•≠•Â•Í•∆•£§Œ÷ÿ“™§ ∏≈ƒÓ§ÚæW¡_§∑§ø“ªÉ‘§«§π°£','•ª•≠•Â•Í•∆•£','3200.00','/images/cybersecurity.jpg',20000),(7,'§¢§¢§¢','§¢§¢','lifestyle','280000.00','GGG.jpg',20000),(8,'÷±§√§ø£°£°','aa','lifestyle','0.00','G (3).jpg',20000),(9,'aaa','aaaa','lifestyle','0.00','unnamed.jpg',20000),(10,'aa','aa','lifestyle','280000.00','unnamed.jpg',20000),(11,'a','aaa','certification','280000.00','G (3).jpg',20000),(12,'aa','aa','lifestyle','280000.00','GGG.jpg',20000),(13,'a','aaa','lifestyle','0.00','GGG.jpg',20000),(14,'aa','aa','social','280000.00','•π•Ø•∑•Á.png',20000),(15,'a','aaa','history','280000.00','file',20000),(16,'a','aa','lifestyle','0.00','GGG.jpg',20000),(17,'a','aa','social','0.00','file',20000),(18,'a','aa','history','280000.00','GGG.jpg',20000),(19,'§≠§ø§≥§Ï','§¢§¢§¢','lifestyle','222.00','G (3).jpg',20000),(20,'Ω‘•€•Û•»§À§¢§Í§¨§»§¶','aaa','lifestyle','0.00','GGG.jpg',100000),(21,'ΩÒ»’§‚ΩÒ»’§»§∆','aa','certification','280000.00','•π•Ø•Í©`•Û•∑•Á•√•» 2023-03-19 004028.png',100000),(22,'ª˘±æ«ÈàÛ»°§È§ §±§Ï§–§ §È§ §§','§¢§¢','lifestyle','303000.00','•π•Ø•Í©`•Û•∑•Á•√•» 2024-04-26 224626.png',100000),(23,'kakikko','§¢§¢§¢','lifestyle','280000.00','•π•Ø•Í©`•Û•∑•Á•√•» 2024-11-13 190333.png',100000),(24,'test','<div style=\"text-align: right;\"><i style=\"font-size: 1.7rem; color: var(--dark-gray);\">test</i></div>','literature','3000.00','133571682160460525.jpg',1),(25,'test2','test2','history','2000.00','133590530057476704.jpg',1);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
+  `comment_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `comment` text NOT NULL,
+  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`comment_id`),
+  KEY `user_id` (`user_id`),
+  KEY `book_id` (`book_id`),
+  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `comments`
+--
+
+LOCK TABLES `comments` WRITE;
+/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `direct_messages`
+--
+
+DROP TABLE IF EXISTS `direct_messages`;
+CREATE TABLE `direct_messages` (
+  `message_id` int(11) NOT NULL auto_increment,
+  `sender_id` int(11) NOT NULL,
+  `recipient_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`message_id`),
+  KEY `sender_id` (`sender_id`),
+  KEY `recipient_id` (`recipient_id`),
+  CONSTRAINT `direct_messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `direct_messages_ibfk_2` FOREIGN KEY (`recipient_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `direct_messages`
+--
+
+LOCK TABLES `direct_messages` WRITE;
+/*!40000 ALTER TABLE `direct_messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `direct_messages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `follows`
+--
+
+DROP TABLE IF EXISTS `follows`;
+CREATE TABLE `follows` (
+  `follower_id` int(11) NOT NULL,
+  `followed_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`follower_id`,`followed_id`),
+  KEY `followed_id` (`followed_id`),
+  CONSTRAINT `follows_ibfk_1` FOREIGN KEY (`follower_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `follows_ibfk_2` FOREIGN KEY (`followed_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `follows`
+--
+
+LOCK TABLES `follows` WRITE;
+/*!40000 ALTER TABLE `follows` DISABLE KEYS */;
+/*!40000 ALTER TABLE `follows` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `likes`
+--
+
+DROP TABLE IF EXISTS `likes`;
+CREATE TABLE `likes` (
+  `like_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`like_id`),
+  KEY `user_id` (`user_id`),
+  KEY `book_id` (`book_id`),
+  CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `likes`
+--
+
+LOCK TABLES `likes` WRITE;
+/*!40000 ALTER TABLE `likes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `likes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `quizzes`
+--
+
+DROP TABLE IF EXISTS `quizzes`;
+CREATE TABLE `quizzes` (
+  `question` text NOT NULL,
+  `answer` text NOT NULL,
+  `points` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `quizzes`
+--
+
+LOCK TABLES `quizzes` WRITE;
+/*!40000 ALTER TABLE `quizzes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `quizzes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -61,7 +185,7 @@ CREATE TABLE `transactions` (
   CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`),
   CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`),
   CONSTRAINT `transactions_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transactions`
@@ -69,8 +193,56 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,1,2,1,'2024-11-15 03:00:00'),(2,1,20000,20000,'2024-11-15 12:23:22'),(3,1,2,20000,'2024-11-16 04:04:46'),(4,1,99999,20000,'2024-11-16 04:05:46'),(5,1,99999,20000,'2024-11-16 04:17:32'),(6,1,99999,20000,'2024-11-16 05:04:32'),(7,1,99999,NULL,'2024-11-16 05:46:07'),(8,1,99999,1,'2024-11-16 05:58:44'),(9,6,99999,20000,'2024-11-16 06:06:09'),(10,4,2,20000,'2024-11-16 06:06:43'),(11,19,6,20000,'2024-11-21 03:25:17'),(12,21,6,100000,'2024-11-28 02:29:11'),(13,3,6,20000,'2024-11-28 03:18:55'),(14,27,6,6,'2024-11-28 03:21:33'),(15,23,6,100000,'2024-11-28 05:15:19'),(16,20,6,100000,'2024-11-28 05:41:12'),(17,18,6,20000,'2024-11-28 06:15:27');
+INSERT INTO `transactions` VALUES (1,1,2,1,'2024-11-15 03:00:00'),(2,1,20000,20000,'2024-11-15 12:23:22'),(3,1,2,20000,'2024-11-16 04:04:46'),(4,1,99999,20000,'2024-11-16 04:05:46'),(5,1,99999,20000,'2024-11-16 04:17:32'),(6,1,99999,20000,'2024-11-16 05:04:32'),(7,1,99999,NULL,'2024-11-16 05:46:07'),(8,1,99999,1,'2024-11-16 05:58:44'),(9,6,99999,20000,'2024-11-16 06:06:09'),(10,4,2,20000,'2024-11-16 06:06:43'),(11,23,1,100000,'2024-11-21 02:15:44'),(12,23,1,100000,'2024-11-21 02:15:49'),(13,24,1,1,'2024-11-21 02:18:39');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_profiles`
+--
+
+DROP TABLE IF EXISTS `user_profiles`;
+CREATE TABLE `user_profiles` (
+  `user_id` int(11) NOT NULL,
+  `name` varchar(255) default NULL,
+  `birthday` date default NULL,
+  `gender` varchar(50) default NULL,
+  `address` varchar(255) default NULL,
+  `phone` varchar(50) default NULL,
+  `bio` text,
+  `profile_image` varchar(255) default NULL,
+  PRIMARY KEY  (`user_id`),
+  CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_profiles`
+--
+
+LOCK TABLES `user_profiles` WRITE;
+/*!40000 ALTER TABLE `user_profiles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_quiz_scores`
+--
+
+DROP TABLE IF EXISTS `user_quiz_scores`;
+CREATE TABLE `user_quiz_scores` (
+  `user_id` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_quiz_scores`
+--
+
+LOCK TABLES `user_quiz_scores` WRITE;
+/*!40000 ALTER TABLE `user_quiz_scores` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_quiz_scores` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -94,7 +266,7 @@ CREATE TABLE `user_security_questions` (
 
 LOCK TABLES `user_security_questions` WRITE;
 /*!40000 ALTER TABLE `user_security_questions` DISABLE KEYS */;
-INSERT INTO `user_security_questions` VALUES (1,'Â∞èÂ≠¶Ê†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','Âπ≥Âπ≥','Â∞ÜÊù•„ÅÆÂ§¢','ÈáëÊåÅ„Å°„Å™„Çä„Åü„ÅÑ'),(2,'Â∞èÂ≠¶Ê†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','111','È´òÊ†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','111'),(3,'Â∞èÂ≠¶Ê†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','123','È´òÊ†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','123'),(4,'Â∞èÂ≠¶Ê†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','123','È´òÊ†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','123'),(5,'Â∞èÂ≠¶Ê†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','123','È´òÊ†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','123'),(6,'Â∞èÂ≠¶Ê†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','test1','Â∞ÜÊù•„ÅÆÂ§¢','test1'),(100000,'Â∞èÂ≠¶Ê†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','„Åº„Åß','È´òÊ†°„ÅÆÊôÇ„ÅÆ„ÅÇ„Å†Âêç','„Åº„Åß');
+INSERT INTO `user_security_questions` VALUES (1,'–°—ß–£§Œïr§Œ§¢§¿√˚','∆Ω∆Ω','Ω´¿¥§ŒâÙ','Ω≥÷§¡§ §Í§ø§§'),(2,'–°—ß–£§Œïr§Œ§¢§¿√˚','111','∏ﬂ–£§Œïr§Œ§¢§¿√˚','111'),(3,'–°—ß–£§Œïr§Œ§¢§¿√˚','123','∏ﬂ–£§Œïr§Œ§¢§¿√˚','123'),(4,'–°—ß–£§Œïr§Œ§¢§¿√˚','123','∏ﬂ–£§Œïr§Œ§¢§¿√˚','123'),(5,'–°—ß–£§Œïr§Œ§¢§¿√˚','123','∏ﬂ–£§Œïr§Œ§¢§¿√˚','123'),(6,'–°—ß–£§Œïr§Œ§¢§¿√˚','test1','Ω´¿¥§ŒâÙ','test1'),(100000,'–°—ß–£§Œïr§Œ§¢§¿√˚','§‹§«','∏ﬂ–£§Œïr§Œ§¢§¿√˚','§‹§«'),(100001,'–°—ß–£§Œïr§Œ§¢§¿√˚','haha','∏ﬂ–£§Œïr§Œ§¢§¿√˚','haha');
 /*!40000 ALTER TABLE `user_security_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,7 +281,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100001 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100002 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
@@ -117,7 +289,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'ÁøîÂπ≥','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1'),(20000,'BuyerUser','buyer@example.com','buyerpassword'),(99999,'kazuto','kazuto@gmail.com','kazuto0330'),(100000,'bode','bode@gmail.com','bode');
+INSERT INTO `users` VALUES (1,'œË∆Ω','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1'),(20000,'BuyerUser','buyer@example.com','buyerpassword'),(99999,'kazuto','kazuto@gmail.com','kazuto0330'),(100000,'bode','bode@gmail.com','bode'),(100001,'haha','haha@qq.com','haha');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -130,4 +302,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-28  6:57:49
+-- Dump completed on 2024-11-29  4:47:29
