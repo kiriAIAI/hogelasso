@@ -7,7 +7,7 @@ from datetime import timedelta
 
 
 app = Flask(__name__, template_folder='kakikko')
-app.permanent_session_lifetime = timedelta(days=5)
+app.permanent_session_lifetime = timedelta(days=7)
 
 app.secret_key = 'kakikko'
 
@@ -62,6 +62,58 @@ def index():
     # print(session['login_id'])
     
     return render_template('index.html', books=books)
+
+
+
+# -------------------- category.html --------------------
+@app.route('/category/<category>')
+def category(category):
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+        
+    try:
+        # カテゴリー名の対応表
+        category_names = {
+            'literature': '文学・評論',
+            'social': '社会・政治',
+            'history': '歴史・地理',
+            'business': 'ビジネス・経済',
+            'science': '科学・テクノロジー',
+            'medical': '医学・薬学',
+            'it': 'コンピュータ・IT',
+            'design': '建築・デザイン',
+            'hobby': '趣味・実用',
+            'sports': 'スポーツ',
+            'certification': '資格・検定',
+            'lifestyle': '暮らし・健康'
+        }
+        
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # カテゴリーに属する書籍を取得
+        cursor.execute("""
+            SELECT b.*, u.username as owner_name
+            FROM books b
+            JOIN users u ON b.owner_id = u.id
+            WHERE b.book_category = %s
+            ORDER BY b.book_id DESC
+        """, (category,))
+        books = cursor.fetchall()
+        
+        return render_template('category.html', 
+                             books=books,
+                             category_name=category_names.get(category, 'Unknown Category'))
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return render_template('category.html', books=[], category_name='Error')
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 
 
@@ -412,8 +464,43 @@ def product_details(book_id):
             conn.close()
 
 
+# -------------------- カートに入れる処理 --------------------
+@app.route('/addToCart', methods=['POST'])
+def addToCart():
+    # JSONデータの取得
+    data = request.get_json()
+    productID = int(data.get('productID'))
+    
+    #sessionの情報を取得
+    accountID = session['login_id']
 
-# -------------------- submit_product-details --------------------
+    # 取得できたデータを表示
+    print(f'プロダクトID:{productID} , 購入者ID:{accountID}')
+    
+    # 取得できたデータを保存
+    """
+    conn = conn_db()
+    cursor = conn.cursor()
+    sql = ('''
+    INSERT INTO transactions 
+        (book_id, buyer_id, seller_id)
+    VALUES 
+        (%s, %s, %s)
+    ''')
+    data = [
+       (productID, accountID, sellerID)
+    ]
+    cursor.executemany(sql, data)
+    conn.commit()
+    cursor.close()
+    """
+
+    #支払い方法選択ページにリダイレクト
+    print("ショッピングカートページにリダイレクト")
+    return redirect(url_for('shoppingcart'))
+
+
+# -------------------- 今すぐ購入の処理 --------------------
 @app.route('/submit_product-details', methods=['POST'])
 def submit_data():
     # JSONデータの取得
@@ -449,7 +536,7 @@ def submit_data():
 
 
 
-#----------------------------- 商品につけるコメントのぺーじ -----------------------------------------
+#----------------------------- 商品につけるコメントの処理 -----------------------------------------
 @app.route('/submit_product-comment', methods=['POST'])
 def submit_comment():
     print("コメントの投稿")
