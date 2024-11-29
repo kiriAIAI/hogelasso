@@ -136,7 +136,7 @@
                       <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" alt="{{ book.book_title }}" class="product-image">
                     </div>
                     <div class="product-content-wrapper">
-                      <h3 class="product-title">{{ book.book_title }}</h3>
+                      <h3 class="product-title">{{ book.book_title | safe}}</h3>
                       <div class="product-price"><strong>¥</strong> {{ book.book_price }}</div>
                       <div class="product-author">{{ book.seller_name }}</div>
                       
@@ -168,7 +168,7 @@
                       {% endif %}
                     </div>
                     <div class="product-content-wrapper">
-                      <h3 class="product-title">{{ book.book_title }}</h3>
+                      <h3 class="product-title">{{ book.book_title | safe}}</h3>
                       <div class="product-price"><strong>¥</strong> {{ book.book_price }}</div>
                       <div class="product-author">{{ book.owner_name }}</div>
                     </div>

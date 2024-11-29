@@ -133,7 +133,7 @@
                     <div class="user-name">{{ book.username }}</div>
                 </a>
             </div>
-            <h2 class="product-heading">{{ book.book_title }}</h2>
+            <h2 class="product-heading">{{ book.book_title | safe }}</h2>
             <div class="product-price-reviews-wrapper">
                 <div class="product-price-text">￥{{ "%.2f"|format(book.book_price) }}</div>
                 <div class="product-text-divider"></div>
