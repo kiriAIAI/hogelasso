@@ -225,9 +225,8 @@ def login():
 
 
 # -------------------- logout.html --------------------
-@app.route('/logout')
+@app.route('/logout.html')
 def logout():
-    print("logout")
     session.pop('login_id', None)  # 清除用户的会话信息
     return render_template('logout.html')  # 渲染登出页面
 
