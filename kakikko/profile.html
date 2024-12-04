@@ -154,22 +154,50 @@
         <div class="w-form">
           <form id="email-form" name="email-form" data-name="Email Form" method="get" data-ms-form="profile" data-wf-page-id="670b7499cd8231b48d0512b3" data-wf-element-id="4c83d7a3-7f1a-ffd4-d2f1-b657933c30a9">
             <div class="display_horizontal gap margin-top margin-small">
-              <div class="profile_img-div">
-                <div class="profile_img-box"><img data-ms-member="profile-image" loading="lazy" alt="" src="{{ url_for('static', filename='images/circle-user.svg') }}" class="profile_img">
-                  <a data-ms-action="profile-image" href="#" class="edit_icon-link w-inline-block"><img loading="lazy" src="{{ url_for('static', filename='images/edit-246.svg') }}" alt="" class="edit_icon"></a>
-                </div>
+              <form method="POST" action="/profile" enctype="multipart/form-data">
+                <div class="profile_img-div">
+                  <div class="profile_img-box">
+                      {% if profile_image %}
+                          <img src="{{ url_for('static', filename='images/profiles/' + profile_image) }}" 
+                               alt="プロフィール画像" 
+                               class="profile_img">
+                      {% else %}
+                          <img src="{{ url_for('static', filename='images/profiles/default-profile.png') }}" 
+                               alt="デフォルトプロフィール画像" 
+                               class="profile_img">
+                      {% endif %}
+                      <!-- 編集ボタン -->
+                      <label for="profile_image" class="edit_icon-link">
+                          <img src="{{ url_for('static', filename='images/edit-246.svg') }}" 
+                               alt="編集アイコン" 
+                               class="edit_icon">
+                      </label>
+                      <input type="file" id="profile_image" name="profile_image" style="display: none;" onchange="this.form.submit()">
+                  </div>
               </div>
+              
+              <!-- 名前と自己紹介 -->
               <div class="fields_div">
-                <div class="display_horizontal gap">
-                  <div class="profile-info-username-block"><label for="Name-3" class="text-size-tiny margin-0">姓</label><input class="text_field w-input" maxlength="256" name="Name" data-name="Name" placeholder="" type="text" id="Name-3" data-ms-member="first-name"></div>
-                  <div class="profile-info-username-block"><label for="name-2" class="text-size-tiny margin-0">名</label><input class="text_field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="" type="text" id="name-2" data-ms-member="last-name"></div>
-                </div><label for="Bio" class="text-size-tiny margin-0">自己紹介</label><textarea class="text_field input w-input" maxlength="5000" name="Bio" data-name="Bio" placeholder="" id="Bio" data-ms-member="about"></textarea>
-                <div class="display_horizontal gap_1rem margin-top margin-medium"><input type="submit" data-wait="Please wait..." class="cancel_button w-button" value="キャンセル"><input type="submit" data-wait="Please wait..." class="save_button w-button" value="保存"></div>
+                  <div class="profile-info-username-block">
+                      <label for="Name-3" class="text-size-tiny margin-0">姓</label>
+                      <input class="text_field w-input" maxlength="256" name="Name" data-name="Name" type="text" value="{{ username }}">
+                  </div>
+              
+                  <div class="profile-info-username-block">
+                      <label for="Name-4" class="text-size-tiny margin-0">名</label>
+                      <input class="text_field w-input" maxlength="256" name="name-2" data-name="Name 2" type="text">
+                  </div>
+              
+                  <label for="Bio" class="text-size-tiny margin-0">自己紹介</label>
+                  <textarea class="text_field input w-input" maxlength="5000" name="Bio" data-name="Bio" id="Bio">{{ bio }}</textarea>
+              
+                  <div class="display_horizontal gap_1rem margin-top margin-medium">
+                      <input type="submit" class="cancel_button w-button" value="キャンセル">
+                      <input type="submit" class="save_button w-button" value="保存">
+                  </div>
               </div>
-            </div>
-          </form>
-        </div>
-      </div>
+              
+            
       <a data-w-id="9fe45cdd-a948-e83c-4b3a-f1ac2c01d290" href="#" class="bio-close-btn"><i class="fa-solid fa-xmark"></i></a>
     </div>
   </div>
@@ -272,8 +300,10 @@
       <div class="profile-block">
         <div class="profile-left-block">
           <div class="profile-info-block">
-            <div class="profile-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" width="140" alt="" class="profile-image"></div>
-            <div class="follow-info-block">
+            <div class="profile-image-block">
+              <img src="{{ url_for('static', filename='images/profiles/' + profile_image) }}" loading="lazy" width="140" alt="" class="profile-image">
+          </div>
+                      <div class="follow-info-block">
               <div class="profile-username-block">
                 <h3 class="profile-username">{{ username }}</h3>
               </div>
@@ -292,8 +322,8 @@
               <h4 class="profile-bio-heading">自己紹介</h4>
             </div>
             <div class="profile-bio-wrapper">
-              <p class="paragraph">あああああああああああああああああああああああああああ</p>
-            </div>
+              <p class="paragraph">{{ user_bio }}</p> <!-- 保存された自己紹介文を表示 -->
+          </div>
           </div>
           <a data-w-id="69019cfa-6695-872b-5813-26b68d9d914a" href="#" class="profile-edit-btn w-button"><i class="fa-solid fa-pen-to-square"></i></a>
         </div>
