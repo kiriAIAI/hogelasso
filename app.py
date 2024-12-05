@@ -2,6 +2,8 @@ from flask import Flask, render_template, send_from_directory, jsonify, request,
 import mysql.connector
 import os
 
+from werkzeug.utils import secure_filename
+
 # import datetime
 from datetime import timedelta
 
@@ -670,68 +672,76 @@ def profile():
     if 'login_id' not in session:
         return redirect(url_for('login'))
 
-    cursor = None
-    conn = None
-    try:
-        conn = conn_db()  # データベース接続
-        cursor = conn.cursor(dictionary=True)
+    conn = conn_db()
+    cursor = conn.cursor(dictionary=True)
 
+    try:
+        # ユーザー情報取得
         cursor.execute("""
-            SELECT username, email
+            SELECT username, email, profile_image
             FROM users
             WHERE id = %s
         """, (session['login_id'],))
-
         user_info = cursor.fetchone()
 
         if not user_info:
             return redirect(url_for('login'))
 
-        # データベースから取得した情報を初期化
-        profile_image = user_info.get('profile_image') if user_info.get('profile_image') else 'default-profile.png'
-        username = user_info.get('username', 'No Name')
+        # プロファイル画像の取得またはデフォルト設定
+        profile_image = user_info.get('profile_image') or 'default-profile.jpg'
 
-        # POSTリクエストを処理
-        if request.method == 'POST':
-            # プロフィール画像の処理
-            if 'profile_image' in request.files:
-                profile_file = request.files['profile_image']
-                if profile_file and allowed_file(profile_file.filename):  # 拡張子の確認
-                    filename = secure_filename(profile_file.filename)
-                    file_path = os.path.join('kakikko/static/images/profiles', filename)
-                    print(f"Uploading file: {filename}")  # デバッグ用
-                    profile_file.save(file_path)
-
-                    # データベース内のプロフィール画像を更新
-                    cursor.execute("""
-                        UPDATE users
-                        SET profile_image = %s
-                        WHERE id = %s
-                    """, (filename, session['login_id']))
-                    conn.commit()
-
-                    profile_image = filename  # プロフィール画像を新しいものに更新
-
-        # # 自己紹介文の変更処理
-        # bio = user_info.get('bio', '')  # 既存の自己紹介文を取得
-        # if request.method == 'POST' and 'Bio' in request.form:
-        #     bio = request.form['Bio']
-
-            cursor.execute("""
-                UPDATE users
-                SET bio = %s
-                WHERE id = %s
-            """, (session['login_id']))
-            conn.commit()
-
-        return render_template('profile.html', 
-                               username=username, 
-                               user_info=user_info, 
-                               profile_image=profile_image,)
+        return render_template(
+            'profile.html',
+            username=user_info['username'],
+            email=user_info['email'],
+            profile_image=profile_image,
+        )
 
     except Exception as e:
         print(f"Error: {e}")
         return redirect(url_for('login'))
+
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.route('/profile_image', methods=['POST'])
+def profile_image():
+    if 'login_id' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    if 'profile_image' not in request.files:
+        return jsonify({'error': 'No file uploaded'}), 400
+
+    file = request.files['profile_image']
+    if not allowed_file(file.filename):
+        return jsonify({'error': 'Invalid file type'}), 400
+
+    # 保存先フォルダ
+    upload_folder = 'kakikko/static/images/profiles_images'
+    os.makedirs(upload_folder, exist_ok=True)
+
+    filename = f"user_{session['login_id']}_{secure_filename(file.filename)}"
+    file_path = os.path.join(upload_folder, filename)
+
+    try:
+        file.save(file_path)
+
+        # データベースを更新
+        conn = conn_db()
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE users
+            SET profile_image = %s
+            WHERE id = %s
+        """, (filename, session['login_id']))
+        conn.commit()
+
+        return jsonify({'message': 'Profile image uploaded successfully', 'image_path': filename}), 200
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'error': 'An error occurred during the upload'}), 500
 
     finally:
         if cursor:
@@ -739,7 +749,7 @@ def profile():
         if conn:
             conn.close()
 
-        print(f"profile_image: {profile_image}")
+
 
 
 

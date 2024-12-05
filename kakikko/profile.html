@@ -155,11 +155,29 @@
           <form id="email-form" name="email-form" data-name="Email Form" method="get" data-ms-form="profile" data-wf-page-id="670b7499cd8231b48d0512b3" data-wf-element-id="4c83d7a3-7f1a-ffd4-d2f1-b657933c30a9">
             <div class="display_horizontal gap margin-top margin-small">
               <div class="profile_img-div">
-                <div class="profile_img-box"><img data-ms-member="profile-image" loading="lazy" alt="" src="{{ url_for('static', filename='images/circle-user.svg') }}" class="profile_img">
-                  <a data-ms-action="profile-image" href="#" class="edit_icon-link w-inline-block"><img loading="lazy" src="{{ url_for('static', filename='images/edit-246.svg') }}" alt="" class="edit_icon"></a>
-                </div>
+                <div class="profile_img-box">
+                  <!-- プロフィール画像を表示 -->
+                  {% if profile_image %}
+                      <img src="{{ url_for('static', filename='images/profiles_images/' + profile_image) }}" 
+                           alt="プロフィール画像" 
+                           class="profile_img">
+                  {% else %}
+                      <img src="{{ url_for('static', filename='images/profiles_images/default-profile.jpg') }}" 
+                           alt="デフォルトプロフィール画像" 
+                           class="profile_img">
+                  {% endif %}
+                  
+                  <!-- 編集ボタン -->
+                  <form method="POST" enctype="multipart/form-data">
+                      <label for="profile_image" class="edit_icon-link">
+                          <img src="{{ url_for('static', filename='images/edit-246.svg') }}" 
+                               alt="編集アイコン" 
+                               class="edit_icon">
+                      </label>
+                      <input type="file" id="profile_image" name="profile_image" style="display: none;" onchange="this.form.submit()">
+                  </form>
               </div>
-              <div class="fields_div">
+                            <div class="fields_div">
                 <div class="display_horizontal gap">
                   <div class="profile-info-username-block"><label for="Name-3" class="text-size-tiny margin-0">姓</label><input class="text_field w-input" maxlength="256" name="Name" data-name="Name" placeholder="" type="text" id="Name-3" data-ms-member="first-name"></div>
                   <div class="profile-info-username-block"><label for="name-2" class="text-size-tiny margin-0">名</label><input class="text_field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="" type="text" id="name-2" data-ms-member="last-name"></div>
@@ -272,7 +290,7 @@
       <div class="profile-block">
         <div class="profile-left-block">
           <div class="profile-info-block">
-            <div class="profile-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" width="140" alt="" class="profile-image"></div>
+            <div class="profile-image-block"><img src="{{ url_for('static', filename='images/profiles_images/' + profile_image) }}" loading="lazy" width="140" alt="" class="profile-image"></div>
             <div class="follow-info-block">
               <div class="profile-username-block">
                 <h3 class="profile-username">{{ username }}</h3>
