@@ -17,7 +17,7 @@
   <script type="text/javascript">WebFont.load({  google: {    families: ["Noto Sans JP:regular,500,600,700,900"]  }});</script>
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
   <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="shortcut icon" type="image/x-icon">
-  <link href="{{ url_for('static', filename='images/webclip.png') }}" rel="apple-touch-icon">
+  <link href="{{ url_for('static', filename='imag es/webclip.png') }}" rel="apple-touch-icon">
 </head>
 <body class="body">
   <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
@@ -125,24 +125,24 @@
           <div class="cart-item-list">
             {% if cart_items %}
                 {% for item in cart_items %}
-                <div class="cart-item">
-                    <div class="cart-detail-blcok">
-                        <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-image-link-block w-inline-block">
-                            <img src="{{ url_for('static', filename='images/users_images/' + item.book_cover_image) }}" loading="lazy" alt="" class="cart-item-image">
-                        </a>
-                        <div class="cart-item-detail-block">
-                            <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-item-title-link">{{ item.book_title }}</a>
-                            <div class="cart-item-price-text">￥{{ item.book_price }}</div>
-                        </div>
-                    </div>
-                    <div class="cart-quantity-block">
-                        <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
-                        <div class="quantity-input-form-block w-form">
-                            <form class="quantity-input-form">
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                  <div class="cart-item">
+                      <div class="cart-detail-blcok">
+                          <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-image-link-block w-inline-block">
+                              <img src="{{ url_for('static', filename='images/users_images/' + item.book_cover_image) }}" loading="lazy" alt="" class="cart-item-image">
+                          </a>
+                          <div class="cart-item-detail-block">
+                              <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-item-title-link">{{ item.book_title }}</a>
+                              <div class="cart-item-price-text">￥{{ item.book_price }}</div>
+                          </div>
+                      </div>
+                      <div class="cart-quantity-block">
+                          <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
+                          <div class="quantity-input-form-block w-form">
+                              <form class="quantity-input-form">
+                              </form>
+                          </div>
+                      </div>
+                  </div>
                 {% endfor %}
                 
             {% else %}
@@ -156,7 +156,7 @@
           <div class="cart-summary-block">
             <div class="summary-quantity-block">
               <div>数量</div>
-              <div>3</div>
+              <div>{{ total_items }}</div>
             </div>
             <div class="point-form-block w-form">
               <form id="email-form" name="email-form" data-name="Email Form" method="get" class="point-form" data-wf-page-id="670f55bf8bc01fb1af74d259" data-wf-element-id="7fe0f46c-3ee0-c1b7-f3a0-d6f6dc7f73a2">
@@ -177,7 +177,7 @@
             </div>
             <div class="summary-price-block">
               <div>合計金額</div>
-              <div class="text-block-3">￥99.0 </div>
+              <div class="text-block-3">￥{{ total_price }}</div>
             </div>
             <a href="{{ url_for('payment') }}" class="checkout-btn w-button">レジに進む</a>
           </div>
