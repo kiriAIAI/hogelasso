@@ -257,7 +257,7 @@
 
 .square.is--search:hover {
   background-color: #131313;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .square.is--hamburger {
@@ -1955,6 +1955,7 @@
 
 .comment-btn:hover {
   background-color: var(--dark-gray-hover);
+  transform: scale(1.01);
 }
 
 .comment-btn.is-icon {
@@ -3111,12 +3112,13 @@
 .heading {
   color: var(--font);
   margin-bottom: 20px;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   line-height: 2rem;
 }
 
 .paragraph-2 {
   color: var(--font);
+  font-size: 1.3rem;
 }
 
 .answer-btn {
@@ -3125,12 +3127,22 @@
   border-radius: 4px;
   width: 10rem;
   height: 3rem;
+  transition: all 0.3s ease;
 }
 
 .answer-btn:hover {
+  box-shadow: 0 3px 8px var(--dark-gray);
   background-color: var(--dark-gray-hover);
+  transform: scale(1.01);
 }
 
+.answer-btn::before {
+  width: 0%;
+}
+
+.answer-btn::after {
+  width: 100%;
+}
 
 
 /* ------------------------------ read.html ------------------------------ */
@@ -3686,7 +3698,7 @@
 
   .square.is--link:hover {
     background-color: #272727;
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 
   .sidenavbar-icon {
