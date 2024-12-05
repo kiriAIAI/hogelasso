@@ -660,40 +660,86 @@ def paymentsuccess():
 
 
 # -------------------- profile.html --------------------
-@app.route('/profile')
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'login_id' not in session:
         return redirect(url_for('login'))
 
+    cursor = None
+    conn = None
     try:
-        conn = conn_db()
+        conn = conn_db()  # データベース接続
         cursor = conn.cursor(dictionary=True)
-        
-        # ユーザー情報の取得
+
         cursor.execute("""
-            SELECT username, email, profile_image, bio
-            FROM users 
+            SELECT username, email
+            FROM users
             WHERE id = %s
         """, (session['login_id'],))
-        
+
         user_info = cursor.fetchone()
-        
+
         if not user_info:
             return redirect(url_for('login'))
-            
+
+        # データベースから取得した情報を初期化
+        profile_image = user_info.get('profile_image') if user_info.get('profile_image') else 'default-profile.png'
+        username = user_info.get('username', 'No Name')
+
+        # POSTリクエストを処理
+        if request.method == 'POST':
+            # プロフィール画像の処理
+            if 'profile_image' in request.files:
+                profile_file = request.files['profile_image']
+                if profile_file and allowed_file(profile_file.filename):  # 拡張子の確認
+                    filename = secure_filename(profile_file.filename)
+                    file_path = os.path.join('kakikko/static/images/profiles', filename)
+                    print(f"Uploading file: {filename}")  # デバッグ用
+                    profile_file.save(file_path)
+
+                    # データベース内のプロフィール画像を更新
+                    cursor.execute("""
+                        UPDATE users
+                        SET profile_image = %s
+                        WHERE id = %s
+                    """, (filename, session['login_id']))
+                    conn.commit()
+
+                    profile_image = filename  # プロフィール画像を新しいものに更新
+
+        # # 自己紹介文の変更処理
+        # bio = user_info.get('bio', '')  # 既存の自己紹介文を取得
+        # if request.method == 'POST' and 'Bio' in request.form:
+        #     bio = request.form['Bio']
+
+            cursor.execute("""
+                UPDATE users
+                SET bio = %s
+                WHERE id = %s
+            """, (session['login_id']))
+            conn.commit()
+
         return render_template('profile.html', 
-                             username=user_info['username'],  # ユーザー名をテンプレートに渡す # type: ignore
-                             user_info=user_info)
-                             
+                               username=username, 
+                               user_info=user_info, 
+                               profile_image=profile_image,)
+
     except Exception as e:
         print(f"Error: {e}")
         return redirect(url_for('login'))
-        
+
     finally:
         if cursor:
             cursor.close()
         if conn:
             conn.close()
+
+        print(f"profile_image: {profile_image}")
 
 
 
