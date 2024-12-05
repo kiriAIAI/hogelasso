@@ -8,6 +8,7 @@
     <title>チャットボット</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('css', filename='style.css') }}">
     <script type="text/javascript">WebFont.load({  google: {    families: ["Noto Sans JP:regular,500,600,700,900"]  }});</script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="importmap">
         {
           "imports": {
@@ -95,6 +96,19 @@
             }
         });
 
+//スクロール関数
+        function scroll(className) {
+            const $elements = $(`.${className}`);
+            
+            if ($elements.length > 0) {
+            // 最後の要素にスクロール
+            const $lastElement = $elements.last();
+            $('html, body').animate({
+                scrollTop: $lastElement.offset().top
+            }, 1600, 'swing');
+            }
+        }
+
 
 // 定型文の表示関数
         function checkForKeywords(userInput) {
@@ -168,7 +182,7 @@
           function insertMessageSelf(txt){
             const userMessage = document.createElement('p');
             userMessage.classList.add('response', 'me');
-            userMessage.innerText = txt;
+            userMessage.innerHTML = txt;
             chatContainer.appendChild(userMessage);
             document.getElementById('user-input').value = '';
           }
@@ -201,7 +215,10 @@
                     
                 }
             } catch (error) {
-                insertMessageBot("エラーが発生しました。しばらく時間をおいてもう一度試してください。")
+                insertMessageBot("エラーが発生しました。しばらく時間をおいてもう一度試してください。");
+            }
+            finally{
+                scroll('response'); 
             }
         }
 
@@ -219,6 +236,7 @@
                 const predefinedResponse = checkForKeywords(userInput); // 定型文チェック
                 if (! (predefinedResponse == null)) {
                     insertMessageBot(predefinedResponse);
+                    scroll('response'); 
 
                 }else{
                     generateResponse(userInput);
