@@ -128,7 +128,7 @@
                 <div class="cart-item">
                     <div class="cart-detail-blcok">
                         <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-image-link-block w-inline-block">
-                            <img src="{{ item.book_cover_image }}" loading="lazy" alt="" class="cart-item-image">
+                            <img src="{{ url_for('static', filename='images/users_images/' + item.book_cover_image) }}" loading="lazy" alt="" class="cart-item-image">
                         </a>
                         <div class="cart-item-detail-block">
                             <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-item-title-link">{{ item.book_title }}</a>
@@ -139,9 +139,6 @@
                         <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
                         <div class="quantity-input-form-block w-form">
                             <form class="quantity-input-form">
-                                <div class="quantity-input-label">
-                                    <input class="sysf-input sysf-medium w-input" type="number" value="{{ item.quantity }}" min="1" required>
-                                </div>
                             </form>
                         </div>
                     </div>
