@@ -234,8 +234,38 @@
                   <form id="wf-form-Edit-Comment-Form" name="wf-form-Edit-Comment-Form" data-name="Edit Comment Form" method="get" data-ms-post-edit="form" data-wf-page-id="670b752701de0ce1386810ba" data-wf-element-id="b535171e-a3ac-0a08-c6c4-e5b838f35653"><textarea class="comment-input w-input" maxlength="5000" name="Edit-Comment" data-name="Edit Comment" data-ms-post-edit="content" placeholder="コメントを入力" id="Edit-Comment"></textarea>
                     <div class="comment-form-button-row">
                       <div class="comment-delete-wrap">
-                        <a href="#" class="comment-delete-btn w-button">削除1</a>
+                        <a href="#" class="comment-delete-btn w-button" id="delete-button" data-book-id="{{ book_id }}">削除</a>
                       </div>
+                      <script>
+                        document.getElementById('delete-button').addEventListener('click', function(event) {
+                            event.preventDefault();
+                          
+                            const bookId = this.getAttribute('data-book-id');
+                          
+                            if (confirm('本当にこの商品を削除しますか？')) {
+                                fetch(`/delete_article/${bookId}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.message === '記事を削除しました') {
+                                        alert('商品が削除されました');
+                                        window.location.href = '/';
+                                    } else {
+                                        alert(data.message);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('削除中にエラーが発生しました');
+                                });
+                            }
+                        });
+                      </script>  
+
                       <a data-ms-post-edit="cancel" href="#" class="comment-btn is-cancel w-button">キャンセル</a>
                       <button type="submit" id="Comment_Submission" class="comment-btn w-button">
                         <i class="fa-solid fa-paper-plane"></i>
