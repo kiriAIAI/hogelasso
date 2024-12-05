@@ -22,6 +22,17 @@ def conn_db():
         )
     return conn
 
+def databese_sql(sql,data):
+    try:
+        conn = conn_db()
+        cursor = conn.cursor()
+        cursor.executemany(sql, data)
+        conn.commit()
+    except:
+        print("データベースへの保存中にエラーが発生しました。")
+    finally:
+        cursor.close()
+
 
 
 # 現在の日付と時刻を取得して、秒まで表示
@@ -484,56 +495,39 @@ def product_details(book_id):
 # -------------------- カートに入れる処理 --------------------
 @app.route('/addToCart', methods=['POST'])
 def addToCart():
-    # JSONデータの取得
-    data = request.get_json()
+    accountID = session['login_id'] #セッションデータの取得
+    data = request.get_json() # JSONデータの取得
     productID = int(data.get('productID'))
-    
-    #sessionの情報を取得
-    accountID = session['login_id']
 
-    # 取得できたデータを表示
-    print(f'プロダクトID:{productID} , 購入者ID:{accountID}')
+    print("カートに入れる処理")
+    print(f'購入者ID:{accountID} , プロダクトID:{productID}') # 取得できたデータを表示
     
     # 取得できたデータを保存
-    """
-    conn = conn_db()
-    cursor = conn.cursor()
     sql = ('''
     INSERT INTO transactions 
-        (book_id, buyer_id, seller_id)
+        (book_id, buyer_id)
     VALUES 
-        (%s, %s, %s)
+        (%s, %s)
     ''')
     data = [
-       (productID, accountID, sellerID)
+       (accountID,productID)
     ]
-    cursor.executemany(sql, data)
-    conn.commit()
-    cursor.close()
-    """
+    #databese_sql(sql,data)
 
-    #支払い方法選択ページにリダイレクト
     print("ショッピングカートページにリダイレクト")
     return redirect(url_for('shoppingcart'))
-
 
 # -------------------- 今すぐ購入の処理 --------------------
 @app.route('/submit_product-details', methods=['POST'])
 def submit_data():
-    # JSONデータの取得
+    accountID = session['login_id']
     data = request.get_json()
     sellerID = int(data.get('sellerID'))
     productID = int(data.get('productID'))
-    
-    #sessionの情報を取得
-    accountID = session['login_id']
 
-    # 取得できたデータを表示
+    print("今すぐ購入の処理")
     print(f'プロダクトID:{productID} , 購入者ID:{accountID} , 出品者ID:{sellerID}')
     
-    # 取得できたデータを保存
-    conn = conn_db()
-    cursor = conn.cursor()
     sql = ('''
     INSERT INTO transactions 
         (book_id, buyer_id, seller_id)
@@ -543,35 +537,23 @@ def submit_data():
     data = [
        (productID, accountID, sellerID)
     ]
-    cursor.executemany(sql, data)
-    conn.commit()
-    cursor.close()
+    databese_sql(sql,data)
 
-    #支払い方法選択ページにリダイレクト
     print("paymentにリダイレクト")
     return redirect(url_for('payment',account=accountID,product=productID))
-
 
 
 #----------------------------- 商品につけるコメントの処理 -----------------------------------------
 @app.route('/submit_product-comment', methods=['POST'])
 def submit_comment():
-    print("コメントの投稿")
-    # JSONデータの取得
+    accountID = session['login_id']
     data = request.get_json()
     maintxt = data.get('maintxt')
     productID = int(data.get('productID'))
-    
-    #sessionの情報を取得
-    accountID = session['login_id']
 
-    # 取得できたデータを表示
+    print("コメントの投稿")
     print(f'プロダクトID:{productID} , コメント投稿者ID:{accountID} , 本文:{maintxt}')
     
-    # 取得できたデータを保存
-    
-    conn = conn_db()
-    cursor = conn.cursor()
     sql = ('''
         INSERT INTO comments (user_id, book_id, comment)
         VALUES (%s, %s, %s)
@@ -579,9 +561,7 @@ def submit_comment():
     data = [
        (accountID,productID,maintxt)
     ]
-    cursor.executemany(sql, data)
-    conn.commit()
-    cursor.close()
+    databese_sql(sql,data)
     
     return redirect(url_for('product_details',book_id=productID))
     

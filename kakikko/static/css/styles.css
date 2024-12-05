@@ -1,12 +1,202 @@
+/* チャットボットページ */
+#chatbot-body{
+    margin: 0 auto;
+    height: 100vh;
+    background-color: #f7f7f7;
+}
+.title{
+    border-bottom:  1px #c1c1c159 solid;
+    background-color: #fff;
+}
+.title div{
+    padding: 10px 0 10px 20px;
+    width: fit-content;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+
+.kaitou{
+    margin: 30px auto 0 auto;
+    padding-bottom: 80px; 
+}
+
+.kaitou p{
+    width: fit-content;
+    padding: 8px 15px;
+    border-radius: 10px;
+}
+
+.kaitou div{
+    display: flex;
+    height: auto;
+}
+
+.preview{
+    margin: 0 0 10px auto;
+    padding: 20px;
+    width: 50%;
+    max-width: 300px;
+    border-radius: 20px;
+    background-color: greenyellow;
+}
+
+#kaitouA{
+    display: block;
+    padding: 5%;
+}
+
+.responsediv{
+    display: flex;
+}
+
+.me{
+    margin: 10px 0 0 auto;
+    background-color: #d1d1d1;
+    background-color: greenyellow;
+}
+
+.chatbot{
+    background-color: gray;
+    color: white;
+}
+
+.response{
+    max-width: 65%;
+}
+#hint{
+    font-size: 18px;
+    margin: 0 5%;
+}
+
+.kensaku{
+    display: flex;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    margin: 0 auto 0 auto;
+    padding: 10px 3px 3px 3px;
+    bottom: 0px;
+    justify-content: center;
+    background-color: white;
+    border-top: 1px #aaa solid;
+}
+
+#user-input{
+    height: 35px;
+    width: 70%;
+    border-radius: 20px;
+    padding: 0 0 0 15px;
+    font-size: 1rem;
+    size: 40px;
+    margin: 0 10px 10px 0;
+    border: 1px #c1c1c1 solid;
+    transition: all 0.3s ease;
+}
+
+#user-input:hover {
+    border-color: #999;
+    background-color: #fafafa;
+}
+
+#user-input::placeholder{
+    font-size: 1rem;
+}
+
+#user-input:focus {
+    outline: none;
+    border-color: #666;
+    background-color: #fff;
+}
+
+#send-btn{
+    cursor: pointer;
+    width: 80px;
+    border-radius: 20px;
+    font-size: 1rem;
+    margin: 0 8px 10px 0;
+    border: 1px #c1c1c1 solid;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+#send-btn:hover {
+    background-color: #e8e8e8;
+    border-color: #999;
+}
+
+
+.X{
+    visibility: hidden;
+    cursor: pointer;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 58px;
+    top: 0;
+    right: 0;
+    font-size: 30px;
+    border-left: 1px #c1c1c159 solid;
+    border-bottom: 1px #c1c1c159 solid;
+    background-color: #fff ;
+    transition: all 0.3s ease;
+}
+
+.X:hover {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.X div{
+    width: fit-content;
+}
+
+#fileInput{
+    display: none;
+}
+#image{
+    padding: 2px 0 0 0;
+    margin: 0 2px 0 0;
+    width: 40px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.custom-link {
+    color: aqua; /* リンクの色を赤に設定 */
+    text-decoration: none; /* 下線を消す */
+}
+.custom-link:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
+
+#image:hover, #send-btn:hover, #X:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+
+@media screen and (max-width: 800px) {
+    .X{
+        visibility: visible;
+    }
+  }
+
+
+
+/* 商品詳細ページ--------------------------------------------------------- */
+
 .comment-window{
     margin-bottom: 50px;
 }
 .comment-blocks{
     display: flex;
-    margin: 0 0 20px 0;
+    margin: 0 0 40px 0;
 }
 
-.left-block{}
+/* .left-block{} */
 .left-block img{
     width: 50px;
 }
