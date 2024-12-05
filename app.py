@@ -480,6 +480,56 @@ def product_details(book_id):
         if conn:
             conn.close()
 
+@app.route('/delete_article/<int:book_id>', methods=['POST'])
+def delete_article(book_id):
+    if 'login_id' not in session:
+        return jsonify({'message': 'ログインしてください'}), 401
+
+    conn = None
+    cursor = None
+    try:
+        conn = conn_db()
+        cursor = conn.cursor()
+        
+        # 获取封面图片路径
+        cursor.execute('SELECT book_cover_image FROM books WHERE book_id = %s', (book_id,))
+        cover_image_path = cursor.fetchone()
+        
+        if not cover_image_path:
+            return jsonify({'message': '記事が見つかりませんでした'}), 404
+        
+        cover_image_path = cover_image_path[0]
+        
+        # 删除文章
+        cursor.execute('DELETE FROM books WHERE book_id = %s', (book_id,))
+        conn.commit()
+        
+        # 删除封面图片文件
+        file_path = os.path.join('kakikko/static/images/users_images', cover_image_path)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        
+        return jsonify({'message': '記事を削除しました'}), 200
+    
+    except mysql.connector.Error as e:
+        print(f"Database error: {e}")
+        if conn:
+            conn.rollback()
+        return jsonify({'message': f'データベースエラー: {str(e)}'}), 500
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        if conn:
+            conn.rollback()
+        return jsonify({'message': f'エラー: {str(e)}'}), 500
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
 
 # -------------------- カートに入れる処理 --------------------
 @app.route('/addToCart', methods=['POST'])
