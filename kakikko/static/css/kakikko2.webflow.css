@@ -255,6 +255,11 @@
   background-color: #272727;
 }
 
+.square.is--search:hover {
+  background-color: #131313;
+  transform: scale(1.1);
+}
+
 .square.is--hamburger {
   background-color: #131313;
   transition: background-color .2s;
@@ -289,6 +294,7 @@
 
 .navbar-icon:hover {
   filter: brightness(0) saturate(100%) invert(77%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(89%) contrast(85%);
+  transform: scale(1.1);
 }
 
 
@@ -3680,6 +3686,7 @@
 
   .square.is--link:hover {
     background-color: #272727;
+    transform: scale(1.1);
   }
 
   .sidenavbar-icon {
