@@ -23,7 +23,7 @@ def conn_db():
         )
     return conn
 
-def databese_sql(sql,data):
+def saveToDatabase(sql,data):
     try:
         conn = conn_db()
         cursor = conn.cursor()
@@ -33,7 +33,23 @@ def databese_sql(sql,data):
         print("データベースへの保存中にエラーが発生しました。")
     finally:
         cursor.close()
+        
+def checkForDuplicateEntry(sql,data):
+    conn = conn_db()
+    cursor = conn.cursor()
+    cursor.execute(sql, data)
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return result
 
+def update_database(where,Updated_value,sql):
+    conn = conn_db()
+    cursor = conn.cursor()
+    cursor.execute(sql, (Updated_value, where))
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 
 # 現在の日付と時刻を取得して、秒まで表示
@@ -511,17 +527,29 @@ def addToCart():
     print("カートに入れる処理")
     print(f'購入者ID:{accountID} , プロダクトID:{productID}') # 取得できたデータを表示
     
+    #カート内に同じ商品がないかチェック
+    check_sql = '''
+    SELECT COUNT(*) FROM shopping_cart 
+    WHERE user_id = %s AND book_id = %s AND quantity = 1
+    '''
+    check_data = (accountID, productID)
+    result = checkForDuplicateEntry(check_sql,check_data)
+    if result[0] > 0:
+        print("エラー:すでに同じ商品が入っています")
+        return redirect(url_for("shoppingcart"))
+    
+    
     # 取得できたデータを保存
     sql = ('''
-    INSERT INTO transactions 
-        (book_id, buyer_id)
+    INSERT INTO shopping_cart
+        (user_id,book_id,quantity)
     VALUES 
-        (%s, %s)
+        (%s, %s,%s)
     ''')
     data = [
-       (accountID,productID)
+       (accountID,productID,1)
     ]
-    #databese_sql(sql,data)
+    saveToDatabase(sql,data)
 
     print("ショッピングカートページにリダイレクト")
     return redirect(url_for('shoppingcart'))
@@ -547,7 +575,7 @@ def submit_data():
     data = [
        (productID, accountID, sellerID)
     ]
-    databese_sql(sql,data)
+    saveToDatabase(sql,data)
 
     print("paymentにリダイレクト")
     return redirect(url_for('payment',account=accountID,product=productID))
@@ -571,7 +599,7 @@ def submit_comment():
     data = [
        (accountID,productID,maintxt)
     ]
-    databese_sql(sql,data)
+    saveToDatabase(sql,data)
     
     return redirect(url_for('product_details',book_id=productID))
     
@@ -595,15 +623,37 @@ def shoppingcart():
         cursor = conn.cursor(dictionary=True)
         
         # ショッピングカートに商品を入れる
-        cursor.execute("""
-            SELECT b.*, c.quantity 
-            FROM cart c
-            JOIN books b ON c.book_id = b.book_id
-            WHERE c.user_id = %s
-        """, (session['login_id'],))
+        query = """
+        SELECT 
+            sc.cart_id, 
+            sc.user_id, 
+            sc.book_id, 
+            b.book_title,
+            b.book_price,
+            b.book_cover_image 
+        FROM 
+            shopping_cart sc
+        JOIN 
+            books b
+        ON 
+            sc.book_id = b.book_id
+        WHERE 
+            sc.user_id = %s AND sc.quantity = 1
+        ORDER BY 
+            sc.cart_id DESC;
+        """
+        cursor.execute(query,  (session['login_id'],))
         cart_items = cursor.fetchall()
         
-        return render_template('shopping-cart.html', cart_items=cart_items)
+        total_items = len(cart_items)
+        total_price = sum(item['book_price'] for item in cart_items)
+        
+        return render_template(
+            'shopping-cart.html', 
+            cart_items=cart_items,
+            total_items=total_items,
+            total_price=total_price
+        )
         
     except Exception as e:
         print(f"Error: {e}")
@@ -616,6 +666,14 @@ def shoppingcart():
             conn.close()
 
 
+@app.route('/remove-shopping-cart', methods=['POST'])
+def remove_from_cart():
+    cart_id = request.form.get('cart_id')
+    sql = "UPDATE shopping_cart SET quantity = %s WHERE cart_id = %s"
+    update_database(cart_id,2,sql)
+    
+    return redirect(url_for('shoppingcart'))
+    
 
 # -------------------- payment.html --------------------
 @app.route('/payment')
@@ -840,4 +898,4 @@ def images(filename):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
