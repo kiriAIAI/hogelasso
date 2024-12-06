@@ -10,6 +10,7 @@
   <link href="{{ url_for('static', filename='css/normalize.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ url_for('static', filename='css/webflow.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ url_for('static', filename='css/kakikko2.webflow.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -136,11 +137,13 @@
                           </div>
                       </div>
                       <div class="cart-quantity-block">
-                          <a href="#" class="cart-item-delete-btn w-button"><i class="fa-solid fa-trash"></i></a>
-                          <div class="quantity-input-form-block w-form">
-                              <form class="quantity-input-form">
-                              </form>
-                          </div>
+                        <form action="/remove-shopping-cart" method="post">
+                          <input type="hidden" name="cart_id" value="{{ item.cart_id }}">
+                          <button type="submit" class="removeFromCart">
+                            <img src="{{ url_for('static', filename='images/gomibako.png') }}" alt="Remove from cart">
+                          </button>
+                        </form>
+
                       </div>
                   </div>
                 {% endfor %}

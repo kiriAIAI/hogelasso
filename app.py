@@ -42,6 +42,14 @@ def checkForDuplicateEntry(sql,data):
     conn.close()
     return result
 
+def update_database(where,Updated_value,sql):
+    conn = conn_db()
+    cursor = conn.cursor()
+    cursor.execute(sql, (Updated_value, where))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
 
 # 現在の日付と時刻を取得して、秒まで表示
 def gettime():
@@ -513,7 +521,7 @@ def addToCart():
     #カート内に同じ商品がないかチェック
     check_sql = '''
     SELECT COUNT(*) FROM shopping_cart 
-    WHERE user_id = %s AND book_id = %s
+    WHERE user_id = %s AND book_id = %s AND quantity = 1
     '''
     check_data = (accountID, productID)
     result = checkForDuplicateEntry(check_sql,check_data)
@@ -648,6 +656,14 @@ def shoppingcart():
             conn.close()
 
 
+@app.route('/remove-shopping-cart', methods=['POST'])
+def remove_from_cart():
+    cart_id = request.form.get('cart_id')
+    sql = "UPDATE shopping_cart SET quantity = %s WHERE cart_id = %s"
+    update_database(cart_id,2,sql)
+    
+    return redirect(url_for('shoppingcart'))
+    
 
 # -------------------- payment.html --------------------
 @app.route('/payment')
