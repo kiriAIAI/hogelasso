@@ -294,7 +294,7 @@
 
 .navbar-icon:hover {
   filter: brightness(0) saturate(100%) invert(77%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(89%) contrast(85%);
-  transform: scale(1.1);
+  transform: translateY(-2px);
 }
 
 
@@ -1319,7 +1319,7 @@
 }
 
 .button.is-link {
-  color: var(--\<unknown\|relume-variable-color-neutral-1\>);
+  color: var(--font);
   background-color: #0000;
   border-style: none;
   padding: .25rem 0;
@@ -2934,6 +2934,8 @@
   line-height: 3rem;
 }
 
+
+/* ------------------ confirm-logout ------------------ */
 .confirm-logout-pop-up {
   z-index: 10;
   background-color: #00000080;
@@ -2977,12 +2979,13 @@
 .error-icon {
   margin-right: 10px;
   font-family: "Fa Solid 900", sans-serif;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: 900;
 }
 
 .confirm-logout-check-text {
   font-weight: 700;
+  font-size: 1.05rem
 }
 
 .confirm-logout-close-btn {
@@ -2990,12 +2993,18 @@
   background-color: #0000;
   padding: 6px 12px;
   font-family: "Fa Solid 900", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 900;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-10deg) scale(1.1); }
+  50% { transform: rotate(10deg) scale(1.1); }
 }
 
 .confirm-logout-close-btn:hover {
   color: var(--error-hover);
+  animation: wiggle 0.5s ease-in-out;
 }
 
 .confirm-logout-check-btn {
@@ -3003,12 +3012,13 @@
   background-color: #0000;
   padding: 6px 12px;
   font-family: "Fa Solid 900", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 900;
 }
 
 .confirm-logout-check-btn:hover {
   color: var(--success-hover);
+  animation: wiggle 0.5s ease-in-out;
 }
 
 .logout-section {
@@ -3530,6 +3540,11 @@
   padding: 5px 10px;
   text-decoration: none;
   display: flex;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .bell-author-image {
