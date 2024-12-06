@@ -225,4 +225,16 @@
 /* ショッピングカートーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー */
 .removeFromCart{
     width: 50px;
+    background-color: #fff;
+}
+#proceedToCheckout{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 57px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: bold;
+    background-color: #3b3b3b;
 }
