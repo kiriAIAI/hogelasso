@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session
+from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash
 import mysql.connector
 import os
 
@@ -704,6 +704,8 @@ def proceedToCheckout():
 
         # 商品がカートにない場合、ショッピングカートページにリダイレクト
         if not books:
+            print("商品がありません")
+            flash('カート内に商品がありません')
             return redirect(url_for('shoppingcart'))
 
         # book_idsリストを作成
@@ -719,7 +721,7 @@ def proceedToCheckout():
         cursor.execute(query2, book_ids)
         owners = cursor.fetchall()
 
-        print("Owners data:", owners)
+        print("カート内のアイテム(book_id, owner_id)", owners)
 
         # トランザクションテーブルにデータを挿入
         sql = '''
@@ -734,6 +736,7 @@ def proceedToCheckout():
 
             cursor.execute(sql, (book_id, accountID, seller_id))
             
+            #アイテムを購入済みに更新
             update_query = """
             UPDATE shopping_cart
             SET quantity = 3
@@ -742,7 +745,6 @@ def proceedToCheckout():
             cursor.execute(update_query, (book_id, accountID))
 
         conn.commit()
-
         return redirect(url_for('payment'))
 
     except mysql.connector.Error as err:
@@ -752,7 +754,6 @@ def proceedToCheckout():
     finally:
         cursor.close()
         conn.close()
-        return redirect(url_for('payment'))
 
     
 

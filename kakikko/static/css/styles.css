@@ -239,3 +239,20 @@
     font-weight: bold;
     background-color: #3b3b3b;
 }
+
+.popup {
+    position: fixed;
+    top: -100px; /* 初期位置は画面外 */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff6868c8; /* 優しい赤色 */
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: center;
+    width: 80%;
+    max-width: 400px;
+    display: none;
+    opacity: 0;
+    transition: top 0.5s, opacity 1s; /* フェードインとスライドイン */
+}
