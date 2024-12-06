@@ -118,16 +118,19 @@
       </div>
       <div class="quiz-section">
         <div class="quiz-block">
-          <div class="quiz-question-block">
-            <h4 class="heading">問題１</h4>
-            <p class="paragraph-2">あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
-          </div>
-          <div class="quiz-answer-block">
-            <a id="w-node-d41ec6f9-6597-bc9c-6d2f-69455451882e-74cf0bc6" href="{{ url_for('read') }}" class="answer-btn w-button">1. xxx</a>
-            <a id="w-node-_964a1df7-ad34-4744-f7a0-b8af3fff3992-74cf0bc6" href="{{ url_for('read') }}" class="answer-btn w-button">2. xxx</a>
-            <a id="w-node-_5dc905c2-2c1b-5908-cf44-c2797cfdee33-74cf0bc6" href="{{ url_for('read') }}" class="answer-btn w-button">3. xxx</a>
-            <a id="w-node-f9253a8d-5675-09b0-07dc-ddcad63f99be-74cf0bc6" href="{{ url_for('read') }}" class="answer-btn w-button">4. xxx</a>
-          </div>
+            <div class="quiz-question-block">
+                <h4 class="heading">問題</h4>
+                <p class="paragraph-2">{{ question }}</p>
+            </div>
+            <form action="{{ url_for('submit_quiz') }}" method="post">
+                <input type="hidden" name="correct_answer" value="{{ options[0] }}">
+                <input type="hidden" name="book_id" value="{{ book_id }}">
+                <div class="quiz-answer-block">
+                    {% for option in options %}
+                    <button type="submit" name="option" value="{{ option }}" class="answer-btn w-button">{{ option }}</button>
+                    {% endfor %}
+                </div>
+            </form>
         </div>
       </div>
     </div>

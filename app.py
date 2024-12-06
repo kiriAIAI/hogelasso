@@ -4,6 +4,7 @@ import os
 
 # import datetime
 from datetime import timedelta
+import random
 
 
 app = Flask(__name__, template_folder='kakikko')
@@ -89,6 +90,7 @@ def index():
     # print(session['login_id'])
     
     return render_template('index.html', books=books)
+
 
 
 # -------------------- category.html --------------------
@@ -382,6 +384,9 @@ def chatroom():
 def chat():
     return render_template('chat.html')
 
+
+
+# -------------------- chatbot.html --------------------
 @app.route('/chatbot.html')
 def chatbot():
     return render_template('chatbot.html')
@@ -400,6 +405,9 @@ def forgetpassword():
 def confirmlogout():
     return render_template('confirm-logout.html')
 
+
+
+# -------------------- notification.html --------------------
 @app.route('/notification.html')
 def notification():
     return render_template('notification.html')
@@ -508,6 +516,7 @@ def product_details(book_id):
             conn.close()
 
 
+
 # -------------------- カートに入れる処理 --------------------
 @app.route('/addToCart', methods=['POST'])
 def addToCart():
@@ -544,6 +553,7 @@ def addToCart():
 
     print("ショッピングカートページにリダイレクト")
     return redirect(url_for('shoppingcart'))
+
 
 # -------------------- 今すぐ購入の処理 --------------------
 @app.route('/submit_product-details', methods=['POST'])
@@ -741,6 +751,7 @@ def profileinfo():
     return render_template('profile-info.html')
 
 
+
 # -------------------- purchase-history.html --------------------
 @app.route('/purchase-history.html')
 def purchase_history():
@@ -831,27 +842,38 @@ def read(book_id):
 
 
 # -------------------- quiz.html --------------------
-@app.route('/quiz.html')
-def quiz():
-    conn = conn_db()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT question_text, option1, option2, option3, option4 FROM questions ORDER BY RAND() LIMIT 1")
-    question = cursor.fetchone()
-    cursor.close()
-    conn.close()
+@app.route('/quiz/<int:book_id>')
+def quiz(book_id):
     
-    if question is None:
-        question = {
-            'question_text': 'No question available',
-            'option1': 'Option 1',
-            'option2': 'Option 2',
-            'option3': 'Option 3',
-            'option4': 'Option 4'
-        }
-    
-    return render_template('quiz.html', question=question)
+    num1 = random.randint(1, 50)
+    num2 = random.randint(1, 100)
+    operation = random.choice(['+', '-', '*', '/'])
+    if operation == '/':
+        num1 = num1 * num2  # 結果が整数であることを確認する
+
+    question = f"{num1} {operation} {num2}"
+    correct_answer = eval(question)
+
+    # 4つの選択肢を生成し、そのうちの1つを正解とする。
+    options = [correct_answer, correct_answer + 1, correct_answer - 1, correct_answer + 2]
+    random.shuffle(options)
+
+    return render_template('quiz.html', question=question, options=options, book_id=book_id)
 
 
+@app.route('/submit_quiz', methods=['POST'])
+def submit_quiz():
+    selected_option = request.form.get('option')
+    correct_answer = request.form.get('correct_answer')
+    book_id = request.form.get('book_id')
+
+    # 答えが正しいかチェックする
+    if selected_option == correct_answer:
+        # 增加用户的点数
+        # 这里可以添加代码来更新用户的点数
+        pass
+
+    return redirect(url_for('read', book_id=book_id))
 
 
 
