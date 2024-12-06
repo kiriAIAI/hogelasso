@@ -517,7 +517,7 @@ def product_details(book_id):
 
 
 
-# -------------------- カートに入れる処理 --------------------
+        # -------------------- カートに入れる処理 --------------------
 @app.route('/addToCart', methods=['POST'])
 def addToCart():
     accountID = session['login_id'] #セッションデータの取得
@@ -530,12 +530,22 @@ def addToCart():
     #カート内に同じ商品がないかチェック
     check_sql = '''
     SELECT COUNT(*) FROM shopping_cart 
-    WHERE user_id = %s AND book_id = %s AND quantity = 1
+    WHERE user_id = %s AND book_id = %s AND quantity = 0
     '''
     check_data = (accountID, productID)
     result = checkForDuplicateEntry(check_sql,check_data)
     if result[0] > 0:
         print("エラー:すでに同じ商品が入っています")
+        return redirect(url_for("shoppingcart"))
+
+    check_sql1 = '''
+    SELECT COUNT(*) FROM shopping_cart 
+    WHERE user_id = %s AND book_id = %s AND quantity = 3
+    '''
+    check_data = (accountID, productID)
+    result = checkForDuplicateEntry(check_sql1,check_data)
+    if result[0] > 0:
+        print("エラー:すでにアイテムが購入されています")
         return redirect(url_for("shoppingcart"))
     
     
@@ -547,7 +557,7 @@ def addToCart():
         (%s, %s,%s)
     ''')
     data = [
-       (accountID,productID,1)
+       (accountID,productID,0)
     ]
     saveToDatabase(sql,data)
 
@@ -555,7 +565,7 @@ def addToCart():
     return redirect(url_for('shoppingcart'))
 
 
-# -------------------- 今すぐ購入の処理 --------------------
+        # -------------------- 今すぐ購入の処理 --------------------
 @app.route('/submit_product-details', methods=['POST'])
 def submit_data():
     accountID = session['login_id']
@@ -581,7 +591,7 @@ def submit_data():
     return redirect(url_for('payment',account=accountID,product=productID))
 
 
-#----------------------------- 商品につけるコメントの処理 -----------------------------------------
+        #----------------------------- 商品につけるコメントの処理 --------------------------
 @app.route('/submit_product-comment', methods=['POST'])
 def submit_comment():
     accountID = session['login_id']
@@ -622,7 +632,6 @@ def shoppingcart():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # ショッピングカートに商品を入れる
         query = """
         SELECT 
             sc.cart_id, 
@@ -638,7 +647,7 @@ def shoppingcart():
         ON 
             sc.book_id = b.book_id
         WHERE 
-            sc.user_id = %s AND sc.quantity = 1
+            sc.user_id = %s AND sc.quantity = 0
         ORDER BY 
             sc.cart_id DESC;
         """
@@ -666,13 +675,85 @@ def shoppingcart():
             conn.close()
 
 
+    #カート内のアイテムの削除
 @app.route('/remove-shopping-cart', methods=['POST'])
 def remove_from_cart():
     cart_id = request.form.get('cart_id')
     sql = "UPDATE shopping_cart SET quantity = %s WHERE cart_id = %s"
-    update_database(cart_id,2,sql)
+    update_database(cart_id,1,sql)
     
     return redirect(url_for('shoppingcart'))
+
+
+    #カート内のアイテムを購入
+@app.route('/proceedToCheckout',methods=['GET'])
+def proceedToCheckout():
+    try:
+        accountID = session['login_id']
+        conn = conn_db()
+        cursor = conn.cursor()
+
+        # カートに入っている商品のIDを取得
+        query1 = """
+        SELECT book_id 
+        FROM shopping_cart 
+        WHERE user_id = %s AND quantity = '0'
+        """
+        cursor.execute(query1, (str(accountID),))
+        books = cursor.fetchall()
+
+        # 商品がカートにない場合、ショッピングカートページにリダイレクト
+        if not books:
+            return redirect(url_for('shoppingcart'))
+
+        # book_idsリストを作成
+        book_ids = [str(book[0]) for book in books]
+
+        # 商品IDからオーナーIDを取得
+        query2 = """
+        SELECT book_id, owner_id 
+        FROM books 
+        WHERE book_id IN (%s)
+        """ % (", ".join(["%s"] * len(book_ids)))
+
+        cursor.execute(query2, book_ids)
+        owners = cursor.fetchall()
+
+        print("Owners data:", owners)
+
+        # トランザクションテーブルにデータを挿入
+        sql = '''
+        INSERT INTO transactions (book_id, buyer_id, seller_id)
+        VALUES (%s, %s, %s)
+        '''
+        
+        # 各オーナーに対してデータを挿入
+        for owner in owners:
+            book_id = owner[0]
+            seller_id = owner[1]
+
+            cursor.execute(sql, (book_id, accountID, seller_id))
+            
+            update_query = """
+            UPDATE shopping_cart
+            SET quantity = 3
+            WHERE book_id = %s AND user_id = %s
+            """
+            cursor.execute(update_query, (book_id, accountID))
+
+        conn.commit()
+
+        return redirect(url_for('payment'))
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        conn.rollback()  # エラーが発生した場合はロールバック
+
+    finally:
+        cursor.close()
+        conn.close()
+        return redirect(url_for('payment'))
+
     
 
 # -------------------- payment.html --------------------
@@ -684,14 +765,12 @@ def payment():
 def submit_data1():
     # JSONデータの取得
     data = request.get_json()
-    description = data.get('description')
+    description = data.get('description')   
     print(description)
     
     accountID = request.args.get('account')
     print(accountID)
     return redirect(url_for('paymentinfo'))
-
-
 
 # -------------------- payment-info.html --------------------
 @app.route('/payment-info.html')
