@@ -924,22 +924,56 @@ def read(book_id):
 # -------------------- quiz.html --------------------
 @app.route('/quiz/<int:book_id>')
 def quiz(book_id):
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
     
+    # Generate random question
+    question, correct_answer, options = generate_question()
+    
+    return render_template('quiz.html',
+                         question=question,
+                         options=options,
+                         correct_answer=correct_answer,
+                         book_id=book_id)
+
+def generate_question():
+    # Generate random numbers and operation
     num1 = random.randint(1, 50)
     num2 = random.randint(1, 100)
-    operation = random.choice(['+', '-', '*', '/'])
+    operations = ['+', '-', '*', '/']
+    operation = random.choice(operations)
+    
+    # Ensure clean division for division operations
     if operation == '/':
-        num1 = num1 * num2  # 結果が整数であることを確認する
-
+        num1 = num1 * num2  # Makes sure result is whole number
+        
+    # Create question string
     question = f"{num1} {operation} {num2}"
-    correct_answer = eval(question)
-
-    # 4つの選択肢を生成し、そのうちの1つを正解とする。
-    options = [correct_answer, correct_answer + 1, correct_answer - 1, correct_answer + 2]
+    
+    # Calculate correct answer
+    correct_answer = str(int(eval(question)))
+    
+    # Generate wrong options
+    options = [correct_answer]
+    while len(options) < 4:
+        # Generate wrong answer by slightly modifying num2
+        offset = random.randint(-5, 5)
+        if offset != 0:  # Avoid generating the correct answer
+            try:
+                if operation == '/':
+                    wrong_num = num1 / (num2 + offset)
+                else:
+                    wrong_num = eval(f"{num1} {operation} {num2 + offset}")
+                wrong_answer = str(int(wrong_num))
+                if wrong_answer not in options:  # Avoid duplicates
+                    options.append(wrong_answer)
+            except:
+                continue
+    
+    # Shuffle options
     random.shuffle(options)
-
-    return render_template('quiz.html', question=question, options=options, book_id=book_id)
-
+    
+    return question, correct_answer, options
 
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
@@ -947,11 +981,27 @@ def submit_quiz():
     correct_answer = request.form.get('correct_answer')
     book_id = request.form.get('book_id')
 
-    # 答えが正しいかチェックする
-    if selected_option == correct_answer:
-        # 增加用户的点数
-        # 这里可以添加代码来更新用户的点数
-        pass
+    # Check if answer is correct
+    is_correct = selected_option == correct_answer
+    
+    # Update points if answer is correct
+    if is_correct and 'login_id' in session:
+        try:
+            conn = conn_db()
+            cursor = conn.cursor()
+            
+            # Add 10 points to user's score
+            sql = "UPDATE users SET points = points + 10 WHERE id = %s"
+            cursor.execute(sql, (session['login_id'],))
+            conn.commit()
+            
+        except Exception as e:
+            print(f"Error updating points: {e}")
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
 
     return redirect(url_for('read', book_id=book_id))
 
