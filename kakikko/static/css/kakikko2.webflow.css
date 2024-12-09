@@ -3081,14 +3081,6 @@
 
 
 /* ------------------------------ quiz.html ------------------------------ */
-.quiz-section {
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding-left: 1.5rem;
-  display: flex;
-}
-
 .quiz-block {
   background-color: var(--white);
   border-radius: 24px;
@@ -3096,9 +3088,10 @@
   width: 100%;
   max-width: 80%;
   height: 100%;
-  max-height: 80%;
+  max-height: 100%;
   padding: 3rem;
   display: flex;
+  margin: auto;
   box-shadow: 0 2px 13px 2px #0003;
 }
 
@@ -3137,7 +3130,7 @@
   border-radius: 4px;
   width: 10rem;
   height: 3rem;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .answer-btn:hover {
@@ -3153,6 +3146,71 @@
 .answer-btn::after {
   width: 100%;
 }
+
+.answer-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+
+
+/* ---------- Quiz Feedback ---------- */
+.quiz-feedback {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  padding: 20px 40px !important;
+  border-radius: 8px !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+  color: white !important;
+  opacity: 0 !important;
+  transition: all 0.3s ease !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  display: none !important;
+  box-shadow: 0 2px 13px 2px rgba(0, 0, 0, 0.2);
+}
+
+.quiz-feedback.show {
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.quiz-feedback.correct {
+  background-color: var(--success-hover) !important;
+}
+
+.quiz-feedback.incorrect {
+  background-color: var(--error) !important;
+}
+
+.answer-btn.selected {
+  pointer-events: none !important;
+}
+
+/* 答题按钮反馈样式 */
+.answer-btn.correct {
+  background-color: var(--success-hover) !important;
+  color: var(--white) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.answer-btn.incorrect {
+  background-color: var(--error) !important;
+  color: var(--white) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.answer-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 
 
 /* ------------------------------ read.html ------------------------------ */
