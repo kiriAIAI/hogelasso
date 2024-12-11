@@ -157,27 +157,21 @@
               <div class="profile_img-div">
                 <div class="profile_img-box">
                   <!-- プロフィール画像を表示 -->
-                  {% if profile_image %}
-                      <img src="{{ url_for('static', filename='images/profiles_images/' + profile_image) }}" 
-                           alt="プロフィール画像" 
-                           class="profile_img">
-                  {% else %}
-                      <img src="{{ url_for('static', filename='images/profiles_images/default-profile.jpg') }}" 
-                           alt="デフォルトプロフィール画像" 
-                           class="profile_img">
-                  {% endif %}
-                  
+                  <img src="{{ url_for('static', filename=profile_image) }}" alt="Profile Image">
+                
                   <!-- 編集ボタン -->
-                  <form method="POST" enctype="multipart/form-data">
-                      <label for="profile_image" class="edit_icon-link">
-                          <img src="{{ url_for('static', filename='images/edit-246.svg') }}" 
-                               alt="編集アイコン" 
-                               class="edit_icon">
-                      </label>
-                      <input type="file" id="profile_image" name="profile_image" style="display: none;" onchange="this.form.submit()">
+                  <form method="POST" action="/profile" enctype="multipart/form-data">
+                    <label for="profile_image" class="edit_icon-link">
+                      <img src="{{ url_for('static', filename='images/edit-246.svg') }}" alt="編集アイコン" class="edit_icon">
+                    </label>
+                    <input type="file" id="profile_image" name="profile_image" style="display: none;" onchange="this.form.submit()">
                   </form>
+                </div>
               </div>
-                            <div class="fields_div">
+                                              
+                </div>
+              </div>
+            <div class="fields_div">
                 <div class="display_horizontal gap">
                   <div class="profile-info-username-block"><label for="Name-3" class="text-size-tiny margin-0">姓</label><input class="text_field w-input" maxlength="256" name="Name" data-name="Name" placeholder="" type="text" id="Name-3" data-ms-member="first-name"></div>
                   <div class="profile-info-username-block"><label for="name-2" class="text-size-tiny margin-0">名</label><input class="text_field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="" type="text" id="name-2" data-ms-member="last-name"></div>

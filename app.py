@@ -669,85 +669,75 @@ def allowed_file(filename):
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    if 'user_id' not in session:
+    if not session.get('login_id'):
         return redirect(url_for('login'))
-
-    conn = conn_db()
-    cursor = conn.cursor(dictionary=True)
 
     try:
-        # ユーザー情報取得
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+
+        if request.method == 'POST':
+            print("POST request received.")
+            # プロフィール画像アップロード処理
+            if 'profile_image' in request.files:
+                file = request.files['profile_image']
+                if file and allowed_file(file.filename):
+                    print(f"File uploaded: {file.filename}")
+                    upload_folder = 'static/images/profiles_images'  # 修正箇所
+                    os.makedirs(upload_folder, exist_ok=True)
+
+                    filename = f"user_{session['login_id']}_{secure_filename(file.filename)}"
+                    file_path = os.path.join(upload_folder, filename)
+                    try:
+                        file.save(file_path)
+                        print(f"File saved successfully: {file_path}")
+                    except Exception as e:
+                        print(f"Failed to save file: {e}")
+                        return f"File upload failed: {str(e)}", 500
+
+                    try:
+                        # データベースに画像パスを保存
+                        cursor.execute("""
+                            INSERT INTO user_profiles (user_id, profile_image)
+                            VALUES (%s, %s)
+                            ON DUPLICATE KEY UPDATE profile_image = %s
+                        """, (session['login_id'], filename, filename))
+                        conn.commit()
+                        print("SQL executed successfully.")
+                    except Exception as e:
+                        conn.rollback()
+                        print(f"SQL execution failed: {e}")
+                        return "Database error", 500
+
+        # プロフィール情報取得
+        print(f"Fetching profile for user_id: {session['login_id']}")
         cursor.execute("""
-            SELECT username, email, profile_image
-            FROM users
-            WHERE id = %s
-        """, (session['user_id'],))
+            SELECT u.username, up.profile_image
+            FROM users u
+            LEFT JOIN user_profiles up ON u.id = up.user_id
+            WHERE u.id = %s
+        """, (session['login_id'],))
         user_info = cursor.fetchone()
 
-        if not user_info:
-            return redirect(url_for('login'))
+        username = user_info['username'] if user_info and 'username' in user_info else 'Unknown'
+        profile_image = user_info['profile_image'] if user_info and user_info.get('profile_image') else 'default-profile.jpg'
+        profile_image_path = f"static/images/profiles_images/{profile_image}" if profile_image else "static/images/profiles_images/default-profile.jpg"
+        print(f"Profile image path: {profile_image_path}")
+        print(f"Profile image from DB: {user_info['profile_image']}")
+        print(f"Final profile image path: {profile_image_path}")
 
-        # プロファイル画像の取得またはデフォルト設定
-        profile_image = user_info.get('profile_image') or 'default-profile.jpg'
 
+        print(f"Rendering profile.html with username: {username}, profile_image: {profile_image_path}")
         return render_template(
             'profile.html',
-            username=user_info['username'],
-            email=user_info['email'],
-            profile_image=profile_image,
+            username=username,
+            profile_image=profile_image_path
         )
-
-    except Exception as e:
-        print(f"Error: {e}")
-        return redirect(url_for('login'))
-
     finally:
         cursor.close()
         conn.close()
 
-@app.route('/profile_image', methods=['POST'])
-def profile_image():
-    if 'login_id' not in session:
-        return jsonify({'error': 'Unauthorized'}), 401
 
-    if 'profile_image' not in request.files:
-        return jsonify({'error': 'No file uploaded'}), 400
-
-    file = request.files['profile_image']
-    if not allowed_file(file.filename):
-        return jsonify({'error': 'Invalid file type'}), 400
-
-    # 保存先フォルダ
-    upload_folder = 'kakikko/static/images/profiles_images'
-    os.makedirs(upload_folder, exist_ok=True)
-
-    filename = f"user_{session['user_id']}_{secure_filename(file.filename)}"
-    file_path = os.path.join(upload_folder, filename)
-
-    try:
-        file.save(file_path)
-
-        # データベースを更新
-        conn = conn_db()
-        cursor = conn.cursor()
-        cursor.execute("""
-            UPDATE users
-            SET profile_image = %s
-            WHERE id = %s
-        """, (filename, session['user_id']))
-        conn.commit()
-
-        return jsonify({'message': 'Profile image uploaded successfully', 'image_path': filename}), 200
-
-    except Exception as e:
-        print(f"Error: {e}")
-        return jsonify({'error': 'An error occurred during the upload'}), 500
-
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
 
 
 
