@@ -669,7 +669,7 @@ def allowed_file(filename):
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    if 'login_id' not in session:
+    if 'user_id' not in session:
         return redirect(url_for('login'))
 
     conn = conn_db()
@@ -681,7 +681,7 @@ def profile():
             SELECT username, email, profile_image
             FROM users
             WHERE id = %s
-        """, (session['login_id'],))
+        """, (session['user_id'],))
         user_info = cursor.fetchone()
 
         if not user_info:
@@ -721,7 +721,7 @@ def profile_image():
     upload_folder = 'kakikko/static/images/profiles_images'
     os.makedirs(upload_folder, exist_ok=True)
 
-    filename = f"user_{session['login_id']}_{secure_filename(file.filename)}"
+    filename = f"user_{session['user_id']}_{secure_filename(file.filename)}"
     file_path = os.path.join(upload_folder, filename)
 
     try:
@@ -734,7 +734,7 @@ def profile_image():
             UPDATE users
             SET profile_image = %s
             WHERE id = %s
-        """, (filename, session['login_id']))
+        """, (filename, session['user_id']))
         conn.commit()
 
         return jsonify({'message': 'Profile image uploaded successfully', 'image_path': filename}), 200
