@@ -257,7 +257,7 @@
 
 .square.is--search:hover {
   background-color: #131313;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .square.is--hamburger {
@@ -294,7 +294,7 @@
 
 .navbar-icon:hover {
   filter: brightness(0) saturate(100%) invert(77%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(89%) contrast(85%);
-  transform: scale(1.1);
+  transform: translateY(-2px);
 }
 
 
@@ -1319,7 +1319,7 @@
 }
 
 .button.is-link {
-  color: var(--\<unknown\|relume-variable-color-neutral-1\>);
+  color: var(--font);
   background-color: #0000;
   border-style: none;
   padding: .25rem 0;
@@ -1955,6 +1955,7 @@
 
 .comment-btn:hover {
   background-color: var(--dark-gray-hover);
+  transform: scale(1.01);
 }
 
 .comment-btn.is-icon {
@@ -2933,6 +2934,8 @@
   line-height: 3rem;
 }
 
+
+/* ------------------ confirm-logout ------------------ */
 .confirm-logout-pop-up {
   z-index: 10;
   background-color: #00000080;
@@ -2976,12 +2979,13 @@
 .error-icon {
   margin-right: 10px;
   font-family: "Fa Solid 900", sans-serif;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: 900;
 }
 
 .confirm-logout-check-text {
   font-weight: 700;
+  font-size: 1.05rem
 }
 
 .confirm-logout-close-btn {
@@ -2989,12 +2993,18 @@
   background-color: #0000;
   padding: 6px 12px;
   font-family: "Fa Solid 900", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 900;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-10deg) scale(1.1); }
+  50% { transform: rotate(10deg) scale(1.1); }
 }
 
 .confirm-logout-close-btn:hover {
   color: var(--error-hover);
+  animation: wiggle 0.5s ease-in-out;
 }
 
 .confirm-logout-check-btn {
@@ -3002,12 +3012,13 @@
   background-color: #0000;
   padding: 6px 12px;
   font-family: "Fa Solid 900", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 900;
 }
 
 .confirm-logout-check-btn:hover {
   color: var(--success-hover);
+  animation: wiggle 0.5s ease-in-out;
 }
 
 .logout-section {
@@ -3070,14 +3081,6 @@
 
 
 /* ------------------------------ quiz.html ------------------------------ */
-.quiz-section {
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding-left: 1.5rem;
-  display: flex;
-}
-
 .quiz-block {
   background-color: var(--white);
   border-radius: 24px;
@@ -3085,9 +3088,10 @@
   width: 100%;
   max-width: 80%;
   height: 100%;
-  max-height: 80%;
+  max-height: 100%;
   padding: 3rem;
   display: flex;
+  margin: auto;
   box-shadow: 0 2px 13px 2px #0003;
 }
 
@@ -3111,12 +3115,13 @@
 .heading {
   color: var(--font);
   margin-bottom: 20px;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   line-height: 2rem;
 }
 
 .paragraph-2 {
   color: var(--font);
+  font-size: 1.3rem;
 }
 
 .answer-btn {
@@ -3125,10 +3130,85 @@
   border-radius: 4px;
   width: 10rem;
   height: 3rem;
+  transition: background-color 0.3s ease;
 }
 
 .answer-btn:hover {
+  box-shadow: 0 3px 8px var(--dark-gray);
   background-color: var(--dark-gray-hover);
+  transform: scale(1.01);
+}
+
+.answer-btn::before {
+  width: 0%;
+}
+
+.answer-btn::after {
+  width: 100%;
+}
+
+.answer-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+
+
+/* ---------- Quiz Feedback ---------- */
+.quiz-feedback {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  padding: 20px 40px !important;
+  border-radius: 8px !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+  color: white !important;
+  opacity: 0 !important;
+  transition: all 0.3s ease !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  display: none !important;
+  box-shadow: 0 2px 13px 2px rgba(0, 0, 0, 0.2);
+}
+
+.quiz-feedback.show {
+  opacity: 1 !important;
+  display: block !important;
+}
+
+.quiz-feedback.correct {
+  background-color: var(--success-hover) !important;
+}
+
+.quiz-feedback.incorrect {
+  background-color: var(--error) !important;
+}
+
+.answer-btn.selected {
+  pointer-events: none !important;
+}
+
+/* 答题按钮反馈样式 */
+.answer-btn.correct {
+  background-color: var(--success-hover) !important;
+  color: var(--white) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.answer-btn.incorrect {
+  background-color: var(--error) !important;
+  color: var(--white) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.answer-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 
@@ -3518,6 +3598,11 @@
   padding: 5px 10px;
   text-decoration: none;
   display: flex;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .bell-author-image {
@@ -3686,7 +3771,7 @@
 
   .square.is--link:hover {
     background-color: #272727;
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 
   .sidenavbar-icon {

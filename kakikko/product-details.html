@@ -178,7 +178,7 @@
                   {% endif %}
                   {% if is_owner or is_purchased %}
                   <div class="products1-actions-wrap" style="margin-top: 60px;">
-                    <a href="{{ url_for('read', book_id=book.book_id) }}" class="button-secondary is-buy-now-button w-button">読む</a>
+                    <a href="{{ url_for('quiz', book_id=book.book_id) }}" class="button-secondary is-buy-now-button w-button">読む</a>
                   {% else %}
                   <div class="products1-actions-wrap">
                     <a href="#" onclick="sendData()" class="button-secondary is-buy-now-button w-button">今すぐ買う</a>
