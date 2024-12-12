@@ -39,7 +39,7 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'Python锟斤拷锟絋','Python锟阶ワ拷锟斤拷锟斤拷撺螗挨锟斤拷锟紸锟斤拷锟斤拷学锟劫わ拷锟斤拷锟斤拷锟斤拷颏堡违锟斤拷锟斤拷嗓扦锟斤拷锟','锟阶ワ拷锟斤拷锟斤拷撺锟','2200.00','/images/python_intro.jpg',20000),(3,'MySQL锟斤拷全锟斤拷锟斤拷','MySQL锟轿デー锟斤拷锟劫ー锟斤拷锟斤拷锟斤拷锟斤拷锟筋く锟斤拷锟解す锟诫た锟斤拷螌g锟斤拷锟侥な曪拷锟斤拷锟角わ拷锟斤拷','锟角ー锟斤拷锟劫ー锟斤拷','3500.00','/images/mysql_mastery.jpg',20000),(4,'锟斤拷锟斤拷锟斤拷锟絖锟絢锟轿伙拷锟紸','HTML锟斤拷CSS锟斤拷JavaScript锟轿伙拷锟斤拷锟斤拷学锟劫わ拷锟斤拷锟斤拷锟斤拷颏堡锟揭伙拷预扦锟斤拷锟','锟斤拷锟斤拷锟斤拷锟絖锟絢','2800.00','/images/web_basics.jpg',20000),(5,'AI锟饺機械学锟斤拷锟轿伙拷锟紸','锟剿癸拷知锟杰と機械学锟斤拷锟轿伙拷锟斤拷锟侥わ拷锟剿組锟竭わ拷铯?拷锟戒す锟斤拷锟斤拷锟絟锟斤拷锟睫わ拷锟斤拷','锟剿癸拷知锟斤拷','4500.00','/images/ai_ml.jpg',20000),(6,'锟斤拷锟斤拷锟叫ー锟斤拷锟斤拷锟斤拷锟狡ワ拷锟轿伙拷锟紸','锟酵ットワ拷`锟斤拷锟斤拷锟斤拷螗互锟斤拷锟斤拷匹锟斤拷锟斤拷锟揭?拷矢锟斤拷锟斤拷W锟絖锟斤拷锟斤拷一锟皆でわ拷锟斤拷','锟斤拷锟斤拷锟斤拷锟狡ワ拷','3200.00','/images/cybersecurity.jpg',20000),(7,'锟斤拷锟斤拷锟斤拷','锟斤拷锟斤拷','lifestyle','280000.00','GGG.jpg',20000),(8,'直锟矫わ拷锟斤拷锟斤拷','aa','lifestyle','0.00','G (3).jpg',20000),(9,'aaa','aaaa','lifestyle','0.00','unnamed.jpg',20000),(10,'aa','aa','lifestyle','280000.00','unnamed.jpg',20000),(11,'a','aaa','certification','280000.00','G (3).jpg',20000),(12,'aa','aa','lifestyle','280000.00','GGG.jpg',20000),(13,'a','aaa','lifestyle','0.00','GGG.jpg',20000),(14,'aa','aa','social','280000.00','锟斤拷锟斤拷锟斤拷锟斤拷.png',20000),(15,'a','aaa','history','280000.00','file',20000),(16,'a','aa','lifestyle','0.00','GGG.jpg',20000),(17,'a','aa','social','0.00','file',20000),(18,'a','aa','history','280000.00','GGG.jpg',20000),(19,'锟斤拷锟斤拷锟斤拷锟斤拷','锟斤拷锟斤拷锟斤拷','lifestyle','222.00','G (3).jpg',20000),(20,'锟皆ホワ拷趣摔锟斤拷辘?拷趣锟','aaa','lifestyle','0.00','GGG.jpg',100000),(21,'锟斤拷锟秸わ拷锟斤拷栅趣锟','aa','certification','280000.00','锟斤拷锟斤拷锟斤拷`锟襟シワ拷氓锟?2023-03-19 004028.png',100000),(22,'锟斤拷锟斤拷锟斤拷锟饺★拷锟绞わ拷锟斤拷肖胜锟绞わ拷','锟斤拷锟斤拷','lifestyle','303000.00','锟斤拷锟斤拷锟斤拷`锟襟シワ拷氓锟?2024-04-26 224626.png',100000),(23,'kakikko','锟斤拷锟斤拷锟斤拷','lifestyle','280000.00','锟斤拷锟斤拷锟斤拷`锟襟シワ拷氓锟?2024-11-13 190333.png',100000),(24,'test','<div style=\"text-align: right;\"><i style=\"font-size: 1.7rem; color: var(--dark-gray);\">test</i></div>','literature','3000.00','133571682160460525.jpg',1),(25,'test2','test2','history','2000.00','133590530057476704.jpg',1);
+INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'Python入門','Pythonプログラミングを基礎から学べる初心者向けのガイドです。','プログラミング','2200.00','/images/python_intro.jpg',20000),(3,'MySQL完全攻略','MySQLのデータベース管理を深く理解するための実践的な書籍です。','データベース','3500.00','/images/mysql_mastery.jpg',20000),(4,'ウェブ開発の基礎','HTML、CSS、JavaScriptの基本を学べる初心者向けの一冊です。','ウェブ開発','2800.00','/images/web_basics.jpg',20000),(5,'AIと機械学習の基礎','人工知能と機械学習の基本的な仕組みをわかりやすく解説します。','人工知能','4500.00','/images/ai_ml.jpg',20000),(6,'サイバーセキュリティの基礎','ネットワークや情報セキュリティの重要な概念を網羅した一冊です。','セキュリティ','3200.00','/images/cybersecurity.jpg',20000),(7,'あああ','ああ','lifestyle','280000.00','GGG.jpg',20000),(8,'直った！！','aa','lifestyle','0.00','G (3).jpg',20000),(9,'aaa','aaaa','lifestyle','0.00','unnamed.jpg',20000),(10,'aa','aa','lifestyle','280000.00','unnamed.jpg',20000),(11,'a','aaa','certification','280000.00','G (3).jpg',20000),(12,'aa','aa','lifestyle','280000.00','GGG.jpg',20000),(13,'a','aaa','lifestyle','0.00','GGG.jpg',20000),(14,'aa','aa','social','280000.00','スクショ.png',20000),(15,'a','aaa','history','280000.00','file',20000),(16,'a','aa','lifestyle','0.00','GGG.jpg',20000),(17,'a','aa','social','0.00','file',20000),(18,'a','aa','history','280000.00','GGG.jpg',20000),(19,'きたこれ','あああ','lifestyle','222.00','G (3).jpg',20000),(20,'皆ホントにありがとう','aaa','lifestyle','0.00','GGG.jpg',100000),(21,'今日も今日とて','aa','certification','280000.00','スクリーンショット 2023-03-19 004028.png',100000),(22,'基本情報取らなければならない','ああ','lifestyle','303000.00','スクリーンショット 2024-04-26 224626.png',100000),(23,'kakikko','あああ','lifestyle','280000.00','スクリーンショット 2024-11-13 190333.png',100000),(24,'test','<div style=\"text-align: right;\"><i style=\"font-size: 1.7rem; color: var(--dark-gray);\">test</i></div>','literature','3000.00','133571682160460525.jpg',1),(25,'test2','test2','history','2000.00','133590530057476704.jpg',1);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,7 +183,7 @@ CREATE TABLE `shopping_cart` (
   KEY `book_id` (`book_id`),
   CONSTRAINT `shopping_cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `shopping_cart_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `shopping_cart`
@@ -191,6 +191,7 @@ CREATE TABLE `shopping_cart` (
 
 LOCK TABLES `shopping_cart` WRITE;
 /*!40000 ALTER TABLE `shopping_cart` DISABLE KEYS */;
+INSERT INTO `shopping_cart` VALUES (1,6,21,3,'2024-12-12 02:10:24'),(2,6,21,1,'2024-12-12 02:10:43'),(3,6,24,1,'2024-12-12 02:39:03'),(4,6,20,1,'2024-12-12 02:39:43'),(5,6,25,3,'2024-12-12 02:40:16'),(6,6,22,3,'2024-12-12 02:46:18'),(7,6,20,1,'2024-12-12 03:22:57'),(8,6,20,1,'2024-12-12 03:52:49'),(9,100000,24,0,'2024-12-12 05:25:52');
 /*!40000 ALTER TABLE `shopping_cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +213,7 @@ CREATE TABLE `transactions` (
   CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`),
   CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`),
   CONSTRAINT `transactions_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transactions`
@@ -220,7 +221,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,1,2,1,'2024-11-15 03:00:00'),(2,1,20000,20000,'2024-11-15 12:23:22'),(3,1,2,20000,'2024-11-16 04:04:46'),(4,1,99999,20000,'2024-11-16 04:05:46'),(5,1,99999,20000,'2024-11-16 04:17:32'),(6,1,99999,20000,'2024-11-16 05:04:32'),(7,1,99999,NULL,'2024-11-16 05:46:07'),(8,1,99999,1,'2024-11-16 05:58:44'),(9,6,99999,20000,'2024-11-16 06:06:09'),(10,4,2,20000,'2024-11-16 06:06:43'),(11,23,1,100000,'2024-11-21 02:15:44'),(12,23,1,100000,'2024-11-21 02:15:49'),(13,24,1,1,'2024-11-21 02:18:39');
+INSERT INTO `transactions` VALUES (1,1,2,1,'2024-11-15 03:00:00'),(2,1,20000,20000,'2024-11-15 12:23:22'),(3,1,2,20000,'2024-11-16 04:04:46'),(4,1,99999,20000,'2024-11-16 04:05:46'),(5,1,99999,20000,'2024-11-16 04:17:32'),(6,1,99999,20000,'2024-11-16 05:04:32'),(7,1,99999,NULL,'2024-11-16 05:46:07'),(8,1,99999,1,'2024-11-16 05:58:44'),(9,6,99999,20000,'2024-11-16 06:06:09'),(10,4,2,20000,'2024-11-16 06:06:43'),(11,23,1,100000,'2024-11-21 02:15:44'),(12,23,1,100000,'2024-11-21 02:15:49'),(13,24,1,1,'2024-11-21 02:18:39'),(14,23,6,100000,'2024-12-05 02:59:14'),(15,21,6,100000,'2024-12-12 02:10:22'),(16,21,6,100000,'2024-12-12 02:10:45'),(17,24,6,1,'2024-12-12 02:39:34'),(18,22,6,100000,'2024-12-12 03:16:29'),(19,25,6,1,'2024-12-12 03:16:29');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,7 +250,7 @@ CREATE TABLE `user_profiles` (
 
 LOCK TABLES `user_profiles` WRITE;
 /*!40000 ALTER TABLE `user_profiles` DISABLE KEYS */;
-INSERT INTO `user_profiles` VALUES (6,'タ','イスケ',NULL,NULL,NULL,NULL,'aa','user_6_GGGx.jpg'),(20000,'久保出','泰介',NULL,NULL,NULL,NULL,'aa','user_20000_png'),(100000,'タ','イスケ',NULL,NULL,NULL,NULL,'aaa','user_100000_png');
+INSERT INTO `user_profiles` VALUES (100000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'default-profile.jpg');
 /*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -295,7 +296,7 @@ CREATE TABLE `user_security_questions` (
 
 LOCK TABLES `user_security_questions` WRITE;
 /*!40000 ALTER TABLE `user_security_questions` DISABLE KEYS */;
-INSERT INTO `user_security_questions` VALUES (1,'小学校锟轿時锟轿わ拷锟斤拷锟斤拷','平平','锟斤拷锟斤拷锟轿夛拷','锟斤拷证锟斤拷胜辘匡拷锟'),(2,'小学校锟轿時锟轿わ拷锟斤拷锟斤拷','111','锟斤拷校锟轿時锟轿わ拷锟斤拷锟斤拷','111'),(3,'小学校锟轿時锟轿わ拷锟斤拷锟斤拷','123','锟斤拷校锟轿時锟轿わ拷锟斤拷锟斤拷','123'),(4,'小学校锟轿時锟轿わ拷锟斤拷锟斤拷','123','锟斤拷校锟轿時锟轿わ拷锟斤拷锟斤拷','123'),(5,'小学校锟轿時锟轿わ拷锟斤拷锟斤拷','123','锟斤拷校锟轿時锟轿わ拷锟斤拷锟斤拷','123'),(6,'小学校锟轿時锟轿わ拷锟斤拷锟斤拷','test1','锟斤拷锟斤拷锟轿夛拷','test1'),(100000,'小学校锟轿時锟轿わ拷锟斤拷锟斤拷','锟杰わ拷','锟斤拷校锟轿時锟轿わ拷锟斤拷锟斤拷','锟杰わ拷'),(100001,'小学校锟轿時锟轿わ拷锟斤拷锟斤拷','haha','锟斤拷校锟轿時锟轿わ拷锟斤拷锟斤拷','haha');
+INSERT INTO `user_security_questions` VALUES (1,'小学校の時のあだ名','平平','将来の夢','金持ちなりたい'),(2,'小学校の時のあだ名','111','高校の時のあだ名','111'),(3,'小学校の時のあだ名','123','高校の時のあだ名','123'),(4,'小学校の時のあだ名','123','高校の時のあだ名','123'),(5,'小学校の時のあだ名','123','高校の時のあだ名','123'),(6,'小学校の時のあだ名','test1','将来の夢','test1'),(100000,'小学校の時のあだ名','ぼで','高校の時のあだ名','ぼで'),(100001,'小学校の時のあだ名','haha','高校の時のあだ名','haha');
 /*!40000 ALTER TABLE `user_security_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,6 +310,7 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `points` int(11) default '0',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100002 DEFAULT CHARSET=utf8;
 
@@ -318,7 +320,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'锟斤拷平','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1'),(20000,'BuyerUser','buyer@example.com','buyerpassword'),(99999,'kazuto','kazuto@gmail.com','kazuto0330'),(100000,'bode','bode@gmail.com','bode'),(100001,'haha','haha@qq.com','haha');
+INSERT INTO `users` VALUES (1,'翔平','xiangping@gmail.com','xiangping',0),(2,'trump','president@gmail.com','maga',0),(3,'123','123@gmail.com','123',0),(4,'test','9196723@ha.com','test',0),(5,'222','222@gmail.com','222',0),(6,'test1','test1@gmail.com','test1',2),(20000,'BuyerUser','buyer@example.com','buyerpassword',0),(99999,'kazuto','kazuto@gmail.com','kazuto0330',0),(100000,'bode','bode@gmail.com','bode',2),(100001,'haha','haha@qq.com','haha',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -331,4 +333,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-12  4:43:16
+-- Dump completed on 2024-12-12  5:36:13

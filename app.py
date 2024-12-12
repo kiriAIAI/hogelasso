@@ -536,7 +536,7 @@ def addToCart():
     '''
     check_data = (accountID, productID)
     result = checkForDuplicateEntry(check_sql,check_data)
-    if result[0] > 0:
+    if result[0] > 0: # type: ignore
         print("エラー:すでに同じ商品が入っています")
         return redirect(url_for("shoppingcart"))
 
@@ -546,7 +546,7 @@ def addToCart():
     '''
     check_data = (accountID, productID)
     result = checkForDuplicateEntry(check_sql1,check_data)
-    if result[0] > 0:
+    if result[0] > 0: # type: ignore
         print("エラー:すでにアイテムが購入されています")
         return redirect(url_for("shoppingcart"))
     
@@ -640,7 +640,7 @@ def shoppingcart():
             FROM users 
             WHERE id = %s
         """, (session['login_id'],))
-        user_points = cursor.fetchone()['points']
+        user_points = cursor.fetchone()['points'] # type: ignore
         
         query = """
         SELECT 
@@ -665,7 +665,7 @@ def shoppingcart():
         cart_items = cursor.fetchall()
         
         total_items = len(cart_items)
-        total_price = sum(item['book_price'] for item in cart_items)
+        total_price = sum(item['book_price'] for item in cart_items) # type: ignore
         
         return render_template(
             'shopping-cart.html', 
@@ -697,7 +697,7 @@ def remove_from_cart():
 
 
 # -------------------- カート内のアイテムを購入 --------------------
-@app.route('/proceedToCheckout',methods=['GET'])
+@app.route('/proceedToCheckout',methods=['GET']) # type: ignore
 def proceedToCheckout():
     try:
         accountID = session['login_id']
@@ -720,7 +720,7 @@ def proceedToCheckout():
             return redirect(url_for('shoppingcart'))
 
         # book_idsリストを作成
-        book_ids = [str(book[0]) for book in books]
+        book_ids = [str(book[0]) for book in books] # type: ignore
 
         # 商品IDからオーナーIDを取得
         query2 = """
@@ -742,10 +742,10 @@ def proceedToCheckout():
         
         # 各オーナーに対してデータを挿入
         for owner in owners:
-            book_id = owner[0]
-            seller_id = owner[1]
+            book_id = owner[0] # type: ignore
+            seller_id = owner[1] # type: ignore
 
-            cursor.execute(sql, (book_id, accountID, seller_id))
+            cursor.execute(sql, (book_id, accountID, seller_id)) # type: ignore
             
             #アイテムを購入済みに更新
             update_query = """
@@ -753,7 +753,7 @@ def proceedToCheckout():
             SET quantity = 3
             WHERE book_id = %s AND user_id = %s
             """
-            cursor.execute(update_query, (book_id, accountID))
+            cursor.execute(update_query, (book_id, accountID)) # type: ignore
 
         conn.commit()
         return redirect(url_for('payment'))
@@ -862,7 +862,7 @@ def profile():
                         except Exception as e:
                             print(f"Failed to delete file: {e}")
                             
-                filename = f"user_{session['login_id']}_{secure_filename(file.filename)}"
+                filename = f"user_{session['login_id']}_{secure_filename(file.filename)}" # type: ignore
                 file_path = f"{upload_folder}/{filename}"
                 try:
                     file.save(file_path)  # file_pathに、fileを保存
@@ -1069,10 +1069,10 @@ def submit_quiz():
             
             # 先获取当前积分
             cursor.execute("SELECT points FROM users WHERE id = %s", (session['login_id'],))
-            current_points = cursor.fetchone()[0] or 0
+            current_points = cursor.fetchone()[0] or 0 # type: ignore
             
             # 增加2点积分
-            new_points = current_points + 2
+            new_points = current_points + 2 # type: ignore
             cursor.execute("UPDATE users SET points = %s WHERE id = %s", 
                          (new_points, session['login_id']))
             conn.commit()
