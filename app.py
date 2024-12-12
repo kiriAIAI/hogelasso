@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session
+from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash
 import mysql.connector
 import os
 
@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 
 # import datetime
 from datetime import timedelta
+import random
 
 
 app = Flask(__name__, template_folder='kakikko')
@@ -24,6 +25,33 @@ def conn_db():
         )
     return conn
 
+def saveToDatabase(sql,data):
+    try:
+        conn = conn_db()
+        cursor = conn.cursor()
+        cursor.executemany(sql, data)
+        conn.commit()
+    except:
+        print("データベースへの保存中にエラーが発生しました。")
+    finally:
+        cursor.close()
+        
+def checkForDuplicateEntry(sql,data):
+    conn = conn_db()
+    cursor = conn.cursor()
+    cursor.execute(sql, data)
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return result
+
+def update_database(where,Updated_value,sql):
+    conn = conn_db()
+    cursor = conn.cursor()
+    cursor.execute(sql, (Updated_value, where))
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 
 # 現在の日付と時刻を取得して、秒まで表示
@@ -64,6 +92,7 @@ def index():
     # print(session['login_id'])
     
     return render_template('index.html', books=books)
+
 
 
 # -------------------- category.html --------------------
@@ -357,6 +386,9 @@ def chatroom():
 def chat():
     return render_template('chat.html')
 
+
+
+# -------------------- chatbot.html --------------------
 @app.route('/chatbot.html')
 def chatbot():
     return render_template('chatbot.html')
@@ -375,6 +407,9 @@ def forgetpassword():
 def confirmlogout():
     return render_template('confirm-logout.html')
 
+
+
+# -------------------- notification.html --------------------
 @app.route('/notification.html')
 def notification():
     return render_template('notification.html')
@@ -483,38 +518,51 @@ def product_details(book_id):
             conn.close()
 
 
+
 # -------------------- カートに入れる処理 --------------------
 @app.route('/addToCart', methods=['POST'])
 def addToCart():
-    # JSONデータの取得
-    data = request.get_json()
+    accountID = session['login_id'] #セッションデータの取得
+    data = request.get_json() # JSONデータの取得
     productID = int(data.get('productID'))
-    
-    #sessionの情報を取得
-    accountID = session['login_id']
 
-    # 取得できたデータを表示
-    print(f'プロダクトID:{productID} , 購入者ID:{accountID}')
+    print("カートに入れる処理")
+    print(f'購入者ID:{accountID} , プロダクトID:{productID}') # 取得できたデータを表示
+    
+    #カート内に同じ商品がないかチェック
+    check_sql = '''
+    SELECT COUNT(*) FROM shopping_cart 
+    WHERE user_id = %s AND book_id = %s AND quantity = 0
+    '''
+    check_data = (accountID, productID)
+    result = checkForDuplicateEntry(check_sql,check_data)
+    if result[0] > 0:
+        print("エラー:すでに同じ商品が入っています")
+        return redirect(url_for("shoppingcart"))
+
+    check_sql1 = '''
+    SELECT COUNT(*) FROM shopping_cart 
+    WHERE user_id = %s AND book_id = %s AND quantity = 3
+    '''
+    check_data = (accountID, productID)
+    result = checkForDuplicateEntry(check_sql1,check_data)
+    if result[0] > 0:
+        print("エラー:すでにアイテムが購入されています")
+        return redirect(url_for("shoppingcart"))
+    
     
     # 取得できたデータを保存
-    """
-    conn = conn_db()
-    cursor = conn.cursor()
     sql = ('''
-    INSERT INTO transactions 
-        (book_id, buyer_id, seller_id)
+    INSERT INTO shopping_cart
+        (user_id,book_id,quantity)
     VALUES 
-        (%s, %s, %s)
+        (%s, %s,%s)
     ''')
     data = [
-       (productID, accountID, sellerID)
+       (accountID,productID,0)
     ]
-    cursor.executemany(sql, data)
-    conn.commit()
-    cursor.close()
-    """
+    saveToDatabase(sql,data)
 
-    #支払い方法選択ページにリダイレクト
     print("ショッピングカートページにリダイレクト")
     return redirect(url_for('shoppingcart'))
 
@@ -522,20 +570,14 @@ def addToCart():
 # -------------------- 今すぐ購入の処理 --------------------
 @app.route('/submit_product-details', methods=['POST'])
 def submit_data():
-    # JSONデータの取得
+    accountID = session['login_id']
     data = request.get_json()
     sellerID = int(data.get('sellerID'))
     productID = int(data.get('productID'))
-    
-    #sessionの情報を取得
-    accountID = session['login_id']
 
-    # 取得できたデータを表示
+    print("今すぐ購入の処理")
     print(f'プロダクトID:{productID} , 購入者ID:{accountID} , 出品者ID:{sellerID}')
     
-    # 取得できたデータを保存
-    conn = conn_db()
-    cursor = conn.cursor()
     sql = ('''
     INSERT INTO transactions 
         (book_id, buyer_id, seller_id)
@@ -545,35 +587,23 @@ def submit_data():
     data = [
        (productID, accountID, sellerID)
     ]
-    cursor.executemany(sql, data)
-    conn.commit()
-    cursor.close()
+    saveToDatabase(sql,data)
 
-    #支払い方法選択ページにリダイレクト
     print("paymentにリダイレクト")
     return redirect(url_for('payment',account=accountID,product=productID))
 
 
-
-#----------------------------- 商品につけるコメントの処理 -----------------------------------------
+#----------------------------- 商品につけるコメントの処理 --------------------------
 @app.route('/submit_product-comment', methods=['POST'])
 def submit_comment():
-    print("コメントの投稿")
-    # JSONデータの取得
+    accountID = session['login_id']
     data = request.get_json()
     maintxt = data.get('maintxt')
     productID = int(data.get('productID'))
-    
-    #sessionの情報を取得
-    accountID = session['login_id']
 
-    # 取得できたデータを表示
+    print("コメントの投稿")
     print(f'プロダクトID:{productID} , コメント投稿者ID:{accountID} , 本文:{maintxt}')
     
-    # 取得できたデータを保存
-    
-    conn = conn_db()
-    cursor = conn.cursor()
     sql = ('''
         INSERT INTO comments (user_id, book_id, comment)
         VALUES (%s, %s, %s)
@@ -581,9 +611,7 @@ def submit_comment():
     data = [
        (accountID,productID,maintxt)
     ]
-    cursor.executemany(sql, data)
-    conn.commit()
-    cursor.close()
+    saveToDatabase(sql,data)
     
     return redirect(url_for('product_details',book_id=productID))
     
@@ -606,16 +634,46 @@ def shoppingcart():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # ショッピングカートに商品を入れる
+        # Get user points
         cursor.execute("""
-            SELECT b.*, c.quantity 
-            FROM cart c
-            JOIN books b ON c.book_id = b.book_id
-            WHERE c.user_id = %s
+            SELECT points 
+            FROM users 
+            WHERE id = %s
         """, (session['login_id'],))
+        user_points = cursor.fetchone()['points']
+        
+        query = """
+        SELECT 
+            sc.cart_id, 
+            sc.user_id, 
+            sc.book_id, 
+            b.book_title,
+            b.book_price,
+            b.book_cover_image 
+        FROM 
+            shopping_cart sc
+        JOIN 
+            books b
+        ON 
+            sc.book_id = b.book_id
+        WHERE 
+            sc.user_id = %s AND sc.quantity = 0
+        ORDER BY 
+            sc.cart_id DESC;
+        """
+        cursor.execute(query,  (session['login_id'],))
         cart_items = cursor.fetchall()
         
-        return render_template('shopping-cart.html', cart_items=cart_items)
+        total_items = len(cart_items)
+        total_price = sum(item['book_price'] for item in cart_items)
+        
+        return render_template(
+            'shopping-cart.html', 
+            cart_items=cart_items,
+            total_items=total_items,
+            total_price=total_price,
+            user_points=user_points
+        )
         
     except Exception as e:
         print(f"Error: {e}")
@@ -628,6 +686,87 @@ def shoppingcart():
             conn.close()
 
 
+# -------------------- カート内のアイテムの削除 --------------------
+@app.route('/remove-shopping-cart', methods=['POST'])
+def remove_from_cart():
+    cart_id = request.form.get('cart_id')
+    sql = "UPDATE shopping_cart SET quantity = %s WHERE cart_id = %s"
+    update_database(cart_id,1,sql)
+    
+    return redirect(url_for('shoppingcart'))
+
+
+# -------------------- カート内のアイテムを購入 --------------------
+@app.route('/proceedToCheckout',methods=['GET'])
+def proceedToCheckout():
+    try:
+        accountID = session['login_id']
+        conn = conn_db()
+        cursor = conn.cursor()
+
+        # カートに入っている商品のIDを取得
+        query1 = """
+        SELECT book_id 
+        FROM shopping_cart 
+        WHERE user_id = %s AND quantity = '0'
+        """
+        cursor.execute(query1, (str(accountID),))
+        books = cursor.fetchall()
+
+        # 商品がカートにない場合、ショッピングカートページにリダイレクト
+        if not books:
+            print("商品がありません")
+            flash('カート内に商品がありません')
+            return redirect(url_for('shoppingcart'))
+
+        # book_idsリストを作成
+        book_ids = [str(book[0]) for book in books]
+
+        # 商品IDからオーナーIDを取得
+        query2 = """
+        SELECT book_id, owner_id 
+        FROM books 
+        WHERE book_id IN (%s)
+        """ % (", ".join(["%s"] * len(book_ids)))
+
+        cursor.execute(query2, book_ids)
+        owners = cursor.fetchall()
+
+        print("カート内のアイテム(book_id, owner_id)", owners)
+
+        # トランザクションテーブルにデータを挿入
+        sql = '''
+        INSERT INTO transactions (book_id, buyer_id, seller_id)
+        VALUES (%s, %s, %s)
+        '''
+        
+        # 各オーナーに対してデータを挿入
+        for owner in owners:
+            book_id = owner[0]
+            seller_id = owner[1]
+
+            cursor.execute(sql, (book_id, accountID, seller_id))
+            
+            #アイテムを購入済みに更新
+            update_query = """
+            UPDATE shopping_cart
+            SET quantity = 3
+            WHERE book_id = %s AND user_id = %s
+            """
+            cursor.execute(update_query, (book_id, accountID))
+
+        conn.commit()
+        return redirect(url_for('payment'))
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        conn.rollback()  # エラーが発生した場合はロールバック
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    
 
 # -------------------- payment.html --------------------
 @app.route('/payment')
@@ -638,14 +777,12 @@ def payment():
 def submit_data1():
     # JSONデータの取得
     data = request.get_json()
-    description = data.get('description')
+    description = data.get('description')   
     print(description)
     
     accountID = request.args.get('account')
     print(accountID)
     return redirect(url_for('paymentinfo'))
-
-
 
 # -------------------- payment-info.html --------------------
 @app.route('/payment-info.html')
@@ -770,7 +907,6 @@ def profileinfo():
 
 
 # -------------------- purchase-history.html --------------------
-# -------------------- purchase-history.html --------------------
 @app.route('/purchase-history.html')
 def purchase_history():
     if 'login_id' not in session:
@@ -860,27 +996,95 @@ def read(book_id):
 
 
 # -------------------- quiz.html --------------------
-@app.route('/quiz.html')
-def quiz():
-    conn = conn_db()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT question_text, option1, option2, option3, option4 FROM questions ORDER BY RAND() LIMIT 1")
-    question = cursor.fetchone()
-    cursor.close()
-    conn.close()
+@app.route('/quiz/<int:book_id>')
+def quiz(book_id):
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
     
-    if question is None:
-        question = {
-            'question_text': 'No question available',
-            'option1': 'Option 1',
-            'option2': 'Option 2',
-            'option3': 'Option 3',
-            'option4': 'Option 4'
-        }
+    # Generate random question
+    question, correct_answer, options = generate_question()
     
-    return render_template('quiz.html', question=question)
+    return render_template('quiz.html',
+                         question=question,
+                         options=options,
+                         correct_answer=correct_answer,
+                         book_id=book_id)
 
+def generate_question():
+    # Generate random numbers and operation
+    num1 = random.randint(1, 50)
+    num2 = random.randint(1, 100)
+    operations = ['+', '-', '*', '/']
+    operation = random.choice(operations)
+    
+    # Ensure clean division for division operations
+    if operation == '/':
+        num1 = num1 * num2  # Makes sure result is whole number
+        
+    # Create question string
+    question = f"{num1} {operation} {num2}"
+    
+    # Calculate correct answer
+    correct_answer = str(int(eval(question)))
+    
+    # Generate wrong options
+    options = [correct_answer]
+    while len(options) < 4:
+        # Generate wrong answer by slightly modifying num2
+        offset = random.randint(-5, 5)
+        if offset != 0:  # Avoid generating the correct answer
+            try:
+                if operation == '/':
+                    wrong_num = num1 / (num2 + offset)
+                else:
+                    wrong_num = eval(f"{num1} {operation} {num2 + offset}")
+                wrong_answer = str(int(wrong_num))
+                if wrong_answer not in options:  # Avoid duplicates
+                    options.append(wrong_answer)
+            except:
+                continue
+    
+    # Shuffle options
+    random.shuffle(options)
+    
+    return question, correct_answer, options
 
+@app.route('/submit_quiz', methods=['POST'])
+def submit_quiz():
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+    
+    selected_option = request.form.get('option')
+    correct_answer = request.form.get('correct_answer')
+    book_id = request.form.get('book_id')
+
+    # Check if answer is correct
+    is_correct = selected_option == correct_answer
+    
+    # Update points if answer is correct
+    if is_correct and 'login_id' in session:
+        try:
+            conn = conn_db()
+            cursor = conn.cursor()
+            
+            # 先获取当前积分
+            cursor.execute("SELECT points FROM users WHERE id = %s", (session['login_id'],))
+            current_points = cursor.fetchone()[0] or 0
+            
+            # 增加2点积分
+            new_points = current_points + 2
+            cursor.execute("UPDATE users SET points = %s WHERE id = %s", 
+                         (new_points, session['login_id']))
+            conn.commit()
+            
+        except Exception as e:
+            print(f"Error updating points: {e}")
+            conn.rollback()
+        finally:
+            cursor.close()
+            conn.close()
+
+    return redirect(url_for('read', book_id=book_id))
 
 
 
@@ -905,4 +1109,4 @@ def images(filename):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
