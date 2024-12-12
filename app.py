@@ -1080,6 +1080,7 @@ def submit_quiz():
         except Exception as e:
             print(f"Error updating points: {e}")
             conn.rollback()
+            
         finally:
             cursor.close()
             conn.close()
