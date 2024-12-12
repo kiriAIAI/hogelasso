@@ -2340,14 +2340,26 @@
   display: flex;
 }
 
-.point-form {
-  justify-content: space-between;
+.own_point {
+  display: block;
+  margin: 0 0 20px 0;
+}
+
+.own_point-label{
   display: flex;
+  justify-content: space-between;
+  font-weight: 400;
+}
+
+.point-input {
+  display: flex;
+  justify-content: space-between;
 }
 
 .point-label {
-  margin-top: auto;
-  margin-bottom: auto;
+  display: inline;
+  min-width: fit-content;
+  margin-bottom: 10px;
 }
 
 .field-label-2 {
