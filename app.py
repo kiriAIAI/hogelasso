@@ -517,7 +517,7 @@ def product_details(book_id):
 
 
 
-        # -------------------- カートに入れる処理 --------------------
+# -------------------- カートに入れる処理 --------------------
 @app.route('/addToCart', methods=['POST'])
 def addToCart():
     accountID = session['login_id'] #セッションデータの取得
@@ -565,7 +565,7 @@ def addToCart():
     return redirect(url_for('shoppingcart'))
 
 
-        # -------------------- 今すぐ購入の処理 --------------------
+# -------------------- 今すぐ購入の処理 --------------------
 @app.route('/submit_product-details', methods=['POST'])
 def submit_data():
     accountID = session['login_id']
@@ -591,7 +591,7 @@ def submit_data():
     return redirect(url_for('payment',account=accountID,product=productID))
 
 
-        #----------------------------- 商品につけるコメントの処理 --------------------------
+#----------------------------- 商品につけるコメントの処理 --------------------------
 @app.route('/submit_product-comment', methods=['POST'])
 def submit_comment():
     accountID = session['login_id']
@@ -632,6 +632,14 @@ def shoppingcart():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
+        # Get user points
+        cursor.execute("""
+            SELECT points 
+            FROM users 
+            WHERE id = %s
+        """, (session['login_id'],))
+        user_points = cursor.fetchone()['points']
+        
         query = """
         SELECT 
             sc.cart_id, 
@@ -661,7 +669,8 @@ def shoppingcart():
             'shopping-cart.html', 
             cart_items=cart_items,
             total_items=total_items,
-            total_price=total_price
+            total_price=total_price,
+            user_points=user_points
         )
         
     except Exception as e:
@@ -675,7 +684,7 @@ def shoppingcart():
             conn.close()
 
 
-    #カート内のアイテムの削除
+# -------------------- カート内のアイテムの削除 --------------------
 @app.route('/remove-shopping-cart', methods=['POST'])
 def remove_from_cart():
     cart_id = request.form.get('cart_id')
@@ -685,7 +694,7 @@ def remove_from_cart():
     return redirect(url_for('shoppingcart'))
 
 
-    #カート内のアイテムを購入
+# -------------------- カート内のアイテムを購入 --------------------
 @app.route('/proceedToCheckout',methods=['GET'])
 def proceedToCheckout():
     try:
@@ -977,6 +986,9 @@ def generate_question():
 
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+    
     selected_option = request.form.get('option')
     correct_answer = request.form.get('correct_answer')
     book_id = request.form.get('book_id')
@@ -990,18 +1002,22 @@ def submit_quiz():
             conn = conn_db()
             cursor = conn.cursor()
             
-            # Add 10 points to user's score
-            sql = "UPDATE users SET points = points + 10 WHERE id = %s"
-            cursor.execute(sql, (session['login_id'],))
+            # 先获取当前积分
+            cursor.execute("SELECT points FROM users WHERE id = %s", (session['login_id'],))
+            current_points = cursor.fetchone()[0] or 0
+            
+            # 增加2点积分
+            new_points = current_points + 2
+            cursor.execute("UPDATE users SET points = %s WHERE id = %s", 
+                         (new_points, session['login_id']))
             conn.commit()
             
         except Exception as e:
             print(f"Error updating points: {e}")
+            conn.rollback()
         finally:
-            if cursor:
-                cursor.close()
-            if conn:
-                conn.close()
+            cursor.close()
+            conn.close()
 
     return redirect(url_for('read', book_id=book_id))
 
