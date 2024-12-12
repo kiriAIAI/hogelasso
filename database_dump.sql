@@ -39,7 +39,7 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'Python╚ыщT','Pythonе╫еэе░еще▀еєе░дЄ╗∙╡Aдлдщ╤зд┘ды│ї╨─╒▀╧Єд▒д╬емеде╔д╟д╣бг','е╫еэе░еще▀еєе░','2200.00','/images/python_intro.jpg',20000),(3,'MySQL═ъ╚л╣е┬╘','MySQLд╬е╟й`е┐е┘й`е╣╣▄└эдЄ╔юдп└э╜тд╣дыд┐дсд╬Мg╝∙╡─д╩Х°╝од╟д╣бг','е╟й`е┐е┘й`е╣','3500.00','/images/mysql_mastery.jpg',20000),(4,'ежезе╓щ_░kд╬╗∙╡A','HTMLбвCSSбвJavaScriptд╬╗∙▒╛дЄ╤зд┘ды│ї╨─╒▀╧Єд▒д╬╥╗Г╘д╟д╣бг','ежезе╓щ_░k','2800.00','/images/web_basics.jpg',20000),(5,'AIд╚ЩC╨╡╤з┴Хд╬╗∙╡A','╚╦╣д╓к─▄д╚ЩC╨╡╤з┴Хд╬╗∙▒╛╡─д╩╩╦╜Mд▀дЄдядлдъдфд╣дп╜т╒hд╖д▐д╣бг','╚╦╣д╓к─▄','4500.00','/images/ai_ml.jpg',20000),(6,'е╡еде╨й`е╗енехеъе╞егд╬╗∙╡A','е═е├е╚еяй`епдф╟щИєе╗енехеъе╞егд╬╓╪╥кд╩╕┼─юдЄ╛W┴_д╖д┐╥╗Г╘д╟д╣бг','е╗енехеъе╞ег','3200.00','/images/cybersecurity.jpg',20000),(7,'двдвдв','двдв','lifestyle','280000.00','GGG.jpg',20000),(8,'╓▒д├д┐гбгб','aa','lifestyle','0.00','G (3).jpg',20000),(9,'aaa','aaaa','lifestyle','0.00','unnamed.jpg',20000),(10,'aa','aa','lifestyle','280000.00','unnamed.jpg',20000),(11,'a','aaa','certification','280000.00','G (3).jpg',20000),(12,'aa','aa','lifestyle','280000.00','GGG.jpg',20000),(13,'a','aaa','lifestyle','0.00','GGG.jpg',20000),(14,'aa','aa','social','280000.00','е╣епе╖еч.png',20000),(15,'a','aaa','history','280000.00','file',20000),(16,'a','aa','lifestyle','0.00','GGG.jpg',20000),(17,'a','aa','social','0.00','file',20000),(18,'a','aa','history','280000.00','GGG.jpg',20000),(19,'днд┐д│дь','двдвдв','lifestyle','222.00','G (3).jpg',20000),(20,'╜╘е█еєе╚д╦двдъдмд╚дж','aaa','lifestyle','0.00','GGG.jpg',100000),(21,'╜ё╚╒дт╜ё╚╒д╚д╞','aa','certification','280000.00','е╣епеъй`еєе╖ече├е╚ 2023-03-19 004028.png',100000),(22,'╗∙▒╛╟щИє╚бдщд╩д▒дьд╨д╩дщд╩дд','двдв','lifestyle','303000.00','е╣епеъй`еєе╖ече├е╚ 2024-04-26 224626.png',100000),(23,'kakikko','двдвдв','lifestyle','280000.00','е╣епеъй`еєе╖ече├е╚ 2024-11-13 190333.png',100000),(24,'test','<div style=\"text-align: right;\"><i style=\"font-size: 1.7rem; color: var(--dark-gray);\">test</i></div>','literature','3000.00','133571682160460525.jpg',1),(25,'test2','test2','history','2000.00','133590530057476704.jpg',1);
+INSERT INTO `books` VALUES (1,'Sample Book','This is a test book.','Test Category','10.00','test_cover.jpg',1),(2,'Pythonя┐╜я┐╜я┐╜T','Pythonя┐╜╫ея┐╜я┐╜я┐╜я┐╜я┐╜▀еєе░дя┐╜я┐╜я┐╜Aя┐╜я┐╜я┐╜я┐╜╤зя┐╜┘дя┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜Єд▒д╬ея┐╜я┐╜я┐╜я┐╜╔д╟дя┐╜я┐╜я┐╜','я┐╜╫ея┐╜я┐╜я┐╜я┐╜я┐╜▀ея┐╜','2200.00','/images/python_intro.jpg',20000),(3,'MySQLя┐╜я┐╜╚ля┐╜я┐╜я┐╜я┐╜','MySQLя┐╜╬е╟й`я┐╜я┐╜я┐╜┘й`я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜юдпя┐╜я┐╜я┐╜тд╣я┐╜ыд┐я┐╜я┐╜╬Мgя┐╜я┐╜я┐╜─д╩Хя┐╜я┐╜я┐╜я┐╜╟дя┐╜я┐╜я┐╜','я┐╜╟й`я┐╜я┐╜я┐╜┘й`я┐╜я┐╜','3500.00','/images/mysql_mastery.jpg',20000),(4,'я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜_я┐╜kя┐╜╬╗я┐╜я┐╜A','HTMLя┐╜я┐╜CSSя┐╜я┐╜JavaScriptя┐╜╬╗я┐╜я┐╜я┐╜я┐╜я┐╜╤зя┐╜┘дя┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜Єд▒дя┐╜╥╗я┐╜╘д╟дя┐╜я┐╜я┐╜','я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜_я┐╜k','2800.00','/images/web_basics.jpg',20000),(5,'AIя┐╜╚ЩC╨╡╤зя┐╜я┐╜я┐╜╬╗я┐╜я┐╜A','я┐╜╦╣я┐╜╓кя┐╜▄д╚ЩC╨╡╤зя┐╜я┐╜я┐╜╬╗я┐╜я┐╜я┐╜я┐╜─дя┐╜я┐╜╦╜Mя┐╜▀дя┐╜ядля┐╜я┐╜фд╣я┐╜я┐╜я┐╜я┐╜я┐╜hя┐╜я┐╜я┐╜▐дя┐╜я┐╜я┐╜','я┐╜╦╣я┐╜╓кя┐╜я┐╜','4500.00','/images/ai_ml.jpg',20000),(6,'я┐╜я┐╜я┐╜я┐╜я┐╜╨й`я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╞ея┐╜я┐╜╬╗я┐╜я┐╜A','я┐╜═е├е╚ея┐╜`я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜єе╗ея┐╜я┐╜я┐╜я┐╜╞ея┐╜я┐╜я┐╜я┐╜я┐╜╥кя┐╜╩╕я┐╜я┐╜я┐╜я┐╜Wя┐╜_я┐╜я┐╜я┐╜я┐╜╥╗я┐╜╘д╟дя┐╜я┐╜я┐╜','я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╞ея┐╜','3200.00','/images/cybersecurity.jpg',20000),(7,'я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜','я┐╜я┐╜я┐╜я┐╜','lifestyle','280000.00','GGG.jpg',20000),(8,'╓▒я┐╜├дя┐╜я┐╜я┐╜я┐╜я┐╜','aa','lifestyle','0.00','G (3).jpg',20000),(9,'aaa','aaaa','lifestyle','0.00','unnamed.jpg',20000),(10,'aa','aa','lifestyle','280000.00','unnamed.jpg',20000),(11,'a','aaa','certification','280000.00','G (3).jpg',20000),(12,'aa','aa','lifestyle','280000.00','GGG.jpg',20000),(13,'a','aaa','lifestyle','0.00','GGG.jpg',20000),(14,'aa','aa','social','280000.00','я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜.png',20000),(15,'a','aaa','history','280000.00','file',20000),(16,'a','aa','lifestyle','0.00','GGG.jpg',20000),(17,'a','aa','social','0.00','file',20000),(18,'a','aa','history','280000.00','GGG.jpg',20000),(19,'я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜','я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜','lifestyle','222.00','G (3).jpg',20000),(20,'я┐╜╘е█ея┐╜╚д╦дя┐╜я┐╜ъдмя┐╜╚дя┐╜','aaa','lifestyle','0.00','GGG.jpg',100000),(21,'я┐╜я┐╜я┐╜╒дя┐╜я┐╜я┐╜╒д╚дя┐╜','aa','certification','280000.00','я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜`я┐╜єе╖ея┐╜├ея┐╜ 2023-03-19 004028.png',100000),(22,'я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜╚бя┐╜я┐╜╩дя┐╜я┐╜я┐╜╨д╩дя┐╜╩дя┐╜','я┐╜я┐╜я┐╜я┐╜','lifestyle','303000.00','я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜`я┐╜єе╖ея┐╜├ея┐╜ 2024-04-26 224626.png',100000),(23,'kakikko','я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜','lifestyle','280000.00','я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜`я┐╜єе╖ея┐╜├ея┐╜ 2024-11-13 190333.png',100000),(24,'test','<div style=\"text-align: right;\"><i style=\"font-size: 1.7rem; color: var(--dark-gray);\">test</i></div>','literature','3000.00','133571682160460525.jpg',1),(25,'test2','test2','history','2000.00','133590530057476704.jpg',1);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -231,13 +231,14 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
   `user_id` int(11) NOT NULL,
-  `name` varchar(255) default NULL,
+  `first_name` varchar(255) default NULL,
+  `last_name` varchar(255) default NULL,
   `birthday` date default NULL,
   `gender` varchar(50) default NULL,
   `address` varchar(255) default NULL,
   `phone` varchar(50) default NULL,
   `bio` text,
-  `profile_image` varchar(255) default NULL,
+  `profile_image` varchar(255) default 'default-profile.jpg',
   PRIMARY KEY  (`user_id`),
   CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -248,6 +249,7 @@ CREATE TABLE `user_profiles` (
 
 LOCK TABLES `user_profiles` WRITE;
 /*!40000 ALTER TABLE `user_profiles` DISABLE KEYS */;
+INSERT INTO `user_profiles` VALUES (6,'ф╣Еф┐ЭхЗ║','ц│░ф╗Л',NULL,NULL,NULL,NULL,'aaa','user_6_unnamed.jpg'),(20000,'','',NULL,NULL,NULL,NULL,'',NULL);
 /*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -293,7 +295,7 @@ CREATE TABLE `user_security_questions` (
 
 LOCK TABLES `user_security_questions` WRITE;
 /*!40000 ALTER TABLE `user_security_questions` DISABLE KEYS */;
-INSERT INTO `user_security_questions` VALUES (1,'╨б╤з╨гд╬Хrд╬двд└├√','╞╜╞╜','╜л└┤д╬ЙЇ','╜Ё│╓д┴д╩дъд┐дд'),(2,'╨б╤з╨гд╬Хrд╬двд└├√','111','╕▀╨гд╬Хrд╬двд└├√','111'),(3,'╨б╤з╨гд╬Хrд╬двд└├√','123','╕▀╨гд╬Хrд╬двд└├√','123'),(4,'╨б╤з╨гд╬Хrд╬двд└├√','123','╕▀╨гд╬Хrд╬двд└├√','123'),(5,'╨б╤з╨гд╬Хrд╬двд└├√','123','╕▀╨гд╬Хrд╬двд└├√','123'),(6,'╨б╤з╨гд╬Хrд╬двд└├√','test1','╜л└┤д╬ЙЇ','test1'),(100000,'╨б╤з╨гд╬Хrд╬двд└├√','д▄д╟','╕▀╨гд╬Хrд╬двд└├√','д▄д╟'),(100001,'╨б╤з╨гд╬Хrд╬двд└├√','haha','╕▀╨гд╬Хrд╬двд└├√','haha');
+INSERT INTO `user_security_questions` VALUES (1,'╨б╤з╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','╞╜╞╜','я┐╜я┐╜я┐╜я┐╜я┐╜╬Йя┐╜','я┐╜я┐╜╓дя┐╜я┐╜╩дъд┐я┐╜я┐╜'),(2,'╨б╤з╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','111','я┐╜я┐╜╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','111'),(3,'╨б╤з╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','123','я┐╜я┐╜╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','123'),(4,'╨б╤з╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','123','я┐╜я┐╜╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','123'),(5,'╨б╤з╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','123','я┐╜я┐╜╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','123'),(6,'╨б╤з╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','test1','я┐╜я┐╜я┐╜я┐╜я┐╜╬Йя┐╜','test1'),(100000,'╨б╤з╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','я┐╜▄дя┐╜','я┐╜я┐╜╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','я┐╜▄дя┐╜'),(100001,'╨б╤з╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','haha','я┐╜я┐╜╨гя┐╜╬Хrя┐╜╬дя┐╜я┐╜я┐╜я┐╜я┐╜','haha');
 /*!40000 ALTER TABLE `user_security_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -316,7 +318,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'╧ш╞╜','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1'),(20000,'BuyerUser','buyer@example.com','buyerpassword'),(99999,'kazuto','kazuto@gmail.com','kazuto0330'),(100000,'bode','bode@gmail.com','bode'),(100001,'haha','haha@qq.com','haha');
+INSERT INTO `users` VALUES (1,'я┐╜я┐╜╞╜','xiangping@gmail.com','xiangping'),(2,'trump','president@gmail.com','maga'),(3,'123','123@gmail.com','123'),(4,'test','9196723@ha.com','test'),(5,'222','222@gmail.com','222'),(6,'test1','test1@gmail.com','test1'),(20000,'BuyerUser','buyer@example.com','buyerpassword'),(99999,'kazuto','kazuto@gmail.com','kazuto0330'),(100000,'bode','bode@gmail.com','bode'),(100001,'haha','haha@qq.com','haha');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -329,4 +331,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-05  2:48:23
+-- Dump completed on 2024-12-12  4:03:21
