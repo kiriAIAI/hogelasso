@@ -806,82 +806,83 @@ def allowed_file(filename):
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    print(session['login_id'])
-    if not session.get('login_id'):
-        return redirect(url_for('login'))
+    print(session)
+    if not session or not session.get('login_id'):
+        return redirect(url_for('login', _external=True))
 
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
 
-                # user_profilesテーブルにuser_idが存在するかチェック
+        # user_profilesテーブルにuser_idが存在するかチェック
         cursor.execute("""
             SELECT * FROM user_profiles 
             WHERE user_id = %s
         """, (session['login_id'],))
         existing_profile = cursor.fetchone()
         print(f"existingprofile {existing_profile}")
+        
         # プロファイルが存在しない場合、新しい行を追加
-        if existing_profile == None:
+        if existing_profile is None:
             try:
                 cursor.execute("""
                     INSERT INTO user_profiles (user_id, profile_image, first_name, last_name, bio)
                     VALUES (%s, %s, %s, %s, %s)
                 """, (session['login_id'], 'default-profile.jpg', None, None, None))
                 conn.commit()
-                print(f"新しいプロファイルを作成しました: {session['lyogin_id']}")
+                print(f"新しいプロファイルを作成しました: {session['login_id']}")
             except Exception as e:
                 conn.rollback()
                 print(f"プロファイル作成エラー: {e}")
-        # if request.method == 'POST':
-        # print("POST request received.")
-        # プロフィール画像アップロード処理
-        
-        if 'profile_image' in request.files:
-            file = request.files.get('profile_image')
-            first_name = request.form.get('Name')
-            last_name = request.form.get('name-2')
-            bio = request.form.get('Bio')
-            
-            if file:
-                upload_folder = 'kakikko/static/images/profiles_images'
 
-                # アップロードフォルダ内のファイルを調べる
-                for existing_file in os.listdir(upload_folder):
-                    # ファイル名の最初の"/"以前の文字列を取得
-                    print(f"existion_file{existing_file}")
-                    existing_filename = existing_file.split('_')[:2]
-                    existing_filename = "_".join(existing_filename)  # user_100000の形式に変換
-                    print(f"split{existing_filename}")
-                    # 一致する場合はファイルを削除
-                    if existing_filename == secure_filename(f"user_{session['login_id']}"):
-                        file_to_delete = f"{upload_folder}/{existing_file}"
-                        try:
-                            os.remove(file_to_delete)
-                            print(f"Deleted file: {file_to_delete}")
-                        except Exception as e:
-                            print(f"Failed to delete file: {e}")
-                            
-                filename = f"user_{session['login_id']}_{secure_filename(file.filename)}" # type: ignore
-                file_path = f"{upload_folder}/{filename}"
-                try:
-                    file.save(file_path)  # file_pathに、fileを保存
-                    print(f"File saved successfully: {file_path}")
-                except Exception as e:
-                    print(f"Failed to save file: {e}")
-                    return f"File upload failed: {str(e)}", 500
+        if request.method == 'POST':
+            print("POST request received.")
+            # プロフィール画像アップロード処理
+            if 'profile_image' in request.files:
+                file = request.files.get('profile_image')
+                first_name = request.form.get('Name')
+                last_name = request.form.get('name-2')
+                bio = request.form.get('Bio')
+                
+                if file:
+                    upload_folder = 'kakikko/static/images/profiles_images'
 
-                try:
-                    # データベースに画像パスを保存
-                    cursor.execute("""
-                        INSERT INTO user_profiles (user_id, profile_image, first_name, last_name, bio)
-                        VALUES (%s, %s, %s, %s, %s)
-                        ON DUPLICATE KEY UPDATE profile_image = %s, first_name = %s, last_name = %s, bio = %s
-                    """, (session['login_id'], filename, first_name, last_name, bio, filename, first_name, last_name, bio))
-                    conn.commit()
-                except Exception as e:
-                    conn.rollback()
-                    return "Database error", 500
+                    # アップロードフォルダ内のファイルを調べる
+                    for existing_file in os.listdir(upload_folder):
+                        # ファイル名の最初の"/"以前の文字列を取得
+                        print(f"existion_file{existing_file}")
+                        existing_filename = existing_file.split('_')[:2]
+                        existing_filename = "_".join(existing_filename)  # user_100000の形式に変換
+                        print(f"split{existing_filename}")
+                        # 一致する場合はファイルを削除
+                        if existing_filename == secure_filename(f"user_{session['login_id']}"):
+                            file_to_delete = f"{upload_folder}/{existing_file}"
+                            try:
+                                os.remove(file_to_delete)
+                                print(f"Deleted file: {file_to_delete}")
+                            except Exception as e:
+                                print(f"Failed to delete file: {e}")
+                                
+                    filename = f"user_{session['login_id']}_{secure_filename(file.filename)}" # type: ignore
+                    file_path = f"{upload_folder}/{filename}"
+                    try:
+                        file.save(file_path)  # file_pathに、fileを保存
+                        print(f"File saved successfully: {file_path}")
+                    except Exception as e:
+                        print(f"Failed to save file: {e}")
+                        return f"File upload failed: {str(e)}", 500
+
+                    try:
+                        # データベースに画像パスを保存
+                        cursor.execute("""
+                            INSERT INTO user_profiles (user_id, profile_image, first_name, last_name, bio)
+                            VALUES (%s, %s, %s, %s, %s)
+                            ON DUPLICATE KEY UPDATE profile_image = %s, first_name = %s, last_name = %s, bio = %s
+                        """, (session['login_id'], filename, first_name, last_name, bio, filename, first_name, last_name, bio))
+                        conn.commit()
+                    except Exception as e:
+                        conn.rollback()
+                        return "Database error", 500
 
         # プロフィール情報取得
         print(f"Fetching profile for user_id: {session['login_id']}")
@@ -893,7 +894,7 @@ def profile():
         """, (session['login_id'],))
         user_info = cursor.fetchone()
 
-        return render_template('profile.html',user_info=user_info)
+        return render_template('profile.html', user_info=user_info)
     finally:
         cursor.close()
         conn.close()
