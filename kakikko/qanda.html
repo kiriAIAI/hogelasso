@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('css', filename='styles.css') }}">
+    <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="shortcut icon" type="image/x-icon">
+    <script type="text/javascript">WebFont.load({  google: {    families: ["Noto Sans JP:regular,500,600,700,900"]  }});</script>
+    <title>kakikko Q&A</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+        }
+        a {
+            color: #002f62;
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('index') }}"id="logo"><img loading="lazy" src="{{ url_for('static', filename='images/Logo.png') }}" alt="LOGO"></a>
+        <div id="navigationIconFrame">
+            <a href="{{ url_for('shoppingcart') }}"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="ショッピングカート" class="head_icon"></a>
+            <a href="{{ url_for('login') }}"><img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="アカウント" class="head_icon"></a>
+        </div>
+    </div>
+    <div class="container">
+        <h1>よくあるご質問</h1>
+
+        <dl>
+            <dt class="question">送料はいくら？</dt>
+            <dd class="answer">こちらの商品はオンライン限定商品のため、送料は一切かかりません。安心してご注文いただけますので、どうぞお気軽にご利用ください。</dd>
+
+            <dt class="question">会員登録はどこから？</dt>
+            <dd class="answer">会員登録は<a href='http://127.0.0.1:5000/signup.html' target='_blank'  class='custom-link'>サインアップはこちら</a>から</dd>
+
+            <dt class="question">パスワードの再設定</dt>
+            <dd class="answer">パスワードをお忘れですか？パスワードを忘れた方は<a href='http://127.0.0.1:5000/forget-password.html' target='_blank'  class='custom-link'>こちら</a>からリセットしてください。</dd>
+
+            <dt class="question">商品の返品</dt>
+            <dd class="answer">大変申し訳ありませんが商品の返品は受け付けておりません。購入前に商品情報をご確認いただき、ご理解の上でご注文いただきますようお願い申し上げます。</dd>
+
+            <dt class="question">支払い方法</dt>
+            <dd class="answer">JCB,Visa,Mastarcard,Apple Pay,Google Payが対応しています。</dd>
+
+            <dt class="question">注文履歴が見たい</dt>
+            <dd class="answer">マイアカウントから注文履歴を確認できます。注文履歴は<a href='http://127.0.0.1:5000/purchase-history.html' target='_blank'  class='custom-link'>こちら</a></dd>
+
+            <dt class="question">ダウンロードしたい</dt>
+            <dd class="answer">申し訳ありません。現在記事のオフライン保存には対応しておりません。</dd>
+
+            <dt class="question">ポイントとは？</dt>
+            <dd class="answer">ポイントをためることで、記事を読むことができます！ぜひ、ポイントを貯めてお楽しみください。</dd>
+
+            <dt class="question">記事の文字の大きさを変えたい</dt>
+            <dd class="answer">右上のフォントサイズを変えるボタンを押すことでフォントサイズを変えることができます。</dd>
+
+            <dt class="question">利用料金はいくら？</dt>
+            <dd class="answer">ほとんどの記事はポイントを使用してお読みいただけます。ぜひ、ポイントを貯めてお気に入りの記事をお楽しみください！</dd>
+
+            <dt class="question">ログアウトしたい</dt>
+            <dd class="answer">ログアウトは<a href='http://127.0.0.1:5000/confirm-logout.htmll' target='_blank'  class='custom-link'>こちら</a></dd>
+
+            <dt class="question">購入履歴が見たい</dt>
+            <dd class="answer">マイアカウントから注文履歴を確認できます。注文履歴は<a href='http://127.0.0.1:5000/purchase-history.html' target='_blank'  class='custom-link'>こちら</a></dd>
+
+            <dt class="question">記事はどこから読める</dt>
+            <dd class="answer">購入した記事は<a href='http://127.0.0.1:5000/purchase-history.html' target='_blank'  class='custom-link'>こちら</a>から読みたい記事をクリックすれば読むことができます。</dd>
+
+            <dt class="question">カートに入れた商品を消したい</dt>
+            <dd class="answer">カート内の商品を削除する場合は<a href='http://127.0.0.1:5000/shopping-cart.html' target='_blank'  class='custom-link'>こちら</a>から削除したい商品の横のごみ箱アイコンを押すと消すことができます。</dd>
+
+            <dt class="question">ポイントはどうやって使う？</dt>
+            <dd class="answer">ショッピングカート画面から自分の使用したいポイント数を入力することで使用することができます。</dd>
+
+            <dt class="question">アカウントの作り方</dt>
+            <dd class="answer">アカウントの作成は<a href='http://127.0.0.1:5000/register' target='_blank'  class='custom-link'>こちら</a>から各種情報を入力することで作成することができます。</dd>
+
+            <dt class="question">出品したい</dt>
+            <dd class="answer">サイドバーの＋アイコンから出品することができます。<a href='http://127.0.0.1:5000/create.html' target='_blank'  class='custom-link'>こちら</a>からもアクセスできます。</dd>
+
+            <dt class="question">どうやって検索する</dt>
+            <dd class="answer">サイドバーの虫眼鏡アイコンからほしい商品を探すことができます。</dd>
+
+            <dt class="question">アカウントを作るメリット</dt>
+            <dd class="answer">商品の購入や出品をするのに必要です。さらにポイントを使って記事を読むこともできるのでお得です。ぜひアカウントを作って楽しんでください！！</dd>
+
+            <dt class="question">ポイントは何をすればたまる？</dt>
+            <dd class="answer">クイズに答えることでポイントがたまります。正解するとポイントが多くもらえるので頑張って答えてみてください。</dd>
+
+            <dt class="question">プロフィールを編集したい</dt>
+            <dd class="answer">プロフィール画面から登録情報を変更することができます。</dd>
+        </dl>
+    </div>  
+</body>
+</html>
