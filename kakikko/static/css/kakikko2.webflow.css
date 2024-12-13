@@ -1827,36 +1827,57 @@
 
 /* ---------- 今すぐ買うボタン ---------- */
 .button-secondary {
+  position: relative;
   color: #1b1b1b;
   text-align: center;
   background-color: transparent;
   border: 1px solid #1b1b1b;
   padding: .75rem 1.5rem;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .button-secondary.is-buy-now-button {
+  position: relative;
+  display: inline-block;
   color: #333;
   background-color: transparent;
   border-color: #ccc;
   border-radius: 0.5rem;
   width: 100%;
   margin-right: 1.5rem;
+  text-transform: uppercase;
   font-weight: 700;
   transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.button-secondary.is-buy-now-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 100%;
+  left: 0;
+  background-color: var(--dark-gray);
+  opacity: 0;
+  z-index: -1;
+  transition: all 0.8s;
 }
 
 .button-secondary.is-buy-now-button:hover {
   color: #ffffff !important;
   background-color: #3b3b3b !important;
   border-color: #3b3b3b !important;
-  transform: translateY(-2px);
 }
 
-.button-secondary.is-buy-now-button:active {
-  transform: translateY(0px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.button-secondary.is-buy-now-button:hover::before {
+  left: 0 !important;
+  right: 0 !important;
+  opacity: 1 !important;
 }
+
+
 
 
 /* ------------------- コメント ------------------- */
@@ -2315,16 +2336,19 @@
   box-shadow: 0 1px 3px #00000014;
 }
 
-.cart-item-delete-btn {
-  background-color: var(--dark-gray);
+/* ---------- ショッピングカート内容削除 ---------- */
+.removeFromCart {
+  background-color: var(--dark-gray) !important;
+  color: var(--white) !important;
   border-radius: 4px;
-  margin-right: 15px;
-  font-family: "Fa Solid 900", sans-serif;
-  font-weight: 900;
+  padding: 10px 0 10px 0;
+  font-size: 1.05rem;
+  transition: all 0.2s ease;
 }
 
-.cart-item-delete-btn:hover {
-  background-color: var(--dark-gray-hover);
+.removeFromCart:hover {
+  background-color: var(--error) !important;
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
 .cart-summary-block {
@@ -2340,20 +2364,31 @@
   display: flex;
 }
 
-.point-form {
-  justify-content: space-between;
-  display: flex;
+/* ---------- 所持ポイント ---------- */
+.own_point {
+  display: block;
+  margin: 0 0 30px 0;
 }
 
-.point-label {
-  margin-top: auto;
-  margin-bottom: auto;
+.own_point-label{
+  display: flex;
+  justify-content: space-between;
+  font-weight: 400;
+}
+
+/* ---------- ポイント ---------- */
+.point-input {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
 }
 
 .field-label-2 {
+  margin-top: 5px;
   margin-bottom: 0;
   font-size: 16px;
   font-weight: 400;
+  text-align: center;
 }
 
 .point-input-block {
@@ -2363,8 +2398,13 @@
 .text-field-3 {
   border-radius: 6px;
   width: 120px;
+  margin-top: 2px;
   margin-bottom: 0;
   margin-right: 5px;
+}
+
+.text-field-3:focus{
+  border: 2px solid var(--dark-gray);
 }
 
 .point-input-btn {
@@ -2372,13 +2412,15 @@
   border-radius: 6px;
   width: 40px;
   padding: 8px 10px;
-  font-family: "Fa Solid 900", sans-serif;
-  font-size: 16px;
+  font-size: 1.05rem;
+  transition: all 0.2s ease;
 }
 
 .point-input-btn:hover {
   background-color: var(--dark-gray-hover);
+  transform: translateX(3px)
 }
+
 
 .summary-price-block {
   border: 1px #ddd;
@@ -2392,7 +2434,8 @@
   display: flex;
 }
 
-.checkout-btn {
+/* ---------- レジに進むbtn ---------- */
+#proceedToCheckout {
   background-color: var(--dark-gray);
   text-align: center;
   border-radius: 6px;
@@ -2403,9 +2446,10 @@
   transition: all 0.2s ease;
 }
 
-.checkout-btn:hover {
+#proceedToCheckout:hover {
   background-color: var(--dark-gray-hover);
   transform: translateY(-2px);
+  box-shadow: 2px 3px 15px rgba(0, 0, 0, 0.5);
 }
 
 .products1-actions-wrap {

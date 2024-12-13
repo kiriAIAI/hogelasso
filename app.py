@@ -2,6 +2,8 @@ from flask import Flask, render_template, send_from_directory, jsonify, request,
 import mysql.connector
 import os
 
+from werkzeug.utils import secure_filename
+
 # import datetime
 from datetime import timedelta
 import random
@@ -246,7 +248,7 @@ def login():
             session['login_name'] = user[1] # type: ignore
             return redirect(url_for('index'))
         else:
-            error = "無効なユーザー名、メールアドレス、パスワード"
+            error = "無効なユーザー名、メ���ルアドレス、パスワード"
             return render_template('login.html', error=error)
     
     return render_template('login.html')
@@ -393,6 +395,13 @@ def chatbot():
 
 
 
+
+#---------------------F&A.html--------------------
+@app.route('/Q&A.html')
+def  QandA():
+    return render_template('qanda.html')
+
+
 # -------------------- forget-password.html --------------------
 @app.route('/forget-password.html')
 def forgetpassword():
@@ -517,7 +526,7 @@ def product_details(book_id):
 
 
 
-        # -------------------- カートに入れる処理 --------------------
+# -------------------- カートに入れる処理 --------------------
 @app.route('/addToCart', methods=['POST'])
 def addToCart():
     accountID = session['login_id'] #セッションデータの取得
@@ -534,7 +543,7 @@ def addToCart():
     '''
     check_data = (accountID, productID)
     result = checkForDuplicateEntry(check_sql,check_data)
-    if result[0] > 0:
+    if result[0] > 0: # type: ignore
         print("エラー:すでに同じ商品が入っています")
         return redirect(url_for("shoppingcart"))
 
@@ -544,7 +553,7 @@ def addToCart():
     '''
     check_data = (accountID, productID)
     result = checkForDuplicateEntry(check_sql1,check_data)
-    if result[0] > 0:
+    if result[0] > 0: # type: ignore
         print("エラー:すでにアイテムが購入されています")
         return redirect(url_for("shoppingcart"))
     
@@ -565,7 +574,7 @@ def addToCart():
     return redirect(url_for('shoppingcart'))
 
 
-        # -------------------- 今すぐ購入の処理 --------------------
+# -------------------- 今すぐ購入の処理 --------------------
 @app.route('/submit_product-details', methods=['POST'])
 def submit_data():
     accountID = session['login_id']
@@ -591,7 +600,7 @@ def submit_data():
     return redirect(url_for('payment',account=accountID,product=productID))
 
 
-        #----------------------------- 商品につけるコメントの処理 --------------------------
+#----------------------------- 商品につけるコメントの処理 --------------------------
 @app.route('/submit_product-comment', methods=['POST'])
 def submit_comment():
     accountID = session['login_id']
@@ -632,6 +641,14 @@ def shoppingcart():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
+        # Get user points
+        cursor.execute("""
+            SELECT points 
+            FROM users 
+            WHERE id = %s
+        """, (session['login_id'],))
+        user_points = cursor.fetchone()['points'] # type: ignore
+        
         query = """
         SELECT 
             sc.cart_id, 
@@ -655,13 +672,14 @@ def shoppingcart():
         cart_items = cursor.fetchall()
         
         total_items = len(cart_items)
-        total_price = sum(item['book_price'] for item in cart_items)
+        total_price = sum(item['book_price'] for item in cart_items) # type: ignore
         
         return render_template(
             'shopping-cart.html', 
             cart_items=cart_items,
             total_items=total_items,
-            total_price=total_price
+            total_price=total_price,
+            user_points=user_points
         )
         
     except Exception as e:
@@ -675,7 +693,7 @@ def shoppingcart():
             conn.close()
 
 
-    #カート内のアイテムの削除
+# -------------------- カート内のアイテムの削除 --------------------
 @app.route('/remove-shopping-cart', methods=['POST'])
 def remove_from_cart():
     cart_id = request.form.get('cart_id')
@@ -685,8 +703,8 @@ def remove_from_cart():
     return redirect(url_for('shoppingcart'))
 
 
-    #カート内のアイテムを購入
-@app.route('/proceedToCheckout',methods=['GET'])
+# -------------------- カート内のアイテムを購入 --------------------
+@app.route('/proceedToCheckout',methods=['GET']) # type: ignore
 def proceedToCheckout():
     try:
         accountID = session['login_id']
@@ -702,14 +720,14 @@ def proceedToCheckout():
         cursor.execute(query1, (str(accountID),))
         books = cursor.fetchall()
 
-        # 商品がカートにない場合、ショッピングカートページにリダイレクト
+        # 商品がカートにない場合、ショッピングカートページに���ダイレクト
         if not books:
             print("商品がありません")
             flash('カート内に商品がありません')
             return redirect(url_for('shoppingcart'))
 
         # book_idsリストを作成
-        book_ids = [str(book[0]) for book in books]
+        book_ids = [str(book[0]) for book in books] # type: ignore
 
         # 商品IDからオーナーIDを取得
         query2 = """
@@ -731,10 +749,10 @@ def proceedToCheckout():
         
         # 各オーナーに対してデータを挿入
         for owner in owners:
-            book_id = owner[0]
-            seller_id = owner[1]
+            book_id = owner[0] # type: ignore
+            seller_id = owner[1] # type: ignore
 
-            cursor.execute(sql, (book_id, accountID, seller_id))
+            cursor.execute(sql, (book_id, accountID, seller_id)) # type: ignore
             
             #アイテムを購入済みに更新
             update_query = """
@@ -742,7 +760,7 @@ def proceedToCheckout():
             SET quantity = 3
             WHERE book_id = %s AND user_id = %s
             """
-            cursor.execute(update_query, (book_id, accountID))
+            cursor.execute(update_query, (book_id, accountID)) # type: ignore
 
         conn.commit()
         return redirect(url_for('payment'))
@@ -754,6 +772,46 @@ def proceedToCheckout():
     finally:
         cursor.close()
         conn.close()
+
+@app.route('/toggle-favorite', methods=['POST'])
+def toggle_favorite():
+    if 'user_id' not in session:
+        return jsonify({'error': 'ログインが必要です'}), 401
+        
+    data = request.get_json()
+    book_id = data.get('book_id')
+    user_id = session['user_id']
+    
+    conn = conn_db()
+    cursor = conn.cursor()
+    
+    # 检查是否已经收藏
+    cursor.execute('''
+        SELECT favorite_id FROM favorites 
+        WHERE user_id = %s AND book_id = %s
+    ''', (user_id, book_id))
+    existing_favorite = cursor.fetchone()
+    
+    if existing_favorite:
+        # 如果已收藏，则取消收藏
+        cursor.execute('''
+            DELETE FROM favorites 
+            WHERE user_id = %s AND book_id = %s
+        ''', (user_id, book_id))
+        status = 'removed'
+    else:
+        # 如果未收藏，则添加收藏
+        cursor.execute('''
+            INSERT INTO favorites (user_id, book_id)
+            VALUES (%s, %s)
+        ''', (user_id, book_id))
+        status = 'added'
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
+    return jsonify({'status': status})
 
     
 
@@ -788,41 +846,116 @@ def paymentsuccess():
 
 
 # -------------------- profile.html --------------------
-@app.route('/profile')
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    if 'login_id' not in session:
-        return redirect(url_for('login'))
+    print(session)
+    if not session or not session.get('login_id'):
+        return redirect(url_for('login', _external=True))
 
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
-        
-        # ユーザー情報の取得
-        cursor.execute("""
-            SELECT username, email, profile_image, bio
-            FROM users 
-            WHERE id = %s
-        """, (session['login_id'],))
-        
-        user_info = cursor.fetchone()
-        
-        if not user_info:
-            return redirect(url_for('login'))
-            
-        return render_template('profile.html', 
-                             username=user_info['username'],  # ユーザー名をテンプレートに渡す # type: ignore
-                             user_info=user_info)
-                             
-    except Exception as e:
-        print(f"Error: {e}")
-        return redirect(url_for('login'))
-        
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
 
+        # user_profilesテーブルにuser_idが存在するかチェック
+        cursor.execute("""
+            SELECT * FROM user_profiles 
+            WHERE user_id = %s
+        """, (session['login_id'],))
+        existing_profile = cursor.fetchone()
+        print(f"existingprofile {existing_profile}")
+        
+        # プロファイルが存在しない場合、新しい行を追加
+        if existing_profile is None:
+            try:
+                cursor.execute("""
+                    INSERT INTO user_profiles (user_id, profile_image, first_name, last_name, bio)
+                    VALUES (%s, %s, %s, %s, %s)
+                """, (session['login_id'], 'default-profile.jpg', None, None, None))
+                conn.commit()
+                print(f"新しいプロファイルを作成しました: {session['login_id']}")
+            except Exception as e:
+                conn.rollback()
+                print(f"プロファイル作成エラー: {e}")
+
+        if request.method == 'POST':
+            print("POST request received.")
+            # プロフィール画像アップロード処理
+            if 'profile_image' in request.files:
+                file = request.files.get('profile_image')
+                first_name = request.form.get('Name')
+                last_name = request.form.get('name-2')
+                bio = request.form.get('Bio')
+                
+                if file:
+                    upload_folder = 'kakikko/static/images/profiles_images'
+
+                    # アップロードフォルダ内のファイルを調べる
+                    for existing_file in os.listdir(upload_folder):
+                        # ファイル名の最初の"/"以前の文字列を取得
+                        print(f"existion_file{existing_file}")
+                        existing_filename = existing_file.split('_')[:2]
+                        existing_filename = "_".join(existing_filename)  # user_100000の形式に変換
+                        print(f"split{existing_filename}")
+                        # 一致する場合はファイルを削除
+                        if existing_filename == secure_filename(f"user_{session['login_id']}"):
+                            file_to_delete = f"{upload_folder}/{existing_file}"
+                            try:
+                                os.remove(file_to_delete)
+                                print(f"Deleted file: {file_to_delete}")
+                            except Exception as e:
+                                print(f"Failed to delete file: {e}")
+                                
+                    filename = f"user_{session['login_id']}_{secure_filename(file.filename)}" # type: ignore
+                    file_path = f"{upload_folder}/{filename}"
+                    try:
+                        file.save(file_path)  # file_pathに、fileを保存
+                        print(f"File saved successfully: {file_path}")
+                    except Exception as e:
+                        print(f"Failed to save file: {e}")
+                        return f"File upload failed: {str(e)}", 500
+
+                    try:
+                        # データベースに画像パスを保存
+                        cursor.execute("""
+                            INSERT INTO user_profiles (user_id, profile_image, first_name, last_name, bio)
+                            VALUES (%s, %s, %s, %s, %s)
+                            ON DUPLICATE KEY UPDATE profile_image = %s, first_name = %s, last_name = %s, bio = %s
+                        """, (session['login_id'], filename, first_name, last_name, bio, filename, first_name, last_name, bio))
+                        conn.commit()
+                    except Exception as e:
+                        conn.rollback()
+                        return "Database error", 500
+
+        # プロフィール情報取得
+        print(f"Fetching profile for user_id: {session['login_id']}")
+        cursor.execute("""
+            SELECT u.username, up.profile_image, up.first_name, up.last_name, up.bio
+            FROM users u
+            LEFT JOIN user_profiles up ON u.id = up.user_id
+            WHERE u.id = %s
+        """, (session['login_id'],))
+        user_info = cursor.fetchone()
+
+        # ユーザーがお気に入りした本を取得
+        cursor.execute("""
+            SELECT b.book_id, b.book_title, b.book_price, b.book_cover_image
+            FROM favorites f
+            JOIN books b ON f.book_id = b.book_id
+            WHERE f.user_id = %s
+        """, (session['login_id'],))
+        favorite_books = cursor.fetchall()
+
+
+        return render_template('profile.html', user_info=user_info, favorite_books=favorite_books)
+    
+    finally:
+        cursor.close()
+        conn.close()
 
 
 # -------------------- profile-info.html --------------------
@@ -977,6 +1110,9 @@ def generate_question():
 
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+    
     selected_option = request.form.get('option')
     correct_answer = request.form.get('correct_answer')
     book_id = request.form.get('book_id')
@@ -990,18 +1126,23 @@ def submit_quiz():
             conn = conn_db()
             cursor = conn.cursor()
             
-            # Add 10 points to user's score
-            sql = "UPDATE users SET points = points + 10 WHERE id = %s"
-            cursor.execute(sql, (session['login_id'],))
+            # 先获取当前积分
+            cursor.execute("SELECT points FROM users WHERE id = %s", (session['login_id'],))
+            current_points = cursor.fetchone()[0] or 0 # type: ignore
+            
+            # 增加2点积分
+            new_points = current_points + 2 # type: ignore
+            cursor.execute("UPDATE users SET points = %s WHERE id = %s", 
+                         (new_points, session['login_id']))
             conn.commit()
             
         except Exception as e:
             print(f"Error updating points: {e}")
+            conn.rollback()
+            
         finally:
-            if cursor:
-                cursor.close()
-            if conn:
-                conn.close()
+            cursor.close()
+            conn.close()
 
     return redirect(url_for('read', book_id=book_id))
 
