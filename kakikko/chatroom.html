@@ -133,22 +133,22 @@
             </a>
           </div>
         </div>
-        <div class="chatroom-right-block">
-          <div class="chatroom-heading-block">
-            <h3 class="chatroom-heading">Username</h3>
-          </div>
-          <div class="chatroom-content-block"></div>
-          <div class="chatroom-send-block">
-            <div class="chat-send-form-block w-form">
-              <form id="wf-form-Message-Send-Form" name="wf-form-Message-Send-Form" data-name="Message Send Form" method="get" class="chat-send-form" data-wf-page-id="670b74104ac577806fc343e8" data-wf-element-id="7c84ff89-b761-c88a-2e48-1a472eea7817">
-                <input class="text-field w-input" maxlength="256" name="field" data-name="Field" placeholder="" type="text" id="field" required="">
-                <button type="submit" data-wait="Please wait..." class="message-send-btn w-button">
+          <div class="chatroom-right-block">
+            <div class="chatroom-heading-block">
+              <h3 class="chatroom-heading">Username</h3>
+            </div>
+            <div class="chatroom-content-block" id="chat-box"></div>
+            <div class="chatroom-send-block">
+              <div class="chat-send-form-block w-form">
+                <form id="wf-form-Message-Send-Form" name="wf-form-Message-Send-Form" data-name="Message Send Form" method="post" class="chat-send-form">
+                  <input class="text-field w-input" maxlength="256" name="message" data-name="Message" placeholder="" type="text" id="message" required="">
+                  <button type="button" class="message-send-btn w-button" onclick="sendMessage()">
                     <i class="fa-solid fa-paper-plane"></i>
-                </button>
-              </form>
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
       </div>
     </div>
   </section>
