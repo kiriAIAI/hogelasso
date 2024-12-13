@@ -98,6 +98,32 @@ LOCK TABLES `direct_messages` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `favorites`
+--
+
+DROP TABLE IF EXISTS `favorites`;
+CREATE TABLE `favorites` (
+  `favorite_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) default NULL,
+  `book_id` int(11) default NULL,
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`favorite_id`),
+  KEY `fk_user` (`user_id`),
+  KEY `fk_book` (`book_id`),
+  CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_book` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `favorites`
+--
+
+LOCK TABLES `favorites` WRITE;
+/*!40000 ALTER TABLE `favorites` DISABLE KEYS */;
+/*!40000 ALTER TABLE `favorites` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `follows`
 --
 
@@ -183,7 +209,7 @@ CREATE TABLE `shopping_cart` (
   KEY `book_id` (`book_id`),
   CONSTRAINT `shopping_cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `shopping_cart_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `shopping_cart`
@@ -191,7 +217,7 @@ CREATE TABLE `shopping_cart` (
 
 LOCK TABLES `shopping_cart` WRITE;
 /*!40000 ALTER TABLE `shopping_cart` DISABLE KEYS */;
-INSERT INTO `shopping_cart` VALUES (1,6,21,3,'2024-12-12 02:10:24'),(2,6,21,1,'2024-12-12 02:10:43'),(3,6,24,1,'2024-12-12 02:39:03'),(4,6,20,1,'2024-12-12 02:39:43'),(5,6,25,3,'2024-12-12 02:40:16'),(6,6,22,3,'2024-12-12 02:46:18'),(7,6,20,1,'2024-12-12 03:22:57'),(8,6,20,1,'2024-12-12 03:52:49'),(9,100000,24,3,'2024-12-12 05:25:52'),(10,100000,24,3,'2024-12-12 05:52:39');
+INSERT INTO `shopping_cart` VALUES (1,6,21,3,'2024-12-12 02:10:24'),(2,6,21,1,'2024-12-12 02:10:43'),(3,6,24,1,'2024-12-12 02:39:03'),(4,6,20,1,'2024-12-12 02:39:43'),(5,6,25,3,'2024-12-12 02:40:16'),(6,6,22,3,'2024-12-12 02:46:18'),(7,6,20,1,'2024-12-12 03:22:57'),(8,6,20,1,'2024-12-12 03:52:49'),(9,100000,24,3,'2024-12-12 05:25:52'),(10,100000,24,3,'2024-12-12 05:52:39'),(11,6,19,0,'2024-12-12 06:02:45');
 /*!40000 ALTER TABLE `shopping_cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,7 +276,7 @@ CREATE TABLE `user_profiles` (
 
 LOCK TABLES `user_profiles` WRITE;
 /*!40000 ALTER TABLE `user_profiles` DISABLE KEYS */;
-INSERT INTO `user_profiles` VALUES (20000,'タ','イスケ',NULL,NULL,NULL,NULL,'aa','user_20000_png'),(100000,'久保出','泰介',NULL,NULL,NULL,NULL,'あああ','user_100000_unnamed.jpg');
+INSERT INTO `user_profiles` VALUES (6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'default-profile.jpg'),(20000,'タ','イスケ',NULL,NULL,NULL,NULL,'aa','user_20000_png'),(100000,'久保出','泰介',NULL,NULL,NULL,NULL,'あああ','user_100000_unnamed.jpg');
 /*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,7 +346,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'翔平','xiangping@gmail.com','xiangping',0),(2,'trump','president@gmail.com','maga',0),(3,'123','123@gmail.com','123',0),(4,'test','9196723@ha.com','test',0),(5,'222','222@gmail.com','222',0),(6,'test1','test1@gmail.com','test1',2),(20000,'BuyerUser','buyer@example.com','buyerpassword',0),(99999,'kazuto','kazuto@gmail.com','kazuto0330',0),(100000,'bode','bode@gmail.com','bode',4),(100001,'haha','haha@qq.com','haha',0);
+INSERT INTO `users` VALUES (1,'翔平','xiangping@gmail.com','xiangping',0),(2,'trump','president@gmail.com','maga',0),(3,'123','123@gmail.com','123',0),(4,'test','9196723@ha.com','test',0),(5,'222','222@gmail.com','222',0),(6,'test1','test1@gmail.com','test1',4),(20000,'BuyerUser','buyer@example.com','buyerpassword',0),(99999,'kazuto','kazuto@gmail.com','kazuto0330',0),(100000,'bode','bode@gmail.com','bode',4),(100001,'haha','haha@qq.com','haha',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -333,4 +359,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-12  5:54:04
+-- Dump completed on 2024-12-12  7:04:36
