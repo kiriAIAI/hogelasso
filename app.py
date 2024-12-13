@@ -395,6 +395,13 @@ def chatbot():
 
 
 
+
+#---------------------F&A.html--------------------
+@app.route('/Q&A.html')
+def  QandA():
+    return render_template('qanda.html')
+
+
 # -------------------- forget-password.html --------------------
 @app.route('/forget-password.html')
 def forgetpassword():
