@@ -248,7 +248,7 @@ def login():
             session['login_name'] = user[1] # type: ignore
             return redirect(url_for('index'))
         else:
-            error = "無効なユーザー名、メールアドレス、パスワード"
+            error = "無効なユーザー名、メ���ルアドレス、パスワード"
             return render_template('login.html', error=error)
     
     return render_template('login.html')
@@ -713,7 +713,7 @@ def proceedToCheckout():
         cursor.execute(query1, (str(accountID),))
         books = cursor.fetchall()
 
-        # 商品がカートにない場合、ショッピングカートページにリダイレクト
+        # 商品がカートにない場合、ショッピングカートページに���ダイレクト
         if not books:
             print("商品がありません")
             flash('カート内に商品がありません')
@@ -765,6 +765,46 @@ def proceedToCheckout():
     finally:
         cursor.close()
         conn.close()
+
+@app.route('/toggle-favorite', methods=['POST'])
+def toggle_favorite():
+    if 'user_id' not in session:
+        return jsonify({'error': 'ログインが必要です'}), 401
+        
+    data = request.get_json()
+    book_id = data.get('book_id')
+    user_id = session['user_id']
+    
+    conn = conn_db()
+    cursor = conn.cursor()
+    
+    # 检查是否已经收藏
+    cursor.execute('''
+        SELECT favorite_id FROM favorites 
+        WHERE user_id = %s AND book_id = %s
+    ''', (user_id, book_id))
+    existing_favorite = cursor.fetchone()
+    
+    if existing_favorite:
+        # 如果已收藏，则取消收藏
+        cursor.execute('''
+            DELETE FROM favorites 
+            WHERE user_id = %s AND book_id = %s
+        ''', (user_id, book_id))
+        status = 'removed'
+    else:
+        # 如果未收藏，则添加收藏
+        cursor.execute('''
+            INSERT INTO favorites (user_id, book_id)
+            VALUES (%s, %s)
+        ''', (user_id, book_id))
+        status = 'added'
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
+    return jsonify({'status': status})
 
     
 
@@ -894,7 +934,18 @@ def profile():
         """, (session['login_id'],))
         user_info = cursor.fetchone()
 
-        return render_template('profile.html', user_info=user_info)
+        # ユーザーがお気に入りした本を取得
+        cursor.execute("""
+            SELECT b.book_id, b.book_title, b.book_price, b.book_cover_image
+            FROM favorites f
+            JOIN books b ON f.book_id = b.book_id
+            WHERE f.user_id = %s
+        """, (session['login_id'],))
+        favorite_books = cursor.fetchall()
+
+
+        return render_template('profile.html', user_info=user_info, favorite_books=favorite_books)
+    
     finally:
         cursor.close()
         conn.close()
