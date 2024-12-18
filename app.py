@@ -383,14 +383,20 @@ def delete_post(book_id):
     try:
         conn = conn_db()
         cursor = conn.cursor()
+        
+        # 現在のログインユーザーが投稿者であることを確認
+        cursor.execute("SELECT owner_id FROM books WHERE book_id = %s", (book_id,))
+        result = cursor.fetchone()
+        if not result or result[0] != session['login_id']:
+            return jsonify({'message': '権限がありません'}), 403
 
-        # 首先删除依赖于 book_id 的评论
+        # book_id に依存するコメントを削除
         delete_comments_sql = "DELETE FROM comments WHERE book_id = %s"
         cursor.execute(delete_comments_sql, (book_id,))
         
-        # 然后删除书籍记录
-        delete_books_sql = "DELETE FROM books WHERE book_id = %s AND owner_id = %s"
-        cursor.execute(delete_books_sql, (book_id, session['login_id']))
+        # 書籍レコードを削除
+        delete_books_sql = "DELETE FROM books WHERE book_id = %s"
+        cursor.execute(delete_books_sql, (book_id,))
         conn.commit()
         
         return jsonify({'message': '投稿が削除されました'}), 200
@@ -412,6 +418,7 @@ def delete_post(book_id):
             cursor.close()
         if conn:
             conn.close()
+
 
 
 
