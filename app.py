@@ -372,6 +372,48 @@ def submit_create():
         if conn:
             conn.close()
 
+# -------------------- 投稿の削除 --------------------
+@app.route('/delete_post/<int:book_id>', methods=['POST'])
+def delete_post(book_id):
+    if 'login_id' not in session:
+        return jsonify({'message': 'ログインしてください'}), 401
+
+    conn = None
+    cursor = None
+    try:
+        conn = conn_db()
+        cursor = conn.cursor()
+
+        # 首先删除依赖于 book_id 的评论
+        delete_comments_sql = "DELETE FROM comments WHERE book_id = %s"
+        cursor.execute(delete_comments_sql, (book_id,))
+        
+        # 然后删除书籍记录
+        delete_books_sql = "DELETE FROM books WHERE book_id = %s AND owner_id = %s"
+        cursor.execute(delete_books_sql, (book_id, session['login_id']))
+        conn.commit()
+        
+        return jsonify({'message': '投稿が削除されました'}), 200
+        
+    except mysql.connector.Error as e:
+        print(f"Database error: {e}")
+        if conn:
+            conn.rollback()
+        return jsonify({'message': f'データベースエラー: {str(e)}'}), 500
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        if conn:
+            conn.rollback()
+        return jsonify({'message': f'エラー: {str(e)}'}), 500
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
 
 
 # -------------------- chatroom.html --------------------
