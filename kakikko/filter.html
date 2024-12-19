@@ -51,6 +51,22 @@
           </div>
           <a href="{{ url_for('shoppingcart') }}" class="navbar-link shopping-cart w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
           <a href="{{ url_for('login') }}" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
+          <div class="back-icon">
+            <img 
+                loading="lazy" 
+                src="{{ url_for('static', filename='images/back.jpg') }}" 
+                alt="back" 
+                id="backButton" 
+                onclick="goBack()" 
+                style="cursor: pointer;"
+            >
+        </div>
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+        
         </nav>
         <div class="menu-button w-nav-button">
           <div class="hamburger-menu w-icon-nav-menu"></div>
