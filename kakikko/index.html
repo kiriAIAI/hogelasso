@@ -143,7 +143,7 @@
             </div>
             <div class="product-content-wrapper">
                 <h3 class="product-title">{{ book.book_title | safe}}</h3>
-                <div class="product-price"><strong>¥</strong> {{ book.book_price }}</div>
+                <div class="product-price">￥{{ "%.0f"|format(book.book_price) }}</div>
                 <div class="product-author">{{ book.owner_name }}</div>
             </div>
         </a>

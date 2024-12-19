@@ -2497,6 +2497,21 @@
   color: #272727 !important;
 }
 
+.delete-btn{
+  padding: 10px 13px;
+  background-color: transparent;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover{
+  color: var(--white);
+  background-color: var(--error);
+  border-radius: 4px;
+}
+
 .link-block {
   color: var(--font);
   text-decoration: none;
