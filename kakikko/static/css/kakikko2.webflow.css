@@ -132,9 +132,7 @@
 }
 
 .bell-icon {
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.6rem;
-  font-weight: 900;
 }
 
 .nav-menu {
@@ -149,6 +147,7 @@
   text-decoration: none;
 }
 
+/* ---------- shopping-cart icon ---------- */
 .navbar-link.shopping-cart {
   font-size: 1.5rem;
 }
@@ -157,6 +156,20 @@
   color: var(--block);
 }
 
+/* ---------- back icon ---------- */
+.back-icon i {
+  padding: 4px 0 0 20px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-icon i:hover {
+  color: var(--error);
+  transform: translateX(-3px);
+}
+
+/* -------------------- sidenavbar --------------------- */
 .sidenavbar-top {
   justify-content: space-between;
   align-items: center;
