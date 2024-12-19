@@ -25,7 +25,7 @@ CREATE TABLE `books` (
   `book_title` varchar(255) NOT NULL,
   `book_content` text NOT NULL,
   `book_category` varchar(255) NOT NULL,
-  `book_price` decimal(10,2) NOT NULL,
+  `book_price` decimal(10) NOT NULL,
   `book_cover_image` varchar(255) NOT NULL,
   `owner_id` int(11) NOT NULL,
   PRIMARY KEY  (`book_id`),
