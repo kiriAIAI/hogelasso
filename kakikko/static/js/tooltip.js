@@ -14,6 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
       "profile":"プロフィール",
       "logout":"ログアウト",
       "button":"チャットボット",
+      "dropZone":"画像をドロップ",
+      "message-send-btn":"送信",
+      "profile-edit-btn":"プロフィールを編集",
+      "delete-btn":"商品を削除",
+      "fa-heart":"いいね！",
+      "Comment_Submission":"送信",
+      "removeFromCart":"削除",
+      "image":"画像を添付",
     };
 
     const tooltipElement = document.createElement("div");
@@ -35,6 +43,14 @@ document.addEventListener("DOMContentLoaded", function () {
         "profile",
         "logout",
         "button",
+        "dropZone",
+        "message-send-btn",
+        "profile-edit-btn",
+        "delete-btn",
+        "fa-heart",
+        "Comment_Submission",
+        "removeFromCart",
+        "image",
     ];
 
     // 各IDに対してマウスイベントを設定
