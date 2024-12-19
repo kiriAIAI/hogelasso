@@ -24,7 +24,7 @@
         <div>かきっこチャットボット</div>
     </div>
     <div id="kaitou" class="kaitou">
-        <p id="hint" class="chatbot">すぐに答えが見つかるよお手伝いします！<br>ご質問は何ですか？</p>   
+        <p id="hint" class="chatbot">すぐに答えが見つかるよう手伝いします！<br>ご質問は何ですか？<br>それとも<a href='http://127.0.0.1:5000/Q&A.html' target='_blank'  class='custom-link'>よくある質問</a>を見ますか？</p>   
         <div id="kaitouA"></div>
     </div>
     <div class="kensaku">
@@ -69,8 +69,8 @@
         const predefinedResponses = {
             "よくある質問":"よくある質問は<a href='http://127.0.0.1:5000/Q&A.html' target='_blank'  class='custom-link'>こちら</a>",
             "送料": "こちらの商品はオンライン限定商品のため、送料は一切かかりません。安心してご注文いただけますので、どうぞお気軽にご利用ください。",
-            "会員登録": "会員登録は<a href='http://127.0.0.1:5000/signup.html' target='_blank'  class='custom-link'>サインアップはこちら</a>から",
-            "パスワード再設定": "パスワードをお忘れですか？パスワードを忘れた方は<a href='http://127.0.0.1:5000/forget-password.html' target='_blank'  class='custom-link'>こちら</a>からリセットしてください。",
+            "会員登録": "会員登録は<a href='http://127.0.0.1:5000/register' target='_blank'  class='custom-link'>サインアップはこちら</a>から",
+            "パスワード": "パスワードをお忘れですか？パスワードを忘れた方は<a href='http://127.0.0.1:5000/forget-password.html' target='_blank'  class='custom-link'>こちら</a>からリセットしてください。",
             "返品": "大変申し訳ありませんが商品の返品は受け付けておりません。購入前に商品情報をご確認いただき、ご理解の上でご注文いただきますようお願い申し上げます。",
             "支払い方法": "JCB,Visa,Mastarcard,Apple Pay,Google Payが対応しています。",
             "注文履歴": "マイアカウントから注文履歴を確認できます。注文履歴は<a href='http://127.0.0.1:5000/purchase-history.html' target='_blank'  class='custom-link'>こちら</a>",
@@ -78,7 +78,7 @@
             "ポイント": "ポイントをためることで、記事を読むことができます！ぜひ、ポイントを貯めてお楽しみください。",
             "文字サイズ": "右上のフォントサイズを変えるボタンを押すことでフォントサイズを変えることができます。",
             "料金": "ほとんどの記事はポイントを使用してお読みいただけます。ぜひ、ポイントを貯めてお気に入りの記事をお楽しみください！",
-            "ログアウト": "ログアウトは<a href='http://127.0.0.1:5000/confirm-logout.htmll' target='_blank'  class='custom-link'>こちら</a>",
+            "ログアウト": "ログアウトは<a href='http://127.0.0.1:5000/confirm-logout.html' target='_blank'  class='custom-link'>こちら</a>",
             "購入履歴": "マイアカウントから注文履歴を確認できます。注文履歴は<a href='http://127.0.0.1:5000/purchase-history.html' target='_blank'  class='custom-link'>こちら</a>",
             "記事閲覧": "購入した記事は<a href='http://127.0.0.1:5000/purchase-history.html' target='_blank'  class='custom-link'>こちら</a>から読みたい記事をクリックすれば読むことができます。",
             "カート商品削除": "カート内の商品を削除する場合は<a href='http://127.0.0.1:5000/shopping-cart.html' target='_blank'  class='custom-link'>こちら</a>から削除したい商品の横のごみ箱アイコンを押すと消すことができます。",
@@ -201,14 +201,15 @@
             try {
                 let prompt = userInput;
                 if (cnt == false){
-                    prompt = 'あなたはインターネット上で書籍を販売するサイトのFAQアシスタント' + userInput + "200文字以内でに回答"
+                    prompt = "オンライン書籍販売サイト”かきっこ”のチャットボットですべて知っています。わかりやすく200文字程度で以下の質問に回答すること。" + userInput;
                     cnt = true;
                 }
                 //ファイルが添付されていない場合
                 if (file == undefined){
                     const result = await chat.sendMessage(prompt);
                     insertMessageBot(result.response.text());
-                    oldprompt = userInput;
+                    console.log(oldprompt);
+                    oldprompt = oldprompt + userInput + "。";
                     oldresponse = result.response.text();
                 }
                 //ファイルが添付されている場合
@@ -217,8 +218,8 @@
                     let result = await chat.sendMessage([prompt,imagePart]);
                     insertMessageBot(result.response.text());
                     document.getElementById('fileInput').value = "";
-                    oldprompt = userInput;
-                    oldresponse = result.response.text();
+                    oldprompt = oldprompt + userInput + "。";
+                    oldresponse = oldresponse + result.response.text();
                     
                 }
             } catch (error) {
