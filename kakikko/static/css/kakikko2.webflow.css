@@ -2498,18 +2498,20 @@
 }
 
 .delete-btn{
-  padding: 10px 13px;
+  margin: 20px 0 0 auto;
+  padding: 11px;
+  color: var(--light-gray);
   background-color: transparent;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
 }
 
 .delete-btn:hover{
-  color: var(--white);
-  background-color: var(--error);
-  border-radius: 4px;
+  color: var(--error);
+  animation: wiggle 0.5s ease-in-out;
 }
 
 .link-block {
@@ -3064,7 +3066,6 @@
   color: var(--error);
   background-color: #0000;
   padding: 6px 12px;
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.6rem;
   font-weight: 900;
 }
@@ -4124,14 +4125,48 @@
     padding: 1rem 5rem 5rem;
   }
 
-  .filter-scroll-wrapper {
-    overflow: auto;
-  }
-
   .filter-block {
     width: 100%;
     padding-left: 5%;
     padding-right: 5%;
+  }
+
+  /* ---------- filter checkbox---------- */
+  .w-checkbox {
+    display: flex;
+    align-items: center;
+  }
+
+  .w-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-left: -20px;
+    margin-right: 10px;
+    accent-color: #333;
+  }
+  
+  .filters2_form-checkbox1-label {
+    font-size: 16px;
+    color: #333;
+    font-weight: normal;
+  }
+
+  .no-products-message {
+    width: 800px;
+    height: 200px;
+    text-align: center;
+    justify-content: center;
+    margin-top: 40px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    color: #333;
+    font-size: 16px;
+  }
+  
+  .no-products-message p {
+    margin: 0;
+    font-weight: 600;
   }
 
   .search-form {

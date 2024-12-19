@@ -482,20 +482,74 @@ def filter():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # すべての書籍
-        cursor.execute("""
+        # 获取筛选参数
+        categories = request.args.getlist('category')
+        prices = request.args.getlist('price')
+        
+        # 构建基础查询
+        query = """
             SELECT b.*, u.username as owner_name
             FROM books b
             JOIN users u ON b.owner_id = u.id
-            ORDER BY b.book_id DESC
-        """)
+            WHERE 1=1
+        """
+        params = []
+        
+        # 添加分类筛选
+        if categories:
+            query += " AND b.book_category IN ({})".format(','.join(['%s'] * len(categories)))
+            params.extend(categories)
+        
+        # 添加价格筛选
+        if prices:
+            price_conditions = []
+            for price in prices:
+                price_conditions.append("b.book_price <= %s")
+                params.append(float(price))
+            if price_conditions:
+                query += " AND ({})".format(" OR ".join(price_conditions))
+        
+        # 添加排序
+        query += " ORDER BY b.book_id DESC"
+        
+        print("Executing query:", query)  # 调试用
+        print("Parameters:", params)  # 调试用
+        
+        cursor.execute(query, params)
         books = cursor.fetchall()
         
-        return render_template('filter.html', books=books)
+        # 分类名称映射
+        category_names = {
+            'literature': '文学・評論',
+            'social': '社会・政治',
+            'history': '歴史・地理',
+            'business': 'ビジネス・経済',
+            'science': '科学・テクノロジー',
+            'medical': '医学・薬学',
+            'certification': '資格・検定',
+            'it': 'コンピュータ・IT',
+            'design': '建築・デザイン',
+            'hobby': '趣味・実用',
+            'sports': 'スポーツ',
+            'lifestyle': '暮らし・健康'
+        }
+        
+        return render_template('filter.html',
+                             books=books,
+                             filters={
+                                 'category': categories,
+                                 'price': prices
+                             },
+                             category_names=category_names,
+                             total_count=len(books))
         
     except Exception as e:
         print(f"Error: {e}")
-        return render_template('filter.html', books=[])
+        return render_template('filter.html', 
+                             books=[],
+                             filters={},
+                             category_names={},
+                             total_count=0)
         
     finally:
         if cursor:
