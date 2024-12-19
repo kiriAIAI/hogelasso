@@ -248,7 +248,7 @@ def login():
             session['login_name'] = user[1] # type: ignore
             return redirect(url_for('index'))
         else:
-            error = "無効なユーザー名、メ���ルアドレス、パスワード"
+            error = "無効なユーザー名、メールアドレス、パスワード"
             return render_template('login.html', error=error)
     
     return render_template('login.html')
@@ -387,7 +387,7 @@ def delete_post(book_id):
         # 現在のログインユーザーが投稿者であることを確認
         cursor.execute("SELECT owner_id FROM books WHERE book_id = %s", (book_id,))
         result = cursor.fetchone()
-        if not result or result[0] != session['login_id']:
+        if not result or result[0] != session['login_id']: # type: ignore
             return jsonify({'message': '権限がありません'}), 403
 
         # book_id に依存するコメントを削除
