@@ -144,7 +144,7 @@
             </div>
             <h2 class="product-heading">{{ book.book_title | safe }}</h2>
             <div class="product-price-reviews-wrapper">
-                <div class="product-price-text">￥{{ "%.2f"|format(book.book_price) }}</div>
+                <div class="product-price-text">￥{{ "%.0f"|format(book.book_price) }}</div>
                 <div class="product-text-divider"></div>
                 <div class="product-reviews-block">
                     <div class="product-rating-wrapper">
@@ -175,9 +175,13 @@
                     <div class="product-reviews-text">({{ "%.1f"|format(book.avg_rating|default(0)) }}) • {{ book.review_count|default(0) }} レビュー</div>
                 </div>
             </div>
+            {% if session['login_id'] == book.owner_id %}
             <form id="delete-form" action="{{ url_for('delete_post', book_id=book.book_id) }}" method="post">
-              <button type="submit" class="delete-btn">削除</button>
+                <button type="submit" class="delete-btn">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             </form>
+            {% endif %}
             <div class="product-form-block w-form">
               <form id="wf-form-Produt-Form" name="wf-form-Produt-Form" data-name="Produt Form" method="get" class="product-form">
                   {% if not is_owner and not is_purchased %}
@@ -201,6 +205,7 @@
                         <i class="fa-solid fa-heart {% if is_favorited %}favorited{% endif %}"></i>
                     </div>
                   </a>
+                  
                   </div>
               </form>
             </div>
