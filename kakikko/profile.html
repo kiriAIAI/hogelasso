@@ -10,6 +10,8 @@
   <link href="{{ url_for('static', filename='css/normalize.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ url_for('static', filename='css/webflow.css') }}" rel="stylesheet" type="text/css">
   <link href="{{ url_for('static', filename='css/kakikko2.webflow.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static', filename='css/tooltip.css') }}" rel="stylesheet" type="text/css">
+  <script src="{{ url_for('static', filename='js/tooltip.js') }}" type="text/javascript" charset="UTF-8"></script>
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -246,31 +248,31 @@
           <div class="square is--line"></div>
         </div>
         <div class="nav__links">
-          <a href="{{ url_for('index') }}" aria-current="page" class="sidenavbar-link w-inline-block w--current">
+          <a href="{{ url_for('index') }}" aria-current="page" class="sidenavbar-link w-inline-block w--current" id="home">
             <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/home.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ホーム</p>
             </div>
           </a>
-          <a href="{{ url_for('create') }}" class="sidenavbar-link w-inline-block">
+          <a href="{{ url_for('create') }}" class="sidenavbar-link w-inline-block" id="sakusei">
             <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/plus.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">作成</p>
             </div>
           </a>
-          <a href="{{ url_for('chatroom') }}" class="sidenavbar-link w-inline-block">
+          <a href="{{ url_for('chatroom') }}" class="sidenavbar-link w-inline-block" id="chat">
             <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/chat.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">チャット</p>
             </div>
           </a>
-          <a href="{{ url_for('purchase_history') }}" class="sidenavbar-link w-inline-block">
+          <a href="{{ url_for('purchase_history') }}" class="sidenavbar-link w-inline-block" id="rireki">
             <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/history.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">購入履歴</p>
             </div>
           </a>
-          <a href="{{ url_for('profile') }}" class="sidenavbar-link w-inline-block">
+          <a href="{{ url_for('profile') }}" class="sidenavbar-link w-inline-block" id="profile">
             <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/user.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">プロフィール</p>
@@ -278,7 +280,7 @@
           </a>
         </div>
         <div class="nav__footer">
-          <a href="{{ url_for('confirmlogout') }}" class="sidenavbar-link w-inline-block">
+          <a href="{{ url_for('confirmlogout') }}" class="sidenavbar-link w-inline-block" id="logout">
             <div class="square is--link"><img loading="lazy" src="{{ url_for('static', filename='images/logout.svg') }}" alt="" class="sidenavbar-icon"></div>
             <div class="hide-text is--nav">
               <p class="sidenavbar-paragraph">ログアウト</p>
