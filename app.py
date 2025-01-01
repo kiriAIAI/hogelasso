@@ -88,8 +88,6 @@ def index():
     
     cursor.close()
     conn.close()
-    # print("login_idを表示")
-    # print(session['login_id'])
     
     return render_template('index.html', books=books)
 
@@ -243,8 +241,6 @@ def login():
 
         if user:
             session['login_id'] = user[0] # type: ignore
-            print("login_idを更新")
-            print(session['login_id'])
             session['login_name'] = user[1] # type: ignore
             return redirect(url_for('index'))
         else:
@@ -304,20 +300,10 @@ def submit_create():
     try:
         
         data = request.get_json()
-        # print(request.files['image_data'])
-        # 画像データを検証
         cover_image = data.get('cover_image_path', '')
         if not cover_image:
             return jsonify({'message': '表紙画像をアップロードしてください'}), 400
-        
-        
-        # # base64データの場合は、有効なフォーマットであることを確認する
-        # if cover_image.startswith('data:image'):
-        #     pass
-        # else:
-        #     return jsonify({'message': '無効な画像形式です'}), 400
 
-        # データ挿入
         conn = conn_db()
         cursor = conn.cursor()
         
@@ -582,7 +568,6 @@ def addToCart():
     data = request.get_json() # JSONデータの取得
     productID = int(data.get('productID'))
 
-    print("カートに入れる処理")
     print(f'購入者ID:{accountID} , プロダクトID:{productID}') # 取得できたデータを表示
     
     #カート内に同じ商品がないかチェック
@@ -619,7 +604,6 @@ def addToCart():
     ]
     saveToDatabase(sql,data)
 
-    print("ショッピングカートページにリダイレクト")
     return redirect(url_for('shoppingcart'))
 
 
@@ -631,7 +615,6 @@ def submit_data():
     sellerID = int(data.get('sellerID'))
     productID = int(data.get('productID'))
 
-    print("今すぐ購入の処理")
     print(f'プロダクトID:{productID} , 購入者ID:{accountID} , 出品者ID:{sellerID}')
     
     sql = ('''
@@ -645,7 +628,6 @@ def submit_data():
     ]
     saveToDatabase(sql,data)
 
-    print("paymentにリダイレクト")
     return redirect(url_for('payment',account=accountID,product=productID))
 
 
@@ -657,7 +639,6 @@ def submit_comment():
     maintxt = data.get('maintxt')
     productID = int(data.get('productID'))
 
-    print("コメントの投稿")
     print(f'プロダクトID:{productID} , コメント投稿者ID:{accountID} , 本文:{maintxt}')
     
     sql = ('''
@@ -771,7 +752,6 @@ def proceedToCheckout():
 
         # 商品がカートにない場合、ショッピングカートページに���ダイレクト
         if not books:
-            print("商品がありません")
             flash('カート内に商品がありません')
             return redirect(url_for('shoppingcart'))
 
@@ -787,8 +767,6 @@ def proceedToCheckout():
 
         cursor.execute(query2, book_ids)
         owners = cursor.fetchall()
-
-        print("カート内のアイテム(book_id, owner_id)", owners)
 
         # トランザクションテーブルにデータを挿入
         sql = '''
@@ -902,7 +880,6 @@ def allowed_file(filename):
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    print(session)
     if not session or not session.get('login_id'):
         return redirect(url_for('login', _external=True))
 
@@ -916,7 +893,6 @@ def profile():
             WHERE user_id = %s
         """, (session['login_id'],))
         existing_profile = cursor.fetchone()
-        print(f"existingprofile {existing_profile}")
         
         # プロファイルが存在しない場合、新しい行を追加
         if existing_profile is None:
@@ -926,13 +902,10 @@ def profile():
                     VALUES (%s, %s, %s, %s, %s)
                 """, (session['login_id'], 'default-profile.jpg', None, None, None))
                 conn.commit()
-                print(f"新しいプロファイルを作成しました: {session['login_id']}")
             except Exception as e:
                 conn.rollback()
-                print(f"プロファイル作成エラー: {e}")
 
         if request.method == 'POST':
-            print("POST request received.")
             # プロフィール画像アップロード処理
             if 'profile_image' in request.files:
                 file = request.files.get('profile_image')
@@ -946,26 +919,18 @@ def profile():
                     # アップロードフォルダ内のファイルを調べる
                     for existing_file in os.listdir(upload_folder):
                         # ファイル名の最初の"/"以前の文字列を取得
-                        print(f"existion_file{existing_file}")
                         existing_filename = existing_file.split('_')[:2]
                         existing_filename = "_".join(existing_filename)  # user_100000の形式に変換
-                        print(f"split{existing_filename}")
                         # 一致する場合はファイルを削除
                         if existing_filename == secure_filename(f"user_{session['login_id']}"):
                             file_to_delete = f"{upload_folder}/{existing_file}"
-                            try:
-                                os.remove(file_to_delete)
-                                print(f"Deleted file: {file_to_delete}")
-                            except Exception as e:
-                                print(f"Failed to delete file: {e}")
+                            os.remove(file_to_delete)
                                 
                     filename = f"user_{session['login_id']}_{secure_filename(file.filename)}" # type: ignore
                     file_path = f"{upload_folder}/{filename}"
                     try:
                         file.save(file_path)  # file_pathに、fileを保存
-                        print(f"File saved successfully: {file_path}")
                     except Exception as e:
-                        print(f"Failed to save file: {e}")
                         return f"File upload failed: {str(e)}", 500
 
                     try:
@@ -981,7 +946,6 @@ def profile():
                         return "Database error", 500
 
         # プロフィール情報取得
-        print(f"Fetching profile for user_id: {session['login_id']}")
         cursor.execute("""
             SELECT u.username, up.profile_image, up.first_name, up.last_name, up.bio
             FROM users u
