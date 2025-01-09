@@ -248,7 +248,7 @@ def login():
             session['login_name'] = user[1] # type: ignore
             return redirect(url_for('index'))
         else:
-            error = "無効なユーザー名、メールアドレス、パスワード"
+            error = "無効なユーザー名、メ���ルアドレス、パスワード"
             return render_template('login.html', error=error)
     
     return render_template('login.html')
@@ -387,7 +387,7 @@ def delete_post(book_id):
         # 現在のログインユーザーが投稿者であることを確認
         cursor.execute("SELECT owner_id FROM books WHERE book_id = %s", (book_id,))
         result = cursor.fetchone()
-        if not result or result[0] != session['login_id']: # type: ignore
+        if not result or result[0] != session['login_id']:
             return jsonify({'message': '権限がありません'}), 403
 
         # book_id に依存するコメントを削除
@@ -428,6 +428,51 @@ def delete_post(book_id):
 def chatroom():
     return render_template('chatroom.html')
 
+@app.route('/send_message', methods=['POST'])
+def send_message():
+    sender_id = session.get('login_id')
+    if not sender_id:
+        return jsonify({'error': 'User not logged in'}), 401
+
+    data = request.get_json()
+    recipient_id = 1  # 默认用户ID
+    message = data['message']
+
+    connection = conn_db()
+    cursor = connection.cursor()
+    cursor.execute('INSERT INTO direct_messages (sender_id, recipient_id, message) VALUES (%s, %s, %s)',
+                   (sender_id, recipient_id, message))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+    return jsonify({'success': 'Message sent'})
+
+@app.route('/get_messages', methods=['GET'])
+def get_messages():
+    sender_id = session.get('login_id')
+    if not sender_id:
+        return jsonify({'error': 'User not logged in'}), 401
+
+    recipient_id = 1  # 默认用户ID
+
+    connection = conn_db()
+    cursor = connection.cursor()
+    cursor.execute('''
+        SELECT dm.sender_id, u.username, dm.message, dm.timestamp
+        FROM direct_messages dm
+        JOIN users u ON dm.sender_id = u.id
+        WHERE dm.recipient_id = %s
+        ORDER BY dm.timestamp ASC
+    ''', (recipient_id,))
+    messages = cursor.fetchall()
+    cursor.close()
+    connection.close()
+
+    # 将数据转换为字典列表
+    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages]
+
+    return jsonify(messages_list)
 
 
 # -------------------- chat.html --------------------
@@ -482,74 +527,20 @@ def filter():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # 获取筛选参数
-        categories = request.args.getlist('category')
-        prices = request.args.getlist('price')
-        
-        # 构建基础查询
-        query = """
+        # すべての書籍
+        cursor.execute("""
             SELECT b.*, u.username as owner_name
             FROM books b
             JOIN users u ON b.owner_id = u.id
-            WHERE 1=1
-        """
-        params = []
-        
-        # 添加分类筛选
-        if categories:
-            query += " AND b.book_category IN ({})".format(','.join(['%s'] * len(categories)))
-            params.extend(categories)
-        
-        # 添加价格筛选
-        if prices:
-            price_conditions = []
-            for price in prices:
-                price_conditions.append("b.book_price <= %s")
-                params.append(float(price))
-            if price_conditions:
-                query += " AND ({})".format(" OR ".join(price_conditions))
-        
-        # 添加排序
-        query += " ORDER BY b.book_id DESC"
-        
-        print("Executing query:", query)  # 调试用
-        print("Parameters:", params)  # 调试用
-        
-        cursor.execute(query, params)
+            ORDER BY b.book_id DESC
+        """)
         books = cursor.fetchall()
         
-        # 分类名称映射
-        category_names = {
-            'literature': '文学・評論',
-            'social': '社会・政治',
-            'history': '歴史・地理',
-            'business': 'ビジネス・経済',
-            'science': '科学・テクノロジー',
-            'medical': '医学・薬学',
-            'certification': '資格・検定',
-            'it': 'コンピュータ・IT',
-            'design': '建築・デザイン',
-            'hobby': '趣味・実用',
-            'sports': 'スポーツ',
-            'lifestyle': '暮らし・健康'
-        }
-        
-        return render_template('filter.html',
-                             books=books,
-                             filters={
-                                 'category': categories,
-                                 'price': prices
-                             },
-                             category_names=category_names,
-                             total_count=len(books))
+        return render_template('filter.html', books=books)
         
     except Exception as e:
         print(f"Error: {e}")
-        return render_template('filter.html', 
-                             books=[],
-                             filters={},
-                             category_names={},
-                             total_count=0)
+        return render_template('filter.html', books=[])
         
     finally:
         if cursor:
@@ -1272,4 +1263,4 @@ def images(filename):
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
