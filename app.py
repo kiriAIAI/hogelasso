@@ -428,6 +428,20 @@ def delete_post(book_id):
 def chatroom():
     return render_template('chatroom.html')
 
+@app.route('/get_user_id/<username>', methods=['GET'])
+def get_user_id(username):
+    connection = conn_db()
+    cursor = connection.cursor()
+    cursor.execute('SELECT id FROM users WHERE username = %s', (username,))
+    user = cursor.fetchone()
+    cursor.close()
+    connection.close()
+
+    if user:
+        return jsonify({'user_id': user[0]})
+    else:
+        return jsonify({'error': 'User not found'}), 404
+
 @app.route('/send_message', methods=['POST'])
 def send_message():
     sender_id = session.get('login_id')
@@ -435,7 +449,7 @@ def send_message():
         return jsonify({'error': 'User not logged in'}), 401
 
     data = request.get_json()
-    recipient_id = 1  # 默认用户ID
+    recipient_id = data['recipient_id']
     message = data['message']
 
     connection = conn_db()
@@ -448,13 +462,11 @@ def send_message():
 
     return jsonify({'success': 'Message sent'})
 
-@app.route('/get_messages', methods=['GET'])
-def get_messages():
+@app.route('/get_messages/<int:recipient_id>', methods=['GET'])
+def get_messages(recipient_id):
     sender_id = session.get('login_id')
     if not sender_id:
         return jsonify({'error': 'User not logged in'}), 401
-
-    recipient_id = 1  # 默认用户ID
 
     connection = conn_db()
     cursor = connection.cursor()
@@ -462,9 +474,9 @@ def get_messages():
         SELECT dm.sender_id, u.username, dm.message, dm.timestamp
         FROM direct_messages dm
         JOIN users u ON dm.sender_id = u.id
-        WHERE dm.recipient_id = %s
+        WHERE (dm.sender_id = %s AND dm.recipient_id = %s) OR (dm.sender_id = %s AND dm.recipient_id = %s)
         ORDER BY dm.timestamp ASC
-    ''', (recipient_id,))
+    ''', (sender_id, recipient_id, recipient_id, sender_id))
     messages = cursor.fetchall()
     cursor.close()
     connection.close()
@@ -473,7 +485,6 @@ def get_messages():
     messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages]
 
     return jsonify(messages_list)
-
 
 # -------------------- chat.html --------------------
 @app.route('/chat.html')
