@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const tooltips = {
         "bell-icon": "通知",
         "shopping-cart": "ショッピングカート",
-        "navbar-link": "アカウント",
+        "account": "ログイン",
         "backButton": "戻る",
         "sidenavbar-search": "検索",
         "home": "ホーム",
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "message-send-btn": "送信",
         "profile-edit-btn": "プロフィールを編集",
         "delete-btn": "商品を削除",
-        "fa-heart": "いいね！",
+        "fa-heart": "お気に入り",
         "Comment_Submission": "送信",
         "removeFromCart": "削除",
         "image": "画像を添付",

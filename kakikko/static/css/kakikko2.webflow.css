@@ -2519,6 +2519,8 @@
   text-decoration: none;
 }
 
+
+/* -------------------- profile.html -------------------- */
 .profile-block {
   width: 100%;
   padding-left: 1.5rem;
@@ -2542,6 +2544,7 @@
   overflow: auto;
 }
 
+/* ---------- profile 画像/フォロワー/フォロー ---------- */
 .profile-info-block {
   justify-content: flex-start;
   align-items: center;
@@ -2551,6 +2554,7 @@
   display: flex;
 }
 
+/* ---------- フォロワー ---------- */
 .follower-pop-up {
   z-index: 10;
   background-color: #00000080;
@@ -2714,6 +2718,7 @@
   margin-bottom: 20px;
 }
 
+/* ---------- フォロー ---------- */
 .following-pop-up {
   z-index: 10;
   background-color: #00000080;
@@ -2790,6 +2795,7 @@
   background-color: var(--light-gray-hover);
 }
 
+/* ---------- 自己紹介 ---------- */
 .profile-bio-block {
   flex-flow: column;
   width: 100%;
@@ -2857,7 +2863,7 @@
 .display_horizontal.gap {
   grid-column-gap: 2rem;
   grid-row-gap: 2rem;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .display_horizontal.gap_1rem {
@@ -2889,7 +2895,7 @@
   background-color: #fff;
   border-radius: 28px;
   flex-flow: column;
-  padding: 5rem;
+  padding: 3rem;
   font-weight: 400;
   display: flex;
   position: relative;
@@ -2985,15 +2991,16 @@
 .bio-close-btn {
   color: var(--font);
   font-family: "Fa Solid 900", sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.8em;
   font-weight: 900;
   text-decoration: none;
   position: absolute;
   inset: 5% 5% auto auto;
+  padding: 10px;
 }
 
 .bio-close-btn:hover {
-  color: var(--light-gray-hover);
+  color: var(--error);
 }
 
 .favorite-heading-block {
