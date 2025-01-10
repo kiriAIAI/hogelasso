@@ -181,9 +181,9 @@
                     const reader = new FileReader();
                     
                     reader.onload = function(e) {
-                      // 更新彈出窗口中的圖片
+                      // ポップアップウィンドウの画像を更新する
                       bioPopupImage.src = e.target.result;
-                      // 同時更新主頁面的個人資料圖片
+                      // 同時にメインページのプロフィール写真も更新
                       mainProfileImage.src = e.target.result;
                     }
                     
