@@ -759,9 +759,9 @@ def shoppingcart():
         
         total_items = len(cart_items)
         total_price = sum(item['book_price'] for item in cart_items) # type: ignore
-        
+        session['total_price'] = total_price
         return render_template(
-            'shopping-cart.html', 
+            'shopping-cart.html',
             cart_items=cart_items,
             total_items=total_items,
             total_price=total_price,
@@ -844,6 +844,26 @@ def proceedToCheckout():
             WHERE book_id = %s AND user_id = %s
             """
             cursor.execute(update_query, (book_id, accountID)) # type: ignore
+            
+        #購入された書籍の金額を相手に振り込む
+        #pointsを新しいデータベースのカラム名に変更すること！
+        query3 = """
+        SELECT points
+        FROM users
+        WHERE id = %s
+        """
+        cursor.execute(query3, (str(accountID),))
+        price = cursor.fetchall()
+        new_currency = float(price[0][0]) + float(session['total_price'])
+        print(new_currency)
+        
+        update_query3 = """
+        UPDATE users
+        SET points = %s
+        WHERE id = %s
+        """
+        cursor.execute(update_query3, (new_currency, accountID))
+
 
         conn.commit()
         return redirect(url_for('payment'))
@@ -856,6 +876,7 @@ def proceedToCheckout():
         cursor.close()
         conn.close()
 
+#---------------------------------------------------------------------------------------------
 @app.route('/toggle-favorite', methods=['POST'])
 def toggle_favorite():
     if 'user_id' not in session:
@@ -1238,4 +1259,4 @@ def images(filename):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

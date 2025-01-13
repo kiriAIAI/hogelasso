@@ -49,7 +49,7 @@
             </nav>
           </div>
           <a href="{{ url_for('shoppingcart') }}" class="navbar-link shopping-cart w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
-          <a href="{{ url_for('login') }}" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
+          <a href="{{ url_for('login') }}" class="navbar-link account w-nav-link"><img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
           <div class="back-icon">
             <i class="fa-solid fa-angles-left" id="backButton" onclick="goBack()"></i>
           </div>
@@ -298,13 +298,13 @@
         height: 80px;
         border-radius: 20px;
         border: 1px #eaeaea solid;
-        box-shadow:0px 0px 20px 1px #e5e5e5;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.6), 0 0 35px rgba(255, 255, 255, 0.4);
         cursor: pointer;
         transition: all 0.3s ease;
+        background-color: white;
     }
     #button:hover {
-        box-shadow: 0 0 10px #aaa;
-        transform: scale(1.1);
+        box-shadow: 0 0 15px rgba(75, 75, 75, 0.4), 0 0 25px rgba(75, 75, 75, 0.3), 0 0 35px rgba(75, 75, 75, 0.2);
     }
   </style>
 

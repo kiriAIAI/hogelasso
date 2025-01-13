@@ -159,7 +159,10 @@
               <div class="profile_img-div">
                 <div class="profile_img-box">
                   <!-- プロフィール画像を表示 -->
-                  <img id="profileImage" src="{{ url_for('static', filename=profile_image) }}" alt="Profile Image" style="border-radius: 50%; height: auto; width: 100%; max-height: 100%; object-fit: cover;">
+                  <img id="profileImage" 
+                     src="{{ url_for('static', filename='images/profiles_images/' + user_info.profile_image) if user_info.profile_image else url_for('static', filename='images/profile_book.webp') }}" 
+                     alt="Profile Image" 
+                     style="border-radius: 50%; height: auto; width: 100%; max-height: 100%; object-fit: cover;">
                 
                   <!-- 編集ボタン -->
                   <label for="profile_image" class="edit_icon-link">
@@ -170,8 +173,22 @@
               </div>
               <script>
                 function previewImage(event) {
-                  const image = document.getElementById('profileImage');
-                  image.src = URL.createObjectURL(event.target.files[0]);
+                  const bioPopupImage = document.getElementById('profileImage');
+                  const mainProfileImage = document.querySelector('.profile-image');
+
+                  const file = event.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                      // ポップアップウィンドウの画像を更新する
+                      bioPopupImage.src = e.target.result;
+                      // 同時にメインページのプロフィール写真も更新
+                      mainProfileImage.src = e.target.result;
+                    }
+                    
+                    reader.readAsDataURL(file);
+                  }
                 }
               </script>
             </div>                                  
@@ -182,7 +199,6 @@
               </div>
               <label for="Bio" class="text-size-tiny margin-0">自己紹介</label><textarea class="text_field input w-input" maxlength="5000" name="Bio" data-name="Bio" placeholder="" id="Bio" data-ms-member="about"></textarea>
               <div class="display_horizontal gap_1rem margin-top margin-medium">
-                  <a href="#" class="cancel_button w-button">キャンセル</a>
                   <input type="submit" data-wait="Please wait..." class="save_button w-button" value="保存">
               </div>
             </div>

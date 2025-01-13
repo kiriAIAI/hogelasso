@@ -1,105 +1,159 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // 各IDとクラスに対応する説明文を定義
     const tooltips = {
-      "bell-icon": "通知",
-      "shopping-cart": "ショッピングカート",
-      "navbar-link": "アカウント",
-      "backButton": "戻る",
-      "sidenavbar-top": "サイドバーの展開",
-      "sidenavbar-search": "検索",
-      "home": "ホーム",
-      "sakusei":"出品",
-      "chat":"メッセージ",
-      "rireki":"購入履歴",
-      "profile":"プロフィール",
-      "logout":"ログアウト",
-      "button":"チャットボット",
-      "dropZone":"画像をドロップ",
-      "message-send-btn":"送信",
-      "profile-edit-btn":"プロフィールを編集",
-      "delete-btn":"商品を削除",
-      "fa-heart":"いいね！",
-      "Comment_Submission":"送信",
-      "removeFromCart":"削除",
-      "image":"画像を添付",
+        "bell-icon": "通知",
+        "shopping-cart": "ショッピングカート",
+        "account": "ログイン",
+        "backButton": "戻る",
+        "sidenavbar-search": "検索",
+        "home": "ホーム",
+        "sakusei": "出品",
+        "chat": "メッセージ",
+        "rireki": "購入履歴",
+        "profile": "プロフィール",
+        "logout": "ログアウト",
+        "button": "チャットボット",
+        "dropZone": "画像をドロップ",
+        "message-send-btn": "送信",
+        "profile-edit-btn": "プロフィールを編集",
+        "delete-btn": "商品を削除",
+        "fa-heart": "お気に入り",
+        "Comment_Submission": "送信",
+        "removeFromCart": "削除",
+        "image": "画像を添付",
     };
 
     const tooltipElement = document.createElement("div");
     tooltipElement.classList.add("tooltip");
     document.body.appendChild(tooltipElement);
 
-    // ID or Classリストを指定
-    const ids = [
-        "bell-icon",
-        "navbar-link",
-        "shopping-cart",
-        "backButton",
-        "sidenavbar-top",
-        "sidenavbar-search",
-        "home",
-        "sakusei",
-        "chat",
-        "rireki",
-        "profile",
-        "logout",
-        "button",
-        "dropZone",
-        "message-send-btn",
-        "profile-edit-btn",
-        "delete-btn",
-        "fa-heart",
-        "Comment_Submission",
-        "removeFromCart",
-        "image",
-    ];
+    let currentTooltipElement = null;
+    let isTooltipVisible = false;
+    let tooltipTimeout = null;
+    let isMouseOverElement = false;
 
-    // 各IDに対してマウスイベントを設定
-    ids.forEach(id => {
-      const element = document.getElementById(id);
+    function showTooltip(element, tooltipText, position = 'right') {
+        if (tooltipTimeout) {
+            clearTimeout(tooltipTimeout);
+            tooltipTimeout = null;
+        }
 
-      if (element) {
-        element.addEventListener("mouseenter", function (e) {
-          const tooltipText = tooltips[id];
-          tooltipElement.textContent = tooltipText;
+        currentTooltipElement = element;
+        tooltipElement.textContent = tooltipText;
+        tooltipElement.style.display = "block";
+        tooltipElement.style.opacity = "0";
 
-          // ツールチップを表示
-          tooltipElement.style.display = "block";
-          tooltipElement.style.left = e.pageX + "px";
-          tooltipElement.style.top = e.pageY + 20 + "px"; // マウスの少し下に表示
+        const rect = element.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        // 检查元素是否在视口内
+        if (rect.top < 0 || rect.bottom > viewportHeight) {
+            if (!isMouseOverElement) {
+                hideTooltip();
+            }
+            return;
+        }
+        
+        if (position === 'right') {
+            tooltipElement.style.left = (rect.right + 15) + "px";
+            tooltipElement.style.top = (rect.top + rect.height/2 - tooltipElement.offsetHeight/2) + "px";
+            tooltipElement.classList.remove('chatbot-tooltip', 'top-tooltip');
+        } else if (position === 'left') {
+            tooltipElement.style.left = (rect.left - tooltipElement.offsetWidth - 15) + "px";
+            tooltipElement.style.top = (rect.top + rect.height/2 - tooltipElement.offsetHeight/2) + "px";
+            tooltipElement.classList.add('chatbot-tooltip');
+            tooltipElement.classList.remove('top-tooltip');
+        } else if (position === 'top') {
+            tooltipElement.style.left = (rect.left + rect.width/2 - tooltipElement.offsetWidth/2) + "px";
+            tooltipElement.style.top = (rect.top - tooltipElement.offsetHeight - 10) + "px";
+            tooltipElement.classList.add('top-tooltip');
+            tooltipElement.classList.remove('chatbot-tooltip');
+        }
+
+        requestAnimationFrame(() => {
+            tooltipElement.style.opacity = "1";
+            isTooltipVisible = true;
         });
+    }
 
-        element.addEventListener("mouseleave", function () {
-          // ツールチップを非表示
-          tooltipElement.style.display = "none";
-        });
-      } else {
-        console.log(`ID: ${id} の要素は存在しません。`);
-      }
+    function hideTooltip() {
+        if (!isTooltipVisible || isMouseOverElement) return;
+        
+        tooltipElement.style.opacity = "0";
+        isTooltipVisible = false;
+
+        tooltipTimeout = setTimeout(() => {
+            if (!isMouseOverElement) {
+                tooltipElement.style.display = "none";
+                currentTooltipElement = null;
+            }
+            tooltipTimeout = null;
+        }, 200);
+    }
+
+    function getElement(identifier) {
+        let element = document.getElementById(identifier);
+        if (!element) {
+            const elements = document.getElementsByClassName(identifier);
+            if (elements.length > 0) {
+                element = elements[0];
+            }
+        }
+        return element;
+    }
+
+    // スクロールイベントの処理（デバウンス処理付き）
+    let scrollTimeout;
+    let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    document.addEventListener('scroll', () => {
+        const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const isScrollingDown = currentScrollTop > lastScrollTop;
+        lastScrollTop = currentScrollTop;
+
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+
+        if (isTooltipVisible && !isMouseOverElement) {
+            hideTooltip();
+        }
+
+        scrollTimeout = setTimeout(() => {
+            if (currentTooltipElement && isMouseOverElement) {
+                const rect = currentTooltipElement.getBoundingClientRect();
+                if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+                    showTooltip(
+                        currentTooltipElement, 
+                        tooltips[currentTooltipElement.id || currentTooltipElement.className],
+                        currentTooltipElement.id === 'button' ? 'left' : 
+                        (currentTooltipElement.id === 'sidenavbar-search' || currentTooltipElement.className === 'image') ? 'top' : 'right'
+                    );
+                }
+            }
+        }, 100);
     });
 
-    // クラスに対してマウスイベントを設定
-    ids.forEach(className => {
-      const elements = document.getElementsByClassName(className);
+    Object.keys(tooltips).forEach(identifier => {
+        const element = getElement(identifier);
+        if (element) {
+            element.addEventListener("mouseenter", function () {
+                isMouseOverElement = true;
+                currentTooltipElement = element;
+                showTooltip(element, tooltips[identifier], 
+                    identifier === 'button' ? 'left' : 
+                    identifier === 'image' ? 'right' : 'right'
+                );
+            });
 
-      if (elements.length > 0) {
-        Array.from(elements).forEach(element => {
-          element.addEventListener("mouseenter", function (e) {
-            const tooltipText = tooltips[className];
-            tooltipElement.textContent = tooltipText;
-
-            // ツールチップを表示
-            tooltipElement.style.display = "block";
-            tooltipElement.style.left = e.pageX + "px";
-            tooltipElement.style.top = e.pageY + 20 + "px"; // マウスの少し下に表示
-          });
-
-          element.addEventListener("mouseleave", function () {
-            // ツールチップを非表示
-            tooltipElement.style.display = "none";
-          });
-        });
-      } else {
-        console.log(`Class: ${className} の要素は存在しません。`);
-      }
+            element.addEventListener("mouseleave", function () {
+                isMouseOverElement = false;
+                setTimeout(() => {
+                    if (!isMouseOverElement) {
+                        hideTooltip();
+                    }
+                }, 100);
+            });
+        }
     });
-  });
+});
+
