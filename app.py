@@ -373,7 +373,7 @@ def delete_post(book_id):
         # 現在のログインユーザーが投稿者であることを確認
         cursor.execute("SELECT owner_id FROM books WHERE book_id = %s", (book_id,))
         result = cursor.fetchone()
-        if not result or result[0] != session['login_id']:
+        if not result or result[0] != session['login_id']: # type: ignore
             return jsonify({'message': '権限がありません'}), 403
 
         # book_id に依存するコメントを削除
@@ -424,7 +424,7 @@ def get_user_id(username):
     connection.close()
 
     if user:
-        return jsonify({'user_id': user[0]})
+        return jsonify({'user_id': user[0]}) # type: ignore
     else:
         return jsonify({'error': 'User not found'}), 404
 
@@ -468,7 +468,7 @@ def get_messages(recipient_id):
     connection.close()
 
     # 将数据转换为字典列表
-    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages]
+    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages] # type: ignore
 
     return jsonify(messages_list)
 
@@ -854,7 +854,7 @@ def proceedToCheckout():
         """
         cursor.execute(query3, (str(accountID),))
         price = cursor.fetchall()
-        new_currency = float(price[0][0]) + float(session['total_price'])
+        new_currency = float(price[0][0]) + float(session['total_price']) # type: ignore
         print(new_currency)
         
         update_query3 = """
