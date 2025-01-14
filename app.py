@@ -244,7 +244,7 @@ def login():
             session['login_name'] = user[1] # type: ignore
             return redirect(url_for('index'))
         else:
-            error = "無効なユーザー名、メ���ルアドレス、パスワード"
+            error = "無効なユーザー名、メールアドレス、パスワード"
             return render_template('login.html', error=error)
     
     return render_template('login.html')
@@ -281,6 +281,7 @@ def image_upload():
     
     app.config['UPLOAD_FOLDER'] = 'kakikko/static/images/users_images'
     file = request.files['image_data']
+    print(file)
     file_name = f"{latest_book_id[0]}_{file.filename}" # type: ignore
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name) # type: ignore
     file.save(file_path)
