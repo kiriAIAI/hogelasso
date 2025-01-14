@@ -1,8 +1,8 @@
 kakikko_venv/
 
-kakikko/static/images/profiles_images/
+kakikko/static/images/profiles_images/*
 !kakikko/static/images/profiles_images/default-profile.jpg
+!kakikko/static/images/profiles_images/keep.txt
 
 kakikko/static/images/users_images/*
-
-test/*
+!kakikko/static/images/users_images/keep.txt
