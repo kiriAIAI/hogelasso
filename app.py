@@ -4,7 +4,6 @@ import os
 
 from werkzeug.utils import secure_filename
 
-# import datetime
 from datetime import timedelta
 import random
 
@@ -24,6 +23,15 @@ def conn_db():
         charset='utf8'
         )
     return conn
+
+def auto_increment_id(table_name):
+    query = f""" 
+    SELECT AUTO_INCREMENT
+    FROM INFORMATION_SCHEMA.TABLES
+    WHERE TABLE_SCHEMA = 'kakikko'
+    AND TABLE_NAME = '{table_name}';
+    """
+    return query
 
 def saveToDatabase(sql,data):
     try:
@@ -68,7 +76,6 @@ def get_account_id():
     return jsonify({"account_id": account_id}), 200
 
 
-
 # -------------------- index.html --------------------
 @app.route('/')
 @app.route('/index.html')
@@ -90,7 +97,6 @@ def index():
     conn.close()
     
     return render_template('index.html', books=books)
-
 
 
 # -------------------- category.html --------------------
@@ -144,7 +150,6 @@ def category(category):
             conn.close()
 
 
-
 # -------------------- register.html --------------------
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -183,7 +188,6 @@ def register():
     return render_template('register.html')
 
 
-
 # -------------------- complete_registration.html --------------------
 @app.route('/complete_registration', methods=['POST'])
 def complete_registration():
@@ -218,7 +222,6 @@ def complete_registration():
     return redirect(url_for('login'))
 
 
-
 # -------------------- login.html --------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -250,7 +253,6 @@ def login():
     return render_template('login.html')
 
 
-
 # -------------------- logout.html --------------------
 @app.route('/logout.html')
 def logout():
@@ -264,7 +266,6 @@ def dashboard():
     return render_template('dashboard.html')
 
 
-
 # -------------------- create.html --------------------
 @app.route('/create.html')
 def create():
@@ -275,19 +276,20 @@ def create():
 def image_upload():
     conn = conn_db()
     cursor = conn.cursor()
-        
-    cursor.execute('SELECT book_id FROM books ORDER BY book_id DESC LIMIT 1')
+    
+    cursor.execute(auto_increment_id('books'))
     latest_book_id = cursor.fetchone() # 取得した結果を表示 
     
     app.config['UPLOAD_FOLDER'] = 'kakikko/static/images/users_images'
     file = request.files['image_data']
-    print(file)
-    file_name = f"{latest_book_id[0]}_{file.filename}" # type: ignore
+    file_name = f"{latest_book_id[0] - 1}_{file.filename}" # type: ignore
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name) # type: ignore
     file.save(file_path)
     
+    cursor.close()
+    conn.close()
+    
     return jsonify({'message': '画像をアップロードしました'}), 200
-
 
 
 # -------------------- submit_create.html --------------------
@@ -308,9 +310,9 @@ def submit_create():
         conn = conn_db()
         cursor = conn.cursor()
         
-        cursor.execute('SELECT book_id FROM books ORDER BY book_id DESC LIMIT 1')
+        cursor.execute(auto_increment_id('books'))
         latest_book_id = cursor.fetchone() # 取得した結果を表示 
-        cover_image = f"{latest_book_id[0] + 1}_{cover_image}" # type: ignore
+        cover_image = f"{latest_book_id[0]}_{cover_image}" # type: ignore
             
         insert_sql = """
         INSERT INTO books (
@@ -377,13 +379,16 @@ def delete_post(book_id):
         if not result or result[0] != session['login_id']: # type: ignore
             return jsonify({'message': '権限がありません'}), 403
 
+        cursor.execute("SELECT book_cover_image FROM books WHERE book_id = %s", (book_id,))
+        cover_image = cursor.fetchone()[0] # type: ignore
+        print(cover_image)
+        os.remove(f"kakikko/static/images/users_images/{cover_image}")
+        
         # book_id に依存するコメントを削除
-        delete_comments_sql = "DELETE FROM comments WHERE book_id = %s"
-        cursor.execute(delete_comments_sql, (book_id,))
+        cursor.execute("DELETE FROM comments WHERE book_id = %s", (book_id,))
         
         # 書籍レコードを削除
-        delete_books_sql = "DELETE FROM books WHERE book_id = %s"
-        cursor.execute(delete_books_sql, (book_id,))
+        cursor.execute("DELETE FROM books WHERE book_id = %s", (book_id,))
         conn.commit()
         
         return jsonify({'message': '投稿が削除されました'}), 200
@@ -405,9 +410,6 @@ def delete_post(book_id):
             cursor.close()
         if conn:
             conn.close()
-
-
-
 
 
 # -------------------- chatroom.html --------------------
@@ -479,13 +481,10 @@ def chat():
     return render_template('chat.html')
 
 
-
 # -------------------- chatbot.html --------------------
 @app.route('/chatbot.html')
 def chatbot():
     return render_template('chatbot.html')
-
-
 
 
 #---------------------F&A.html--------------------
@@ -500,19 +499,16 @@ def forgetpassword():
     return render_template('forget-password.html')
 
 
-
 # -------------------- confirm-logout.html --------------------
 @app.route('/confirm-logout.html')
 def confirmlogout():
     return render_template('confirm-logout.html')
 
 
-
 # -------------------- notification.html --------------------
 @app.route('/notification.html')
 def notification():
     return render_template('notification.html')
-
 
 
 # -------------------- filter.html --------------------
@@ -545,7 +541,6 @@ def filter():
             cursor.close()
         if conn:
             conn.close()
-
 
 
 # -------------------- product-details.html --------------------
@@ -585,7 +580,6 @@ def product_details(book_id):
             'username': comment['username'] # type: ignore
         } for comment in comments]
         
-
         
         # 現在のユーザーが本の所有者かどうかをチェックする
         is_owner = book['owner_id'] == session['login_id'] # type: ignore
@@ -615,7 +609,6 @@ def product_details(book_id):
             cursor.close()
         if conn:
             conn.close()
-
 
 
 # -------------------- カートに入れる処理 --------------------
@@ -708,14 +701,12 @@ def submit_comment():
     saveToDatabase(sql,data)
     
     return redirect(url_for('product_details',book_id=productID))
-    
 
 
 # -------------------- search.html --------------------
 @app.route('/search.html')
 def search():
     return render_template('search.html')
-
 
 
 # -------------------- shopping-cart.html --------------------
@@ -918,12 +909,12 @@ def toggle_favorite():
     
     return jsonify({'status': status})
 
-    
 
 # -------------------- payment.html --------------------
 @app.route('/payment')
 def payment():
     return render_template('payment.html')
+
 
 @app.route('/submit_payment', methods=['POST'])
 def submit_data1():
@@ -936,18 +927,17 @@ def submit_data1():
     print(accountID)
     return redirect(url_for('paymentinfo'))
 
+
 # -------------------- payment-info.html --------------------
 @app.route('/payment-info.html')
 def paymentinfo():
     return render_template('payment-info.html')
 
 
-
 # -------------------- payment-success.html --------------------
 @app.route('/payment-success.html')
 def paymentsuccess():
     return render_template('payment-success.html')
-
 
 
 # -------------------- profile.html --------------------
@@ -1055,7 +1045,6 @@ def profileinfo():
     return render_template('profile-info.html')
 
 
-
 # -------------------- purchase-history.html --------------------
 @app.route('/purchase-history.html')
 def purchase_history():
@@ -1108,7 +1097,6 @@ def purchase_history():
             conn.close()
 
 
-
 # -------------------- read.html --------------------
 @app.route('/read.html/<int:book_id>')
 def read(book_id):
@@ -1142,7 +1130,6 @@ def read(book_id):
             cursor.close()
         if conn:
             conn.close()
-
 
 
 # -------------------- quiz.html --------------------
@@ -1199,6 +1186,7 @@ def generate_question():
     
     return question, correct_answer, options
 
+
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
     if 'login_id' not in session:
@@ -1238,7 +1226,6 @@ def submit_quiz():
     return redirect(url_for('read', book_id=book_id))
 
 
-
 # -------------------- static --------------------
 @app.route('/static/css/<path:filename>')
 def css(filename):
@@ -1255,8 +1242,6 @@ def fonts(filename):
 @app.route('/static/images/<path:filename>')
 def images(filename):
     return send_from_directory('kakikko/static/images', filename)
-
-
 
 
 if __name__ == '__main__':
