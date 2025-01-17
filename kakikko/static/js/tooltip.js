@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
         "backButton": "戻る",
         "sidenavbar-search": "検索",
         "home": "ホーム",
-        "sakusei": "出品",
-        "chat": "メッセージ",
+        "sakusei": "投稿",
+        "chat": "チャット",
         "rireki": "購入履歴",
         "profile": "プロフィール",
         "logout": "ログアウト",
@@ -15,11 +15,12 @@ document.addEventListener("DOMContentLoaded", function () {
         "dropZone": "画像をドロップ",
         "message-send-btn": "送信",
         "profile-edit-btn": "プロフィールを編集",
-        "delete-btn": "商品を削除",
+        "delete-btn": "投稿を削除",
         "fa-heart": "お気に入り",
         "Comment_Submission": "送信",
         "removeFromCart": "削除",
         "image": "画像を添付",
+        "edit-btn": "編集",
     };
 
     const tooltipElement = document.createElement("div");

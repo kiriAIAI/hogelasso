@@ -205,11 +205,17 @@
                   </div>
               </form>
               {% if session['login_id'] == book.owner_id %}
-              <form id="delete-form" action="{{ url_for('delete_post', book_id=book.book_id) }}" method="post">
-                  <button type="submit" class="delete-btn">
-                      <i class="fa-solid fa-trash"></i>
-                  </button>
-              </form>
+              <div class="action-buttons-container" style="display: flex; gap: 10px;">
+                <a href="{{ url_for('create', edit_book_id=book.book_id) }}" class="edit-btn tooltip-trigger">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  <span class="tooltip">編集</span>
+                </a>
+                <form id="delete-form" action="{{ url_for('delete_post', book_id=book.book_id) }}" method="post">
+                    <button type="submit" class="delete-btn">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+              </div>
               {% endif %}
             </div>
         </div>
