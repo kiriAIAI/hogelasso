@@ -338,6 +338,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `profile_image` varchar(255) default 'default-profile.jpg',
   `points` int(11) default '0',
+  `currency` int(11) default '0',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

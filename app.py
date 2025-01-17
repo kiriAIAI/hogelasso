@@ -716,6 +716,7 @@ def shoppingcart():
         return redirect(url_for('login'))
         
     try:
+        accountID = session['login_id']
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
@@ -726,6 +727,15 @@ def shoppingcart():
             WHERE id = %s
         """, (session['login_id'],))
         user_points = cursor.fetchone()['points'] # type: ignore
+        
+        #所持金の取得
+        cursor.execute("""
+            SELECT currency
+            FROM users
+            WHERE id = %s
+        """, (accountID,))
+        currency = cursor.fetchone()['currency']
+        print(currency)
         
         query = """
         SELECT 
@@ -757,7 +767,8 @@ def shoppingcart():
             cart_items=cart_items,
             total_items=total_items,
             total_price=total_price,
-            user_points=user_points
+            user_points=user_points,
+            currency=currency,
         )
         
     except Exception as e:
@@ -837,21 +848,19 @@ def proceedToCheckout():
             """
             cursor.execute(update_query, (book_id, accountID)) # type: ignore
             
-        #購入された書籍の金額を相手に振り込む
-        #pointsを新しいデータベースのカラム名に変更すること！
-        query3 = """
-        SELECT points
+        #購入された書籍の金額を所持金から引く
+        cursor.execute("""
+        SELECT currency,points
         FROM users
         WHERE id = %s
-        """
-        cursor.execute(query3, (str(accountID),))
-        price = cursor.fetchall()
-        new_currency = float(price[0][0]) + float(session['total_price']) # type: ignore
+        """, (accountID,))
+        price = cursor.fetchone()
+        new_currency = float(price[0]) - float(session['total_price']) # type: ignore
         print(new_currency)
         
         update_query3 = """
         UPDATE users
-        SET points = %s
+        SET currency = %s
         WHERE id = %s
         """
         cursor.execute(update_query3, (new_currency, accountID))
