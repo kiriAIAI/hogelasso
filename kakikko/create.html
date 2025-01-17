@@ -132,9 +132,9 @@
           <div id="textForm" class="create-form-block w-form">
             <form id="wf-form-Create-Form" name="wf-form-Create-Form" data-name="Create Form" method="POST" class="create-form" data-wf-page-id="670b7401d43d7adda246babe" data-wf-element-id="8c65cdfb-f7bb-bff4-037b-43b70214289f">
               <label for="titleInput" class="create-form-label">タイトル</label>
-              <input class="create-form-field w-input" maxlength="256" name="title" data-name="title" type="text" id="titleInput" value="<br>" contenteditable="true" required>
+              <input class="create-form-field w-input" maxlength="256" name="title" data-name="title" type="text" id="titleInput" value="{{ book.book_title if book else '' }}" contenteditable="true" required>
               <label for="contentInput" class="create-form-label">内容</label>
-              <textarea class="textarea w-input" maxlength="5000" name="content" data-name="content" id="contentInput" contenteditable="true" required><br></textarea>
+              <textarea class="textarea w-input" maxlength="5000" name="content" data-name="content" id="contentInput" contenteditable="true" required>{{ book.book_content if book else '' }}</textarea>
               <input type="submit" data-wait="Please wait..." class="post-btn w-button" value="投稿">
             </form>
           </div>
@@ -188,25 +188,25 @@
           <div class="create-category-block">
             <h4 class="create-category-heading">カテゴリ</h4>
             <select id="categorySelect" name="categorySelect" data-name="categorySelect" class="categorySelect" required>
-                <option value="" disabled selected hidden>カテゴリを選択</option>
-                <option value="literature">文学・評論</option>
-                <option value="social">社会・政治</option>
-                <option value="history">歴史・地理</option>
-                <option value="business">ビジネス・経済</option>
-                <option value="science">科学・テクノロジー</option>
-                <option value="medical">医学・薬学</option>
-                <option value="it">コンピュータ・IT</option>
-                <option value="design">建築・デザイン</option>
-                <option value="hobby">趣味・実用</option>
-                <option value="sports">スポーツ</option>
-                <option value="certification">資格・検定</option>
-                <option value="lifestyle">暮らし・健康</option>
+              <option value="" disabled selected hidden>カテゴリを選択</option>
+              <option value="literature" {% if book and book.category == 'literature' %}selected{% endif %}>文学・評論</option>
+              <option value="social" {% if book and book.category == 'social' %}selected{% endif %}>社会・政治</option>
+              <option value="history" {% if book and book.category == 'history' %}selected{% endif %}>歴史・地理</option>
+              <option value="business" {% if book and book.category == 'business' %}selected{% endif %}>ビジネス・経済</option>
+              <option value="science" {% if book and book.category == 'science' %}selected{% endif %}>科学・テクノロジー</option>
+              <option value="medical" {% if book and book.category == 'medical' %}selected{% endif %}>医学・薬学</option>
+              <option value="it" {% if book and book.category == 'it' %}selected{% endif %}>コンピュータ・IT</option>
+              <option value="design" {% if book and book.category == 'design' %}selected{% endif %}>建築・デザイン</option>
+              <option value="hobby" {% if book and book.category == 'hobby' %}selected{% endif %}>趣味・実用</option>
+              <option value="sports" {% if book and book.category == 'sports' %}selected{% endif %}>スポーツ</option>
+              <option value="certification" {% if book and book.category == 'certification' %}selected{% endif %}>資格・検定</option>
+              <option value="lifestyle" {% if book and book.category == 'lifestyle' %}selected{% endif %}>暮らし・健康</option>
             </select>
           </div>
           <div class="price-input-block">
             <h4 class="create-price-heading">価格</h4>
             <div class="price-input-wrapper">
-              <input type="number" id="priceInput" name="price" class="create-price-input" min="0" placeholder="値段を入力してください">
+              <input type="number" id="priceInput" name="price" class="create-price-input" min="0" placeholder="値段を入力してください" value="{{ book.book_price if book else '' }}">
               <span class="price-currency">円</span>
             </div>
           </div>
@@ -215,10 +215,12 @@
             <div class="file-upload-wrapper">
               <input type="file" id="fileUpload" name="file" class="create-file-upload" accept=".pdf,.png,.jpg,.jpeg,.gif,.bmp,.tiff,.webp,.svg">
               <div id="imagePreview" class="image-preview-container">
-                <img id="preview" src="" alt="プレビュー" style="display: none;">
-                <div id="dropZone" class="drop-zone">
-                  <i class="fa-solid fa-cloud-arrow-up"></i>
-                </div>
+                  <img id="preview" src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) if book and book.book_cover_image else '' }}" alt="プレビュー" style="display: {{ 'block' if book and book.book_cover_image else 'none' }}">
+                  <div id="dropZone" class="drop-zone" style="display: {{ 'none' if book and book.book_cover_image else 'flex' }}">
+                      <div class="upload-icon-container">
+                          <i class="fa-solid fa-cloud-arrow-up"></i>
+                      </div>
+                  </div>
               </div>
             </div>
           </div>
@@ -481,7 +483,7 @@
       
     });
 
-    // JSでデータを収集して、flaskに送る
+    // 投稿フォームの送信
     document.getElementById('wf-form-Create-Form').onsubmit = function(e) {
       e.preventDefault();
       
@@ -490,15 +492,8 @@
       const category = document.getElementById('categorySelect').value;
       const price = document.getElementById('priceInput').value;
       const Image_data = document.getElementById('fileUpload');
-  
-      console.log('Form data:', {
-          title,
-          content,
-          category,
-          price,
-          Image_data
-      });
-  
+      const editBookId = new URLSearchParams(window.location.search).get('edit_book_id');
+      
       // form検証
       if (!title.trim() || title === '<br>') {
           alert('タイトルを入力してください');
@@ -519,52 +514,65 @@
           alert('価格を入力してください');
           return;
       }
-  
-      if (!Image_data) {
+      
+      // 新規作成時のみ画像をチェック
+      if (!editBookId && !Image_data.files[0]) {
           alert('表紙画像をアップロードしてください');
           return;
       }
 
-      const coverImagePath = document.getElementById('fileUpload').files[0].name;
-
+      // formDataを準備する
       const formData = {
           title: title.trim(),
           content: content.trim(),
           category: category,
           price: price,
-          cover_image_path: coverImagePath,
+          edit_book_id: editBookId
       };
-      const ImageData = new FormData();
-      ImageData.append('image_data', Image_data.files[0]);
+
+      // 新しい画像がある場合、formDataに追加
+      if (Image_data.files[0]) {
+          formData.cover_image_path = Image_data.files[0].name;
+      }
+
+      // 編集モードかどうかで異なるエンドポイントを選択
+      const endpoint = editBookId ? '/update_post' : '/submit_create';
   
-      fetch('/submit_create', {
+      fetch(endpoint, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
           },
           body: JSON.stringify(formData),
-          
       })
       .then(response => response.json())
       .then(data => {
           console.log('Server response:', data);
           if (data.message === '成功') {
-              alert('投稿が完了しました！');
-              fetch('/image_upload', {
-                method: 'POST',
-                body: ImageData
-              })
-              window.location.href = '/';
+              alert(editBookId ? '更新が完了しました！' : '投稿が完了しました！');
+              // 新しい画像がある場合、アップロード
+              if (Image_data.files.length > 0) {
+                  const ImageData = new FormData();
+                  ImageData.append('image_data', Image_data.files[0]);
+                  return fetch('/image_upload', {
+                      method: 'POST',
+                      body: ImageData
+                  });
+              }
+              return Promise.resolve();
           } else {
-              alert('エラー：' + data.message);
+              throw new Error(data.message);
           }
+      })
+      .then(() => {
+          window.location.href = '/';
       })
       .catch(error => {
           console.error('Error:', error);
-          alert('エラーが発生しました。もう一度お試しください。');
+          alert('エラー：' + error.message);
       });
-
     };
+
   </script>
 
   <script>

@@ -76,6 +76,7 @@ def get_account_id():
     return jsonify({"account_id": account_id}), 200
 
 
+
 # -------------------- index.html --------------------
 @app.route('/')
 @app.route('/index.html')
@@ -97,6 +98,7 @@ def index():
     conn.close()
     
     return render_template('index.html', books=books)
+
 
 
 # -------------------- category.html --------------------
@@ -150,6 +152,7 @@ def category(category):
             conn.close()
 
 
+
 # -------------------- register.html --------------------
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -188,6 +191,7 @@ def register():
     return render_template('register.html')
 
 
+
 # -------------------- complete_registration.html --------------------
 @app.route('/complete_registration', methods=['POST'])
 def complete_registration():
@@ -222,6 +226,7 @@ def complete_registration():
     return redirect(url_for('login'))
 
 
+
 # -------------------- login.html --------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -253,11 +258,12 @@ def login():
     return render_template('login.html')
 
 
+
 # -------------------- logout.html --------------------
 @app.route('/logout.html')
 def logout():
-    session.pop('login_id', None)  # 清除用户的会话信息
-    return render_template('logout.html')  # 渲染登出页面
+    session.pop('login_id', None)  # ユーザーのセッション情報の消去
+    return render_template('logout.html')  # ログアウトページの表示
 
 @app.route('/dashboard')
 def dashboard():
@@ -266,12 +272,72 @@ def dashboard():
     return render_template('dashboard.html')
 
 
+
 # -------------------- create.html --------------------
-@app.route('/create.html')
+@app.route('/create')
 def create():
+    edit_book_id = request.args.get('edit_book_id')
+    if edit_book_id:
+        connection = conn_db()
+        cursor = connection.cursor()
+        cursor.execute('''
+            SELECT book_title, book_content, book_category, book_price, book_cover_image 
+            FROM books 
+            WHERE book_id = %s
+        ''', (edit_book_id,))
+        book = cursor.fetchone()
+        cursor.close()
+        connection.close()
+
+        if book:
+            book_data = {
+                'book_title': book[0],
+                'book_content': book[1],
+                'category': book[2],  # ここで使用するキー名がテンプレートと同じであることを確認してください。
+                'book_price': book[3],
+                'book_cover_image': book[4]
+            }
+            return render_template('create.html', book=book_data)
+    
     return render_template('create.html')
 
 
+
+# -------------------- 投稿を更新する --------------------
+@app.route('/update_post', methods=['POST'])
+def update_post():
+    if 'login_id' not in session:
+        return jsonify({'message': 'ログインが必要です'}), 401
+
+    data = request.get_json()
+    book_id = data.get('edit_book_id')
+    
+    connection = conn_db()
+    cursor = connection.cursor()
+    
+    try:
+        cursor.execute('''
+            UPDATE books 
+            SET book_title = %s, book_content = %s, book_category = %s, book_price = %s 
+            WHERE book_id = %s AND owner_id = %s
+        ''', (
+            data['title'],
+            data['content'],
+            data['category'],
+            data['price'],
+            book_id,
+            session['login_id']
+        ))
+        connection.commit()
+        return jsonify({'message': '成功'})
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+    finally:
+        cursor.close()
+        connection.close()
+
+
+# -------------------- 表紙画像アップロード --------------------
 @app.route('/image_upload', methods=['POST'])
 def image_upload():
     conn = conn_db()
@@ -292,7 +358,8 @@ def image_upload():
     return jsonify({'message': '画像をアップロードしました'}), 200
 
 
-# -------------------- submit_create.html --------------------
+
+# -------------------- 投稿を作成する --------------------
 @app.route('/submit_create', methods=['POST'])
 def submit_create():
     if 'login_id' not in session:
@@ -361,7 +428,9 @@ def submit_create():
         if conn:
             conn.close()
 
-# -------------------- 投稿の削除 --------------------
+
+
+# -------------------- 投稿を削除する --------------------
 @app.route('/delete_post/<int:book_id>', methods=['POST'])
 def delete_post(book_id):
     if 'login_id' not in session:
@@ -412,6 +481,7 @@ def delete_post(book_id):
             conn.close()
 
 
+
 # -------------------- chatroom.html --------------------
 @app.route('/chatroom.html')
 def chatroom():
@@ -431,6 +501,9 @@ def get_user_id(username):
     else:
         return jsonify({'error': 'User not found'}), 404
 
+
+
+# -------------------- メッセージを送信する --------------------
 @app.route('/send_message', methods=['POST'])
 def send_message():
     sender_id = session.get('login_id')
@@ -451,6 +524,9 @@ def send_message():
 
     return jsonify({'success': 'Message sent'})
 
+
+
+# -------------------- メッセージを取得する --------------------
 @app.route('/get_messages/<int:recipient_id>', methods=['GET'])
 def get_messages(recipient_id):
     sender_id = session.get('login_id')
@@ -470,15 +546,18 @@ def get_messages(recipient_id):
     cursor.close()
     connection.close()
 
-    # 将数据转换为字典列表
+    # データを辞書リストに変換
     messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages] # type: ignore
 
     return jsonify(messages_list)
+
+
 
 # -------------------- chat.html --------------------
 @app.route('/chat.html')
 def chat():
     return render_template('chat.html')
+
 
 
 # -------------------- chatbot.html --------------------
@@ -487,10 +566,12 @@ def chatbot():
     return render_template('chatbot.html')
 
 
+
 #---------------------F&A.html--------------------
 @app.route('/Q&A.html')
 def  QandA():
     return render_template('qanda.html')
+
 
 
 # -------------------- forget-password.html --------------------
@@ -499,16 +580,19 @@ def forgetpassword():
     return render_template('forget-password.html')
 
 
+
 # -------------------- confirm-logout.html --------------------
 @app.route('/confirm-logout.html')
 def confirmlogout():
     return render_template('confirm-logout.html')
 
 
+
 # -------------------- notification.html --------------------
 @app.route('/notification.html')
 def notification():
     return render_template('notification.html')
+
 
 
 # -------------------- filter.html --------------------
@@ -541,6 +625,7 @@ def filter():
             cursor.close()
         if conn:
             conn.close()
+
 
 
 # -------------------- product-details.html --------------------
@@ -611,6 +696,7 @@ def product_details(book_id):
             conn.close()
 
 
+
 # -------------------- カートに入れる処理 --------------------
 @app.route('/addToCart', methods=['POST'])
 def addToCart():
@@ -657,6 +743,7 @@ def addToCart():
     return redirect(url_for('shoppingcart'))
 
 
+
 # -------------------- 今すぐ購入の処理 --------------------
 @app.route('/submit_product-details', methods=['POST'])
 def submit_data():
@@ -681,6 +768,7 @@ def submit_data():
     return redirect(url_for('payment',account=accountID,product=productID))
 
 
+
 #----------------------------- 商品につけるコメントの処理 --------------------------
 @app.route('/submit_product-comment', methods=['POST'])
 def submit_comment():
@@ -703,10 +791,12 @@ def submit_comment():
     return redirect(url_for('product_details',book_id=productID))
 
 
+
 # -------------------- search.html --------------------
 @app.route('/search.html')
 def search():
     return render_template('search.html')
+
 
 
 # -------------------- shopping-cart.html --------------------
@@ -782,6 +872,7 @@ def shoppingcart():
             conn.close()
 
 
+
 # -------------------- カート内のアイテムの削除 --------------------
 @app.route('/remove-shopping-cart', methods=['POST'])
 def remove_from_cart():
@@ -790,6 +881,7 @@ def remove_from_cart():
     update_database(cart_id,1,sql)
     
     return redirect(url_for('shoppingcart'))
+
 
 
 # -------------------- カート内のアイテムを購入 --------------------
@@ -877,7 +969,9 @@ def proceedToCheckout():
         cursor.close()
         conn.close()
 
-#---------------------------------------------------------------------------------------------
+
+
+# -------------------- お気に入り機能 --------------------
 @app.route('/toggle-favorite', methods=['POST'])
 def toggle_favorite():
     if 'user_id' not in session:
@@ -890,7 +984,7 @@ def toggle_favorite():
     conn = conn_db()
     cursor = conn.cursor()
     
-    # 检查是否已经收藏
+    # すでにお気に入りに登録されているかチェック
     cursor.execute('''
         SELECT favorite_id FROM favorites 
         WHERE user_id = %s AND book_id = %s
@@ -898,14 +992,14 @@ def toggle_favorite():
     existing_favorite = cursor.fetchone()
     
     if existing_favorite:
-        # 如果已收藏，则取消收藏
+        # すでにお気に入りに登録されている場合、お気に入りを削除
         cursor.execute('''
             DELETE FROM favorites 
             WHERE user_id = %s AND book_id = %s
         ''', (user_id, book_id))
         status = 'removed'
     else:
-        # 如果未收藏，则添加收藏
+        # お気に入りに登録されていない場合、お気に入りを追加
         cursor.execute('''
             INSERT INTO favorites (user_id, book_id)
             VALUES (%s, %s)
@@ -917,6 +1011,7 @@ def toggle_favorite():
     conn.close()
     
     return jsonify({'status': status})
+
 
 
 # -------------------- payment.html --------------------
@@ -937,16 +1032,19 @@ def submit_data1():
     return redirect(url_for('paymentinfo'))
 
 
+
 # -------------------- payment-info.html --------------------
 @app.route('/payment-info.html')
 def paymentinfo():
     return render_template('payment-info.html')
 
 
+
 # -------------------- payment-success.html --------------------
 @app.route('/payment-success.html')
 def paymentsuccess():
     return render_template('payment-success.html')
+
 
 
 # -------------------- profile.html --------------------
@@ -1048,10 +1146,12 @@ def profile():
         conn.close()
 
 
+
 # -------------------- profile-info.html --------------------
 @app.route('/profile-info.html')
 def profileinfo():
     return render_template('profile-info.html')
+
 
 
 # -------------------- purchase-history.html --------------------
@@ -1106,6 +1206,7 @@ def purchase_history():
             conn.close()
 
 
+
 # -------------------- read.html --------------------
 @app.route('/read.html/<int:book_id>')
 def read(book_id):
@@ -1139,6 +1240,7 @@ def read(book_id):
             cursor.close()
         if conn:
             conn.close()
+
 
 
 # -------------------- quiz.html --------------------
@@ -1196,6 +1298,7 @@ def generate_question():
     return question, correct_answer, options
 
 
+
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
     if 'login_id' not in session:
@@ -1214,11 +1317,11 @@ def submit_quiz():
             conn = conn_db()
             cursor = conn.cursor()
             
-            # 先获取当前积分
+            # 現在のポイントを取得
             cursor.execute("SELECT points FROM users WHERE id = %s", (session['login_id'],))
             current_points = cursor.fetchone()[0] or 0 # type: ignore
             
-            # 增加2点积分
+            # 2ポイントを追加
             new_points = current_points + 2 # type: ignore
             cursor.execute("UPDATE users SET points = %s WHERE id = %s", 
                          (new_points, session['login_id']))
@@ -1233,6 +1336,7 @@ def submit_quiz():
             conn.close()
 
     return redirect(url_for('read', book_id=book_id))
+
 
 
 # -------------------- static --------------------
