@@ -2440,11 +2440,15 @@
   border-top-style: solid;
   justify-content: space-between;
   align-items: stretch;
-  margin-top: 100px;
   margin-bottom: 30px;
-  padding-top: 40px;
+  padding-top: 10px;
   font-size: 16px;
   display: flex;
+}
+.warning_message{
+  color: red;
+  margin-top: 40px;
+  visibility: hidden;
 }
 
 /* ---------- レジに進むbtn ---------- */
