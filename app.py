@@ -848,14 +848,14 @@ def proceedToCheckout():
             """
             cursor.execute(update_query, (book_id, accountID)) # type: ignore
             
-        #購入された書籍の金額を相手に振り込む
+        #購入された書籍の金額を所持金から引く
         cursor.execute("""
-        SELECT currency
+        SELECT currency,points
         FROM users
         WHERE id = %s
         """, (accountID,))
         price = cursor.fetchone()
-        new_currency = float(price[0]) + float(session['total_price']) # type: ignore
+        new_currency = float(price[0]) - float(session['total_price']) # type: ignore
         print(new_currency)
         
         update_query3 = """
