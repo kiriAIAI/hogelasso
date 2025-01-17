@@ -840,7 +840,7 @@ def proceedToCheckout():
         #購入された書籍の金額を相手に振り込む
         #pointsを新しいデータベースのカラム名に変更すること！
         query3 = """
-        SELECT points
+        SELECT currency
         FROM users
         WHERE id = %s
         """
@@ -851,7 +851,7 @@ def proceedToCheckout():
         
         update_query3 = """
         UPDATE users
-        SET points = %s
+        SET currency = %s
         WHERE id = %s
         """
         cursor.execute(update_query3, (new_currency, accountID))
