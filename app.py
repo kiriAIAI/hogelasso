@@ -282,6 +282,7 @@ def image_upload():
     
     app.config['UPLOAD_FOLDER'] = 'kakikko/static/images/users_images'
     file = request.files['image_data']
+    print(file)
     file_name = f"{latest_book_id[0] - 1}_{file.filename}" # type: ignore
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name) # type: ignore
     file.save(file_path)
@@ -948,6 +949,7 @@ def allowed_file(filename):
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
+    print(session)
     if not session or not session.get('login_id'):
         return redirect(url_for('login', _external=True))
 
@@ -955,30 +957,30 @@ def profile():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
 
-        # user_profilesテーブルにuser_idが存在するかチェック
-        cursor.execute("""
-            SELECT * FROM user_profiles 
-            WHERE user_id = %s
-        """, (session['login_id'],))
-        existing_profile = cursor.fetchone()
+        # # user_profilesテーブルにuser_idが存在するかチェック
+        # cursor.execute("""
+        #     SELECT * FROM user_profiles 
+        #     WHERE user_id = %s
+        # """, (session['login_id'],))
+        # existing_profile = cursor.fetchone()
         
-        # プロファイルが存在しない場合、新しい行を追加
-        if existing_profile is None:
-            try:
-                cursor.execute("""
-                    INSERT INTO user_profiles (user_id, profile_image, first_name, last_name, bio)
-                    VALUES (%s, %s, %s, %s, %s)
-                """, (session['login_id'], 'default-profile.jpg', None, None, None))
-                conn.commit()
-            except Exception as e:
-                conn.rollback()
+        # # プロファイルが存在しない場合、新しい行を追加
+        # if existing_profile is None:
+        #     try:
+        #         cursor.execute("""
+        #             INSERT INTO user_profiles (user_id, profile_image, first_name, last_name, bio)
+        #             VALUES (%s, %s, %s, %s, %s)
+        #         """, (session['login_id'], 'default-profile.jpg', None, None, None))
+        #         conn.commit()
+        #     except Exception as e:
+        #         conn.rollback()
 
         if request.method == 'POST':
             # プロフィール画像アップロード処理
             if 'profile_image' in request.files:
                 file = request.files.get('profile_image')
-                first_name = request.form.get('Name')
-                last_name = request.form.get('name-2')
+                username = request.form.get('username')
+                password = request.form.get('password')
                 bio = request.form.get('Bio')
                 
                 if file:
@@ -1002,26 +1004,41 @@ def profile():
                         return f"File upload failed: {str(e)}", 500
 
                     try:
-                        # データベースに画像パスを保存
+                        # # データベースに画像パスを保存
+                        # cursor.execute("""
+                        #     INSERT INTO user_profiles (user_id, profile_image, username, password, bio)
+                        #     VALUES (%s, %s, %s, %s, %s)
+                        #     ON DUPLICATE KEY UPDATE profile_image = %s, username = %s, password = %s, bio = %s
+                        # """, (session['login_id'], filename, username, password, bio, filename, username, password, bio))
+                        # conn.commit()
+                        
                         cursor.execute("""
-                            INSERT INTO user_profiles (user_id, profile_image, first_name, last_name, bio)
-                            VALUES (%s, %s, %s, %s, %s)
-                            ON DUPLICATE KEY UPDATE profile_image = %s, first_name = %s, last_name = %s, bio = %s
-                        """, (session['login_id'], filename, first_name, last_name, bio, filename, first_name, last_name, bio))
+                            UPDATE users
+                            SET profile_image = %s, username = %s, password = %s, bio = %s
+                            WHERE id = %s
+                        """, (filename, username, password, bio, session['login_id']))
                         conn.commit()
+
+                        session['login_name'] = username
+                            
                     except Exception as e:
                         conn.rollback()
                         return "Database error", 500
 
-        # プロフィール情報取得
+        # # プロフィール情報取得
+        # cursor.execute("""
+        #     SELECT u.username, up.profile_image, up.first_name, up.last_name, up.bio
+        #     FROM users u
+        #     LEFT JOIN user_profiles up ON u.id = up.user_id
+        #     WHERE u.id = %s
+        # """, (session['login_id'],))
+        # user_info = cursor.fetchone()
+
         cursor.execute("""
-            SELECT u.username, up.profile_image, up.first_name, up.last_name, up.bio
-            FROM users u
-            LEFT JOIN user_profiles up ON u.id = up.user_id
-            WHERE u.id = %s
+            SELECT * FROM users WHERE id = %s
         """, (session['login_id'],))
         user_info = cursor.fetchone()
-
+        
         # ユーザーがお気に入りした本を取得
         cursor.execute("""
             SELECT b.book_id, b.book_title, b.book_price, b.book_cover_image
