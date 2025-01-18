@@ -549,11 +549,11 @@
       .then(data => {
           console.log('Server response:', data);
           if (data.message === '成功') {
-              alert('投稿が完了しました！');
               fetch('/image_upload', {
                 method: 'POST',
                 body: ImageData
               })
+              alert('投稿が完了しました！');
               window.location.href = '/';
           } else {
               alert('エラー：' + data.message);
