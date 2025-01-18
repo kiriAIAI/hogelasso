@@ -194,8 +194,8 @@
             </div>                                  
             <div class="fields_div">
               <div class="display_horizontal gap">
-                <div class="profile-info-username-block"><label for="Name-3" class="text-size-tiny margin-0">姓</label><input class="text_field w-input" maxlength="256" name="Name" data-name="Name" placeholder="" type="text" id="Name-3" data-ms-member="first-name"></div>
-                <div class="profile-info-username-block"><label for="name-2" class="text-size-tiny margin-0">名</label><input class="text_field w-input" maxlength="256" name="name-2" data-name="Name 2" placeholder="" type="text" id="name-2" data-ms-member="last-name"></div>
+                <div class="profile-info-username-block"><label for="Name-3" class="text-size-tiny margin-0">ユーザー名</label><input class="text_field w-input" maxlength="256" name="username" data-name="username" placeholder="" type="text" id="Name-3" data-ms-member="first-name"></div>
+                <div class="profile-info-username-block"><label for="name-2" class="text-size-tiny margin-0">パスワード</label><input class="text_field w-input" maxlength="256" name="password" data-name="password" placeholder="" type="text" id="name-2" data-ms-member="last-name"></div>
               </div>
               <label for="Bio" class="text-size-tiny margin-0">自己紹介</label><textarea class="text_field input w-input" maxlength="5000" name="Bio" data-name="Bio" placeholder="" id="Bio" data-ms-member="about"></textarea>
               <div class="display_horizontal gap_1rem margin-top margin-medium">
@@ -310,7 +310,7 @@
             <div class="profile-image-block"><img src="{{ url_for('static', filename='images/profiles_images/' + user_info.profile_image) }}" loading="lazy" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;" alt="" class="profile-image"></div>
             <div class="follow-info-block">
               <div class="profile-username-block">
-                <h3 class="profile-username">{{ username }}</h3>
+                <h3 class="profile-username">{{ user_info.username }}</h3>
               </div>
               <a data-w-id="407e3533-0b27-cda4-0456-be601b4c8724" href="#" class="profile-follower-link w-inline-block">
                 <div class="profile-follower">フォロワー</div>
