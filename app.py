@@ -735,14 +735,14 @@ def product_details(book_id):
             WHERE user_id = %s AND book_id = %s
         """, (session['login_id'], book_id))
         is_favorited = cursor.fetchone() is not None
-        
+
         return render_template('product-details.html', 
-                             book=book,
-                             comments=comment_data,
-                             username=book['username'], # type: ignore
-                             is_owner=is_owner,
-                             is_purchased=is_purchased,
-                             is_favorited=is_favorited)
+                            book=book,
+                            comments=comment_data,
+                            username=book['username'], # type: ignore
+                            is_owner=is_owner,
+                            is_purchased=is_purchased,
+                            is_favorited=is_favorited)
                              
     except Exception as e:
         print(f"Error: {e}")
