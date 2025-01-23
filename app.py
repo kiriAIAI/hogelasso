@@ -799,6 +799,12 @@ def search():
     return render_template('search.html')
 
 
+#--------------------------charge.html-----------------------------------
+@app.route('/charge.html')
+def charge():
+    return render_template('charge.html')
+
+
 
 # -------------------- shopping-cart.html --------------------
 @app.route('/shopping-cart.html')
