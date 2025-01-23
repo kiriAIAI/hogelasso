@@ -1866,7 +1866,7 @@
   background-color: transparent;
   border-color: #ccc;
   border-radius: 0.5rem;
-  width: 100%;
+  width: 85%;
   margin-right: 1.5rem;
   text-transform: uppercase;
   font-weight: 700;
@@ -2492,6 +2492,9 @@
 
 /* ---------- ブックマークボタン ---------- */
 .text-14.text-14-30 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px;
   font-size: 1.6rem;
   color: #c1c1c1;
@@ -2500,6 +2503,13 @@
 
 .text-14.text-14-30.favorited {
   color: var(--error);
+}
+
+#favorite-count{
+  display: inline-block;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
 }
 
 .text-14.text-14-30:hover {
@@ -2517,6 +2527,7 @@
 /* ---------- 投稿の編集/削除 ---------- */
 .action-buttons-container {
   margin-top: 30px;
+  margin-right: 18px;
   display: flex;
   justify-content: flex-end;
 }
@@ -4232,7 +4243,7 @@
 
   .no-bookmark-message p {
     color: #666;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     margin: 0;
     font-weight: 500;
   }

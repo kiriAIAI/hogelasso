@@ -337,23 +337,26 @@
               <h2 class="favorite-heading">お気に入り</h2>
           </div>
           <div class="product-grid profile">
-              {% if favorite_books %}
-                  {% for book in favorite_books %}
-                  <a href="{{ url_for('product_details', book_id=book.book_id) }}" class="product-card w-inline-block">
-                      <div class="product-image-wrapper">
-                          <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" loading="lazy" alt="" class="product-image">
-                      </div>
-                      <div class="product-content-wrapper">
-                          <h3 class="product-title profile">{{ book.book_title }}</h3>
-                          <div class="product-price profile">￥{{ book.book_price }}</div>
-                      </div>
-                  </a>
-                  {% endfor %}
-              {% else %}
-                <div class="no-bookmark-message">
-                  <p>お気に入りの商品がありません</p>
+            {% if favorite_books %}
+                {% for book in favorite_books %}
+                <div class="product-card w-inline-block" id="favorite-book-{{ book.book_id }}">
+                    <a href="{{ url_for('product_details', book_id=book.book_id) }}">
+                        <div class="product-image-wrapper">
+                            <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" loading="lazy" alt="" class="product-image">
+                        </div>
+                        <div class="product-content-wrapper">
+                            <h3 class="product-title profile">{{ book.book_title }}</h3>
+                            <div class="product-price profile">￥{{ book.book_price }}</div>
+                        </div>
+                    </a>
+                    <button onclick="toggleFavorite(event, '{{ book.book_id }}')">取消收藏</button>
                 </div>
-              {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="no-bookmark-message">
+                    <p>お気に入りの商品がありません</p>
+                </div>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -362,37 +365,35 @@
 
   <script>
     function toggleFavorite(event, bookId) {
-        event.preventDefault();
-        
-        fetch('/toggle-favorite', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrf_token')
-            },
-            body: JSON.stringify({
-                book_id: bookId
-            })
-        })
-        .then(response => {
-            if (response.status === 401) {
-                alert('ログインが必要です');
-                window.location.href = '/login';
-            } else {
-                return response.json();
-            }
-        })
-        .then(data => {
-            if (data) {
-                const heartIcon = event.target.closest('.text-14.text-14-30');
-                if (data.status === 'added') {
-                    heartIcon.classList.add('favorited');
-                } else if (data.status === 'removed') {
-                    heartIcon.classList.remove('favorited');
-                }
-            }
-        })
-        .catch(error => console.error('Error:', error));
+      event.preventDefault();
+      
+      fetch('/toggle-favorite', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrf_token')  // 假设你有一个获取 CSRF 令牌的函数
+          },
+          body: JSON.stringify({
+              book_id: bookId
+          })
+      })
+      .then(response => {
+          if (response.status === 401) {
+              alert('ログインが必要です');
+              window.location.href = '/login'; // 重定向到登录页面
+          } else {
+              return response.json();
+          }
+      })
+      .then(data => {
+          if (data && data.status === 'removed') {
+              const bookElement = document.getElementById(`favorite-book-${bookId}`);
+              if (bookElement) {
+                  bookElement.remove();
+              }
+          }
+      })
+      .catch(error => console.error('Error:', error));
     }
 
     function getCookie(name) {
