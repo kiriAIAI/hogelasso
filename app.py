@@ -291,11 +291,11 @@ def create():
 
         if book:
             book_data = {
-                'book_title': book[0],
-                'book_content': book[1],
-                'category': book[2],  # ここで使用するキー名がテンプレートと同じであることを確認してください。
-                'book_price': book[3],
-                'book_cover_image': book[4]
+                'book_title': book[0], # type: ignore
+                'book_content': book[1], # type: ignore
+                'category': book[2],  # ここで使用するキー名がテンプレートと同じであることを確認してください。 # type: ignore
+                'book_price': book[3], # type: ignore
+                'book_cover_image': book[4] # type: ignore
             }
             return render_template('create.html', book=book_data)
     
@@ -825,7 +825,7 @@ def shoppingcart():
             FROM users
             WHERE id = %s
         """, (accountID,))
-        currency = cursor.fetchone()['currency']
+        currency = cursor.fetchone()['currency'] # type: ignore
         print(currency)
         
         query = """
