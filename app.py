@@ -729,12 +729,20 @@ def product_details(book_id):
         purchase_info = cursor.fetchone()
         is_purchased = purchase_info['count'] > 0 # type: ignore
         
+        # 現在のユーザーがその本をブックマークしているかチェックする。
+        cursor.execute("""
+            SELECT 1 FROM favorites 
+            WHERE user_id = %s AND book_id = %s
+        """, (session['login_id'], book_id))
+        is_favorited = cursor.fetchone() is not None
+        
         return render_template('product-details.html', 
                              book=book,
                              comments=comment_data,
                              username=book['username'], # type: ignore
                              is_owner=is_owner,
-                             is_purchased=is_purchased)
+                             is_purchased=is_purchased,
+                             is_favorited=is_favorited)
                              
     except Exception as e:
         print(f"Error: {e}")
@@ -1025,12 +1033,12 @@ def proceedToCheckout():
 # -------------------- お気に入り機能 --------------------
 @app.route('/toggle-favorite', methods=['POST'])
 def toggle_favorite():
-    if 'user_id' not in session:
+    if 'login_id' not in session:
         return jsonify({'error': 'ログインが必要です'}), 401
         
     data = request.get_json()
     book_id = data.get('book_id')
-    user_id = session['user_id']
+    user_id = session['login_id']
     
     conn = conn_db()
     cursor = conn.cursor()
@@ -1198,10 +1206,10 @@ def profile():
         
         # ユーザーがお気に入りした本を取得
         cursor.execute("""
-            SELECT b.book_id, b.book_title, b.book_price, b.book_cover_image
-            FROM favorites f
-            JOIN books b ON f.book_id = b.book_id
-            WHERE f.user_id = %s
+            SELECT books.book_id, books.book_title, books.book_cover_image, books.book_price
+            FROM favorites
+            JOIN books ON favorites.book_id = books.book_id
+            WHERE favorites.user_id = %s
         """, (session['login_id'],))
         favorite_books = cursor.fetchall()
 
@@ -1423,6 +1431,10 @@ def fonts(filename):
 def images(filename):
     return send_from_directory('kakikko/static/images', filename)
 
+
+# 设置 Flask 配置
+app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
     app.run(debug=False)

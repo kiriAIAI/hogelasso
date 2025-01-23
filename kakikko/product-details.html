@@ -197,8 +197,8 @@
                     <a href="#" onclick="addToCart()" class="button-secondary is-buy-now-button w-button">今すぐ買う</a>
                   {% endif %}
                   <a href="#" class="link-block w-inline-block" onclick="toggleFavorite(event, '{{ book.book_id }}')">
-                    <div class="text-14 text-14-30" id="heart-icon">  
-                        <i class="fa-solid fa-heart {% if is_favorited %}favorited{% endif %}"></i>
+                    <div class="text-14 text-14-30 {% if is_favorited %}favorited{% endif %}" id="heart-icon">  
+                        <i class="fa-solid fa-heart"></i>
                     </div>
                   </a>
                   
@@ -381,21 +381,46 @@
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrf_token')
           },
           body: JSON.stringify({
               book_id: bookId
           })
       })
-      .then(response => response.json())
-      .then(data => {
-          const heartIcon = document.querySelector('#heart-icon i');
-          if (data.status === 'added') {
-              heartIcon.classList.add('favorited');
+      .then(response => {
+          if (response.status === 401) {
+              alert('ログインが必要です');
+              window.location.href = '/login';
           } else {
-              heartIcon.classList.remove('favorited');
+              return response.json();
+          }
+      })
+      .then(data => {
+          if (data) {
+              const heartIcon = document.querySelector('#heart-icon');
+              if (data.status === 'added') {
+                  heartIcon.classList.add('favorited');
+              } else if (data.status === 'removed') {
+                  heartIcon.classList.remove('favorited');
+              }
           }
       })
       .catch(error => console.error('Error:', error));
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
     }
 
   </script>

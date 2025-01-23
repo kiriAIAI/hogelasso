@@ -508,12 +508,11 @@
 }
 
 .product-grid.profile {
-  grid-column-gap: 30px;
-  grid-row-gap: 30px;
-  grid-template-columns: 1fr 1fr;
-  place-items: center;
-  padding-left: 0;
-  padding-right: 0;
+  display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    place-items: center;
 }
 
 /* ---------------------- category ---------------------- */
@@ -2496,7 +2495,11 @@
   padding: 10px;
   font-size: 1.6rem;
   color: #c1c1c1;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
+}
+
+.text-14.text-14-30.favorited {
+  color: var(--error);
 }
 
 .text-14.text-14-30:hover {
