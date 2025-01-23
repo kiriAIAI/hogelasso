@@ -340,16 +340,15 @@
             {% if favorite_books %}
                 {% for book in favorite_books %}
                 <div class="product-card w-inline-block" id="favorite-book-{{ book.book_id }}">
-                    <a href="{{ url_for('product_details', book_id=book.book_id) }}">
+                    <a href="{{ url_for('product_details', book_id=book.book_id) }}" class="profile-product-card">
                         <div class="product-image-wrapper">
                             <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" loading="lazy" alt="" class="product-image">
                         </div>
-                        <div class="product-content-wrapper">
+                        <div class="profile-product-content-wrapper">
                             <h3 class="product-title profile">{{ book.book_title }}</h3>
                             <div class="product-price profile">￥{{ book.book_price }}</div>
                         </div>
                     </a>
-                    <button onclick="toggleFavorite(event, '{{ book.book_id }}')">取消收藏</button>
                 </div>
                 {% endfor %}
             {% else %}
