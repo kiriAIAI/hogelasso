@@ -147,12 +147,12 @@
                   <div class="filters2_list">
                     {% for category in ['literature', 'social', 'history', 'business', 'science', 'medical', 'certification', 'it', 'design', 'hobby', 'sports', 'lifestyle'] %}
                     <div class="filters2_item">
-                      <label class="w-checkbox filters2_form-checkbox1">
-                        <input type="checkbox" name="category" value="{{ category }}" 
-                               class="filter-checkbox" 
-                               {% if category in filters.category %}checked{% endif %}>
-                        <span class="filters2_form-checkbox1-label">{{ category_names.get(category, category) }}</span>
-                      </label>
+                        <label class="w-checkbox filters2_form-checkbox1">
+                            <input type="checkbox" name="category" value="{{ category }}" 
+                                   class="filter-checkbox" 
+                                   {% if category in filters.category %}checked{% endif %}>
+                            <span class="filters2_form-checkbox1-label">{{ category_names.get(category, category) }}</span>
+                        </label>
                     </div>
                     {% endfor %}
                   </div>
@@ -171,12 +171,12 @@
                   <div class="filters2_list">
                     {% for price in ['1000', '3000', '5000', '7000', '10000'] %}
                     <div class="filters2_item">
-                      <label class="w-checkbox filters2_form-checkbox1">
-                        <input type="checkbox" name="price" value="{{ price }}" 
-                               class="filter-checkbox"
-                               {% if price in filters.price %}checked{% endif %}>
-                        <span class="filters2_form-checkbox1-label">{{ price }}円以下</span>
-                      </label>
+                        <label class="w-checkbox filters2_form-checkbox1">
+                            <input type="checkbox" name="price" value="{{ price }}" 
+                                   class="filter-checkbox"
+                                   {% if price in filters.price %}checked{% endif %}>
+                            <span class="filters2_form-checkbox1-label">{{ price }}円以下</span>
+                        </label>
                     </div>
                     {% endfor %}
                   </div>
@@ -211,10 +211,10 @@
                   </svg></div>
               </div>
               <nav class="dropdown1_dropdown-list is-right w-dropdown-list">
-                <a href="#" fs-cmssort-field="IDENTIFIER" class="dropdown1_dropdown-link w-dropdown-link">人気順</a>
-                <a href="#" fs-cmssort-field="IDENTIFIER" class="dropdown1_dropdown-link w-dropdown-link">新着順</a>
-                <a href="#" fs-cmssort-field="IDENTIFIER" class="dropdown1_dropdown-link w-dropdown-link">価格が安い順</a>
-                <a href="#" fs-cmssort-field="IDENTIFIER-desc" class="dropdown1_dropdown-link w-dropdown-link">価格が高い順</a>
+                <a href="#" fs-cmssort-field="popularity" class="dropdown1_dropdown-link w-dropdown-link">人気順</a>
+                <a href="#" fs-cmssort-field="newest" class="dropdown1_dropdown-link w-dropdown-link">新着順</a>
+                <a href="#" fs-cmssort-field="price-asc" class="dropdown1_dropdown-link w-dropdown-link">価格が安い順</a>
+                <a href="#" fs-cmssort-field="price-desc" class="dropdown1_dropdown-link w-dropdown-link">価格が高い順</a>
               </nav>
             </div>
           </div>
