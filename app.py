@@ -1064,82 +1064,57 @@ def profile():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
 
-        # # user_profilesテーブルにuser_idが存在するかチェック
-        # cursor.execute("""
-        #     SELECT * FROM user_profiles 
-        #     WHERE user_id = %s
-        # """, (session['login_id'],))
-        # existing_profile = cursor.fetchone()
-        
-        # # プロファイルが存在しない場合、新しい行を追加
-        # if existing_profile is None:
-        #     try:
-        #         cursor.execute("""
-        #             INSERT INTO user_profiles (user_id, profile_image, first_name, last_name, bio)
-        #             VALUES (%s, %s, %s, %s, %s)
-        #         """, (session['login_id'], 'default-profile.jpg', None, None, None))
-        #         conn.commit()
-        #     except Exception as e:
-        #         conn.rollback()
-
         if request.method == 'POST':
             # プロフィール画像アップロード処理
-            if 'profile_image' in request.files:
-                file = request.files.get('profile_image')
-                username = request.form.get('username')
-                password = request.form.get('password')
-                bio = request.form.get('Bio')
-                
-                if file:
-                    upload_folder = 'kakikko/static/images/profiles_images'
+            # if 'profile_image' in request.files:
+            file = request.files.get('profile_image')
+            username = request.form.get('username')
+            password = request.form.get('password')
+            bio = request.form.get('Bio')
+            print(file, username, password, bio)
+            
+            if file:
+                upload_folder = 'kakikko/static/images/profiles_images'
 
-                    # アップロードフォルダ内のファイルを調べる
-                    for existing_file in os.listdir(upload_folder):
-                        # ファイル名の最初の"/"以前の文字列を取得
-                        existing_filename = existing_file.split('_')[:2]
-                        existing_filename = "_".join(existing_filename)  # user_100000の形式に変換
-                        # 一致する場合はファイルを削除
-                        if existing_filename == secure_filename(f"user_{session['login_id']}"):
-                            file_to_delete = f"{upload_folder}/{existing_file}"
-                            os.remove(file_to_delete)
-                                
-                    filename = f"user_{session['login_id']}_{secure_filename(file.filename)}" # type: ignore
-                    file_path = f"{upload_folder}/{filename}"
-                    try:
-                        file.save(file_path)  # file_pathに、fileを保存
-                    except Exception as e:
-                        return f"File upload failed: {str(e)}", 500
-
-                    try:
-                        # # データベースに画像パスを保存
-                        # cursor.execute("""
-                        #     INSERT INTO user_profiles (user_id, profile_image, username, password, bio)
-                        #     VALUES (%s, %s, %s, %s, %s)
-                        #     ON DUPLICATE KEY UPDATE profile_image = %s, username = %s, password = %s, bio = %s
-                        # """, (session['login_id'], filename, username, password, bio, filename, username, password, bio))
-                        # conn.commit()
-                        
-                        cursor.execute("""
-                            UPDATE users
-                            SET profile_image = %s, username = %s, password = %s, bio = %s
-                            WHERE id = %s
-                        """, (filename, username, password, bio, session['login_id']))
-                        conn.commit()
-
-                        session['login_name'] = username
+                # アップロードフォルダ内のファイルを調べる
+                for existing_file in os.listdir(upload_folder):
+                    # ファイル名の最初の"/"以前の文字列を取得
+                    existing_filename = existing_file.split('_')[:2]
+                    existing_filename = "_".join(existing_filename)  # user_100000の形式に変換
+                    # 一致する場合はファイルを削除
+                    if existing_filename == secure_filename(f"user_{session['login_id']}"):
+                        file_to_delete = f"{upload_folder}/{existing_file}"
+                        os.remove(file_to_delete)
                             
-                    except Exception as e:
-                        conn.rollback()
-                        return "Database error", 500
+                filename = f"user_{session['login_id']}_{secure_filename(file.filename)}" # type: ignore
+                file_path = f"{upload_folder}/{filename}"
+                try:
+                    file.save(file_path)  # file_pathに、fileを保存
+                except Exception as e:
+                    return f"File upload failed: {str(e)}", 500
 
-        # # プロフィール情報取得
-        # cursor.execute("""
-        #     SELECT u.username, up.profile_image, up.first_name, up.last_name, up.bio
-        #     FROM users u
-        #     LEFT JOIN user_profiles up ON u.id = up.user_id
-        #     WHERE u.id = %s
-        # """, (session['login_id'],))
-        # user_info = cursor.fetchone()
+                try:
+                    
+                    cursor.execute("""
+                        UPDATE users
+                        SET profile_image = %s, username = %s, password = %s, bio = %s
+                        WHERE id = %s
+                    """, (filename, username, password, bio, session['login_id']))
+                    conn.commit()
+
+                    session['login_name'] = username
+                        
+                except Exception as e:
+                    conn.rollback()
+                    return "Database error", 500
+            else:
+                cursor.execute("""
+                    UPDATE users
+                    SET username = %s, password = %s, bio = %s
+                    WHERE id = %s
+                """, (username, password, bio, session['login_id']))
+                conn.commit()
+                session['login_name'] = username
 
         cursor.execute("""
             SELECT * FROM users WHERE id = %s

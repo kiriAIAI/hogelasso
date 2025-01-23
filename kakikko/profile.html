@@ -194,10 +194,10 @@
             </div>                                  
             <div class="fields_div">
               <div class="display_horizontal gap">
-                <div class="profile-info-username-block"><label for="Name-3" class="text-size-tiny margin-0">ユーザー名</label><input class="text_field w-input" maxlength="256" name="username" data-name="username" placeholder="" type="text" id="Name-3" data-ms-member="first-name"></div>
-                <div class="profile-info-username-block"><label for="name-2" class="text-size-tiny margin-0">パスワード</label><input class="text_field w-input" maxlength="256" name="password" data-name="password" placeholder="" type="text" id="name-2" data-ms-member="last-name"></div>
+                <div class="profile-info-username-block"><label for="Name-3" class="text-size-tiny margin-0">ユーザー名</label><input class="text_field w-input" maxlength="256" name="username" data-name="username" placeholder="" type="text" id="Name-3" data-ms-member="first-name" value="{{user_info.username}}"></div>
+                <div class="profile-info-username-block"><label for="name-2" class="text-size-tiny margin-0">パスワード</label><input class="text_field w-input" maxlength="256" name="password" data-name="password" placeholder="" type="text" id="name-2" data-ms-member="last-name" value="{{user_info.password}}"></div>
               </div>
-              <label for="Bio" class="text-size-tiny margin-0">自己紹介</label><textarea class="text_field input w-input" maxlength="5000" name="Bio" data-name="Bio" placeholder="" id="Bio" data-ms-member="about"></textarea>
+              <label for="Bio" class="text-size-tiny margin-0">自己紹介</label><textarea class="text_field input w-input" maxlength="5000" name="Bio" data-name="Bio" placeholder="" id="Bio" data-ms-member="about">{{user_info.bio}}</textarea>
               <div class="display_horizontal gap_1rem margin-top margin-medium">
                   <input type="submit" data-wait="Please wait..." class="save_button w-button" value="保存">
               </div>
