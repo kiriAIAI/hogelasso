@@ -857,6 +857,12 @@ def search():
     return render_template('search.html')
 
 
+#--------------------------charge.html-----------------------------------
+@app.route('/charge.html')
+def charge():
+    return render_template('charge.html')
+
+
 
 # -------------------- shopping-cart.html --------------------
 @app.route('/shopping-cart.html')
@@ -883,8 +889,9 @@ def shoppingcart():
             FROM users
             WHERE id = %s
         """, (accountID,))
-        currency = cursor.fetchone()['currency'] # type: ignore
-        print(currency)
+
+        currency = cursor.fetchone()['currency']
+
         
         query = """
         SELECT 
@@ -944,13 +951,17 @@ def remove_from_cart():
 
 
 # -------------------- カート内のアイテムを購入 --------------------
-@app.route('/proceedToCheckout',methods=['GET']) # type: ignore
+@app.route('/proceedToCheckout',methods=['POST']) # type: ignore
 def proceedToCheckout():
     try:
-        accountID = session['login_id']
         conn = conn_db()
         cursor = conn.cursor()
-
+        
+        accountID = session['login_id']
+        total_price = session['total_price']
+        data = request.get_json()
+        usepoint = float(data.get('usepoints'))
+        
         # カートに入っている商品のIDを取得
         query1 = """
         SELECT book_id 
@@ -1006,18 +1017,19 @@ def proceedToCheckout():
         WHERE id = %s
         """, (accountID,))
         price = cursor.fetchone()
-        new_currency = float(price[0]) - float(session['total_price']) # type: ignore
-        print(new_currency)
+        new_currency = float(price[0]) - float(total_price) + usepoint
+        new_points = float(price[1]) - usepoint
         
         update_query3 = """
         UPDATE users
-        SET currency = %s
+        SET currency = %s,points = %s
         WHERE id = %s
         """
-        cursor.execute(update_query3, (new_currency, accountID))
+        cursor.execute(update_query3, (new_currency,new_points, accountID))
 
 
         conn.commit()
+        print(f'支払い総額 : {total_price}  使用ポイント : {usepoint}  残高 : {new_currency}')
         return redirect(url_for('payment'))
 
     except mysql.connector.Error as err:
