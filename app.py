@@ -291,11 +291,11 @@ def create():
 
         if book:
             book_data = {
-                'book_title': book[0],
-                'book_content': book[1],
-                'category': book[2],  # ここで使用するキー名がテンプレートと同じであることを確認してください。
-                'book_price': book[3],
-                'book_cover_image': book[4]
+                'book_title': book[0], # type: ignore
+                'book_content': book[1], # type: ignore
+                'category': book[2],  # ここで使用するキー名がテンプレートと同じであることを確認してください。 # type: ignore
+                'book_price': book[3], # type: ignore
+                'book_cover_image': book[4] # type: ignore
             }
             return render_template('create.html', book=book_data)
     
@@ -389,8 +389,9 @@ def submit_create():
             book_category,
             book_price,
             book_cover_image,
-            owner_id
-        ) VALUES (%s, %s, %s, %s, %s, %s)
+            owner_id,
+            created_at
+        ) VALUES (%s, %s, %s, %s, %s, %s, NOW())
         """
         
         values = [
@@ -606,20 +607,69 @@ def filter():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # すべての書籍
-        cursor.execute("""
+        # クエリパラメータの取得
+        selected_categories = request.args.getlist('category')
+        selected_prices = request.args.getlist('price')
+        sort_option = request.args.get('sort', 'newest')  # デフォルトでは、書籍は書籍IDの降順でソートされます。
+        
+        # クエリーの構築
+        query = """
             SELECT b.*, u.username as owner_name
             FROM books b
             JOIN users u ON b.owner_id = u.id
-            ORDER BY b.book_id DESC
-        """)
+            WHERE 1=1
+        """
+        params = []
+        
+        if selected_categories:
+            query += " AND b.book_category IN (%s)" % ','.join(['%s'] * len(selected_categories))
+            params.extend(selected_categories)
+        
+        if selected_prices:
+            max_price = max(map(int, selected_prices))
+            query += " AND b.book_price <= %s"
+            params.append(max_price)
+        
+        # 並べ替えオプションの追加
+        if sort_option == 'popularity':
+            query += " ORDER BY b.popularity DESC"
+        elif sort_option == 'newest':
+            query += " ORDER BY b.created_at DESC"  # 降順にソートするには created_at フィールドを使用する。
+        elif sort_option == 'price-asc':
+            query += " ORDER BY b.book_price ASC"
+        elif sort_option == 'price-desc':
+            query += " ORDER BY b.book_price DESC"
+        else:
+            query += " ORDER BY b.book_id DESC"
+        
+        cursor.execute(query, params)
         books = cursor.fetchall()
         
-        return render_template('filter.html', books=books)
+        category_names = {
+            'literature': '文学・評論',
+            'social': '社会・政治',
+            'history': '歴史・地理',
+            'business': 'ビジネス・経済',
+            'science': '科学・テクノロジー',
+            'medical': '医学・薬学',
+            'it': 'コンピュータ・IT',
+            'design': '建築・デザイン',
+            'hobby': '趣味・実用',
+            'sports': 'スポーツ',
+            'certification': '資格・検定',
+            'lifestyle': '暮らし・健康'
+        }
+        
+        filters = {
+            'category': selected_categories,
+            'price': selected_prices
+        }
+        
+        return render_template('filter.html', books=books, filters=filters, category_names=category_names)
         
     except Exception as e:
         print(f"Error: {e}")
-        return render_template('filter.html', books=[])
+        return render_template('filter.html', books=[], filters={'category': [], 'price': []}, category_names={})
         
     finally:
         if cursor:
@@ -679,12 +729,20 @@ def product_details(book_id):
         purchase_info = cursor.fetchone()
         is_purchased = purchase_info['count'] > 0 # type: ignore
         
+        # 現在のユーザーがその本をブックマークしているかチェックする。
+        cursor.execute("""
+            SELECT 1 FROM favorites 
+            WHERE user_id = %s AND book_id = %s
+        """, (session['login_id'], book_id))
+        is_favorited = cursor.fetchone() is not None
+        
         return render_template('product-details.html', 
                              book=book,
                              comments=comment_data,
                              username=book['username'], # type: ignore
                              is_owner=is_owner,
-                             is_purchased=is_purchased)
+                             is_purchased=is_purchased,
+                             is_favorited=is_favorited)
                              
     except Exception as e:
         print(f"Error: {e}")
@@ -831,7 +889,9 @@ def shoppingcart():
             FROM users
             WHERE id = %s
         """, (accountID,))
+
         currency = cursor.fetchone()['currency']
+
         
         query = """
         SELECT 
@@ -985,12 +1045,12 @@ def proceedToCheckout():
 # -------------------- お気に入り機能 --------------------
 @app.route('/toggle-favorite', methods=['POST'])
 def toggle_favorite():
-    if 'user_id' not in session:
+    if 'login_id' not in session:
         return jsonify({'error': 'ログインが必要です'}), 401
         
     data = request.get_json()
     book_id = data.get('book_id')
-    user_id = session['user_id']
+    user_id = session['login_id']
     
     conn = conn_db()
     cursor = conn.cursor()
@@ -1158,10 +1218,10 @@ def profile():
         
         # ユーザーがお気に入りした本を取得
         cursor.execute("""
-            SELECT b.book_id, b.book_title, b.book_price, b.book_cover_image
-            FROM favorites f
-            JOIN books b ON f.book_id = b.book_id
-            WHERE f.user_id = %s
+            SELECT books.book_id, books.book_title, books.book_cover_image, books.book_price
+            FROM favorites
+            JOIN books ON favorites.book_id = books.book_id
+            WHERE favorites.user_id = %s
         """, (session['login_id'],))
         favorite_books = cursor.fetchall()
 
@@ -1383,6 +1443,10 @@ def fonts(filename):
 def images(filename):
     return send_from_directory('kakikko/static/images', filename)
 
+
+# 设置 Flask 配置
+app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
     app.run(debug=False)

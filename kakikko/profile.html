@@ -334,24 +334,24 @@
         </div>
         <div class="profile-right-block">
           <div class="favorite-heading-block">
-            <h2 class="favorite-heading">お気に入り</h2>
+              <h2 class="favorite-heading">お気に入り</h2>
           </div>
           <div class="product-grid profile">
-            {% if favorite_books %}
-              {% for book in favorite_books %}
-              <a href="{{ url_for('product_details', book_id=book.book_id) }}" class="product-card w-inline-block">
-                  <div class="product-image-wrapper">
-                      <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" loading="lazy" alt="" class="product-image">
-                  </div>
-                  <div class="product-content-wrapper">
-                      <h3 class="product-title profile">{{ book.book_title }}</h3>
-                      <div class="product-price profile">￥{{ book.book_price }}</div>
-                  </div>
-              </a>
-              {% endfor %}
-            {% else %}
-              <p>お気に入りの商品がありません。</p>
-            {% endif %}
+              {% if favorite_books %}
+                  {% for book in favorite_books %}
+                  <a href="{{ url_for('product_details', book_id=book.book_id) }}" class="product-card w-inline-block">
+                      <div class="product-image-wrapper">
+                          <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" loading="lazy" alt="" class="product-image">
+                      </div>
+                      <div class="product-content-wrapper">
+                          <h3 class="product-title profile">{{ book.book_title }}</h3>
+                          <div class="product-price profile">￥{{ book.book_price }}</div>
+                      </div>
+                  </a>
+                  {% endfor %}
+              {% else %}
+                  <p>お気に入りの商品がありません。</p>
+              {% endif %}
           </div>
         </div>
       </div>
