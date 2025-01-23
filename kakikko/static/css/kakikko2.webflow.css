@@ -333,7 +333,22 @@
 .sidenavbar-link.w--current {
   color: #eeedf2;
   background-color: #3b3b3b;
-}
+  
+  
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+  color: #f9a9ae;
+  width: 120px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 5px;
+  text-align: center;
+  overflow: hidden;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.66);
+  box-shadow: 0 1px 2px rgba(255, 161, 161, 0.844);
+ }
 
 .sidenavbar-link.w--current:hover {
   color: #c1c1c1;
@@ -3694,7 +3709,7 @@
     max-width: 1.5rem;
     height: 1.3rem;
     max-height: 1.5rem;
-  }
+ }
 
   .sidenavbar-link {
     margin-bottom: .75em;
@@ -4191,8 +4206,11 @@
   .hamburger-menu {
     color: var(--font);
     font-size: 2rem;
-  }
 
+  }
+  .hamburger-menu.a:hover,a:active{
+    color: red;
+  }
   .product-title {
     font-size: 22px;
     line-height: 32px;
