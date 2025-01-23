@@ -735,6 +735,14 @@ def product_details(book_id):
             WHERE user_id = %s AND book_id = %s
         """, (session['login_id'], book_id))
         is_favorited = cursor.fetchone() is not None
+        
+        # お気に入りの数を取得する
+        cursor.execute("""
+            SELECT COUNT(*) as favorite_count
+            FROM favorites
+            WHERE book_id = %s
+        """, (book_id,))
+        favorite_count = cursor.fetchone()['favorite_count'] # type: ignore
 
         return render_template('product-details.html', 
                             book=book,
@@ -742,7 +750,8 @@ def product_details(book_id):
                             username=book['username'], # type: ignore
                             is_owner=is_owner,
                             is_purchased=is_purchased,
-                            is_favorited=is_favorited)
+                            is_favorited=is_favorited,
+                            favorite_count=favorite_count)
                              
     except Exception as e:
         print(f"Error: {e}")
@@ -1076,12 +1085,18 @@ def toggle_favorite():
             VALUES (%s, %s)
         ''', (user_id, book_id))
         status = 'added'
+        
+    cursor.execute('''
+        SELECT COUNT(*) FROM favorites 
+        WHERE book_id = %s
+    ''', (book_id,))
+    favorite_count = cursor.fetchone()[0]
     
     conn.commit()
     cursor.close()
     conn.close()
     
-    return jsonify({'status': status})
+    return jsonify({'status': status, 'favorite_count': favorite_count})
 
 
 
