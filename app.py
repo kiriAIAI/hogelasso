@@ -389,8 +389,9 @@ def submit_create():
             book_category,
             book_price,
             book_cover_image,
-            owner_id
-        ) VALUES (%s, %s, %s, %s, %s, %s)
+            owner_id,
+            created_at
+        ) VALUES (%s, %s, %s, %s, %s, %s, NOW())
         """
         
         values = [
