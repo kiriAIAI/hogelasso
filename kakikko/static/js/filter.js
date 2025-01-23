@@ -28,4 +28,18 @@ document.addEventListener('DOMContentLoaded', function() {
           filterForm.submit();
       });
   });
+
+  // ソートオプションの取り扱い
+  document.querySelectorAll('.dropdown1_dropdown-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const sortField = this.getAttribute('fs-cmssort-field');
+        const sortInput = document.createElement('input');
+        sortInput.type = 'hidden';
+        sortInput.name = 'sort';
+        sortInput.value = sortField;
+        filterForm.appendChild(sortInput);
+        filterForm.submit();
+    });
+  });
 });

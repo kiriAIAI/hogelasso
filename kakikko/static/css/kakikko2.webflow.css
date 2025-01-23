@@ -1390,7 +1390,9 @@
 }
 
 .dropdown1_dropdown-link {
-  padding: .5rem 1rem;
+  background-color: #f8f8f8;
+  padding: .6rem 1.2rem;
+  transition: background-color 0.3s;
 }
 
 .dropdown1_dropdown-link:hover{
@@ -4194,19 +4196,21 @@
   .no-products-message {
     width: 800px;
     height: 200px;
+    display: flex;
     text-align: center;
+    align-items: center;
     justify-content: center;
     margin-top: 40px;
     padding: 10px;
     background-color: #f8f8f8;
     border-radius: 5px;
-    color: #333;
-    font-size: 16px;
   }
   
   .no-products-message p {
-    margin: 0;
-    font-weight: 600;
+    color: #666;
+    font-size: 1.05rem;
+    margin: 1rem 0;
+    font-weight: 500;
   }
 
   .search-form {
