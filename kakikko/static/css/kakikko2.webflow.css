@@ -509,10 +509,10 @@
 
 .product-grid.profile {
   display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    place-items: center;
+  grid-template-columns: repeat(3, 1fr); /* 三列布局 */
+  gap: 20px; /* 可选：设置列间距 */
+  width: 100%; /* 确保占据整个容器宽度 */
+  box-sizing: border-box;
 }
 
 /* ---------------------- category ---------------------- */
@@ -4213,6 +4213,27 @@
     color: #666;
     font-size: 1.05rem;
     margin: 1rem 0;
+    font-weight: 500;
+  }
+
+  .no-bookmark-message{
+    width: 800px;
+    height: 200px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .no-bookmark-message p {
+    color: #666;
+    font-size: 1.05rem;
+    margin: 0;
     font-weight: 500;
   }
 
