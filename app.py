@@ -1112,8 +1112,8 @@ def proceedToCheckout():
         WHERE id = %s
         """, (accountID,))
         price = cursor.fetchone()
-        new_currency = float(price[0]) - float(total_price) + usepoint
-        new_points = float(price[1]) - usepoint
+        new_currency = float(price[0]) - float(total_price) + usepoint # type: ignore
+        new_points = float(price[1]) - usepoint # type: ignore
         
         update_query3 = """
         UPDATE users
@@ -1176,7 +1176,7 @@ def toggle_favorite():
         SELECT COUNT(*) FROM favorites 
         WHERE book_id = %s
     ''', (book_id,))
-    favorite_count = cursor.fetchone()[0]
+    favorite_count = cursor.fetchone()[0] # type: ignore
     
     conn.commit()
     cursor.close()
