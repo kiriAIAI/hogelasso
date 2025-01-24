@@ -602,16 +602,16 @@ def notification():
 def filter():
     if 'login_id' not in session:
         return redirect(url_for('login'))
-        
+       
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
-        
+       
         # クエリパラメータの取得
         selected_categories = request.args.getlist('category')
         selected_prices = request.args.getlist('price')
         sort_option = request.args.get('sort', 'newest')  # デフォルトでは、書籍は書籍IDの降順でソートされます。
-        
+       
         # クエリーの構築
         query = """
             SELECT b.*, u.username as owner_name
@@ -620,16 +620,16 @@ def filter():
             WHERE 1=1
         """
         params = []
-        
+       
         if selected_categories:
             query += " AND b.book_category IN (%s)" % ','.join(['%s'] * len(selected_categories))
             params.extend(selected_categories)
-        
+       
         if selected_prices:
             max_price = max(map(int, selected_prices))
             query += " AND b.book_price <= %s"
             params.append(max_price)
-        
+       
         # 並べ替えオプションの追加
         if sort_option == 'popularity':
             query += " ORDER BY b.popularity DESC"
@@ -641,10 +641,10 @@ def filter():
             query += " ORDER BY b.book_price DESC"
         else:
             query += " ORDER BY b.book_id DESC"
-        
+       
         cursor.execute(query, params)
         books = cursor.fetchall()
-        
+       
         category_names = {
             'literature': '文学・評論',
             'social': '社会・政治',
@@ -659,26 +659,18 @@ def filter():
             'certification': '資格・検定',
             'lifestyle': '暮らし・健康'
         }
-        
+       
         filters = {
             'category': selected_categories,
             'price': selected_prices
         }
-        
-        return render_template('filter.html', 
-                             books=books,
-                             filters=filters,
-                             category_names=category_names,
-                             sort_option=sort_option)
-        
+       
+        return render_template('filter.html', books=books, filters=filters, category_names=category_names)
+       
     except Exception as e:
         print(f"Error: {e}")
-        return render_template('filter.html', 
-                             books=[],
-                             filters={'category': [], 'price': []},
-                             category_names=category_names,
-                             sort_option='newest')
-        
+        return render_template('filter.html', books=[], filters={'category': [], 'price': []}, category_names={})
+       
     finally:
         if cursor:
             cursor.close()
