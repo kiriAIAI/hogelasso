@@ -333,11 +333,21 @@
         width: 50%;
     }
     .right_container div{
+        cursor: pointer;
         width: fit-content;
         padding: 3px 10px 5px 8px;
         margin: 0 10% 0 auto;
         background-color: #3b3b3b;
         color: white;
         border-radius: 10px;
+    }
+    .setAmount{
+        display: flex;
+    }
+    .input_number::-webkit-inner-spin-button,
+    .input_number::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        -moz-appearance:textfield;
     }
 

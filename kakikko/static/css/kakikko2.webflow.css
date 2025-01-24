@@ -529,15 +529,16 @@
 }
 
 .product-grid.filter {
+  margin-top: 60px;
   grid-column-gap: 25px;
   grid-row-gap: 25px;
 }
 
 .product-grid.profile {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 三列布局 */
-  gap: 20px; /* 可选：设置列间距 */
-  width: 100%; /* 确保占据整个容器宽度 */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
   box-sizing: border-box;
 }
 
