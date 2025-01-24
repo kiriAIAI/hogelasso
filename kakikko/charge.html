@@ -17,7 +17,7 @@
         <div class="center_sub">お気に入りの作品を手に入れることで、作者の活動を直接サポートできます。あなたの一歩が、さらなる創作の力になります。</div>
       </div>
 
-      <div class="transaction_container C_container">
+      <div class="transaction_container">
         <div class="PaymentAmount">
           <div class="left_container"><div>500コイン</div></div>
           <div class="right_container"><div>￥500</div></div>
@@ -30,7 +30,50 @@
           <div class="left_container"><div>2000コイン</div></div>
           <div class="right_container"><div>￥2000</div></div>
         </div>
+        <div class="PaymentAmount">
+          <div class="left_container"><div>5000コイン</div></div>
+          <div class="right_container"><div>￥5000</div></div>
+        </div>
+        <div class="PaymentAmount">
+          <div class="left_container"><div>8000コイン</div></div>
+          <div class="right_container"><div>￥8000</div></div>
+        </div>
+        <div class="PaymentAmount">
+          <div class="left_container"><div>10000コイン</div></div>
+          <div class="right_container"><div>￥10000</div></div>
+        </div>
     </div>
   </div>
+
+  <script>
+    document.querySelectorAll('.PaymentAmount').forEach(paymentAmount => {
+      paymentAmount.addEventListener('click', () => {
+        const pricetext = paymentAmount.querySelector('.left_container > div').textContent;
+        // 数値のみを抽出
+        const priceValue = pricetext.match(/\d+/g)?.join('') || '';
+        console.log(`選択されたチャージ額: ${priceValue}`);
+
+        fetch('/chargeCoins', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            addedFunds: priceValue,
+          })
+      })
+      .then(response => {
+          if (response.redirected) {
+              window.location.href = response.url;
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          alert('エラーが発生しました。');
+      });
+
+      });
+    });
+  </script>
 </body>
 </html>

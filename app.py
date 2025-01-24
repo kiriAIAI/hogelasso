@@ -967,6 +967,48 @@ def charge():
 
 
 
+
+#仮想通貨のチャージ
+@app.route('/chargeCoins', methods=['POST'])
+def chargeCoins():
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        accountID = session['login_id']
+        data = request.get_json()
+        addedFunds = int(data.get('addedFunds'))
+        
+        cursor.execute("""
+        SELECT currency
+        FROM users
+        WHERE id = %s
+        """, (accountID,))
+        json_data = cursor.fetchone()
+        current_Balance = json_data["currency"]
+        new_Balance = current_Balance + addedFunds
+        print(f"現在の金額 : {current_Balance}  追加する金額 : {addedFunds}  新しい金額 : {new_Balance}")
+        
+        update_query3 = """
+        UPDATE users
+        SET currency = %s
+        WHERE id = %s
+        """
+        cursor.execute(update_query3, (new_Balance, accountID))
+        conn.commit()
+        
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        conn.rollback()  # エラーが発生した場合はロールバック
+        
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for('shoppingcart'))
+
+
 # -------------------- shopping-cart.html --------------------
 @app.route('/shopping-cart.html')
 def shoppingcart():
