@@ -1595,4 +1595,7 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
-    app.run(debug=False, host='192.168.2.160', port=80) #IPアドレスとポート番号はマシンに合わせて変更
+    try:
+        app.run(debug=False, host='192.168.2.160', port=80) #IPアドレスとポート番号はマシンに合わせて変更
+    except:
+        app.run(debug=False)
