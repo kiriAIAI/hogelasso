@@ -10,7 +10,7 @@
   <div class="charge_main_Container">
       <div class="top C_container">
         <div>仮想通貨を購入</div>
-        <div>現在の所持コイン : 1000</div>
+        <div>現在の所持コイン : {{ current_Balance }}</div>
       </div>
       <div class="center C_container">
         <div class="center_title">書籍を購入して出品者を支援しよう！</div>
@@ -42,38 +42,58 @@
           <div class="left_container"><div>10000コイン</div></div>
           <div class="right_container"><div>￥10000</div></div>
         </div>
+        <div class="PaymentAmount">
+          <div>自分で金額を指定する</div>
+        </div>
+        <div class="PaymentAmount">
+          <div class="left_container setAmount">
+            <input id="input_number" class="input_number" type="number" min="0" max="50000" step="100" placeholder="0 ~ 50000" />
+            <div>コイン</div>
+          </div>
+          <div class="right_container"><div id="right_container" >￥0</div></div>
+        </div>
     </div>
   </div>
 
   <script>
-    document.querySelectorAll('.PaymentAmount').forEach(paymentAmount => {
-      paymentAmount.addEventListener('click', () => {
-        const pricetext = paymentAmount.querySelector('.left_container > div').textContent;
+    function post(priceValue){
+      fetch('/chargeCoins', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          addedFunds: priceValue,
+        })
+    })
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('エラーが発生しました。');
+    });
+
+
+    }
+    document.querySelectorAll('.right_container > div').forEach(right_container => {
+      right_container.addEventListener('click', () => {
+        let pricetext = right_container.closest('.PaymentAmount').querySelector('.left_container > div').textContent;
+        if (isNaN(pricetext)){
+          pricetext = document.getElementById("input_number").value;
+        }
         // 数値のみを抽出
         const priceValue = pricetext.match(/\d+/g)?.join('') || '';
         console.log(`選択されたチャージ額: ${priceValue}`);
-
-        fetch('/chargeCoins', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ 
-            addedFunds: priceValue,
-          })
-      })
-      .then(response => {
-          if (response.redirected) {
-              window.location.href = response.url;
-          }
-      })
-      .catch(error => {
-          console.error('Error:', error);
-          alert('エラーが発生しました。');
-      });
-
+        post(priceValue);
       });
     });
+
+    document.getElementById("input_number").addEventListener('change',(event)=>{
+      document.getElementById("right_container").innerHTML = "￥"+event.target.value;
+    })
   </script>
 </body>
 </html>

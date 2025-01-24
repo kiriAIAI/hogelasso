@@ -963,7 +963,19 @@ def submit_comment():
 #--------------------------charge.html-----------------------------------
 @app.route('/charge.html')
 def charge():
-    return render_template('charge.html')
+    conn = conn_db()
+    cursor = conn.cursor(dictionary=True)
+    
+    accountID = session['login_id']
+    
+    cursor.execute("""
+    SELECT currency
+    FROM users
+    WHERE id = %s
+    """, (accountID,))
+    json_data = cursor.fetchone()
+    current_Balance = json_data["currency"]
+    return render_template('charge.html',current_Balance=current_Balance)
 
 
 
