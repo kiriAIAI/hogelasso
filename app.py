@@ -665,12 +665,112 @@ def filter():
             'price': selected_prices
         }
         
-        return render_template('filter.html', books=books, filters=filters, category_names=category_names)
+        return render_template('filter.html', 
+                             books=books,
+                             filters=filters,
+                             category_names=category_names,
+                             sort_option=sort_option)
         
     except Exception as e:
         print(f"Error: {e}")
-        return render_template('filter.html', books=[], filters={'category': [], 'price': []}, category_names={})
+        return render_template('filter.html', 
+                             books=[],
+                             filters={'category': [], 'price': []},
+                             category_names=category_names,
+                             sort_option='newest')
         
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
+
+# -------------------- 検索 --------------------
+@app.route('/api/search-suggestions')
+def search_suggestions():
+    query = request.args.get('query', '').strip()
+    if not query:
+        return jsonify({'suggestions': []})
+    
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # LIKEを使ったあいまい検索
+        cursor.execute("""
+            SELECT DISTINCT book_title as title
+            FROM books 
+            WHERE book_title LIKE %s
+            LIMIT 5
+        """, (f'%{query}%',))
+        
+        suggestions = cursor.fetchall()
+        return jsonify({'suggestions': suggestions})
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'suggestions': []})
+    
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
+
+# -------------------- 検索結果ページ --------------------
+@app.route('/search')
+def search():
+    query = request.args.get('query', '').strip()
+    if not query:
+        return redirect(url_for('filter'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("""
+            SELECT b.*, u.username as owner_name
+            FROM books b
+            JOIN users u ON b.owner_id = u.id
+            WHERE b.book_title LIKE %s
+            ORDER BY b.book_id DESC
+        """, (f'%{query}%',))
+        
+        books = cursor.fetchall()
+
+        category_names = {
+            'literature': '文学・評論',
+            'social': '社会・政治',
+            'history': '歴史・地理',
+            'business': 'ビジネス・経済',
+            'science': '科学・テクノロジー',
+            'medical': '医学・薬学',
+            'it': 'コンピュータ・IT',
+            'design': '建築・デザイン',
+            'hobby': '趣味・実用',
+            'sports': 'スポーツ',
+            'certification': '資格・検定',
+            'lifestyle': '暮らし・健康'
+        }
+        
+        return render_template('filter.html', 
+                             books=books,
+                             filters={'category': [], 'price': []},
+                             category_names=category_names,
+                             search_query=query)
+                             
+    except Exception as e:
+        print(f"Error: {e}")
+        return render_template('filter.html', 
+                             books=[],
+                             filters={'category': [], 'price': []},
+                             category_names=category_names,
+                             search_query=query)
+    
     finally:
         if cursor:
             cursor.close()
@@ -858,12 +958,6 @@ def submit_comment():
     
     return redirect(url_for('product_details',book_id=productID))
 
-
-
-# -------------------- search.html --------------------
-@app.route('/search.html')
-def search():
-    return render_template('search.html')
 
 
 #--------------------------charge.html-----------------------------------
