@@ -1313,7 +1313,23 @@ def profile():
 # -------------------- profile-info.html --------------------
 @app.route('/profile-info.html')
 def profileinfo():
-    return render_template('profile-info.html')
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (session['login_id'],))
+        user_info = cursor.fetchone()
+        
+        return render_template('profile-info.html', user_info=user_info)
+        
+    finally:
+        cursor.close()
+        conn.close()
 
 
 

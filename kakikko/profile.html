@@ -307,7 +307,13 @@
       <div class="profile-block">
         <div class="profile-left-block">
           <div class="profile-info-block">
-            <div class="profile-image-block"><img src="{{ url_for('static', filename='images/profiles_images/' + user_info.profile_image) }}" loading="lazy" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;" alt="" class="profile-image"></div>
+            <div class="profile-image-block">
+              <img src="{{ url_for('static', filename='images/profiles_images/' + user_info.profile_image) if user_info.profile_image else url_for('static', filename='images/profile_book.webp') }}" 
+                   loading="lazy" 
+                   style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;" 
+                   alt="プロフィール画像" 
+                   class="profile-image">
+            </div>
             <div class="follow-info-block">
               <div class="profile-username-block">
                 <h3 class="profile-username">{{ user_info.username }}</h3>
