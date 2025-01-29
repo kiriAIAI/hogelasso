@@ -361,6 +361,7 @@ def image_upload():
 
 
 # -------------------- 投稿を作成する --------------------
+
 @app.route('/submit_create', methods=['POST'])
 def submit_create():
     if 'login_id' not in session:
@@ -389,9 +390,8 @@ def submit_create():
             book_category,
             book_price,
             book_cover_image,
-            owner_id,
-            created_at
-        ) VALUES (%s, %s, %s, %s, %s, %s, NOW())
+            owner_id
+        ) VALUES (%s, %s, %s, %s, %s, %s)
         """
         
         values = [
@@ -452,11 +452,22 @@ def delete_post(book_id):
 
         cursor.execute("SELECT book_cover_image FROM books WHERE book_id = %s", (book_id,))
         cover_image = cursor.fetchone()[0] # type: ignore
-        print(cover_image)
-        os.remove(f"kakikko/static/images/users_images/{cover_image}")
+        file_path = f"kakikko/static/images/users_images/{cover_image}"
+        
+        # ファイルが存在するか確認
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        else:
+            print(f"File not found: {file_path}")
+
+        # book_id に依存するショッピングカートのレコードを削除
+        cursor.execute("DELETE FROM shopping_cart WHERE book_id = %s", (book_id,))
         
         # book_id に依存するコメントを削除
         cursor.execute("DELETE FROM comments WHERE book_id = %s", (book_id,))
+        
+        # book_id に依存する取引のレコードを削除
+        cursor.execute("DELETE FROM transactions WHERE book_id = %s", (book_id,))
         
         # 書籍レコードを削除
         cursor.execute("DELETE FROM books WHERE book_id = %s", (book_id,))
@@ -483,11 +494,12 @@ def delete_post(book_id):
             conn.close()
 
 
-
 # -------------------- chatroom.html --------------------
-@app.route('/chatroom.html')
+@app.route('/chatroom')
 def chatroom():
-    return render_template('chatroom.html')
+    if 'login_id' not in session:
+        return redirect(url_for('login'))  
+    return render_template('chatroom.html')  
 
 @app.route('/get_user_id/<username>', methods=['GET'])
 def get_user_id(username):
@@ -499,13 +511,12 @@ def get_user_id(username):
     connection.close()
 
     if user:
-        return jsonify({'user_id': user[0]}) # type: ignore
+        print(f"User found: {username} with ID {user[0]}")  # 添加日志
+        return jsonify({'user_id': user[0]})
     else:
+        print(f"User not found: {username}")  # 添加日志
         return jsonify({'error': 'User not found'}), 404
 
-
-
-# -------------------- メッセージを送信する --------------------
 @app.route('/send_message', methods=['POST'])
 def send_message():
     sender_id = session.get('login_id')
@@ -526,9 +537,6 @@ def send_message():
 
     return jsonify({'success': 'Message sent'})
 
-
-
-# -------------------- メッセージを取得する --------------------
 @app.route('/get_messages/<int:recipient_id>', methods=['GET'])
 def get_messages(recipient_id):
     sender_id = session.get('login_id')
@@ -548,10 +556,23 @@ def get_messages(recipient_id):
     cursor.close()
     connection.close()
 
-    # データを辞書リストに変換
-    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages] # type: ignore
+    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages]
 
     return jsonify(messages_list)
+
+
+    
+
+
+
+
+# -------------------- メッセージを送信する --------------------
+
+
+
+
+
+
 
 
 

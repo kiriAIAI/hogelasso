@@ -81,8 +81,7 @@
           <a href="{{ url_for('filter') }}" class="sidenavbar-search w-inline-block">
             <div class="square is--search"><img loading="lazy" src="{{ url_for('static', filename='images/search.svg') }}" alt="" class="navbar__icon is--search"></div>
             <div class="hide-text">
-              <p class="sidenavbar-paragraph">検索</p>
-            </div>
+              <p class="sidenavbar-paragraph">検索</p>           </div>
           </a>
           <div class="square is--line"></div>
         </div>
@@ -144,6 +143,12 @@
                 <input type="text" id="username3" placeholder="Enter Username 3" class="username-input">
                 <button onclick="selectUser(3)">Chat</button>
               </div>
+              {% for user in chat_users %}
+              <div class="member-block w-inline-block">
+                <input type="text" value="{{ user.username }}" class="username-input" readonly>
+                <button onclick="selectUserById({{ user.user_id }}, '{{ user.username }}')">Chat</button>
+              </div>
+              {% endfor %}
             </div>
           </div>
           <div class="chatroom-right-block">
@@ -249,6 +254,48 @@
               loadMessages();
             }
           }, 5000);
+
+          // 新增函数，用于从其他页面传递过来的用户名
+          function startChatFromProfile(username) {
+            sessionStorage.setItem('chatUsername', username);
+            window.location.href = '/chatroom';
+          }
+
+          function addChatBox(username, userId) {
+            const memberListBlock = document.querySelector('.member-list-block');
+            const memberBlock = document.createElement('div');
+            memberBlock.classList.add('member-block', 'w-inline-block');
+            memberBlock.innerHTML = `
+              <input type="text" value="${username}" class="username-input" readonly>
+              <button onclick="selectUserById(${userId}, '${username}')">Chat</button>
+            `;
+            memberListBlock.appendChild(memberBlock);
+          }
+
+          function selectUserById(userId, username) {
+            currentRecipientId = userId;
+            document.getElementById('chat-heading').innerText = `Chatting with ${username}`;
+            loadMessages();
+          }
+
+          // 在 chatroom 页面加载时处理 sessionStorage 中的用户名
+          document.addEventListener('DOMContentLoaded', (event) => {
+            const username = sessionStorage.getItem('chatUsername');
+            if (username) {
+              sessionStorage.removeItem('chatUsername');
+              fetch(`/get_user_id/${username}`)
+                .then(response => response.json())
+                .then(data => {
+                  if (data.user_id) {
+                    addChatBox(username, data.user_id);
+                    selectUserById(data.user_id, username);
+                  } else {
+                    alert('User not found');
+                  }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+          });
         </script>
       </body>
       </html>
