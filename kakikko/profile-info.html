@@ -29,7 +29,7 @@
           <div class="profile-detail-bio-text">ああああああああああああああああああああああああああああ</div>
           <div class="user-profile">
             <!-- 省略的用户简介内容 -->
-            <button onclick="startChat('username')">发消息2</button>
+            <button onclick="startChat('实际用户名')">发消息</button>
           </div>
         </div>
       </div>
@@ -45,6 +45,25 @@
 
 
 <script>
+  //chat
+      //chat
+      function startChat(username) {
+  console.log(`Starting chat with ${username}`);  // 添加日志
+  fetch(`/get_user_id/${username}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.user_id) {
+        console.log(`User ID found: ${data.user_id}`);  // 添加日志
+        addChatBox(username, data.user_id);
+        selectUserById(data.user_id, username);  // 自动选择用户并开始聊天
+      } else {
+        console.log(`User not found: ${username}`);  // 添加日志
+        alert('User not found');
+      }
+    })
+    .catch(error => console.error('Error:', error));
+}
+  //
   let chatUsers = [];
 
   function sendMessageToUser() {

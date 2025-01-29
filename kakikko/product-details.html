@@ -142,14 +142,13 @@
                         <img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="user-profile-image">           
                     {% endif %}
                     <div class="user-name">{{ book.username }}</div>
-                    <a>
-                      <div class="user-profile">
-                        <!-- 省略的用户简介内容 -->
-                        <button onclick="startChat('username')">发消息</button>
-                      </div>
-                    </a>
                 </a>
-
+                <button onclick="startChatFromProfile('{{ book.username }}')">发消息</button>
+                <script>
+                  function startChatFromProfile(username) {
+                    window.location.href = `/chatroom?username=${username}`;
+                  }
+                </script>
             </div>
             <h2 class="product-heading">{{ book.book_title | safe }}</h2>
             <div class="product-price-reviews-wrapper">
@@ -289,15 +288,18 @@
   <!-- JavaScript -->
   
   <script>
-    //chat
+    //chatroom
     function startChat(username) {
+  console.log(`Starting chat with ${username}`);  // 添加日志
   fetch(`/get_user_id/${username}`)
     .then(response => response.json())
     .then(data => {
       if (data.user_id) {
+        console.log(`User ID found: ${data.user_id}`);  // 添加日志
         addChatBox(username, data.user_id);
         selectUserById(data.user_id, username);  // 自动选择用户并开始聊天
       } else {
+        console.log(`User not found: ${username}`);  // 添加日志
         alert('User not found');
       }
     })

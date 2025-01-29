@@ -500,8 +500,10 @@ def get_user_id(username):
     connection.close()
 
     if user:
+        print(f"User found: {username} with ID {user[0]}")  # 添加日志
         return jsonify({'user_id': user[0]})
     else:
+        print(f"User not found: {username}")  # 添加日志
         return jsonify({'error': 'User not found'}), 404
 
 @app.route('/send_message', methods=['POST'])
