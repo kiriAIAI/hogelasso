@@ -484,9 +484,11 @@ def delete_post(book_id):
 
 
 # -------------------- chatroom.html --------------------
-@app.route('/chatroom.html')
+@app.route('/chatroom')
 def chatroom():
-    return render_template('chatroom.html')
+    if 'login_id' not in session:
+        return redirect(url_for('login'))  
+    return render_template('chatroom.html')  
 
 @app.route('/get_user_id/<username>', methods=['GET'])
 def get_user_id(username):
@@ -498,13 +500,10 @@ def get_user_id(username):
     connection.close()
 
     if user:
-        return jsonify({'user_id': user[0]}) # type: ignore
+        return jsonify({'user_id': user[0]})
     else:
         return jsonify({'error': 'User not found'}), 404
 
-
-
-# -------------------- メッセージを送信する --------------------
 @app.route('/send_message', methods=['POST'])
 def send_message():
     sender_id = session.get('login_id')
@@ -525,9 +524,6 @@ def send_message():
 
     return jsonify({'success': 'Message sent'})
 
-
-
-# -------------------- メッセージを取得する --------------------
 @app.route('/get_messages/<int:recipient_id>', methods=['GET'])
 def get_messages(recipient_id):
     sender_id = session.get('login_id')
@@ -547,11 +543,17 @@ def get_messages(recipient_id):
     cursor.close()
     connection.close()
 
-    # データを辞書リストに変換
-    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages] # type: ignore
+    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages]
 
     return jsonify(messages_list)
 
+
+    
+
+
+
+
+# -------------------- メッセージを送信する --------------------
 
 
 # -------------------- chat.html --------------------
@@ -1375,4 +1377,4 @@ def images(filename):
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

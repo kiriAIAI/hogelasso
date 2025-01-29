@@ -139,10 +139,17 @@
                     {% if book.profile_image %}
                         <img src="{{ book.profile_image }}" loading="lazy" alt="" class="user-profile-image">
                     {% else %}
-                        <img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="user-profile-image">
+                        <img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="user-profile-image">           
                     {% endif %}
                     <div class="user-name">{{ book.username }}</div>
+                    <a>
+                      <div class="user-profile">
+                        <!-- 省略的用户简介内容 -->
+                        <button onclick="startChat('username')">发消息</button>
+                      </div>
+                    </a>
                 </a>
+
             </div>
             <h2 class="product-heading">{{ book.book_title | safe }}</h2>
             <div class="product-price-reviews-wrapper">
@@ -280,7 +287,56 @@
   </section>
   
   <!-- JavaScript -->
+  
   <script>
+    //chat
+    function startChat(username) {
+  fetch(`/get_user_id/${username}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.user_id) {
+        addChatBox(username, data.user_id);
+        selectUserById(data.user_id, username);  // 自动选择用户并开始聊天
+      } else {
+        alert('User not found');
+      }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function addChatBox(username, userId) {
+  const memberListBlock = document.querySelector('.member-list-block');
+  const memberBlock = document.createElement('div');
+  memberBlock.classList.add('member-block', 'w-inline-block');
+  memberBlock.innerHTML = `
+    <input type="text" value="${username}" class="username-input" readonly>
+    <button onclick="selectUserById(${userId}, '${username}')">Chat</button>
+  `;
+  memberListBlock.appendChild(memberBlock);
+}
+
+function selectUserById(userId, username) {
+  currentRecipientId = userId;
+  document.getElementById('chat-heading').innerText = `Chatting with ${username}`;
+  loadMessages();
+}
+
+function loadMessages() {
+  fetch(`/get_messages/${currentRecipientId}`)
+    .then(response => response.json())
+    .then(messages => {
+      const chatBox = document.getElementById('chat-box');
+      chatBox.innerHTML = '';
+      messages.forEach(msg => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        messageElement.innerHTML = `<strong>${msg.username}</strong>: ${msg.message} <small>${msg.timestamp}</small>`;
+        chatBox.appendChild(messageElement);
+      });
+    })
+    .catch(error => console.error('Error:', error));
+}
+
     //ショッピングカートの処理
     function addToCart() {
       event.preventDefault();
