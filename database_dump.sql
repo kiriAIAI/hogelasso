@@ -28,6 +28,7 @@ CREATE TABLE `books` (
   `book_price` decimal(10) NOT NULL,
   `book_cover_image` varchar(255) NOT NULL,
   `owner_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`book_id`),
   KEY `owner_id` (`owner_id`),
   CONSTRAINT `books_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
@@ -249,35 +250,6 @@ LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
 INSERT INTO `transactions` VALUES ();
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user_profiles`
---
-
-DROP TABLE IF EXISTS `user_profiles`;
-CREATE TABLE `user_profiles` (
-  `user_id` int(11) NOT NULL,
-  `first_name` varchar(255) default NULL,
-  `last_name` varchar(255) default NULL,
-  `birthday` date default NULL,
-  `gender` varchar(50) default NULL,
-  `address` varchar(255) default NULL,
-  `phone` varchar(50) default NULL,
-  `bio` text,
-  `profile_image` varchar(255) default 'default-profile.jpg',
-  PRIMARY KEY  (`user_id`),
-  CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `user_profiles`
---
-
-LOCK TABLES `user_profiles` WRITE;
-/*!40000 ALTER TABLE `user_profiles` DISABLE KEYS */;
-INSERT INTO `user_profiles` VALUES ();
-/*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
