@@ -291,11 +291,11 @@ def create():
 
         if book:
             book_data = {
-                'book_title': book[0],
-                'book_content': book[1],
-                'category': book[2],  # ここで使用するキー名がテンプレートと同じであることを確認してください。
-                'book_price': book[3],
-                'book_cover_image': book[4]
+                'book_title': book[0], # type: ignore
+                'book_content': book[1], # type: ignore
+                'category': book[2],  # ここで使用するキー名がテンプレートと同じであることを確認してください。 # type: ignore
+                'book_price': book[3], # type: ignore
+                'book_cover_image': book[4] # type: ignore
             }
             return render_template('create.html', book=book_data)
     
@@ -361,6 +361,7 @@ def image_upload():
 
 
 # -------------------- 投稿を作成する --------------------
+
 @app.route('/submit_create', methods=['POST'])
 def submit_create():
     if 'login_id' not in session:
@@ -451,11 +452,22 @@ def delete_post(book_id):
 
         cursor.execute("SELECT book_cover_image FROM books WHERE book_id = %s", (book_id,))
         cover_image = cursor.fetchone()[0] # type: ignore
-        print(cover_image)
-        os.remove(f"kakikko/static/images/users_images/{cover_image}")
+        file_path = f"kakikko/static/images/users_images/{cover_image}"
+        
+        # ファイルが存在するか確認
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        else:
+            print(f"File not found: {file_path}")
+
+        # book_id に依存するショッピングカートのレコードを削除
+        cursor.execute("DELETE FROM shopping_cart WHERE book_id = %s", (book_id,))
         
         # book_id に依存するコメントを削除
         cursor.execute("DELETE FROM comments WHERE book_id = %s", (book_id,))
+        
+        # book_id に依存する取引のレコードを削除
+        cursor.execute("DELETE FROM transactions WHERE book_id = %s", (book_id,))
         
         # 書籍レコードを削除
         cursor.execute("DELETE FROM books WHERE book_id = %s", (book_id,))
@@ -482,11 +494,12 @@ def delete_post(book_id):
             conn.close()
 
 
-
 # -------------------- chatroom.html --------------------
-@app.route('/chatroom.html')
+@app.route('/chatroom')
 def chatroom():
-    return render_template('chatroom.html')
+    if 'login_id' not in session:
+        return redirect(url_for('login'))  
+    return render_template('chatroom.html')  
 
 @app.route('/get_user_id/<username>', methods=['GET'])
 def get_user_id(username):
@@ -498,13 +511,12 @@ def get_user_id(username):
     connection.close()
 
     if user:
-        return jsonify({'user_id': user[0]}) # type: ignore
+        print(f"User found: {username} with ID {user[0]}")  # 添加日志
+        return jsonify({'user_id': user[0]})
     else:
+        print(f"User not found: {username}")  # 添加日志
         return jsonify({'error': 'User not found'}), 404
 
-
-
-# -------------------- メッセージを送信する --------------------
 @app.route('/send_message', methods=['POST'])
 def send_message():
     sender_id = session.get('login_id')
@@ -525,9 +537,6 @@ def send_message():
 
     return jsonify({'success': 'Message sent'})
 
-
-
-# -------------------- メッセージを取得する --------------------
 @app.route('/get_messages/<int:recipient_id>', methods=['GET'])
 def get_messages(recipient_id):
     sender_id = session.get('login_id')
@@ -547,10 +556,23 @@ def get_messages(recipient_id):
     cursor.close()
     connection.close()
 
-    # データを辞書リストに変換
-    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages] # type: ignore
+    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages]
 
     return jsonify(messages_list)
+
+
+    
+
+
+
+
+# -------------------- メッセージを送信する --------------------
+
+
+
+
+
+
 
 
 
@@ -601,26 +623,167 @@ def notification():
 def filter():
     if 'login_id' not in session:
         return redirect(url_for('login'))
+       
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+       
+        # クエリパラメータの取得
+        selected_categories = request.args.getlist('category')
+        selected_prices = request.args.getlist('price')
+        sort_option = request.args.get('sort', 'newest')  # デフォルトでは、書籍は書籍IDの降順でソートされます。
+       
+        # クエリーの構築
+        query = """
+            SELECT b.*, u.username as owner_name
+            FROM books b
+            JOIN users u ON b.owner_id = u.id
+            WHERE 1=1
+        """
+        params = []
+       
+        if selected_categories:
+            query += " AND b.book_category IN (%s)" % ','.join(['%s'] * len(selected_categories))
+            params.extend(selected_categories)
+       
+        if selected_prices:
+            max_price = max(map(int, selected_prices))
+            query += " AND b.book_price <= %s"
+            params.append(max_price)
+       
+        # 並べ替えオプションの追加
+        if sort_option == 'popularity':
+            query += " ORDER BY b.popularity DESC"
+        elif sort_option == 'newest':
+            query += " ORDER BY b.created_at DESC"  # 降順にソートするには created_at フィールドを使用する。
+        elif sort_option == 'price-asc':
+            query += " ORDER BY b.book_price ASC"
+        elif sort_option == 'price-desc':
+            query += " ORDER BY b.book_price DESC"
+        else:
+            query += " ORDER BY b.book_id DESC"
+       
+        cursor.execute(query, params)
+        books = cursor.fetchall()
+       
+        category_names = {
+            'literature': '文学・評論',
+            'social': '社会・政治',
+            'history': '歴史・地理',
+            'business': 'ビジネス・経済',
+            'science': '科学・テクノロジー',
+            'medical': '医学・薬学',
+            'it': 'コンピュータ・IT',
+            'design': '建築・デザイン',
+            'hobby': '趣味・実用',
+            'sports': 'スポーツ',
+            'certification': '資格・検定',
+            'lifestyle': '暮らし・健康'
+        }
+       
+        filters = {
+            'category': selected_categories,
+            'price': selected_prices
+        }
+       
+        return render_template('filter.html', books=books, filters=filters, category_names=category_names)
+       
+    except Exception as e:
+        print(f"Error: {e}")
+        return render_template('filter.html', books=[], filters={'category': [], 'price': []}, category_names={})
+       
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
+
+# -------------------- 検索 --------------------
+@app.route('/api/search-suggestions')
+def search_suggestions():
+    query = request.args.get('query', '').strip()
+    if not query:
+        return jsonify({'suggestions': []})
+    
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        # LIKEを使ったあいまい検索
+        cursor.execute("""
+            SELECT DISTINCT book_title as title
+            FROM books 
+            WHERE book_title LIKE %s
+            LIMIT 5
+        """, (f'%{query}%',))
+        
+        suggestions = cursor.fetchall()
+        return jsonify({'suggestions': suggestions})
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'suggestions': []})
+    
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
+
+# -------------------- 検索結果ページ --------------------
+@app.route('/search')
+def search():
+    query = request.args.get('query', '').strip()
+    if not query:
+        return redirect(url_for('filter'))
         
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # すべての書籍
         cursor.execute("""
             SELECT b.*, u.username as owner_name
             FROM books b
             JOIN users u ON b.owner_id = u.id
+            WHERE b.book_title LIKE %s
             ORDER BY b.book_id DESC
-        """)
+        """, (f'%{query}%',))
+        
         books = cursor.fetchall()
+
+        category_names = {
+            'literature': '文学・評論',
+            'social': '社会・政治',
+            'history': '歴史・地理',
+            'business': 'ビジネス・経済',
+            'science': '科学・テクノロジー',
+            'medical': '医学・薬学',
+            'it': 'コンピュータ・IT',
+            'design': '建築・デザイン',
+            'hobby': '趣味・実用',
+            'sports': 'スポーツ',
+            'certification': '資格・検定',
+            'lifestyle': '暮らし・健康'
+        }
         
-        return render_template('filter.html', books=books)
-        
+        return render_template('filter.html', 
+                             books=books,
+                             filters={'category': [], 'price': []},
+                             category_names=category_names,
+                             search_query=query)
+                             
     except Exception as e:
         print(f"Error: {e}")
-        return render_template('filter.html', books=[])
-        
+        return render_template('filter.html', 
+                             books=[],
+                             filters={'category': [], 'price': []},
+                             category_names=category_names,
+                             search_query=query)
+    
     finally:
         if cursor:
             cursor.close()
@@ -679,12 +842,29 @@ def product_details(book_id):
         purchase_info = cursor.fetchone()
         is_purchased = purchase_info['count'] > 0 # type: ignore
         
+        # 現在のユーザーがその本をブックマークしているかチェックする。
+        cursor.execute("""
+            SELECT 1 FROM favorites 
+            WHERE user_id = %s AND book_id = %s
+        """, (session['login_id'], book_id))
+        is_favorited = cursor.fetchone() is not None
+        
+        # お気に入りの数を取得する
+        cursor.execute("""
+            SELECT COUNT(*) as favorite_count
+            FROM favorites
+            WHERE book_id = %s
+        """, (book_id,))
+        favorite_count = cursor.fetchone()['favorite_count'] # type: ignore
+
         return render_template('product-details.html', 
-                             book=book,
-                             comments=comment_data,
-                             username=book['username'], # type: ignore
-                             is_owner=is_owner,
-                             is_purchased=is_purchased)
+                            book=book,
+                            comments=comment_data,
+                            username=book['username'], # type: ignore
+                            is_owner=is_owner,
+                            is_purchased=is_purchased,
+                            is_favorited=is_favorited,
+                            favorite_count=favorite_count)
                              
     except Exception as e:
         print(f"Error: {e}")
@@ -793,11 +973,65 @@ def submit_comment():
 
 
 
-# -------------------- search.html --------------------
-@app.route('/search.html')
-def search():
-    return render_template('search.html')
+#--------------------------charge.html-----------------------------------
+@app.route('/charge.html')
+def charge():
+    conn = conn_db()
+    cursor = conn.cursor(dictionary=True)
+    
+    accountID = session['login_id']
+    
+    cursor.execute("""
+    SELECT currency
+    FROM users
+    WHERE id = %s
+    """, (accountID,))
+    json_data = cursor.fetchone()
+    current_Balance = json_data["currency"]
+    return render_template('charge.html',current_Balance=current_Balance)
 
+
+
+
+#仮想通貨のチャージ
+@app.route('/chargeCoins', methods=['POST'])
+def chargeCoins():
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        accountID = session['login_id']
+        data = request.get_json()
+        addedFunds = int(data.get('addedFunds'))
+        
+        cursor.execute("""
+        SELECT currency
+        FROM users
+        WHERE id = %s
+        """, (accountID,))
+        json_data = cursor.fetchone()
+        current_Balance = json_data["currency"]
+        new_Balance = current_Balance + addedFunds
+        print(f"現在の金額 : {current_Balance}  追加する金額 : {addedFunds}  新しい金額 : {new_Balance}")
+        
+        update_query3 = """
+        UPDATE users
+        SET currency = %s
+        WHERE id = %s
+        """
+        cursor.execute(update_query3, (new_Balance, accountID))
+        conn.commit()
+        
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        conn.rollback()  # エラーが発生した場合はロールバック
+        
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for('shoppingcart'))
 
 
 # -------------------- shopping-cart.html --------------------
@@ -825,8 +1059,9 @@ def shoppingcart():
             FROM users
             WHERE id = %s
         """, (accountID,))
+
         currency = cursor.fetchone()['currency']
-        print(currency)
+
         
         query = """
         SELECT 
@@ -886,13 +1121,17 @@ def remove_from_cart():
 
 
 # -------------------- カート内のアイテムを購入 --------------------
-@app.route('/proceedToCheckout',methods=['GET']) # type: ignore
+@app.route('/proceedToCheckout',methods=['POST']) # type: ignore
 def proceedToCheckout():
     try:
-        accountID = session['login_id']
         conn = conn_db()
         cursor = conn.cursor()
-
+        
+        accountID = session['login_id']
+        total_price = session['total_price']
+        data = request.get_json()
+        usepoint = float(data.get('usepoints'))
+        
         # カートに入っている商品のIDを取得
         query1 = """
         SELECT book_id 
@@ -948,18 +1187,19 @@ def proceedToCheckout():
         WHERE id = %s
         """, (accountID,))
         price = cursor.fetchone()
-        new_currency = float(price[0]) - float(session['total_price']) # type: ignore
-        print(new_currency)
+        new_currency = float(price[0]) - float(total_price) + usepoint # type: ignore
+        new_points = float(price[1]) - usepoint # type: ignore
         
         update_query3 = """
         UPDATE users
-        SET currency = %s
+        SET currency = %s,points = %s
         WHERE id = %s
         """
-        cursor.execute(update_query3, (new_currency, accountID))
+        cursor.execute(update_query3, (new_currency,new_points, accountID))
 
 
         conn.commit()
+        print(f'支払い総額 : {total_price}  使用ポイント : {usepoint}  残高 : {new_currency}')
         return redirect(url_for('payment'))
 
     except mysql.connector.Error as err:
@@ -975,12 +1215,12 @@ def proceedToCheckout():
 # -------------------- お気に入り機能 --------------------
 @app.route('/toggle-favorite', methods=['POST'])
 def toggle_favorite():
-    if 'user_id' not in session:
+    if 'login_id' not in session:
         return jsonify({'error': 'ログインが必要です'}), 401
         
     data = request.get_json()
     book_id = data.get('book_id')
-    user_id = session['user_id']
+    user_id = session['login_id']
     
     conn = conn_db()
     cursor = conn.cursor()
@@ -1006,12 +1246,18 @@ def toggle_favorite():
             VALUES (%s, %s)
         ''', (user_id, book_id))
         status = 'added'
+        
+    cursor.execute('''
+        SELECT COUNT(*) FROM favorites 
+        WHERE book_id = %s
+    ''', (book_id,))
+    favorite_count = cursor.fetchone()[0] # type: ignore
     
     conn.commit()
     cursor.close()
     conn.close()
     
-    return jsonify({'status': status})
+    return jsonify({'status': status, 'favorite_count': favorite_count})
 
 
 
@@ -1064,82 +1310,57 @@ def profile():
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
 
-        # # user_profilesテーブルにuser_idが存在するかチェック
-        # cursor.execute("""
-        #     SELECT * FROM user_profiles 
-        #     WHERE user_id = %s
-        # """, (session['login_id'],))
-        # existing_profile = cursor.fetchone()
-        
-        # # プロファイルが存在しない場合、新しい行を追加
-        # if existing_profile is None:
-        #     try:
-        #         cursor.execute("""
-        #             INSERT INTO user_profiles (user_id, profile_image, first_name, last_name, bio)
-        #             VALUES (%s, %s, %s, %s, %s)
-        #         """, (session['login_id'], 'default-profile.jpg', None, None, None))
-        #         conn.commit()
-        #     except Exception as e:
-        #         conn.rollback()
-
         if request.method == 'POST':
             # プロフィール画像アップロード処理
-            if 'profile_image' in request.files:
-                file = request.files.get('profile_image')
-                username = request.form.get('username')
-                password = request.form.get('password')
-                bio = request.form.get('Bio')
-                
-                if file:
-                    upload_folder = 'kakikko/static/images/profiles_images'
+            # if 'profile_image' in request.files:
+            file = request.files.get('profile_image')
+            username = request.form.get('username')
+            password = request.form.get('password')
+            bio = request.form.get('Bio')
+            print(file, username, password, bio)
+            
+            if file:
+                upload_folder = 'kakikko/static/images/profiles_images'
 
-                    # アップロードフォルダ内のファイルを調べる
-                    for existing_file in os.listdir(upload_folder):
-                        # ファイル名の最初の"/"以前の文字列を取得
-                        existing_filename = existing_file.split('_')[:2]
-                        existing_filename = "_".join(existing_filename)  # user_100000の形式に変換
-                        # 一致する場合はファイルを削除
-                        if existing_filename == secure_filename(f"user_{session['login_id']}"):
-                            file_to_delete = f"{upload_folder}/{existing_file}"
-                            os.remove(file_to_delete)
-                                
-                    filename = f"user_{session['login_id']}_{secure_filename(file.filename)}" # type: ignore
-                    file_path = f"{upload_folder}/{filename}"
-                    try:
-                        file.save(file_path)  # file_pathに、fileを保存
-                    except Exception as e:
-                        return f"File upload failed: {str(e)}", 500
-
-                    try:
-                        # # データベースに画像パスを保存
-                        # cursor.execute("""
-                        #     INSERT INTO user_profiles (user_id, profile_image, username, password, bio)
-                        #     VALUES (%s, %s, %s, %s, %s)
-                        #     ON DUPLICATE KEY UPDATE profile_image = %s, username = %s, password = %s, bio = %s
-                        # """, (session['login_id'], filename, username, password, bio, filename, username, password, bio))
-                        # conn.commit()
-                        
-                        cursor.execute("""
-                            UPDATE users
-                            SET profile_image = %s, username = %s, password = %s, bio = %s
-                            WHERE id = %s
-                        """, (filename, username, password, bio, session['login_id']))
-                        conn.commit()
-
-                        session['login_name'] = username
+                # アップロードフォルダ内のファイルを調べる
+                for existing_file in os.listdir(upload_folder):
+                    # ファイル名の最初の"/"以前の文字列を取得
+                    existing_filename = existing_file.split('_')[:2]
+                    existing_filename = "_".join(existing_filename)  # user_100000の形式に変換
+                    # 一致する場合はファイルを削除
+                    if existing_filename == secure_filename(f"user_{session['login_id']}"):
+                        file_to_delete = f"{upload_folder}/{existing_file}"
+                        os.remove(file_to_delete)
                             
-                    except Exception as e:
-                        conn.rollback()
-                        return "Database error", 500
+                filename = f"user_{session['login_id']}_{secure_filename(file.filename)}" # type: ignore
+                file_path = f"{upload_folder}/{filename}"
+                try:
+                    file.save(file_path)  # file_pathに、fileを保存
+                except Exception as e:
+                    return f"File upload failed: {str(e)}", 500
 
-        # # プロフィール情報取得
-        # cursor.execute("""
-        #     SELECT u.username, up.profile_image, up.first_name, up.last_name, up.bio
-        #     FROM users u
-        #     LEFT JOIN user_profiles up ON u.id = up.user_id
-        #     WHERE u.id = %s
-        # """, (session['login_id'],))
-        # user_info = cursor.fetchone()
+                try:
+                    
+                    cursor.execute("""
+                        UPDATE users
+                        SET profile_image = %s, username = %s, password = %s, bio = %s
+                        WHERE id = %s
+                    """, (filename, username, password, bio, session['login_id']))
+                    conn.commit()
+
+                    session['login_name'] = username
+                        
+                except Exception as e:
+                    conn.rollback()
+                    return "Database error", 500
+            else:
+                cursor.execute("""
+                    UPDATE users
+                    SET username = %s, password = %s, bio = %s
+                    WHERE id = %s
+                """, (username, password, bio, session['login_id']))
+                conn.commit()
+                session['login_name'] = username
 
         cursor.execute("""
             SELECT * FROM users WHERE id = %s
@@ -1148,10 +1369,10 @@ def profile():
         
         # ユーザーがお気に入りした本を取得
         cursor.execute("""
-            SELECT b.book_id, b.book_title, b.book_price, b.book_cover_image
-            FROM favorites f
-            JOIN books b ON f.book_id = b.book_id
-            WHERE f.user_id = %s
+            SELECT books.book_id, books.book_title, books.book_cover_image, books.book_price
+            FROM favorites
+            JOIN books ON favorites.book_id = books.book_id
+            WHERE favorites.user_id = %s
         """, (session['login_id'],))
         favorite_books = cursor.fetchall()
 
@@ -1167,7 +1388,23 @@ def profile():
 # -------------------- profile-info.html --------------------
 @app.route('/profile-info.html')
 def profileinfo():
-    return render_template('profile-info.html')
+    if 'login_id' not in session:
+        return redirect(url_for('login'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (session['login_id'],))
+        user_info = cursor.fetchone()
+        
+        return render_template('profile-info.html', user_info=user_info)
+        
+    finally:
+        cursor.close()
+        conn.close()
 
 
 
@@ -1374,5 +1611,12 @@ def images(filename):
     return send_from_directory('kakikko/static/images', filename)
 
 
+# 设置 Flask 配置
+app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['SESSION_TYPE'] = 'filesystem'
+
 if __name__ == '__main__':
-    app.run(debug=False)
+    try:
+        app.run(debug=False, host='0.0.0.0', port=80) #IPアドレスとポート番号はマシンに合わせて変更
+    except:
+        app.run(debug=False)
