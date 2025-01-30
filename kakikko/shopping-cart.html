@@ -229,7 +229,7 @@
   }
 
     document.getElementById("proceedToCheckout").addEventListener("click",function(){
-      const usepoints = parseInt(document.getElementById("pointInput").value, 10);;
+      let usepoints = parseInt(document.getElementById("pointInput").value, 10);;
       console.log(usepoints);
 
       if (purchase_check == true){
