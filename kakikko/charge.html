@@ -70,6 +70,9 @@
         if (response.redirected) {
             window.location.href = response.url;
         }
+        else{
+          parent.location.reload();
+        }
     })
     .catch(error => {
         console.error('Error:', error);
@@ -81,13 +84,14 @@
     document.querySelectorAll('.right_container > div').forEach(right_container => {
       right_container.addEventListener('click', () => {
         let pricetext = right_container.closest('.PaymentAmount').querySelector('.left_container > div').textContent;
-        if (isNaN(pricetext)){
+        // 数値のみを抽出
+        pricetext = pricetext.match(/\d+/g)?.join('') || '';
+        console.log(pricetext);
+        if (pricetext == ""){
           pricetext = document.getElementById("input_number").value;
         }
-        // 数値のみを抽出
-        const priceValue = pricetext.match(/\d+/g)?.join('') || '';
-        console.log(`選択されたチャージ額: ${priceValue}`);
-        post(priceValue);
+        console.log(`選択されたチャージ額:` + pricetext);
+        post(pricetext);
       });
     });
 

@@ -969,6 +969,7 @@ def chargeCoins():
         
         accountID = session['login_id']
         data = request.get_json()
+        print(type(data.get('addedFunds')))
         addedFunds = int(data.get('addedFunds'))
         
         cursor.execute("""
@@ -996,7 +997,7 @@ def chargeCoins():
     finally:
         cursor.close()
         conn.close()
-    return redirect(url_for('shoppingcart'))
+    return ""
 
 
 # -------------------- shopping-cart.html --------------------
