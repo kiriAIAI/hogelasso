@@ -91,6 +91,7 @@ def index():
 @app.route('/category/<category>')
 def category(category):
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "category", "args": {"book_id": category}}
         return redirect(url_for('login'))
         
     try:
@@ -236,7 +237,12 @@ def login():
         if user:
             session['login_id'] = user[0] # type: ignore
             session['login_name'] = user[1] # type: ignore
-            return redirect(url_for('index'))
+            if "lastpage" in session:
+                lastpage_data = session.pop("lastpage")  # セッションから削除してリダイレクト
+                return redirect(url_for(lastpage_data["endpoint"], **lastpage_data.get("args", {})))
+            else:
+                return redirect(url_for('index'))
+            
         else:
             error = "無効なユーザー名、メールアドレス、パスワード"
             return render_template('login.html', error=error)
@@ -262,6 +268,10 @@ def dashboard():
 # -------------------- create.html --------------------
 @app.route('/create')
 def create():
+    if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "create"}
+        return redirect(url_for('login'))
+    
     edit_book_id = request.args.get('edit_book_id')
     if edit_book_id:
         connection = conn_db()
@@ -484,6 +494,7 @@ def delete_post(book_id):
 @app.route('/chatroom')
 def chatroom():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "chatroom"}
         return redirect(url_for('login'))  
     return render_template('chatroom.html')  
 
@@ -608,6 +619,7 @@ def notification():
 @app.route('/filter.html')
 def filter():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "filter"}
         return redirect(url_for('login'))
        
     try:
@@ -782,6 +794,7 @@ def search():
 @app.route('/product-details/<int:book_id>')
 def product_details(book_id):
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "product_details", "args": {"book_id": book_id}}
         return redirect(url_for('login'))
         
     try:
@@ -983,6 +996,7 @@ def charge():
 @app.route('/chargeCoins', methods=['POST'])
 def chargeCoins():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "chargeCoins"}
         return redirect(url_for('login'))
     try:
         conn = conn_db()
@@ -1025,6 +1039,7 @@ def chargeCoins():
 @app.route('/shopping-cart.html')
 def shoppingcart():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "shoppingcart"}
         return redirect(url_for('login'))
         
     try:
@@ -1293,6 +1308,7 @@ def allowed_file(filename):
 def profile():
     print(session)
     if not session or not session.get('login_id'):
+        session["lastpage"] = {"endpoint": "profile"}
         return redirect(url_for('login', _external=True))
 
     try:
@@ -1378,6 +1394,7 @@ def profile():
 @app.route('/profile-info.html')
 def profileinfo():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "profileinfo"}
         return redirect(url_for('login'))
         
     try:
@@ -1401,6 +1418,7 @@ def profileinfo():
 @app.route('/purchase-history.html')
 def purchase_history():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "purchase_history"}
         return redirect(url_for('login'))
     else :
         login_id = str(session.get('login_id'))
@@ -1454,6 +1472,7 @@ def purchase_history():
 @app.route('/read.html/<int:book_id>')
 def read(book_id):
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "read", "args": {"book_id": book_id}}
         return redirect(url_for('login'))
         
     try:
@@ -1490,6 +1509,7 @@ def read(book_id):
 @app.route('/quiz/<int:book_id>')
 def quiz(book_id):
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "quiz", "args": {"book_id": book_id}}
         return redirect(url_for('login'))
     
     # Generate random question
@@ -1545,6 +1565,7 @@ def generate_question():
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "submit_quiz"}
         return redirect(url_for('login'))
     
     selected_option = request.form.get('option')
