@@ -62,20 +62,6 @@ def update_database(where,Updated_value,sql):
     conn.close()
 
 
-# 現在の日付と時刻を取得して、秒まで表示
-def gettime():
-    current_datetime = datetime.now() # type: ignore
-    current_datetime_str = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
-
-    return current_datetime_str
-
-
-@app.route('/get_account_id', methods=['GET'])
-def get_account_id():
-    account_id = "20000"  # 例として固定のIDを使用
-    return jsonify({"account_id": account_id}), 200
-
-
 
 # -------------------- index.html --------------------
 @app.route('/')
@@ -1004,6 +990,7 @@ def chargeCoins():
         
         accountID = session['login_id']
         data = request.get_json()
+        print(type(data.get('addedFunds')))
         addedFunds = int(data.get('addedFunds'))
         
         cursor.execute("""
@@ -1031,7 +1018,7 @@ def chargeCoins():
     finally:
         cursor.close()
         conn.close()
-    return redirect(url_for('shoppingcart'))
+    return ""
 
 
 # -------------------- shopping-cart.html --------------------
@@ -1130,7 +1117,9 @@ def proceedToCheckout():
         accountID = session['login_id']
         total_price = session['total_price']
         data = request.get_json()
-        usepoint = float(data.get('usepoints'))
+        usepoint = data.get('usepoints')
+        if usepoint == None:
+            usepoint = 0
         
         # カートに入っている商品のIDを取得
         query1 = """
@@ -1147,7 +1136,7 @@ def proceedToCheckout():
             return redirect(url_for('shoppingcart'))
 
         # book_idsリストを作成
-        book_ids = [str(book[0]) for book in books] # type: ignore
+        book_ids = [str(book[0]) for book in books]
 
         # 商品IDからオーナーIDを取得
         query2 = """
@@ -1167,10 +1156,10 @@ def proceedToCheckout():
         
         # 各オーナーに対してデータを挿入
         for owner in owners:
-            book_id = owner[0] # type: ignore
-            seller_id = owner[1] # type: ignore
+            book_id = owner[0]
+            seller_id = owner[1]
 
-            cursor.execute(sql, (book_id, accountID, seller_id)) # type: ignore
+            cursor.execute(sql, (book_id, accountID, seller_id))
             
             #アイテムを購入済みに更新
             update_query = """
@@ -1178,7 +1167,7 @@ def proceedToCheckout():
             SET quantity = 3
             WHERE book_id = %s AND user_id = %s
             """
-            cursor.execute(update_query, (book_id, accountID)) # type: ignore
+            cursor.execute(update_query, (book_id, accountID))
             
         #購入された書籍の金額を所持金から引く
         cursor.execute("""
@@ -1187,8 +1176,8 @@ def proceedToCheckout():
         WHERE id = %s
         """, (accountID,))
         price = cursor.fetchone()
-        new_currency = float(price[0]) - float(total_price) + usepoint # type: ignore
-        new_points = float(price[1]) - usepoint # type: ignore
+        new_currency = price[0] - int(total_price) + usepoint
+        new_points = float(price[1]) - usepoint
         
         update_query3 = """
         UPDATE users

@@ -166,6 +166,11 @@
                 </div>
             {% endif %}
           </div>
+          <div id="charge_site">
+            <div id="charge_site_outside">
+              <iframe src="charge.html" frameborder="0"></iframe>
+            </div>
+          </div>
         </div>
         <div class="shopping-right-block">
           <div class="cart-summary-block">
@@ -197,7 +202,13 @@
                 </div>
               </form>
             </div>
-            <div id="warning_message" class="warning_message">お金が足りません</div>
+            <div id="warning_message" class="warning_message">
+              <p>お金が足りません</p>
+              <div id="charge_button">
+                <p>チャージしますか？</p>
+                <div id="charge">チャージ</div>
+              </div>
+            </div>
             <div class="summary-price-block">
               <div>合計金額</div>
               <div class="text-block-3">￥<span id="totalPrice">{{ total_price }}</span></div>
@@ -212,6 +223,7 @@
   </section>
   <script>
     let purchase_check = true;
+    const change_Container_check = true;
 
     function showPopup(count) {
       const popup = document.getElementById('popup' + count);
@@ -227,9 +239,24 @@
           popup.style.opacity = 0;    // フェードアウト
       }, 5000);
   }
+    function charge_menu(){
+      const change_Container = document.getElementById("charge_site");
+      if (change_Container.style.visibility == "hidden"){
+        change_Container.style.visibility = "visible";
+      }
+      else{
+        change_Container.style.visibility = "hidden";
+      }
+    }
+    document.getElementById("charge").addEventListener("click",function(){
+      charge_menu();
+    })
+    document.getElementById("charge_site_outside").addEventListener("click",function(){
+      charge_menu();
+    })
 
     document.getElementById("proceedToCheckout").addEventListener("click",function(){
-      const usepoints = parseInt(document.getElementById("pointInput").value, 10);;
+      let usepoints = parseInt(document.getElementById("pointInput").value, 10);;
       console.log(usepoints);
 
       if (purchase_check == true){
