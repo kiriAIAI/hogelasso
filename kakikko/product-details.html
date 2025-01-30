@@ -143,7 +143,7 @@
                     {% endif %}
                     <div class="user-name">{{ book.username }}</div>
                 </a>
-                <button onclick="startChatFromProfile('{{ book.username }}')">msg</button>
+                <button class="send-message-icon" onclick="startChatFromProfile('{{ book.username }}')"><i class="fa-solid fa-comment-sms"></i></button>
                 <script>
                   function startChatFromProfile(username) {
                     sessionStorage.setItem('chatUsername', username);
@@ -264,13 +264,9 @@
                 <div class="comment-no-margin w-form">
                   <form id="wf-form-Edit-Comment-Form" name="wf-form-Edit-Comment-Form" data-name="Edit Comment Form" method="get" data-ms-post-edit="form" data-wf-page-id="670b752701de0ce1386810ba" data-wf-element-id="b535171e-a3ac-0a08-c6c4-e5b838f35653"><textarea class="comment-input w-input" maxlength="5000" name="Edit-Comment" data-name="Edit Comment" data-ms-post-edit="content" placeholder="コメントを入力" id="Edit-Comment"></textarea>
                     <div class="comment-form-button-row">
-                      <div class="comment-delete-wrap">
-                        <a href="#" class="comment-delete-btn w-button">削除</a>
-                      </div>
-                      <a data-ms-post-edit="cancel" href="#" class="comment-btn is-cancel w-button">キャンセル</a>
                       <button type="submit" id="Comment_Submission" class="comment-btn w-button">
                         <i class="fa-solid fa-paper-plane"></i>
-                    </button>
+                      </button>
                     </div>
                   </form>
                 </div>
