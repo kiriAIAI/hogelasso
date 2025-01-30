@@ -975,6 +975,9 @@ def submit_comment():
 #--------------------------charge.html-----------------------------------
 @app.route('/charge.html')
 def charge():
+    if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "charge"}
+        return redirect(url_for('login'))
     conn = conn_db()
     cursor = conn.cursor(dictionary=True)
     
