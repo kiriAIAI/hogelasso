@@ -1630,4 +1630,4 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=False, host="0.0.0.0" port=80)
