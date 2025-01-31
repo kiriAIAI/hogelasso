@@ -107,6 +107,14 @@
   .product-image-wrapper {
     height: 230px;
   }
+
+  .code-embed {
+    font-size: 0.95rem;
+  }
+  
+  .footer-logo {
+    width: 90px;
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -229,7 +237,7 @@
   justify-content: space-between;
   align-items: stretch;
   width: 5.6em;
-  height: 100%;
+  height: 90vh;
   padding: 1.3em;
   display: flex;
   overflow: hidden;
@@ -632,7 +640,10 @@
 }
 
 .code-embed {
-  padding-top: 7px;
+  padding-top: 8px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--font);
 }
 
 /* ---------------------- login-signup ---------------------- */
@@ -4585,6 +4596,16 @@
     font-size: 2rem;
   }
 
+  .bell-icon {
+    margin-left: -0.15rem;
+  }
+
+  .back-icon {
+    text-align: left;
+    margin: 0.7rem 0 1.5rem 0;
+  }
+  
+
   .product-title {
     font-size: 22px;
     line-height: 32px;
@@ -4908,13 +4929,21 @@
     grid-template-columns: 1fr 1fr;
   }
 
+  /* -------------------- footer ---------------------- */
   .footer {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 80px 1.5rem 15px;
   }
 
   .footer-divider {
     margin-top: 60px;
+  }
+
+  .code-embed {
+    font-size: 0.875rem;
+  }
+  
+  .footer-logo {
+    width: 80px;
   }
 
   .login-signup-left-block {
@@ -5046,12 +5075,14 @@
 }
 
 @media screen and (max-width: 479px) {
+  /* -------------------- hero ---------------------- */
   .hero-image-grid {
     grid-column-gap: 4vw;
     grid-row-gap: 4vw;
     padding-left: 4vw;
   }
 
+  /* -------------------- product ---------------------- */
   .product-card {
     height: 340px;
   }
@@ -5095,6 +5126,21 @@
     grid-template-columns: 1fr;
   }
 
+  /* -------------------- footer ---------------------- */
+  .code-embed {
+    font-size: 0.7rem;
+  }
+  
+  .footer-logo {
+    width: 70px;
+    margin-right: 15px;
+  }
+  
+  .footer {
+    padding: 60px 1rem 15px;
+  }
+
+  /* -------------------- login-signup ---------------------- */
   .login-signup-left-block {
     padding-left: 1rem;
     padding-right: 1rem;
