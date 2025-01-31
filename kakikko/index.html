@@ -49,7 +49,7 @@
               </a>
             </nav>
           </div>
-          <div id="index_charge" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></div>
+          <div id="index_charge" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/charge.png') }}" loading="lazy" alt="" class="navbar-icon charge_img"></div>
           <a href="{{ url_for('shoppingcart') }}" class="navbar-link shopping-cart w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
           <a href="{{ url_for('login') }}" class="navbar-link account w-nav-link"><img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
           <div class="back-icon">
@@ -249,21 +249,36 @@
   </section>
 
   <script>
-    function charge_menu(){
-      const change_Container = document.getElementById("index_charge_menu");
-      if (change_Container.style.visibility == "hidden"){
-        change_Container.style.visibility = "visible";
-      }
-      else{
-        change_Container.style.visibility = "hidden";
+    function toggleChargeMenu() {
+      const menu = document.getElementById("index_charge_menu");
+    
+      if (menu.classList.contains("active")) {
+        menu.classList.remove("active");
+        menu.classList.add("hidden");
+    
+        // アニメーション後に非表示にする
+        setTimeout(() => {
+          menu.style.visibility = "hidden";
+        }, 1000);
+      } else {
+        menu.style.visibility = "visible";
+        menu.classList.remove("hidden");
+        menu.classList.add("active");
       }
     }
     document.getElementById("index_charge").addEventListener("click",function(){
-      charge_menu();
+      toggleChargeMenu()
     })
     document.getElementById("index_charge_menu").addEventListener("click",function(){
-      charge_menu();
+      toggleChargeMenu()
     })
+    addEventListener("scroll",(event) => {
+      const menu = document.getElementById("index_charge_menu");
+      if (menu.classList.contains("active")) {
+        console.log("sukuro-ru");
+        toggleChargeMenu();
+      }
+    });
   </script>
   <!-- チャットボットの処理ーーーーーーーーーーーーーーーーーーーーーーーーーー -->
   <style>
