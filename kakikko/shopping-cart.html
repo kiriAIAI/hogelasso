@@ -189,15 +189,15 @@
                     <label for="" class="own_point-label">所持ポイント <div>{{ user_points }} pt</div></label>
                   </div>
                 </div>
-                <div class="point-input">
-                  <div class="point-label">
-                    <label for="" class="field-label-2">ポイント</label>
+
+
+                <div id="point_Container">
+                  <div id="point_label">
+                    <label for="" class="field-label-2">ポイントを使用する</label>
                   </div>
-                  <div class="point-input-block">
+                  <div id="point_input">
                     <input class="text-field-3 w-input" maxlength="256" name="points" type="number" id="pointInput" min="0" max="{{ user_points }}" required>
-                    <button type="button" class="point-input-btn w-button" onclick="calculateTotal()">
-                      <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+                    <p>pt</p>
                   </div>
                 </div>
               </form>

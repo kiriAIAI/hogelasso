@@ -2501,6 +2501,36 @@
 }
 
 /* ---------- ポイント ---------- */
+
+#point_label{
+  display: flex;
+  width: 100%;
+}
+#pointInput{
+  width: 100%;
+  min-width: 70px;
+  margin: 2px 5px 0 0;
+  border-radius: 6px;
+  text-align: right;
+}
+#pointInput::-webkit-outer-spin-button,
+#pointInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+#point_input{
+  display: flex;
+  width: 100%;
+  justify-content: right;
+  align-items: center;
+  margin: 0 0 0 auto;
+  padding: 0 0 0 10px;
+}
+#point_input p{
+  margin: 0;
+  margin-bottom: 5px;
+}
+
 .point-input {
   display: flex;
   text-align: center;
@@ -2519,13 +2549,13 @@
   display: flex;
 }
 
-.text-field-3 {
+/* .text-field-3 {
   border-radius: 6px;
   width: 120px;
   margin-top: 2px;
   margin-bottom: 0;
   margin-right: 5px;
-}
+} */
 
 .text-field-3:focus{
   border: 2px solid var(--dark-gray);
