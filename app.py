@@ -17,6 +17,7 @@ app.secret_key = 'kakikko'
 def conn_db():
     conn = mysql.connector.connect(
         host="127.0.0.1", 
+        port="3306",
         user="root", 
         password="root", 
         db="kakikko",
@@ -1629,4 +1630,4 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
-    app.run(debug=False, host="0.0.0.0", port=80)
+    app.run(debug=False)
