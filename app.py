@@ -509,8 +509,8 @@ def get_user_id(username):
     connection.close()
 
     if user:
-        print(f"User found: {username} with ID {user[0]}")  # 添加日志
-        return jsonify({'user_id': user[0]})
+        print(f"User found: {username} with ID {user[0]}")  # type: ignore # 添加日志
+        return jsonify({'user_id': user[0]}) # type: ignore
     else:
         print(f"User not found: {username}")  # 添加日志
         return jsonify({'error': 'User not found'}), 404
@@ -554,7 +554,7 @@ def get_messages(recipient_id):
     cursor.close()
     connection.close()
 
-    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages]
+    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages] # type: ignore
 
     return jsonify(messages_list)
 
@@ -990,7 +990,7 @@ def charge():
     WHERE id = %s
     """, (accountID,))
     json_data = cursor.fetchone()
-    current_Balance = json_data["currency"]
+    current_Balance = json_data["currency"] # type: ignore
     return render_template('charge.html',current_Balance=current_Balance)
 
 
@@ -1017,8 +1017,8 @@ def chargeCoins():
         WHERE id = %s
         """, (accountID,))
         json_data = cursor.fetchone()
-        current_Balance = json_data["currency"]
-        new_Balance = current_Balance + addedFunds
+        current_Balance = json_data["currency"] # type: ignore
+        new_Balance = current_Balance + addedFunds # type: ignore
         print(f"現在の金額 : {current_Balance}  追加する金額 : {addedFunds}  新しい金額 : {new_Balance}")
         
         update_query3 = """
@@ -1066,7 +1066,7 @@ def shoppingcart():
             WHERE id = %s
         """, (accountID,))
 
-        currency = cursor.fetchone()['currency']
+        currency = cursor.fetchone()['currency'] # type: ignore
 
         
         query = """
@@ -1155,7 +1155,7 @@ def proceedToCheckout():
             return redirect(url_for('shoppingcart'))
 
         # book_idsリストを作成
-        book_ids = [str(book[0]) for book in books]
+        book_ids = [str(book[0]) for book in books] # type: ignore
 
         # 商品IDからオーナーIDを取得
         query2 = """
@@ -1175,10 +1175,10 @@ def proceedToCheckout():
         
         # 各オーナーに対してデータを挿入
         for owner in owners:
-            book_id = owner[0]
-            seller_id = owner[1]
+            book_id = owner[0] # type: ignore
+            seller_id = owner[1] # type: ignore
 
-            cursor.execute(sql, (book_id, accountID, seller_id))
+            cursor.execute(sql, (book_id, accountID, seller_id)) # type: ignore
             
             #アイテムを購入済みに更新
             update_query = """
@@ -1186,7 +1186,7 @@ def proceedToCheckout():
             SET quantity = 3
             WHERE book_id = %s AND user_id = %s
             """
-            cursor.execute(update_query, (book_id, accountID))
+            cursor.execute(update_query, (book_id, accountID)) # type: ignore
             
         #購入された書籍の金額を所持金から引く
         cursor.execute("""
@@ -1195,8 +1195,8 @@ def proceedToCheckout():
         WHERE id = %s
         """, (accountID,))
         price = cursor.fetchone()
-        new_currency = price[0] - int(total_price) + usepoint
-        new_points = float(price[1]) - usepoint
+        new_currency = price[0] - int(total_price) + usepoint # type: ignore
+        new_points = float(price[1]) - usepoint # type: ignore
         
         update_query3 = """
         UPDATE users
@@ -1630,4 +1630,4 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
-    app.run(debug=False, host="0.0.0.0" port=80)
+    app.run(debug=False, host="0.0.0.0", port=80)
