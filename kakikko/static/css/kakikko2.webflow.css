@@ -671,6 +671,7 @@
 
 .code-embed {
   padding-top: 7px;
+  font-size: 1rem;
 }
 
 /* ---------------------- login-signup ---------------------- */
@@ -4673,6 +4674,11 @@
     grid-template-columns: 1fr 1fr 1fr;
   }
 
+  /* ---------- footer ---------- */
+  .code-embed {
+    font-size: 0.9rem;
+  }
+
   .login-signup-left-block {
     max-width: 100%;
   }
@@ -4913,6 +4919,11 @@
     grid-template-columns: 1fr 1fr;
     gap: 15px;
     padding: 15px;
+  }
+
+  /* ---------- footer ---------- */
+  .code-embed {
+    font-size: 0.8rem;
   }
 
   .chatroom-block {
@@ -5160,6 +5171,11 @@
 
   .category-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* ---------- footer ---------- */
+  .code-embed {
+    font-size: 0.7rem;
   }
 
   .login-signup-left-block {
