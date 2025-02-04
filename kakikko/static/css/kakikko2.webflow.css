@@ -4653,8 +4653,19 @@
     margin-right: 10px;
   }
 
+  /* ---------- ナビバー ---------- */
   .nav-menu {
-    background-color: #f7f7f7;
+    background-color: rgba(247, 247, 247, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  @supports not (backdrop-filter: blur(10px)) {
+    .nav-menu {
+      background-color: rgba(247, 247, 247, 0.95);
+    }
   }
 
   .hamburger-menu {
@@ -4667,6 +4678,14 @@
     left: 50%;
     width: 45%;
     min-width: 400px;
+  }
+
+  .bell-icon {
+    margin-left: -0.1rem;
+  }
+
+  .charge_img {
+    margin-left: -0.3rem;
   }
 
   .back-icon {
