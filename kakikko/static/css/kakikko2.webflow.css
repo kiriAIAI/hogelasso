@@ -14,12 +14,13 @@
   --accessible-components--dark-grey: #9b9b9b;
 }
 
+/* ---------- チャージメニュー ---------- */
 #index_charge_menu {
   position: fixed;
   display: flex;
   width: 100%;
   height: 100%;
-  z-index: 500;
+  z-index: 1001;
   visibility: hidden; /* 初期状態では非表示 */
 }
 
@@ -4653,6 +4654,13 @@
     font-size: 2rem;
   }
 
+  /* ---------- チャージメニュー ---------- */
+  #index_charge_menu iframe {
+    left: 50%;
+    width: 45%;
+    min-width: 400px;
+  }
+
   .product-title {
     font-size: 22px;
     line-height: 32px;
@@ -4676,6 +4684,7 @@
 
   /* ---------- footer ---------- */
   .code-embed {
+    margin-top: 3px;
     font-size: 0.9rem;
   }
 
@@ -4894,6 +4903,13 @@
     width: 100%;
     justify-content: center;
     margin-top: 10px;
+  }
+
+  /* ---------- チャージメニュー ---------- */
+  #index_charge_menu iframe {
+    left: 40%;
+    width: 55%;
+    min-width: 350px;
   }
 
   .product-grid {
@@ -5128,6 +5144,13 @@
     grid-column-gap: 4vw;
     grid-row-gap: 4vw;
     padding-left: 4vw;
+  }
+
+  /* ---------- チャージメニュー ---------- */
+  #index_charge_menu iframe {
+    left: 5%;
+    width: 90%;
+    min-width: 300px;
   }
 
   .product-card {
