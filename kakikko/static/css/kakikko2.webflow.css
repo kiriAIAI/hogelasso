@@ -48,6 +48,7 @@
 #index_charge_menu.hidden iframe {
   animation: slideOutToTop 0.6s ease-out forwards;
 }
+
 @keyframes slideInFromTop {
   from {
     transform: translateY(-100%);
@@ -165,6 +166,7 @@
   line-height: 1.6rem;
 }
 
+/* ---------- navbar ---------- */
 .navbar {
   background-color: #fff;
   height: 10vh;
@@ -234,6 +236,21 @@
 }
 
 /* -------------------- sidenavbar --------------------- */
+.sidenavbar {
+  color: #c1c1c1;
+  background-color: #3b3b3b;
+  border-radius: .8em;
+  flex-direction: column;
+  flex: 0 auto;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 5.6em;
+  height: 90vh;
+  padding: 1.3em;
+  display: flex;
+  overflow: hidden;
+}
+
 .sidenavbar-top {
   justify-content: space-between;
   align-items: center;
@@ -262,21 +279,6 @@
 
 .navbar__icon.is--2 {
   display: none;
-}
-
-.sidenavbar {
-  color: #c1c1c1;
-  background-color: #3b3b3b;
-  border-radius: .8em;
-  flex-direction: column;
-  flex: 0 auto;
-  justify-content: space-between;
-  align-items: stretch;
-  width: 5.6em;
-  height: 90vh;
-  padding: 1.3em;
-  display: flex;
-  overflow: hidden;
 }
 
 .sidenavbar.index-sidenavbar {
@@ -2864,8 +2866,11 @@
 /* -------------------- profile.html -------------------- */
 .profile-block {
   width: 100%;
-  padding-left: 1.5rem;
+  padding: 1.5rem;
   display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
 }
 
 .profile-left-block {
@@ -2876,13 +2881,14 @@
   margin-right: 20px;
   padding: 1rem 1.5rem 1.5rem;
   box-shadow: 0 2px 13px 2px #0003;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .profile-right-block {
-  width: 100%;
-  max-width: 65%;
-  padding: 1rem 1.5rem 1.5rem;
-  overflow: auto;
+  flex: 1;
+  padding: 1rem 1.5rem;
 }
 
 /* ---------- profile 画像/フォロワー/フォロー ---------- */
@@ -2897,7 +2903,7 @@
 
 /* ---------- フォロワー ---------- */
 .follower-pop-up {
-  z-index: 10;
+  z-index: 1001;
   background-color: #00000080;
   justify-content: center;
   align-items: center;
@@ -3006,14 +3012,25 @@
 }
 
 .profile-image-block {
-  width: 8rem;
-  height: 8rem;
+  width: 120px;
+  height: 120px;
   margin-right: 20px;
+  margin-bottom: 15px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
 }
 
 .profile-image {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  object-position: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .profile-follower-link {
@@ -3061,7 +3078,7 @@
 
 /* ---------- フォロー ---------- */
 .following-pop-up {
-  z-index: 10;
+  z-index: 1001;
   background-color: #00000080;
   justify-content: center;
   align-items: center;
@@ -3177,10 +3194,12 @@
   text-align: center;
   border-radius: 4px;
   width: 100%;
-  font-family: "Fa Solid 900", sans-serif;
+  padding: 10px 0;
+  margin-top: auto;
   font-size: 1.2rem;
   font-weight: 900;
   text-decoration: none;
+  display: block;
 }
 
 .profile-edit-btn:hover {
@@ -3188,7 +3207,7 @@
 }
 
 .bio-pop-up {
-  z-index: 10;
+  z-index: 1001;
   background-color: #00000080;
   justify-content: center;
   align-items: center;
@@ -4747,7 +4766,7 @@
     margin-right: 10px;
   }
 
-  /* ---------- ナビバー ---------- */
+  /* ---------- navbar ---------- */
   .nav-menu {
     background-color: rgba(247, 247, 247, 0.7);
     backdrop-filter: blur(10px);
@@ -4767,7 +4786,7 @@
     font-size: 2rem;
   }
 
-  /* サイドバー */
+  /* ---------- sidenavbar ---------- */
   .sidenavbar.index-sidenavbar {
     width: 5.6em;
   }
@@ -4922,7 +4941,7 @@
     transform: translate(0, 100%);
   }
 
-  /* ---------- チャットルーム ---------- */
+  /* ---------- chatroom.html ---------- */
   .chatroom-block {
     width: calc(95% - 90px);
     margin: 0 auto;
@@ -4944,6 +4963,34 @@
     text-decoration: none;
   }
 
+  /* ------------------- profile.html ------------------- */
+  .profile-block {
+    flex-direction: column;
+  }
+
+  .profile-left-block {
+    max-width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+    position: relative;
+    top: 0;
+  }
+
+  .profile-right-block {
+    width: 100%;
+  }
+
+  .product-grid.profile {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .profile-image-block {
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+  }
+
+  /* ------------------- product.html ------------------- */
   .product-left-block {
     padding: .5rem;
     max-width: 100%;
@@ -5147,6 +5194,53 @@
 
   .message-send-btn i {
     font-size: 0.9rem;
+  }
+
+  /* ------------------- profile.html ------------------- */
+  .profile-block {
+    padding: 1rem;
+  }
+
+  .profile-right-block {
+    padding: 1rem;
+  }
+
+  .product-grid.profile {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .profile-info-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: auto;
+  }
+
+  .profile-image-block {
+    width: 6rem;
+    height: 6rem;
+    margin-right: 0;
+    margin-bottom:15px;
+  }
+
+  .follow-info-block {
+    max-width: 100%;
+  }
+
+  .product-grid.profile {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .follower-popup-block,
+  .following-popup-block,
+  .bio-popup-block {
+    width: 90%;
+    max-width: 400px;
+    padding: 1rem;
+    margin: 10px;
   }
 
   .read-block {
@@ -5465,6 +5559,54 @@
   
   .text-field {
     height: 2.5rem;
+  }
+
+  /* ------------------- profile.html ------------------- */
+  .profile-block {
+    margin: 0 0 0 5px;
+    padding: 0.5rem;
+  }
+
+  .profile-right-block {
+    padding: 0.5rem;
+  }
+
+  .profile-image-block {
+    width: 6rem;
+    height: 6rem;
+    margin-bottom: 12px;
+  }
+
+  .profile-username {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .profile-follower-link,
+  .profile-following-link {
+    font-size: 0.9rem;
+  }
+
+  .profile-bio-heading {
+    font-size: 1.1rem;
+  }
+
+  .paragraph {
+    font-size: 1rem;
+  }
+
+  .favorite-heading {
+    font-size: 1.3rem;
+  }
+
+  .product-card {
+    height: auto;
+  }
+
+  .profile-edit-btn {
+    height: 2.5rem;
+    padding: 8px 0;
+    font-size: 1.1rem;
   }
 
   /* -------------------- product ---------------------- */
