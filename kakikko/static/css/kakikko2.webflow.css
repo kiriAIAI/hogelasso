@@ -1264,102 +1264,188 @@
 .chatroom-block {
   border: 1px solid #0000001a;
   border-radius: 24px;
-  width: 85%;
-  margin-left: 1.5rem;
-  padding-left: 0;
-  padding-right: 0;
+  width: calc(85% - 90px);
+  height: calc(90vh - 60px);
+  margin: 20px 20px 20px 90px;
   display: flex;
+  overflow: hidden;
+  background-color: var(--white);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* ----- 左側のメンバーリスト ----- */
 .chatroom-left-block {
-  width: 100%;
-  max-width: 30%;
-  padding: 1rem;
+  width: 30%;
+  height: 100%;
+  border-right: 1px solid #0000001a;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.chatroom-right-block {
-  background-color: #f8f8f8;
-  border: 1px #000;
-  border-left: 1px solid #0000001a;
-  border-top-right-radius: 24px;
-  border-bottom-right-radius: 24px;
-  flex-flow: column;
-  width: 100%;
-  max-width: 70%;
+.member-list-block {
+  padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.member-block {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border-radius: 12px;
+  background-color: var(--white);
+  transition: all 0.3s ease;
   display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.member-block:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.username-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #0000001a;
+  border-radius: 4px;
+}
+
+.username-input:focus {
+  border-color: var(--dark-gray);
+  box-shadow: 0 0 0 2px rgba(59, 59, 59, 0.1);
+}
+
+.chat-button {
+  width: 15%;
+  height: 36px;
+  padding: 0 10px;
+  background-color: var(--dark-gray);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chat-button i {
+  font-size: 1rem;
+}
+
+.chat-button:hover {
+  background-color: var(--dark-gray-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ----- 右側のチャットルーム ----- */
+.chatroom-right-block {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f8f8;
 }
 
 .chatroom-heading-block {
+  padding: 1rem;
   border-bottom: 1px solid #0000001a;
-  border-top-right-radius: 24px;
-  height: 100%;
-  max-height: 8%;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-.chatroom-content-block {
-  height: 100%;
-  max-height: 87%;
-  padding: 1rem 1rem 3rem;
-}
-
-.chatroom-send-block {
-  border: 1px #000;
-  flex-flow: column;
-  justify-content: center;
-  align-items: stretch;
-  height: 100%;
-  max-height: 10%;
+  min-height: 60px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .chatroom-heading {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.2;
   text-align: center;
-  margin-top: 12px;
-  font-size: 1.6rem;
-  line-height: 2rem;
+}
+
+.chatroom-content-block {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.chatroom-send-block {
+  padding: 1rem;
+  border-top: 1px solid #0000001a;
+  background-color: #f8f8f8;
 }
 
 .chat-send-form-block {
   margin-bottom: 0;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0 1rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .chat-send-form {
+  width: 100%;
+  height: 100%;
   justify-content: space-between;
   align-items: center;
   display: flex;
+  gap: 10px;
 }
 
 .text-field {
+  flex: 1;
   color: var(--font);
   border-radius: 50px;
   height: 3rem;
-  margin-bottom: 0;
-  margin-right: 10px;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.text-field:focus {
+  border-color: var(--dark-gray);
+  box-shadow: 0 0 0 2px rgba(59, 59, 59, 0.1);
 }
 
 .message-send-btn {
-  background-color: var(--dark-gray);
-  border-radius: 50px;
   width: 3rem;
   height: 3rem;
-  font-family: "Fa Solid 900", sans-serif;
-  font-weight: 900;
+  padding: 0;
+  background-color: var(--dark-gray);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.message-send-btn i {
+  font-size: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
 }
 
 .message-send-btn:hover {
   background-color: var(--dark-gray-hover);
 }
-
-.member-list-block {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-
 
 
 /* -------------------- 購入履歴 & 出品履歴.html -------------------- */
@@ -4836,6 +4922,24 @@
     transform: translate(0, 100%);
   }
 
+  /* ---------- チャットルーム ---------- */
+  .chatroom-block {
+    width: calc(95% - 90px);
+    margin: 0 auto;
+  }
+  
+  .chatroom-left-block {
+    width: 35%;
+  }
+  
+  .chatroom-right-block {
+    width: 65%;
+  }
+
+  .chatroom-heading {
+    font-size: 1.3rem;
+  }
+
   .text-block-2 {
     text-decoration: none;
   }
@@ -4992,16 +5096,57 @@
     font-size: 0.8rem;
   }
 
+  /* ---------- chatroom ---------- */
   .chatroom-block {
-    width: 100%;
-    margin: 0;
+    width: calc(100% - 90px);
+    height: calc(100vh - 60px);
+    margin: 0 0 0 90px;
+    border-radius: 20px;
     flex-direction: column;
   }
-
-  .chatroom-left-block,
-  .chatroom-right-block {
-    max-width: 100%;
+  
+  .chatroom-left-block {
     width: 100%;
+    height: 35%;
+    border-right: none;
+    border-bottom: 1px solid #0000001a;
+  }
+  
+  .member-list-block {
+    padding: 0.5rem;
+  }
+
+  .member-block {
+    margin-bottom: 0.5rem;
+  }
+
+  .chatroom-right-block {
+    width: 100%;
+    height: 65%;
+  }
+  
+  .chatroom-heading-block {
+    height: 10%;
+  }
+  
+  .chatroom-heading {
+    font-size: 1.2rem;
+  }
+
+  .chatroom-content-block {
+    height: 75%;
+  }
+  
+  .chatroom-send-block {
+    height: 15%;
+  }
+  
+  .member-block {
+    width: calc(50% - 5px);
+  }
+
+  .message-send-btn i {
+    font-size: 0.9rem;
   }
 
   .read-block {
@@ -5280,6 +5425,46 @@
     left: 5%;
     width: 90%;
     min-width: 300px;
+  }
+
+  /* -------------------- chatroom.html ---------------------- */
+  .chatroom-block {
+    width: calc(100% - 35px);
+    margin: 0 0 0 15px;
+  }
+  
+  .chatroom-left-block {
+    height: 35%;
+    padding: 0.5rem;
+  }
+  
+  .chatroom-right-block {
+    height: 65%;
+  }
+  
+  .member-block {
+    width: 100%;
+  }
+  
+  .chatroom-heading {
+    font-size: 1.1rem;
+  }
+
+  .chat-send-form-block {
+    width: 100%;
+  }
+  
+  .message-send-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .message-send-btn i {
+    font-size: 0.85rem;
+  }
+  
+  .text-field {
+    height: 2.5rem;
   }
 
   /* -------------------- product ---------------------- */
