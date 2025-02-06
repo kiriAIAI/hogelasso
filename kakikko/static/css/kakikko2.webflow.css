@@ -1846,20 +1846,33 @@
   margin-right: 20px;
 }
 
+/* ---------- product-detail.html ---------- */
 .product-block {
   width: 100%;
+  padding-top: 100px;
   padding-left: 1.5rem;
   display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
-/* ---------- 商品詳細ページ画像 ---------- */
 .product-left-block {
-  width: 100%;
-  max-width: 500px;  /* 限制最大宽度 */
-  height: 90vh;
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  height: 500px;
   position: relative;
   overflow: hidden;
   border-radius: 12px;
+}
+
+.product-right-block {
+  flex: 1;
+  min-width: 300px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .product-left-block .product-image {
@@ -1873,17 +1886,6 @@
   transform: translate(-50%, -50%);
   transition: transform 0.3s ease;
 }
-
-.product-right-block {
-  flex-flow: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 45%;
-  padding: 2rem;
-  display: flex;
-}
-
 
 
 /* --------------- product-user-block --------------- */
@@ -2773,18 +2775,34 @@
 }
 
 .products1-actions-wrap {
-  border-top: 1px solid #1112120f;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 10px;
   display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 10px;
 }
 
+.button-secondary.is-buy-now-button {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.link-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  border-radius: 8px;
+}
+
+/* ---------- お気に入りボタン ---------- */
 .text-14 {
   line-height: 24px;
 }
 
-/* ---------- ブックマークボタン ---------- */
 .text-14.text-14-30 {
   display: flex;
   align-items: center;
@@ -4744,7 +4762,6 @@
     border-radius: 4px;
     width: 100%;
     height: 3rem;
-    font-family: "Fa Solid 900", sans-serif;
     font-size: 1.3rem;
     font-weight: 900;
     text-decoration: none;
@@ -4990,20 +5007,26 @@
     margin-right: 15px;
   }
 
-  /* ------------------- product.html ------------------- */
+  /* ------------------- product-detail.html ------------------- */
+  .product-block {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
   .product-left-block {
-    padding: .5rem;
-    max-width: 100%;
+    width: 100%;
+    max-width: none;
     height: 400px;
   }
 
   .product-right-block {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    width: 100%;
+    max-width: none;
   }
 
   .product-heading {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
   }
 
   .product-price-reviews-wrapper {
@@ -5037,7 +5060,11 @@
   }
 
   .products1-actions-wrap {
-    flex-direction: row;
+    gap: 0.8rem;
+  }
+
+  .button-secondary.is-buy-now-button {
+    min-width: 180px;
   }
 
   .profile_img-box {
@@ -5113,6 +5140,7 @@
     min-width: 350px;
   }
 
+  /* ---------- product-card ---------- */
   .product-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -5132,6 +5160,7 @@
     padding: 15px;
   }
 
+  /* ---------- category-card ---------- */
   .category-grid {
     grid-template-columns: 1fr 1fr;
     gap: 15px;
@@ -5143,7 +5172,7 @@
     font-size: 0.8rem;
   }
 
-  /* ---------- chatroom ---------- */
+  /* ------------------- chatroom.html ------------------- */
   .chatroom-block {
     width: calc(100% - 90px);
     height: calc(100vh - 60px);
@@ -5194,6 +5223,36 @@
 
   .message-send-btn i {
     font-size: 0.9rem;
+  }
+
+  /* ------------------- product-detail.html ------------------- */
+  .product-block {
+    width: 80%;
+    padding: 0.8rem;
+    gap: 1rem;
+  }
+
+  .product-left-block {
+    height: 350px;
+  }
+
+  .product-heading {
+    font-size: 1.6rem;
+    line-height: 2.2rem;
+  }
+  
+  .product-price-text {
+    font-size: 1.3rem;
+  }
+
+  .products1-actions-wrap {
+    flex-wrap: nowrap;
+    gap: 0.6rem;
+  }
+
+  .button-secondary.is-buy-now-button {
+    min-width: 160px;
+    padding: 0.8rem 1.2rem;
   }
 
   /* ------------------- profile.html ------------------- */
@@ -5561,6 +5620,45 @@
     height: 2.5rem;
   }
 
+  /* ------------------- product-detail.html ------------------- */
+  .product-block {
+    padding: 0.5rem;
+  }
+
+  .product-left-block {
+    height: 300px;
+  }
+
+  .product-right-block {
+    padding: 0.8rem;
+  }
+
+  .product-heading {
+    font-size: 1.4rem;
+    line-height: 2rem;
+  }
+
+  .product-price-text {
+    font-size: 1.2rem;
+  }
+
+  .product-tag-block {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .products1-actions-wrap {
+    gap: 0.4rem;
+  }
+
+  .button-secondary.is-buy-now-button {
+    min-width: 140px;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  
+
   /* ------------------- profile.html ------------------- */
   .profile-block {
     margin: 0 0 0 5px;
@@ -5616,10 +5714,6 @@
   
   .product-image-wrapper {
     height: 200px;
-  }
-
-  .product-left-block {
-    height: 300px;
   }
 
   .product-price {
@@ -5693,11 +5787,6 @@
 
   .sysf-input.sysf-medium {
     margin-bottom: .5rem;
-  }
-
-  .products1-actions-wrap {
-    flex-direction: column;
-    align-items: stretch;
   }
 
   .display_horizontal {

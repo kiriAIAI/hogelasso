@@ -248,28 +248,17 @@
         </div>
         <!-- コメント投稿部分 -->
         <div data-ms-post="item" class="comment-row">
-          <div class="comment-image-wrap"><img data-ms-post="ownerProfileImage" loading="lazy" alt="" src="{{ url_for('static', filename='images/circle-user.svg') }}" class="comment-image"></div>
+          
           <div class="comment-content">
-            <div class="comment-hover">
-              <div class="comment-name-row">
-                <div class="comment-inline-block">
-                  <div class="commenter-name">
-                    <div data-ms-post-creator="first-name">Username</div>
+            <div data-ms-post-edit="section" class="comment-edit-section">
+              <div class="comment-no-margin w-form">
+                <form id="wf-form-Edit-Comment-Form" name="wf-form-Edit-Comment-Form" data-name="Edit Comment Form" method="get" data-ms-post-edit="form" data-wf-page-id="670b752701de0ce1386810ba" data-wf-element-id="b535171e-a3ac-0a08-c6c4-e5b838f35653"><textarea class="comment-input w-input" maxlength="5000" name="Edit-Comment" data-name="Edit Comment" data-ms-post-edit="content" placeholder="コメントを入力" id="Edit-Comment"></textarea>
+                  <div class="comment-form-button-row">
+                    <button type="submit" id="Comment_Submission" class="comment-btn w-button">
+                      <i class="fa-solid fa-paper-plane"></i>
+                    </button>
                   </div>
-                </div>
-              </div>
-              
-              <div data-ms-post="content" class="comment-text">コメント</div>
-              <div data-ms-post-edit="section" class="comment-edit-section">
-                <div class="comment-no-margin w-form">
-                  <form id="wf-form-Edit-Comment-Form" name="wf-form-Edit-Comment-Form" data-name="Edit Comment Form" method="get" data-ms-post-edit="form" data-wf-page-id="670b752701de0ce1386810ba" data-wf-element-id="b535171e-a3ac-0a08-c6c4-e5b838f35653"><textarea class="comment-input w-input" maxlength="5000" name="Edit-Comment" data-name="Edit Comment" data-ms-post-edit="content" placeholder="コメントを入力" id="Edit-Comment"></textarea>
-                    <div class="comment-form-button-row">
-                      <button type="submit" id="Comment_Submission" class="comment-btn w-button">
-                        <i class="fa-solid fa-paper-plane"></i>
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -283,16 +272,16 @@
   <script>
     //chatroom
     function startChat(username) {
-  console.log(`Starting chat with ${username}`);  // 添加日志
+  console.log(`Starting chat with ${username}`);
   fetch(`/get_user_id/${username}`)
     .then(response => response.json())
     .then(data => {
       if (data.user_id) {
-        console.log(`User ID found: ${data.user_id}`);  // 添加日志
+        console.log(`User ID found: ${data.user_id}`);
         addChatBox(username, data.user_id);
-        selectUserById(data.user_id, username);  // 自动选择用户并开始聊天
+        selectUserById(data.user_id, username);
       } else {
-        console.log(`User not found: ${username}`);  // 添加日志
+        console.log(`User not found: ${username}`);
         alert('User not found');
       }
     })
