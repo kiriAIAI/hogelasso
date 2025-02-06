@@ -219,6 +219,11 @@ def complete_registration():
 # -------------------- login.html --------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'login_id' in session:
+        session["lastpage"] = {"endpoint": "profile"}
+        
+        return redirect(url_for('profile'))
+    
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
@@ -1221,7 +1226,7 @@ def proceedToCheckout():
 
         conn.commit()
         print(f'支払い総額 : {total_price}  使用ポイント : {usepoint}  残高 : {new_currency}')
-        return redirect(url_for('payment'))
+        return redirect(url_for('purchase_history'))
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
