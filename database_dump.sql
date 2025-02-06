@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS `books`;
 CREATE TABLE `books` (
   `book_id` int(11) NOT NULL auto_increment,
   `book_title` varchar(255) NOT NULL,
+  `book_summary` varchar(255) NOT NULL,
   `book_content` text NOT NULL,
   `book_category` varchar(255) NOT NULL,
   `book_price` decimal(10,0) NOT NULL,
