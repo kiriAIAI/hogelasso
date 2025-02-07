@@ -350,7 +350,7 @@
                             <img src="{{ url_for('static', filename='images/users_images/' + book.book_cover_image) }}" loading="lazy" alt="" class="product-image">
                         </div>
                         <div class="profile-product-content-wrapper">
-                            <h3 class="product-title profile">{{ book.book_title }}</h3>
+                            <h3 class="product-title profile">{{ book.book_title | safe }}</h3>
                             <div class="product-price profile">￥{{ book.book_price }}</div>
                         </div>
                     </a>
