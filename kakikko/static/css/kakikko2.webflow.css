@@ -36,8 +36,6 @@
   border-radius: 20px;
 }
 
-
-
 /* ログインメニュー */
 #LoginMenu_Background{
   position: fixed;
@@ -49,6 +47,7 @@
   z-index: 1000;
   visibility: hidden;
 }
+
 #LoginMenu{
   position: absolute;
   display: flex;
@@ -64,6 +63,7 @@
   margin: 0 15px;
   align-items: center;
 }
+
 #LoginMenu_img{
   width: 60px;
   margin: auto 0;
@@ -72,19 +72,24 @@
 #LoginMenu_Right{
   padding: 10px 0;
 }
+
 #LoginMenu_Status{
   cursor: pointer;
   padding: 0 20px 0 10px;
 }
+
 #LoginMenu_Status:hover{
   background-color: #DDD;
 }
+
 #LoginMenu_Id{
   font-size: 1.1rem;
 }
+
 #LoginMenu_Mail{
   font-size: 0.8rem;
 }
+
 #LoginMenu_Logout{
   cursor: pointer;
   margin: 5px auto 0 auto;
@@ -93,6 +98,7 @@
   font-size: 0.8rem;
   color: rgb(201, 0, 0);
 }
+
 #LoginMenu_Logout:hover{
   background-color: #DDD;
 }
@@ -107,10 +113,7 @@
   transition: transform 0.3s ease-in-out;
 }
 
-
-
-
-
+/* ---------- main-container ---------- */
 .w-layout-blockcontainer {
   max-width: 940px;
   margin-left: auto;
@@ -125,51 +128,6 @@
   grid-template-columns: 1fr 1fr;
   grid-auto-columns: 1fr;
   display: grid;
-}
-
-.w-checkbox {
-  margin-bottom: 5px;
-  padding-left: 20px;
-  display: block;
-}
-
-.w-checkbox:before {
-  content: " ";
-  grid-area: 1 / 1 / 2 / 2;
-  display: table;
-}
-
-.w-checkbox:after {
-  content: " ";
-  clear: both;
-  grid-area: 1 / 1 / 2 / 2;
-  display: table;
-}
-
-.w-checkbox-input {
-  float: left;
-  margin: 4px 0 0 -20px;
-  line-height: normal;
-}
-
-.w-checkbox-input--inputType-custom {
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  width: 12px;
-  height: 12px;
-}
-
-.w-checkbox-input--inputType-custom.w--redirected-checked {
-  background-color: #3898ec;
-  background-image: url('https://d3e54v103j8qbb.cloudfront.net/static/custom-checkbox-checkmark.589d534424.svg');
-  background-position: 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-color: #3898ec;
-}
-
-.w-checkbox-input--inputType-custom.w--redirected-focus {
-  box-shadow: 0 0 3px 1px #3898ec;
 }
 
 @media screen and (max-width: 991px) {
@@ -200,6 +158,7 @@
   }
 }
 
+/* ---------- body ---------- */
 .body {
   font-family: Noto Sans JP, sans-serif;
   font-size: 1rem;
@@ -232,6 +191,7 @@
   display: flex;
 }
 
+/* ---------- notification-dropdown-toggle ---------- */
 .dropdown-toggle {
   margin-right: 0;
   padding-right: 20px;
@@ -275,7 +235,7 @@
   transform: translateX(-3px);
 }
 
-/* -------------------- sidenavbar --------------------- */
+/* ---------- sidenavbar ----------  */
 .sidenavbar {
   color: #c1c1c1;
   background-color: #3b3b3b;
@@ -401,6 +361,7 @@
   margin-top: 1.7em;
 }
 
+/* ---------- hero-image ---------- */
 .hero-image {
   object-fit: cover;
   border-radius: .8em;
@@ -408,6 +369,7 @@
   height: 100%;
   position: relative;
 }
+
 .navbar-icon{
   width: 1.6rem;
   height: 1.6rem;
@@ -420,18 +382,19 @@
   filter: brightness(0) saturate(100%) invert(77%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(89%) contrast(85%);
   transform: translateY(-2px);
 }
+
 .charge_img{
   height: 1.6rem;
   width:auto;
 }
 
-
-
+/* ---------- sidenavbar-icon ---------- */
 .sidenavbar-icon {
   width: 1.3rem;
   height: 1.3rem;
 }
 
+/* ---------- hero-container ---------- */
 .hero-container {
   width: 100%;
   max-width: 100vw;
@@ -469,6 +432,7 @@
   background-color: #272727;
 }
 
+/* ---------- hero-image-grid ---------- */
 .hero-image-grid {
   grid-column-gap: 1.5em;
   grid-row-gap: 1.5em;
@@ -488,7 +452,7 @@
   padding-bottom: 100px;
 }
 
-/* ---------------------- product ---------------------- */
+/* ---------- product-card ---------- */
 .product-price {
   font-size: 1.2rem;
   font-weight: 700;
@@ -556,7 +520,7 @@
   padding: 1rem 1.5rem 1rem;
 }
 
-/* ---------- 商品画像コンテナ ---------- */
+/* ---------- product-card image ---------- */
 .product-image-wrapper {
   object-fit: fill;
   transform: translate(0);
@@ -568,6 +532,7 @@
   background-color: #f5f5f5;
 }
 
+/* ---------- product-card title ---------- */
 .title-block {
   justify-content: space-between;
   align-items: center;
@@ -3667,29 +3632,29 @@
   border-radius: 24px;
   flex-flow: column;
   width: 100%;
-  max-width: 80%;
-  height: 100%;
-  max-height: 100%;
-  padding: 3rem;
+  max-width: 800px;
+  height: auto;
+  min-height: 400px;
+  padding: 2.5rem;
   display: flex;
   margin: auto;
   box-shadow: 0 2px 13px 2px #0003;
 }
 
 .quiz-question-block {
-  height: 100%;
-  max-height: 60%;
-  margin-bottom: 40px;
+  height: auto;
+  min-height: 150px;
+  margin-bottom: 2rem;
+  overflow-y: auto;
 }
 
 .quiz-answer-block {
-  grid-column-gap: 16px;
-  grid-row-gap: 16px;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
   grid-template-rows: auto auto;
   grid-template-columns: 1fr 1fr;
   grid-auto-columns: 1fr;
-  height: 100%;
-  max-height: 30%;
+  height: auto;
   display: grid;
 }
 
@@ -3709,9 +3674,11 @@
   background-color: var(--dark-gray);
   text-align: center;
   border-radius: 4px;
-  width: 10rem;
+  width: 100%;
+  min-width: 150px;
   height: 3rem;
-  transition: background-color 0.3s ease;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
 }
 
 .answer-btn:hover {
@@ -5278,10 +5245,10 @@
     min-width: 120px;
   }
 
+  /* -------------------- quiz.html -------------------- */
   .quiz-block {
-    width: 100%;
     max-width: 90%;
-    max-height: 85%;
+    padding: 2rem;
   }
 
   .logos-wrap {
@@ -5798,18 +5765,18 @@
   }
 
   .quiz-block {
-    width: 350px;
+    max-width: 95%;
+    padding: 1.5rem;
   }
-
-  .quiz-question-block {
-    max-height: 50%;
-    margin-bottom: 40px;
-    overflow: auto;
-  }
-
+  
   .quiz-answer-block {
     grid-template-columns: 1fr;
   }
+  
+  .answer-btn {
+    height: 2.8rem;
+    font-size: 1rem;
+  } 
 
   .logos-wrap {
     flex-direction: row;
@@ -6187,7 +6154,28 @@
   }
 
   .quiz-block {
-    width: 100px;
+    max-width: 100%;
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .quiz-question-block {
+    margin-bottom: 1.5rem;
+  }
+  
+  .heading {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .paragraph-2 {
+    font-size: 1.1rem;
+  }
+  
+  .answer-btn {
+    height: 2.5rem;
+    min-width: 120px;
+    font-size: 0.95rem;
   }
 
   .logos-wrap {
