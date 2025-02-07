@@ -828,65 +828,67 @@ def product_details(book_id):
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
         
-        # 書籍情報入手
+        # 移除了reviews相关的查询
         cursor.execute("""
-            SELECT b.*, u.username 
-            FROM books b 
-            JOIN users u ON b.owner_id = u.id 
+            SELECT b.*, u.username, u.profile_image, u.id as owner_id,
+                   (SELECT COUNT(*) FROM favorites WHERE book_id = b.book_id) as favorite_count
+            FROM books b
+            LEFT JOIN users u ON b.owner_id = u.id
             WHERE b.book_id = %s
         """, (book_id,))
+        
         book = cursor.fetchone()
         if not book:
             return redirect(url_for('index'))
         
-        #コメント情報入手
+        # 获取评论及其用户信息
         cursor.execute("""
-            SELECT c.*, u.username 
+            SELECT c.*, u.username, u.profile_image
             FROM comments c
-            JOIN users u ON c.user_id = u.id 
+            LEFT JOIN users u ON c.user_id = u.id
             WHERE c.book_id = %s
             ORDER BY c.timestamp DESC
             LIMIT 6
         """, (book_id,))
+        
         comments = cursor.fetchall()
         comment_data = [{
-            'comment': comment['comment'], # type: ignore
-            'created_at': comment['timestamp'], # type: ignore
-            'username': comment['username'] # type: ignore
+            'comment': comment['comment'],
+            'created_at': comment['timestamp'],
+            'username': comment['username'],
+            'profile_image': comment['profile_image']
         } for comment in comments]
         
+        # 现在的用户是否是本的所有者
+        is_owner = book['owner_id'] == session['login_id']
         
-        # 現在のユーザーが本の所有者かどうかをチェックする
-        is_owner = book['owner_id'] == session['login_id'] # type: ignore
-        
-        # 現在のユーザーが本を購入したかどうかをチェックする
+        # 检查当前用户是否已购买此书
         cursor.execute("""
             SELECT COUNT(*) as count
             FROM transactions
             WHERE book_id = %s AND buyer_id = %s
         """, (book_id, session['login_id']))
         purchase_info = cursor.fetchone()
-        is_purchased = purchase_info['count'] > 0 # type: ignore
+        is_purchased = purchase_info['count'] > 0
         
-        # 現在のユーザーがその本をブックマークしているかチェックする。
+        # 检查当前用户是否已收藏此书
         cursor.execute("""
             SELECT 1 FROM favorites 
             WHERE user_id = %s AND book_id = %s
         """, (session['login_id'], book_id))
         is_favorited = cursor.fetchone() is not None
         
-        # お気に入りの数を取得する
+        # 获取收藏数
         cursor.execute("""
             SELECT COUNT(*) as favorite_count
             FROM favorites
             WHERE book_id = %s
         """, (book_id,))
-        favorite_count = cursor.fetchone()['favorite_count'] # type: ignore
+        favorite_count = cursor.fetchone()['favorite_count']
 
         return render_template('product-details.html', 
                             book=book,
                             comments=comment_data,
-                            username=book['username'], # type: ignore
                             is_owner=is_owner,
                             is_purchased=is_purchased,
                             is_favorited=is_favorited,

@@ -1994,10 +1994,10 @@
 
 .send-message-icon {
   background-color: transparent;
-  margin: 0 0 0 10px;
+  margin: 0 0 0 20px;
   padding: 5px;
   font-size: 1.6rem;
-  color: var(--dark-gray);
+  color: var(--light-gray);
   transition: all 0.3s ease;
 }
 
