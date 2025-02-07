@@ -5263,7 +5263,7 @@
   }
   
   .read-block {
-    padding: 1rem;
+    padding: 0 1rem;
   }
 
   .logos-wrap {
@@ -5554,7 +5554,7 @@
 
   .read-block {
     max-width: 100%;
-    padding: 15px;
+    padding: 0 0.8rem;
   }
 
   .textarea,
@@ -6190,7 +6190,7 @@
 
   /* -------------------- read.html -------------------- */
   .read-block {
-    padding: 0.5rem;
+    padding: 0 0.5rem;
   }
   
   .read-function-block {
