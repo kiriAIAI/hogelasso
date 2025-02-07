@@ -569,17 +569,32 @@ def get_messages(recipient_id):
     connection = conn_db()
     cursor = connection.cursor()
     cursor.execute('''
-        SELECT dm.sender_id, u.username, dm.message, dm.timestamp
+        SELECT 
+            dm.sender_id, 
+            u.username, 
+            dm.message, 
+            dm.timestamp,
+            u.profile_image,
+            dm.sender_id = %s as is_sent_by_me
         FROM direct_messages dm
         JOIN users u ON dm.sender_id = u.id
-        WHERE (dm.sender_id = %s AND dm.recipient_id = %s) OR (dm.sender_id = %s AND dm.recipient_id = %s)
+        WHERE (dm.sender_id = %s AND dm.recipient_id = %s) 
+        OR (dm.sender_id = %s AND dm.recipient_id = %s)
         ORDER BY dm.timestamp ASC
-    ''', (sender_id, recipient_id, recipient_id, sender_id))
+    ''', (sender_id, sender_id, recipient_id, recipient_id, sender_id))
+    
     messages = cursor.fetchall()
     cursor.close()
     connection.close()
 
-    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages] # type: ignore
+    messages_list = [{
+        'sender_id': msg[0],
+        'username': msg[1],
+        'message': msg[2],
+        'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S'),
+        'profile_image': msg[4] if msg[4] else 'circle-user.svg',
+        'is_sent_by_me': bool(msg[5])
+    } for msg in messages]
 
     return jsonify(messages_list)
 
