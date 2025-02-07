@@ -167,9 +167,7 @@
             {% endif %}
           </div>
           <div id="charge_site">
-            <div id="charge_site_outside">
-              <iframe src="charge.html" frameborder="0"></iframe>
-            </div>
+            <iframe src="charge.html" frameborder="0"></iframe>
           </div>
         </div>
         <div class="shopping-right-block">
@@ -238,22 +236,56 @@
           popup.style.top = '-100px'; // 上に消える
           popup.style.opacity = 0;    // フェードアウト
       }, 5000);
-  }
+    }
+
     function charge_menu(){
       const change_Container = document.getElementById("charge_site");
-      if (change_Container.style.visibility == "hidden"){
+      if (change_Container.style.visibility === "hidden" || change_Container.style.visibility === "") {
         change_Container.style.visibility = "visible";
-      }
-      else{
-        change_Container.style.visibility = "hidden";
+        gsap.fromTo(change_Container, 
+          { y: "-5vh", opacity: 0 }, 
+          { y: "0vh", opacity: 1, duration: 0.2, ease: "power2.out" }
+        );
+      } else {
+        gsap.to(change_Container, { 
+          y: "-5vh", opacity: 0, duration: 0.2, ease: "power2.in", 
+          onComplete: () => {
+            change_Container.style.visibility = "hidden";
+          }
+        });
       }
     }
-    document.getElementById("charge").addEventListener("click",function(){
-      charge_menu();
-    })
-    document.getElementById("charge_site_outside").addEventListener("click",function(){
-      charge_menu();
-    })
+    
+    // 修改点击事件监听器
+    document.getElementById("charge_site").addEventListener("click", function(e) {
+        // 检查点击的是否为 iframe
+        if (e.target.tagName.toLowerCase() !== 'iframe') {
+            charge_menu();
+        }
+    });
+    
+    // 其他现有的事件监听保持不变
+    document.getElementById("charge").addEventListener("click", function(){
+        charge_menu();
+    });
+    
+    // 滚动时关闭
+    addEventListener("scroll", (event) => {
+        const change_Container = document.getElementById("charge_site");
+        if (change_Container.style.visibility === "visible") {
+            charge_menu();
+        }
+    });
+    
+    // 监听来自 iframe 的消息
+    window.addEventListener('message', function(event) {
+        if (event.data === 'closeCharge') {
+            const chargeSite = document.getElementById("charge_site");
+            if (chargeSite.style.visibility === "visible") {
+                charge_menu();
+            }
+        }
+    });
 
     document.getElementById("proceedToCheckout").addEventListener("click",function(){
       let usepoints = parseInt(document.getElementById("pointInput").value, 10);;

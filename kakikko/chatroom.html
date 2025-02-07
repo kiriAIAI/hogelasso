@@ -232,10 +232,27 @@
                 chatBox.innerHTML = '';
                 messages.forEach(msg => {
                   const messageElement = document.createElement('div');
-                  messageElement.classList.add('message');
-                  messageElement.innerHTML = `<strong>${msg.username}</strong>: ${msg.message} <small>${msg.timestamp}</small>`;
+                  const isSentByMe = msg.is_sent_by_me;
+                  messageElement.classList.add('message', isSentByMe ? 'sent' : 'received');
+                  
+                  // 使用发送者的头像
+                  const avatarSrc = msg.profile_image 
+                    ? `/static/images/profiles_images/${msg.profile_image}`
+                    : '/static/images/circle-user.svg';
+                  
+                    messageElement.innerHTML = `
+                    <div class="message-avatar-container">
+                      <img src="${avatarSrc}" alt="avatar" class="message-avatar">
+                      <div class="message-username">${msg.username}</div>
+                    </div>
+                    <div class="message-content">
+                      <div class="message-text">${msg.message}</div>
+                      <div class="message-time">${msg.timestamp}</div>
+                    </div>
+                    `;
                   chatBox.appendChild(messageElement);
                 });
+                chatBox.scrollTop = chatBox.scrollHeight;
               })
               .catch(error => console.error('Error:', error));
           }

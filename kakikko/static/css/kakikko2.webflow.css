@@ -15,25 +15,30 @@
 }
 
 /* ---------- チャージメニュー ---------- */
-#index_charge_menu {
+#index_charge_menu,
+#charge_site {
   position: fixed;
   display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 1001;
   visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-#index_charge_menu iframe {
+#index_charge_menu iframe,
+#charge_site iframe {
   position: relative;
-  top: 10vh;
-  left: 60%;
-  height: 80%;
-  background-color: #f5f5f5;
-  border: 1px #ddda solid;
-  border-radius: 20px;
+  width: 450px;
+  height: 85vh;
+  max-height: 700px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* ログインメニュー */
@@ -1488,6 +1493,73 @@
   box-shadow: 0 0 0 2px rgba(59, 59, 59, 0.1);
 }
 
+/*  */
+.message {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+  max-width: 80%;
+}
+
+.message-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 40px;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.message-username {
+  font-size: 0.8rem;
+  text-align: center;
+  word-break: break-word;
+  max-width: 60px;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-text {
+  background-color: #f0f0f0;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  word-wrap: break-word;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.message.sent {
+  flex-direction: row-reverse;
+  margin-left: auto;
+}
+
+.message.sent .message-text {
+  background-color: var(--dark-gray);
+  color: var(--white);
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.2),
+    0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.message-time {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-top: 0.2rem;
+  align-self: flex-end;
+}
+
+.message.received {
+  margin-right: auto;
+}
+
 .message-send-btn {
   width: 3rem;
   height: 3rem;
@@ -2785,31 +2857,6 @@
   padding-top: 10px;
   font-size: 16px;
   display: flex;
-}
-#charge_site{
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  background-color: #fffa;
-  visibility: hidden;
-}
-
-#charge_site_outside{
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-
-#charge_site_outside iframe{
-  margin: 0 0 0 auto;
-  width: 80%;
-  max-width: 435px;
-  height: 100%;
-  background-color: #f1f1f1;
-  border-radius: 10px;
 }
 
 #warning_message{
