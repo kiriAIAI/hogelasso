@@ -132,16 +132,8 @@
           <div class="chatroom-left-block">
             <div class="member-list-block">
               <div class="member-block w-inline-block">
-                <input type="text" id="username1" placeholder="Enter Username 1" class="username-input">
-                <button onclick="selectUser(1)">Chat</button>
-              </div>
-              <div class="member-block w-inline-block">
-                <input type="text" id="username2" placeholder="Enter Username 2" class="username-input">
-                <button onclick="selectUser(2)">Chat</button>
-              </div>
-              <div class="member-block w-inline-block">
-                <input type="text" id="username3" placeholder="Enter Username 3" class="username-input">
-                <button onclick="selectUser(3)">Chat</button>
+                <input type="text" id="username1" placeholder="Enter Username" class="username-input">
+                <button onclick="selectUser(1)" class="chat-button"><i class="fa-solid fa-message"></i></button>
               </div>
               {% for user in chat_users %}
               <div class="member-block w-inline-block">

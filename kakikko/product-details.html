@@ -143,7 +143,7 @@
                     {% endif %}
                     <div class="user-name">{{ book.username }}</div>
                 </a>
-                <button onclick="startChatFromProfile('{{ book.username }}')">msg</button>
+                <button class="send-message-icon" onclick="startChatFromProfile('{{ book.username }}')"><i class="fa-solid fa-comment-sms"></i></button>
                 <script>
                   function startChatFromProfile(username) {
                     sessionStorage.setItem('chatUsername', username);
@@ -152,6 +152,7 @@
                 </script>
             </div>
             <h2 class="product-heading">{{ book.book_title | safe }}</h2>
+            <div id="summary">{{book.book_summary}}</div>
             <div class="product-price-reviews-wrapper">
                 <div class="product-price-text">￥{{ "%.0f"|format(book.book_price) }}</div>
                 <div class="product-text-divider"></div>
@@ -190,9 +191,6 @@
                   {% if not is_owner and not is_purchased %}
                   <div class="product-form-wrapper">
                       <a id="w-node-f7fc365a-1696-4f30-9a03-c4e98e79678a-386810ba" onclick="addToCart()" href="#" class="add-to-cart-btn w-button">カートに入れる</a>
-                      <!-- 数量選択（非表示中） -->
-                      <!-- <input class="form_input is-quantity-input w-node-f7fc365a-1696-4f30-9a03-c4e98e79678c-386810ba w-input" 
-                             maxlength="256" name="Quantity" data-name="Quantity" placeholder="1" type="number" min="1" id="Quantity"> -->
                   </div>
                   {% endif %}
                   {% if is_owner or is_purchased %}
@@ -204,10 +202,12 @@
                     <a href="#" onclick="addToCart()" class="button-secondary is-buy-now-button w-button">今すぐ買う</a>
                   {% endif %}
                   <a href="#" class="link-block w-inline-block" onclick="toggleFavorite(event, '{{ book.book_id }}')">
-                    <div class="text-14 text-14-30" id="heart-icon">  
-                        <i class="fa-solid fa-heart {% if is_favorited %}favorited{% endif %}"></i>
+                    <div class="text-14 text-14-30 {% if is_favorited %}favorited{% endif %}" id="heart-icon">  
+                        <i class="fa-solid fa-heart"></i>
+                        <span id="favorite-count">{{ favorite_count }}</span>
                     </div>
                   </a>
+
                   </div>
               </form>
               {% if session['login_id'] == book.owner_id %}
@@ -251,32 +251,17 @@
         </div>
         <!-- コメント投稿部分 -->
         <div data-ms-post="item" class="comment-row">
-          <div class="comment-image-wrap"><img data-ms-post="ownerProfileImage" loading="lazy" alt="" src="{{ url_for('static', filename='images/circle-user.svg') }}" class="comment-image"></div>
+          
           <div class="comment-content">
-            <div class="comment-hover">
-              <div class="comment-name-row">
-                <div class="comment-inline-block">
-                  <div class="commenter-name">
-                    <div data-ms-post-creator="first-name">Username</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div data-ms-post="content" class="comment-text">コメント</div>
-              <div data-ms-post-edit="section" class="comment-edit-section">
-                <div class="comment-no-margin w-form">
-                  <form id="wf-form-Edit-Comment-Form" name="wf-form-Edit-Comment-Form" data-name="Edit Comment Form" method="get" data-ms-post-edit="form" data-wf-page-id="670b752701de0ce1386810ba" data-wf-element-id="b535171e-a3ac-0a08-c6c4-e5b838f35653"><textarea class="comment-input w-input" maxlength="5000" name="Edit-Comment" data-name="Edit Comment" data-ms-post-edit="content" placeholder="コメントを入力" id="Edit-Comment"></textarea>
-                    <div class="comment-form-button-row">
-                      <div class="comment-delete-wrap">
-                        <a href="#" class="comment-delete-btn w-button">削除</a>
-                      </div>
-                      <a data-ms-post-edit="cancel" href="#" class="comment-btn is-cancel w-button">キャンセル</a>
-                      <button type="submit" id="Comment_Submission" class="comment-btn w-button">
-                        <i class="fa-solid fa-paper-plane"></i>
+            <div data-ms-post-edit="section" class="comment-edit-section">
+              <div class="comment-no-margin w-form">
+                <form id="wf-form-Edit-Comment-Form" name="wf-form-Edit-Comment-Form" data-name="Edit Comment Form" method="get" data-ms-post-edit="form" data-wf-page-id="670b752701de0ce1386810ba" data-wf-element-id="b535171e-a3ac-0a08-c6c4-e5b838f35653"><textarea class="comment-input w-input" maxlength="5000" name="Edit-Comment" data-name="Edit Comment" data-ms-post-edit="content" placeholder="コメントを入力" id="Edit-Comment"></textarea>
+                  <div class="comment-form-button-row">
+                    <button type="submit" id="Comment_Submission" class="comment-btn w-button">
+                      <i class="fa-solid fa-paper-plane"></i>
                     </button>
-                    </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -290,16 +275,16 @@
   <script>
     //chatroom
     function startChat(username) {
-  console.log(`Starting chat with ${username}`);  // 添加日志
+  console.log(`Starting chat with ${username}`);
   fetch(`/get_user_id/${username}`)
     .then(response => response.json())
     .then(data => {
       if (data.user_id) {
-        console.log(`User ID found: ${data.user_id}`);  // 添加日志
+        console.log(`User ID found: ${data.user_id}`);
         addChatBox(username, data.user_id);
-        selectUserById(data.user_id, username);  // 自动选择用户并开始聊天
+        selectUserById(data.user_id, username);
       } else {
-        console.log(`User not found: ${username}`);  // 添加日志
+        console.log(`User not found: ${username}`);
         alert('User not found');
       }
     })
@@ -428,8 +413,8 @@ function loadMessages() {
       
     // お気に入り機能
     document.getElementById('heart-icon').addEventListener('click', function(e) {
-        e.preventDefault();
-        this.classList.toggle('active');
+      e.preventDefault();
+      this.classList.toggle('active');
     });
 
     function toggleFavorite(event, bookId) {
@@ -439,22 +424,51 @@ function loadMessages() {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrf_token')
           },
           body: JSON.stringify({
               book_id: bookId
           })
       })
-      .then(response => response.json())
-      .then(data => {
-          const heartIcon = document.querySelector('#heart-icon i');
-          if (data.status === 'added') {
-              heartIcon.classList.add('favorited');
+      .then(response => {
+          if (response.status === 401) {
+              alert('ログインが必要です');
+              window.location.href = '/login';
           } else {
-              heartIcon.classList.remove('favorited');
+              return response.json();
           }
       })
-      .catch(error => console.error('Error:', error));
+      .then(data => {
+          if (data) {
+              const heartIcon = document.querySelector('#heart-icon');
+              const favoriteCount = document.querySelector('#favorite-count');
+              if (data.status === 'added') {
+                  heartIcon.classList.add('favorited');
+                  favoriteCount.textContent = parseInt(favoriteCount.textContent) + 1;
+              } else if (data.status === 'removed') {
+                  heartIcon.classList.remove('favorited');
+                  favoriteCount.textContent = parseInt(favoriteCount.textContent) - 1;
+              }
+          }
+      })
+      .catch(error  => console.error('Error:', error));
     }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
 
   </script>
   <script>

@@ -166,6 +166,11 @@
                 </div>
             {% endif %}
           </div>
+          <div id="charge_site">
+            <div id="charge_site_outside">
+              <iframe src="charge.html" frameborder="0"></iframe>
+            </div>
+          </div>
         </div>
         <div class="shopping-right-block">
           <div class="cart-summary-block">
@@ -184,20 +189,26 @@
                     <label for="" class="own_point-label">所持ポイント <div>{{ user_points }} pt</div></label>
                   </div>
                 </div>
-                <div class="point-input">
-                  <div class="point-label">
-                    <label for="" class="field-label-2">ポイント</label>
+
+
+                <div id="point_Container">
+                  <div id="point_label">
+                    <label for="" class="field-label-2">ポイントを使用する</label>
                   </div>
-                  <div class="point-input-block">
+                  <div id="point_input">
                     <input class="text-field-3 w-input" maxlength="256" name="points" type="number" id="pointInput" min="0" max="{{ user_points }}" required>
-                    <button type="button" class="point-input-btn w-button" onclick="calculateTotal()">
-                      <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+                    <p>pt</p>
                   </div>
                 </div>
               </form>
             </div>
-            <div id="warning_message" class="warning_message">お金が足りません</div>
+            <div id="warning_message" class="warning_message">
+              <p>お金が足りません</p>
+              <div id="charge_button">
+                <p>チャージしますか？</p>
+                <div id="charge">チャージ</div>
+              </div>
+            </div>
             <div class="summary-price-block">
               <div>合計金額</div>
               <div class="text-block-3">￥<span id="totalPrice">{{ total_price }}</span></div>
@@ -212,6 +223,7 @@
   </section>
   <script>
     let purchase_check = true;
+    const change_Container_check = true;
 
     function showPopup(count) {
       const popup = document.getElementById('popup' + count);
@@ -227,9 +239,24 @@
           popup.style.opacity = 0;    // フェードアウト
       }, 5000);
   }
+    function charge_menu(){
+      const change_Container = document.getElementById("charge_site");
+      if (change_Container.style.visibility == "hidden"){
+        change_Container.style.visibility = "visible";
+      }
+      else{
+        change_Container.style.visibility = "hidden";
+      }
+    }
+    document.getElementById("charge").addEventListener("click",function(){
+      charge_menu();
+    })
+    document.getElementById("charge_site_outside").addEventListener("click",function(){
+      charge_menu();
+    })
 
     document.getElementById("proceedToCheckout").addEventListener("click",function(){
-      const usepoints = parseInt(document.getElementById("pointInput").value, 10);;
+      let usepoints = parseInt(document.getElementById("pointInput").value, 10);;
       console.log(usepoints);
 
       if (purchase_check == true){
@@ -299,9 +326,9 @@
         purchase_check = true;
       }
 
-      // 残りの所持ポイントを計算して表示を更新
-    const remainingPoints = total_points - points;
-    document.querySelector('.own_point-label div').textContent = `${remainingPoints} pt`;
+    // 残りの所持ポイントを計算して表示を更新
+    //const remainingPoints = total_points - points;
+    //document.querySelector('.own_point-label div').textContent = `${remainingPoints} pt`;
     }
   
   // 入力フィールドの値が変更されたときにも計算を実行

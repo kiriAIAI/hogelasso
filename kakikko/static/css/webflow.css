@@ -1090,12 +1090,14 @@ textarea.w-select {
   margin-left: auto;
   margin-right: auto;
   white-space: nowrap;
+  cursor: default;
 }
 .w-dropdown-toggle {
   user-select: none;
   display: inline-block;
   cursor: pointer;
   padding-right: 40px;
+  cursor: default;
 }
 .w-dropdown-toggle:focus {
   outline: 0;
@@ -1608,6 +1610,7 @@ textarea.w-select {
   text-align: left;
   margin-left: auto;
   margin-right: auto;
+  cursor: default;
 }
 .w-nav-link.w--current {
   color: #0082f3;

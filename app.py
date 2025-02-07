@@ -17,6 +17,7 @@ app.secret_key = 'kakikko'
 def conn_db():
     conn = mysql.connector.connect(
         host="127.0.0.1", 
+        port="3306",
         user="root", 
         password="root", 
         db="kakikko",
@@ -62,20 +63,6 @@ def update_database(where,Updated_value,sql):
     conn.close()
 
 
-# 現在の日付と時刻を取得して、秒まで表示
-def gettime():
-    current_datetime = datetime.now() # type: ignore
-    current_datetime_str = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
-
-    return current_datetime_str
-
-
-@app.route('/get_account_id', methods=['GET'])
-def get_account_id():
-    account_id = "20000"  # 例として固定のIDを使用
-    return jsonify({"account_id": account_id}), 200
-
-
 
 # -------------------- index.html --------------------
 @app.route('/')
@@ -83,6 +70,15 @@ def get_account_id():
 def index():
     conn = conn_db()
     cursor = conn.cursor(dictionary=True)
+    
+    Plofile = None
+    if 'login_id' in session:
+        cursor.execute("""
+        SELECT username, email, profile_image
+        FROM users
+        WHERE id = %s
+        """, (session["login_id"],)) 
+        Plofile = cursor.fetchone()
     
     cursor.execute("""
         SELECT b.book_id, b.book_title, b.book_price, b.book_cover_image,
@@ -97,7 +93,7 @@ def index():
     cursor.close()
     conn.close()
     
-    return render_template('index.html', books=books)
+    return render_template('index.html', books=books, Plofile=Plofile)
 
 
 
@@ -105,6 +101,7 @@ def index():
 @app.route('/category/<category>')
 def category(category):
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "category", "args": {"book_id": category}}
         return redirect(url_for('login'))
         
     try:
@@ -230,6 +227,11 @@ def complete_registration():
 # -------------------- login.html --------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'login_id' in session:
+        session["lastpage"] = {"endpoint": "profile"}
+        
+        return redirect(url_for('profile'))
+    
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
@@ -250,7 +252,12 @@ def login():
         if user:
             session['login_id'] = user[0] # type: ignore
             session['login_name'] = user[1] # type: ignore
-            return redirect(url_for('index'))
+            if "lastpage" in session:
+                lastpage_data = session.pop("lastpage")  # セッションから削除してリダイレクト
+                return redirect(url_for(lastpage_data["endpoint"], **lastpage_data.get("args", {})))
+            else:
+                return redirect(url_for('index'))
+            
         else:
             error = "無効なユーザー名、メールアドレス、パスワード"
             return render_template('login.html', error=error)
@@ -276,6 +283,10 @@ def dashboard():
 # -------------------- create.html --------------------
 @app.route('/create')
 def create():
+    if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "create"}
+        return redirect(url_for('login'))
+    
     edit_book_id = request.args.get('edit_book_id')
     if edit_book_id:
         connection = conn_db()
@@ -382,21 +393,33 @@ def submit_create():
         cursor.execute(auto_increment_id('books'))
         latest_book_id = cursor.fetchone() # 取得した結果を表示 
         cover_image = f"{latest_book_id[0]}_{cover_image}" # type: ignore
-            
+        
+        # 要約を生成
+        model = genai.GenerativeModel('gemini-2.0-flash-001')
+        # GOOGLE_API_KEY=userdata.get('GOOGLE_API_KEY')  👈環境変数をつかおう（めんどい）
+        genai.configure(api_key="AIzaSyAWTBtp9Nx5ZI66LL0daEU57DLQgyCoI3U")
+        # 生成なう
+        response = model.generate_content("次の内容を基に、物語の冒頭20%を使用して要約し、読者の興味を引く書籍紹介文を生成。長さは約80文字。"+data['content'])
+        re_text = response.candidates[0].content.parts[0].text
+        print(re_text)
+
+
         insert_sql = """
         INSERT INTO books (
             book_title,
             book_content,
+            book_summary,
             book_category,
             book_price,
             book_cover_image,
             owner_id
-        ) VALUES (%s, %s, %s, %s, %s, %s)
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         
         values = [
             data['title'],
             data['content'],
+            re_text,
             data['category'],
             float(data['price']),
             cover_image,
@@ -498,6 +521,7 @@ def delete_post(book_id):
 @app.route('/chatroom')
 def chatroom():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "chatroom"}
         return redirect(url_for('login'))  
     return render_template('chatroom.html')  
 
@@ -511,8 +535,8 @@ def get_user_id(username):
     connection.close()
 
     if user:
-        print(f"User found: {username} with ID {user[0]}")  # 添加日志
-        return jsonify({'user_id': user[0]})
+        print(f"User found: {username} with ID {user[0]}")  # type: ignore # 添加日志
+        return jsonify({'user_id': user[0]}) # type: ignore
     else:
         print(f"User not found: {username}")  # 添加日志
         return jsonify({'error': 'User not found'}), 404
@@ -556,7 +580,7 @@ def get_messages(recipient_id):
     cursor.close()
     connection.close()
 
-    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages]
+    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages] # type: ignore
 
     return jsonify(messages_list)
 
@@ -622,6 +646,7 @@ def notification():
 @app.route('/filter.html')
 def filter():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "filter"}
         return redirect(url_for('login'))
        
     try:
@@ -796,6 +821,7 @@ def search():
 @app.route('/product-details/<int:book_id>')
 def product_details(book_id):
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "product_details", "args": {"book_id": book_id}}
         return redirect(url_for('login'))
         
     try:
@@ -976,6 +1002,9 @@ def submit_comment():
 #--------------------------charge.html-----------------------------------
 @app.route('/charge.html')
 def charge():
+    if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "charge"}
+        return redirect(url_for('login'))
     conn = conn_db()
     cursor = conn.cursor(dictionary=True)
     
@@ -987,7 +1016,7 @@ def charge():
     WHERE id = %s
     """, (accountID,))
     json_data = cursor.fetchone()
-    current_Balance = json_data["currency"]
+    current_Balance = json_data["currency"] # type: ignore
     return render_template('charge.html',current_Balance=current_Balance)
 
 
@@ -997,6 +1026,7 @@ def charge():
 @app.route('/chargeCoins', methods=['POST'])
 def chargeCoins():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "chargeCoins"}
         return redirect(url_for('login'))
     try:
         conn = conn_db()
@@ -1004,6 +1034,7 @@ def chargeCoins():
         
         accountID = session['login_id']
         data = request.get_json()
+        print(type(data.get('addedFunds')))
         addedFunds = int(data.get('addedFunds'))
         
         cursor.execute("""
@@ -1012,8 +1043,8 @@ def chargeCoins():
         WHERE id = %s
         """, (accountID,))
         json_data = cursor.fetchone()
-        current_Balance = json_data["currency"]
-        new_Balance = current_Balance + addedFunds
+        current_Balance = json_data["currency"] # type: ignore
+        new_Balance = current_Balance + addedFunds # type: ignore
         print(f"現在の金額 : {current_Balance}  追加する金額 : {addedFunds}  新しい金額 : {new_Balance}")
         
         update_query3 = """
@@ -1031,13 +1062,14 @@ def chargeCoins():
     finally:
         cursor.close()
         conn.close()
-    return redirect(url_for('shoppingcart'))
+    return ""
 
 
 # -------------------- shopping-cart.html --------------------
 @app.route('/shopping-cart.html')
 def shoppingcart():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "shoppingcart"}
         return redirect(url_for('login'))
         
     try:
@@ -1060,7 +1092,7 @@ def shoppingcart():
             WHERE id = %s
         """, (accountID,))
 
-        currency = cursor.fetchone()['currency']
+        currency = cursor.fetchone()['currency'] # type: ignore
 
         
         query = """
@@ -1130,7 +1162,9 @@ def proceedToCheckout():
         accountID = session['login_id']
         total_price = session['total_price']
         data = request.get_json()
-        usepoint = float(data.get('usepoints'))
+        usepoint = data.get('usepoints')
+        if usepoint == None:
+            usepoint = 0
         
         # カートに入っている商品のIDを取得
         query1 = """
@@ -1187,7 +1221,7 @@ def proceedToCheckout():
         WHERE id = %s
         """, (accountID,))
         price = cursor.fetchone()
-        new_currency = float(price[0]) - float(total_price) + usepoint # type: ignore
+        new_currency = price[0] - int(total_price) + usepoint # type: ignore
         new_points = float(price[1]) - usepoint # type: ignore
         
         update_query3 = """
@@ -1200,7 +1234,7 @@ def proceedToCheckout():
 
         conn.commit()
         print(f'支払い総額 : {total_price}  使用ポイント : {usepoint}  残高 : {new_currency}')
-        return redirect(url_for('payment'))
+        return redirect(url_for('purchase_history'))
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
@@ -1304,6 +1338,7 @@ def allowed_file(filename):
 def profile():
     print(session)
     if not session or not session.get('login_id'):
+        session["lastpage"] = {"endpoint": "profile"}
         return redirect(url_for('login', _external=True))
 
     try:
@@ -1389,6 +1424,7 @@ def profile():
 @app.route('/profile-info.html')
 def profileinfo():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "profileinfo"}
         return redirect(url_for('login'))
         
     try:
@@ -1412,6 +1448,7 @@ def profileinfo():
 @app.route('/purchase-history.html')
 def purchase_history():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "purchase_history"}
         return redirect(url_for('login'))
     else :
         login_id = str(session.get('login_id'))
@@ -1465,6 +1502,7 @@ def purchase_history():
 @app.route('/read.html/<int:book_id>')
 def read(book_id):
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "read", "args": {"book_id": book_id}}
         return redirect(url_for('login'))
         
     try:
@@ -1501,6 +1539,7 @@ def read(book_id):
 @app.route('/quiz/<int:book_id>')
 def quiz(book_id):
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "quiz", "args": {"book_id": book_id}}
         return redirect(url_for('login'))
     
     # Generate random question
@@ -1556,6 +1595,7 @@ def generate_question():
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
     if 'login_id' not in session:
+        session["lastpage"] = {"endpoint": "submit_quiz"}
         return redirect(url_for('login'))
     
     selected_option = request.form.get('option')
@@ -1616,4 +1656,4 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=80) #IPアドレスとポート番号はマシンに合わせて変更
+    app.run(debug=False, host="0.0.0.0", port=80)

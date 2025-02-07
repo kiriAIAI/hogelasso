@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS `books`;
 CREATE TABLE `books` (
   `book_id` int(11) NOT NULL auto_increment,
   `book_title` varchar(255) NOT NULL,
+  `book_summary` varchar(255) NOT NULL,
   `book_content` text NOT NULL,
   `book_category` varchar(255) NOT NULL,
   `book_price` decimal(10,0) NOT NULL,
@@ -266,7 +267,7 @@ CREATE TABLE `user_profiles` (
   `address` varchar(255) default NULL,
   `phone` varchar(50) default NULL,
   `bio` text,
-  `profile_image` varchar(255) default 'default-profile.jpg',
+  `profile_image` varchar(255) default 'default-profile.png',
   PRIMARY KEY  (`user_id`),
   CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

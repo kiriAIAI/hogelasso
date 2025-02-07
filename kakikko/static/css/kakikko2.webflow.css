@@ -14,6 +14,103 @@
   --accessible-components--dark-grey: #9b9b9b;
 }
 
+/* ---------- チャージメニュー ---------- */
+#index_charge_menu {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1001;
+  visibility: hidden;
+}
+
+#index_charge_menu iframe {
+  position: relative;
+  top: 10vh;
+  left: 60%;
+  height: 80%;
+  background-color: #f5f5f5;
+  border: 1px #ddda solid;
+  border-radius: 20px;
+}
+
+
+
+/* ログインメニュー */
+#LoginMenu_Background{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0000;
+  z-index: 1000;
+  visibility: hidden;
+}
+#LoginMenu{
+  position: absolute;
+  display: flex;
+  top: 10vh;
+  right: 20px;
+  background-color: #EEE;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 4px 8px 10px #0003;
+}
+
+#LoginMenu_Left{
+  display: flex;
+  margin: 0 15px;
+  align-items: center;
+}
+#LoginMenu_img{
+  width: 60px;
+  margin: auto 0;
+}
+
+#LoginMenu_Right{
+  padding: 10px 0;
+}
+#LoginMenu_Status{
+  cursor: pointer;
+  padding: 0 20px 0 10px;
+}
+#LoginMenu_Status:hover{
+  background-color: #DDD;
+}
+#LoginMenu_Id{
+  font-size: 1.1rem;
+}
+#LoginMenu_Mail{
+  font-size: 0.8rem;
+}
+#LoginMenu_Logout{
+  cursor: pointer;
+  margin: 5px auto 0 auto;
+  padding: 6px 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgb(201, 0, 0);
+}
+#LoginMenu_Logout:hover{
+  background-color: #DDD;
+}
+
+.hidden {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.visible {
+  transform: translateX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+
+
+
+
 .w-layout-blockcontainer {
   max-width: 940px;
   margin-left: auto;
@@ -87,6 +184,14 @@
   .product-image-wrapper {
     height: 230px;
   }
+
+  .code-embed {
+    font-size: 0.95rem;
+  }
+  
+  .footer-logo {
+    width: 90px;
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -101,6 +206,7 @@
   line-height: 1.6rem;
 }
 
+/* ---------- navbar ---------- */
 .navbar {
   background-color: #fff;
   height: 10vh;
@@ -170,6 +276,21 @@
 }
 
 /* -------------------- sidenavbar --------------------- */
+.sidenavbar {
+  color: #c1c1c1;
+  background-color: #3b3b3b;
+  border-radius: .8em;
+  flex-direction: column;
+  flex: 0 auto;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 5.6em;
+  height: 90vh;
+  padding: 1.3em;
+  display: flex;
+  overflow: hidden;
+}
+
 .sidenavbar-top {
   justify-content: space-between;
   align-items: center;
@@ -200,19 +321,8 @@
   display: none;
 }
 
-.sidenavbar {
-  color: #c1c1c1;
-  background-color: #3b3b3b;
-  border-radius: .8em;
-  flex-direction: column;
-  flex: 0 auto;
-  justify-content: space-between;
-  align-items: stretch;
+.sidenavbar.index-sidenavbar {
   width: 5.6em;
-  height: 100%;
-  padding: 1.3em;
-  display: flex;
-  overflow: hidden;
 }
 
 .sidenavbar-search {
@@ -297,17 +407,21 @@
   height: 100%;
   position: relative;
 }
-
 .navbar-icon{
   width: 1.6rem;
   height: 1.6rem;
   transition: all 0.2s ease;
   filter: brightness(0);
+  cursor: pointer;
 }
 
 .navbar-icon:hover {
   filter: brightness(0) saturate(100%) invert(77%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(89%) contrast(85%);
   transform: translateY(-2px);
+}
+.charge_img{
+  height: 1.6rem;
+  width:auto;
 }
 
 
@@ -325,6 +439,7 @@
   padding: 1.5rem;
   display: flex;
 }
+
 
 .sidenavbar-link {
   color: #eeedf280;
@@ -485,7 +600,6 @@
 .more-link {
   color: #333;
   padding: 10px;
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 2rem;
   font-weight: 900;
   text-decoration: none;
@@ -612,6 +726,7 @@
 
 .code-embed {
   padding-top: 7px;
+  font-size: 1rem;
 }
 
 /* ---------------------- login-signup ---------------------- */
@@ -714,7 +829,6 @@
 
 .x-link {
   color: var(--dark-gray);
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 2rem;
   font-weight: 900;
   text-decoration: none;
@@ -998,7 +1112,6 @@
   width: 2.5rem;
   height: 2.5rem;
   padding: 9px 0;
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.1rem;
   font-weight: 900;
   text-decoration: none;
@@ -1191,102 +1304,188 @@
 .chatroom-block {
   border: 1px solid #0000001a;
   border-radius: 24px;
-  width: 85%;
-  margin-left: 1.5rem;
-  padding-left: 0;
-  padding-right: 0;
+  width: calc(85% - 90px);
+  height: calc(90vh - 60px);
+  margin: 20px 20px 20px 90px;
   display: flex;
+  overflow: hidden;
+  background-color: var(--white);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* ----- 左側のメンバーリスト ----- */
 .chatroom-left-block {
-  width: 100%;
-  max-width: 30%;
-  padding: 1rem;
+  width: 30%;
+  height: 100%;
+  border-right: 1px solid #0000001a;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.chatroom-right-block {
-  background-color: #f8f8f8;
-  border: 1px #000;
-  border-left: 1px solid #0000001a;
-  border-top-right-radius: 24px;
-  border-bottom-right-radius: 24px;
-  flex-flow: column;
-  width: 100%;
-  max-width: 70%;
+.member-list-block {
+  padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.member-block {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border-radius: 12px;
+  background-color: var(--white);
+  transition: all 0.3s ease;
   display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.member-block:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.username-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #0000001a;
+  border-radius: 4px;
+}
+
+.username-input:focus {
+  border-color: var(--dark-gray);
+  box-shadow: 0 0 0 2px rgba(59, 59, 59, 0.1);
+}
+
+.chat-button {
+  width: 15%;
+  height: 36px;
+  padding: 0 10px;
+  background-color: var(--dark-gray);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chat-button i {
+  font-size: 1rem;
+}
+
+.chat-button:hover {
+  background-color: var(--dark-gray-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ----- 右側のチャットルーム ----- */
+.chatroom-right-block {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f8f8;
 }
 
 .chatroom-heading-block {
+  padding: 1rem;
   border-bottom: 1px solid #0000001a;
-  border-top-right-radius: 24px;
-  height: 100%;
-  max-height: 8%;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-.chatroom-content-block {
-  height: 100%;
-  max-height: 87%;
-  padding: 1rem 1rem 3rem;
-}
-
-.chatroom-send-block {
-  border: 1px #000;
-  flex-flow: column;
-  justify-content: center;
-  align-items: stretch;
-  height: 100%;
-  max-height: 10%;
+  min-height: 60px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .chatroom-heading {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.2;
   text-align: center;
-  margin-top: 12px;
-  font-size: 1.6rem;
-  line-height: 2rem;
+}
+
+.chatroom-content-block {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.chatroom-send-block {
+  padding: 1rem;
+  border-top: 1px solid #0000001a;
+  background-color: #f8f8f8;
 }
 
 .chat-send-form-block {
   margin-bottom: 0;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0 1rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .chat-send-form {
+  width: 100%;
+  height: 100%;
   justify-content: space-between;
   align-items: center;
   display: flex;
+  gap: 10px;
 }
 
 .text-field {
+  flex: 1;
   color: var(--font);
   border-radius: 50px;
   height: 3rem;
-  margin-bottom: 0;
-  margin-right: 10px;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.text-field:focus {
+  border-color: var(--dark-gray);
+  box-shadow: 0 0 0 2px rgba(59, 59, 59, 0.1);
 }
 
 .message-send-btn {
-  background-color: var(--dark-gray);
-  border-radius: 50px;
   width: 3rem;
   height: 3rem;
-  font-family: "Fa Solid 900", sans-serif;
-  font-weight: 900;
+  padding: 0;
+  background-color: var(--dark-gray);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.message-send-btn i {
+  font-size: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
 }
 
 .message-send-btn:hover {
   background-color: var(--dark-gray-hover);
 }
-
-.member-list-block {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-
 
 
 /* -------------------- 購入履歴 & 出品履歴.html -------------------- */
@@ -1575,11 +1774,9 @@
 .filter-left-block {
   background-color: var(--white);
   max-width: 19rem;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 1rem;
   position: sticky;
-  top: 10vh;
+  top: 80px;
 }
 
 .filters2_feed-header {
@@ -1594,21 +1791,27 @@
   margin-bottom: 0;
 }
 
-.search.search-desktop {
-  margin-bottom: 20px;
-}
-
 .search-form {
   grid-column-gap: 10px;
   border: 1px solid #c1c1c1;
   border-radius: 50px;
   align-items: center;
-  padding: 3px 20px;
+  padding: 5px 20px;
   display: flex;
+  width: 100%;
+  background-color: var(--white);
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.search.search-desktop {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .filter-search-image {
-  width: 20px;
+  width: 30px;
 }
 
 .search-placehoder {
@@ -1681,20 +1884,33 @@
   margin-right: 20px;
 }
 
+/* ---------- product-detail.html ---------- */
 .product-block {
   width: 100%;
+  padding-top: 100px;
   padding-left: 1.5rem;
   display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
-/* ---------- 商品詳細ページ画像 ---------- */
 .product-left-block {
-  width: 100%;
-  max-width: 500px;  /* 限制最大宽度 */
-  height: 90vh;
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  height: 500px;
   position: relative;
   overflow: hidden;
   border-radius: 12px;
+}
+
+.product-right-block {
+  flex: 1;
+  min-width: 300px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .product-left-block .product-image {
@@ -1708,17 +1924,6 @@
   transform: translate(-50%, -50%);
   transition: transform 0.3s ease;
 }
-
-.product-right-block {
-  flex-flow: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 45%;
-  padding: 2rem;
-  display: flex;
-}
-
 
 
 /* --------------- product-user-block --------------- */
@@ -1756,6 +1961,22 @@
   color: #c1c1c1;
 }
 
+.send-message-icon {
+  background-color: transparent;
+  margin: 0 0 0 10px;
+  padding: 5px;
+  font-size: 1.6rem;
+  color: var(--dark-gray);
+  transition: all 0.3s ease;
+}
+
+.send-message-icon:hover {
+  color: var(--black);
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+}
+
 .tag-link {
   color: var(--light-gray-hover);
   text-decoration: none;
@@ -1765,7 +1986,6 @@
   color: var(--light-gray-hover);
   margin-left: .5rem;
   margin-right: .5rem;
-  font-family: "Fa Solid 900", sans-serif;
   font-weight: 900;
 }
 
@@ -1775,6 +1995,11 @@
   margin-bottom: 10px;
   font-size: 2rem;
   line-height: 3rem;
+}
+
+#summary{
+  font-size: 0.9rem;
+  margin: 0 0 20px 0;
 }
 
 .product-price-reviews-wrapper {
@@ -2168,8 +2393,8 @@
 }
 
 .comment-input:focus {
-  color: #000;
-  border-color: #2962ff;
+  color: var(--font);
+  border: 1.5px solid var(--font);
 }
 
 .comment-input.is-primary {
@@ -2220,27 +2445,11 @@
   height: 2.75rem;
 }
 
-.comment-delete-btn {
-  color: var(--font);
-  background-color: #f6f6f6;
-  border: 1px solid #e1e1e1;
-  border-radius: 4px;
-  font-family: Noto Sans JP, sans-serif;
-  font-size: .9rem;
-  font-weight: 700;
-  display: block;
-}
-
-.comment-delete-btn:hover {
-  color: var(--font);
-  background-color: #e9e9e9;
-}
-
 .comment-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
+  padding: 12px 16px;
 }
 
 .comment-btn i {
@@ -2258,10 +2467,34 @@
 }
 
 .shoppingcart-left-block {
+  position: relative;
   width: 100%;
   max-width: 65%;
   margin-right: 20px;
   padding: 1rem 1.5rem 1.5rem;
+}
+#charge_site{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: #fffa;
+  visibility: hidden;
+}
+#charge_site_outside{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+#charge_site_outside iframe{
+  margin: 0 0 0 auto;
+  width: 80%;
+  max-width: 435px;
+  height: 100%;
+  background-color: #f1f1f1;
+  border-radius: 10px;
 }
 
 .shopping-right-block {
@@ -2292,7 +2525,6 @@
 .shopping-cart-icon {
   margin-right: 15px;
   padding-top: 5px;
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.5rem;
   font-weight: 900;
 }
@@ -2456,6 +2688,35 @@
 }
 
 /* ---------- ポイント ---------- */
+
+#point_label{
+  display: flex;
+  width: 100%;
+}
+#pointInput{
+  width: 100%;
+  min-width: 70px;
+  margin: 2px 5px 0 0;
+  border-radius: 6px;
+  text-align: right;
+}
+#pointInput::-webkit-outer-spin-button,
+#pointInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+#point_input{
+  display: flex;
+  width: 100%;
+  justify-content: right;
+  align-items: center;
+  margin: 0 0 0 auto;
+}
+#point_input p{
+  margin: 0;
+  margin-bottom: 5px;
+}
+
 .point-input {
   display: flex;
   text-align: center;
@@ -2474,13 +2735,13 @@
   display: flex;
 }
 
-.text-field-3 {
+/* .text-field-3 {
   border-radius: 6px;
   width: 120px;
   margin-top: 2px;
   margin-bottom: 0;
   margin-right: 5px;
-}
+} */
 
 .text-field-3:focus{
   border: 2px solid var(--dark-gray);
@@ -2511,10 +2772,29 @@
   font-size: 16px;
   display: flex;
 }
-.warning_message{
-  color: red;
+#warning_message{
   margin-top: 40px;
   visibility: hidden;
+}
+#warning_message p{
+  color: red;
+}
+#charge_button{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+#charge_button p{
+  color: #000;
+}
+#charge{
+  margin:  0 0 0 auto;
+  padding: 5px 9px;
+  color: white;
+  cursor: pointer;
+  background-color: #333;
+  border-radius: 10px;
+
 }
 
 /* ---------- レジに進むbtn ---------- */
@@ -2536,18 +2816,34 @@
 }
 
 .products1-actions-wrap {
-  border-top: 1px solid #1112120f;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 10px;
   display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 10px;
 }
 
+.button-secondary.is-buy-now-button {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.link-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  border-radius: 8px;
+}
+
+/* ---------- お気に入りボタン ---------- */
 .text-14 {
   line-height: 24px;
 }
 
-/* ---------- ブックマークボタン ---------- */
 .text-14.text-14-30 {
   display: flex;
   align-items: center;
@@ -2629,8 +2925,11 @@
 /* -------------------- profile.html -------------------- */
 .profile-block {
   width: 100%;
-  padding-left: 1.5rem;
+  padding: 1.5rem;
   display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
 }
 
 .profile-left-block {
@@ -2641,13 +2940,14 @@
   margin-right: 20px;
   padding: 1rem 1.5rem 1.5rem;
   box-shadow: 0 2px 13px 2px #0003;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .profile-right-block {
-  width: 100%;
-  max-width: 65%;
-  padding: 1rem 1.5rem 1.5rem;
-  overflow: auto;
+  flex: 1;
+  padding: 1rem 1.5rem;
 }
 
 /* ---------- profile 画像/フォロワー/フォロー ---------- */
@@ -2662,7 +2962,7 @@
 
 /* ---------- フォロワー ---------- */
 .follower-pop-up {
-  z-index: 10;
+  z-index: 1001;
   background-color: #00000080;
   justify-content: center;
   align-items: center;
@@ -2759,7 +3059,6 @@
 
 .follower-close-btn {
   color: var(--font);
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.5rem;
   text-decoration: none;
   position: absolute;
@@ -2771,14 +3070,32 @@
 }
 
 .profile-image-block {
-  width: 8rem;
-  height: 8rem;
+  width: 90px;
+  height: 90px;
+  min-width: 90px;
+  min-height: 90px;
   margin-right: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  aspect-ratio: 1/1;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-image {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .profile-follower-link {
@@ -2826,7 +3143,7 @@
 
 /* ---------- フォロー ---------- */
 .following-pop-up {
-  z-index: 10;
+  z-index: 1001;
   background-color: #00000080;
   justify-content: center;
   align-items: center;
@@ -2878,7 +3195,6 @@
 
 .following-close-btn {
   color: var(--font);
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.5rem;
   font-weight: 900;
   text-decoration: none;
@@ -2942,10 +3258,12 @@
   text-align: center;
   border-radius: 4px;
   width: 100%;
-  font-family: "Fa Solid 900", sans-serif;
+  padding: 10px 0;
+  margin-top: auto;
   font-size: 1.2rem;
   font-weight: 900;
   text-decoration: none;
+  display: block;
 }
 
 .profile-edit-btn:hover {
@@ -2953,7 +3271,7 @@
 }
 
 .bio-pop-up {
-  z-index: 10;
+  z-index: 1001;
   background-color: #00000080;
   justify-content: center;
   align-items: center;
@@ -3096,7 +3414,6 @@
 
 .bio-close-btn {
   color: var(--font);
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.8em;
   font-weight: 900;
   text-decoration: none;
@@ -3165,7 +3482,6 @@
 
 .error-icon {
   margin-right: 10px;
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.6rem;
   font-weight: 900;
 }
@@ -3197,7 +3513,6 @@
   color: #46c170;
   background-color: #0000;
   padding: 6px 12px;
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.6rem;
   font-weight: 900;
 }
@@ -3458,7 +3773,6 @@
 .read-back-btn {
   color: var(--font);
   padding: 10px;
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.3rem;
   font-weight: 900;
   text-decoration: none;
@@ -3851,7 +4165,6 @@
 .profile-detail-btn {
   color: var(--font);
   padding: 5px;
-  font-family: "Fa Solid 900", sans-serif;
   font-size: 1.5rem;
   font-weight: 900;
   text-decoration: none;
@@ -4422,7 +4735,6 @@
     background-color: var(--dark-gray);
     border-radius: 4px;
     margin-right: 10px;
-    font-family: "Fa Solid 900", sans-serif;
     font-size: 1.2rem;
     font-weight: 900;
   }
@@ -4490,7 +4802,6 @@
     border-radius: 4px;
     width: 100%;
     height: 3rem;
-    font-family: "Fa Solid 900", sans-serif;
     font-size: 1.3rem;
     font-weight: 900;
     text-decoration: none;
@@ -4512,14 +4823,56 @@
     margin-right: 10px;
   }
 
+  /* ---------- navbar ---------- */
   .nav-menu {
-    background-color: #f7f7f7;
+    background-color: rgba(247, 247, 247, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  @supports not (backdrop-filter: blur(10px)) {
+    .nav-menu {
+      background-color: rgba(247, 247, 247, 0.95);
+    }
   }
 
   .hamburger-menu {
     color: var(--font);
     font-size: 2rem;
   }
+
+  /* ---------- sidenavbar ---------- */
+  .sidenavbar.index-sidenavbar {
+    width: 5.6em;
+  }
+
+  .sidenavbar:not(.index-sidenavbar) {
+    width: 4.5em;
+    padding: 1em;
+  }
+
+  /* ---------- チャージメニュー ---------- */
+  #index_charge_menu iframe {
+    left: 50%;
+    width: 45%;
+    min-width: 400px;
+  }
+
+  .bell-icon {
+    margin-left: -0.1rem;
+  }
+
+  .charge_img {
+    margin-left: -0.3rem;
+  }
+
+  .back-icon {
+    text-align: left;
+    margin: 0.7rem 0 1.5rem 0;
+  }
+  
 
   .product-title {
     font-size: 22px;
@@ -4540,6 +4893,12 @@
 
   .category-grid {
     grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  /* ---------- footer ---------- */
+  .code-embed {
+    margin-top: 3px;
+    font-size: 0.9rem;
   }
 
   .login-signup-left-block {
@@ -4629,9 +4988,8 @@
 
   .filter-left-block {
     z-index: 9999;
-    background-color: var(--\<unknown\|relume-variable-color-neutral-2\>);
     width: 100%;
-    max-width: none;
+    max-width: 16rem;
     height: auto;
     padding: 3rem 5% 0;
     position: fixed;
@@ -4640,23 +4998,75 @@
     transform: translate(0, 100%);
   }
 
+  /* ---------- chatroom.html ---------- */
+  .chatroom-block {
+    width: calc(95% - 90px);
+    margin: 0 auto;
+  }
+  
+  .chatroom-left-block {
+    width: 35%;
+  }
+  
+  .chatroom-right-block {
+    width: 65%;
+  }
+
+  .chatroom-heading {
+    font-size: 1.3rem;
+  }
+
   .text-block-2 {
     text-decoration: none;
   }
 
-  .product-left-block {
-    padding: .5rem;
+  /* ------------------- profile.html ------------------- */
+  .profile-block {
+    flex-direction: column;
+  }
+
+  .profile-left-block {
     max-width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+    position: relative;
+    top: 0;
+  }
+
+  .profile-right-block {
+    width: 100%;
+  }
+
+  .product-grid.profile {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .profile-image-block {
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+  }
+
+  /* ------------------- product-detail.html ------------------- */
+  .product-block {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .product-left-block {
+    width: 100%;
+    max-width: none;
     height: 400px;
   }
 
   .product-right-block {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    width: 100%;
+    max-width: none;
   }
 
   .product-heading {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
   }
 
   .product-price-reviews-wrapper {
@@ -4690,7 +5100,11 @@
   }
 
   .products1-actions-wrap {
-    flex-direction: row;
+    gap: 0.8rem;
+  }
+
+  .button-secondary.is-buy-now-button {
+    min-width: 180px;
   }
 
   .profile_img-box {
@@ -4759,6 +5173,14 @@
     margin-top: 10px;
   }
 
+  /* ---------- チャージメニュー ---------- */
+  #index_charge_menu iframe {
+    left: 40%;
+    width: 55%;
+    min-width: 350px;
+  }
+
+  /* ---------- product-card ---------- */
   .product-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -4778,22 +5200,146 @@
     padding: 15px;
   }
 
+  /* ---------- category-card ---------- */
   .category-grid {
     grid-template-columns: 1fr 1fr;
     gap: 15px;
     padding: 15px;
   }
 
-  .chatroom-block {
-    width: 100%;
-    margin: 0;
-    flex-direction: column;
+  /* ---------- footer ---------- */
+  .code-embed {
+    font-size: 0.8rem;
   }
 
-  .chatroom-left-block,
-  .chatroom-right-block {
-    max-width: 100%;
+  /* ------------------- chatroom.html ------------------- */
+  .chatroom-block {
+    width: calc(100% - 90px);
+    height: calc(100vh - 60px);
+    margin: 0 0 0 90px;
+    border-radius: 20px;
+    flex-direction: column;
+  }
+  
+  .chatroom-left-block {
     width: 100%;
+    height: 35%;
+    border-right: none;
+    border-bottom: 1px solid #0000001a;
+  }
+  
+  .member-list-block {
+    padding: 0.5rem;
+  }
+
+  .member-block {
+    margin-bottom: 0.5rem;
+  }
+
+  .chatroom-right-block {
+    width: 100%;
+    height: 65%;
+  }
+  
+  .chatroom-heading-block {
+    height: 10%;
+  }
+  
+  .chatroom-heading {
+    font-size: 1.2rem;
+  }
+
+  .chatroom-content-block {
+    height: 75%;
+  }
+  
+  .chatroom-send-block {
+    height: 15%;
+  }
+  
+  .member-block {
+    width: calc(50% - 5px);
+  }
+
+  .message-send-btn i {
+    font-size: 0.9rem;
+  }
+
+  /* ------------------- product-detail.html ------------------- */
+  .product-block {
+    width: 80%;
+    padding: 0.8rem;
+    gap: 1rem;
+  }
+
+  .product-left-block {
+    height: 350px;
+  }
+
+  .product-heading {
+    font-size: 1.6rem;
+    line-height: 2.2rem;
+  }
+  
+  .product-price-text {
+    font-size: 1.3rem;
+  }
+
+  .products1-actions-wrap {
+    flex-wrap: nowrap;
+    gap: 0.6rem;
+  }
+
+  .button-secondary.is-buy-now-button {
+    min-width: 160px;
+    padding: 0.8rem 1.2rem;
+  }
+
+  /* ------------------- profile.html ------------------- */
+  .profile-block {
+    padding: 1rem;
+  }
+
+  .profile-right-block {
+    padding: 1rem;
+  }
+
+  .product-grid.profile {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .profile-info-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: auto;
+  }
+
+  .profile-image-block {
+    width: 6rem;
+    height: 6rem;
+    margin-right: 0;
+    margin-bottom:15px;
+  }
+
+  .follow-info-block {
+    max-width: 100%;
+  }
+
+  .product-grid.profile {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .follower-popup-block,
+  .following-popup-block,
+  .bio-popup-block {
+    width: 90%;
+    max-width: 400px;
+    padding: 1rem;
+    margin: 10px;
   }
 
   .read-block {
@@ -4844,13 +5390,21 @@
     grid-template-columns: 1fr 1fr;
   }
 
+  /* -------------------- footer ---------------------- */
   .footer {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 80px 1.5rem 15px;
   }
 
   .footer-divider {
     margin-top: 60px;
+  }
+
+  .code-embed {
+    font-size: 0.875rem;
+  }
+  
+  .footer-logo {
+    width: 80px;
   }
 
   .login-signup-left-block {
@@ -4881,12 +5435,82 @@
     grid-row-gap: 2.5rem;
   }
 
+  .filter-left-block {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .filter-left-block.active {
+    transform: translateX(0);
+  }
+
+  .filters2_item {
+    margin-bottom: 12px;
+  }
+
+  .w-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .w-checkbox:hover {
+    background-color: #ebebeb;
+  }
+
+  .w-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    margin-left: 0;
+    accent-color: #333;
+    cursor: pointer;
+  }
+  
+  .filters2_form-checkbox1-label {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .w-checkbox input[type="checkbox"]:checked + .filters2_form-checkbox1-label {
+    color: #000;
+    font-weight: 600;
+  }
+
   .search.search-desktop {
-    display: none;
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
   }
 
   .search-form {
-    border-color: #0f1d420f;
+    border: 1px solid #c1c1c1;
+    border-radius: 50px;
+    padding: 8px 15px;
+    margin: 0 15px 15px;
+    width: calc(100% - 30px);
+    background-color: var(--white);
+  }
+
+  .search-placehoder {
+    font-size: 14px;
+  }
+
+  .filter-search-image {
+    width: 24px;
   }
 
   .product-price-text {
@@ -4982,22 +5606,154 @@
 }
 
 @media screen and (max-width: 479px) {
+  /* -------------------- hero ---------------------- */
   .hero-image-grid {
     grid-column-gap: 4vw;
     grid-row-gap: 4vw;
     padding-left: 4vw;
   }
 
+  /* ---------- チャージメニュー ---------- */
+  #index_charge_menu iframe {
+    left: 5%;
+    width: 90%;
+    min-width: 300px;
+  }
+
+  /* -------------------- chatroom.html ---------------------- */
+  .chatroom-block {
+    width: calc(100% - 35px);
+    margin: 0 0 0 15px;
+  }
+  
+  .chatroom-left-block {
+    height: 35%;
+    padding: 0.5rem;
+  }
+  
+  .chatroom-right-block {
+    height: 65%;
+  }
+  
+  .member-block {
+    width: 100%;
+  }
+  
+  .chatroom-heading {
+    font-size: 1.1rem;
+  }
+
+  .chat-send-form-block {
+    width: 100%;
+  }
+  
+  .message-send-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .message-send-btn i {
+    font-size: 0.85rem;
+  }
+  
+  .text-field {
+    height: 2.5rem;
+  }
+
+  /* ------------------- product-detail.html ------------------- */
+  .product-block {
+    padding: 0.5rem;
+  }
+
+  .product-left-block {
+    height: 300px;
+  }
+
+  .product-right-block {
+    padding: 0.8rem;
+  }
+
+  .product-heading {
+    font-size: 1.4rem;
+    line-height: 2rem;
+  }
+
+  .product-price-text {
+    font-size: 1.2rem;
+  }
+
+  .product-tag-block {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .products1-actions-wrap {
+    gap: 0.4rem;
+  }
+
+  .button-secondary.is-buy-now-button {
+    min-width: 140px;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  
+
+  /* ------------------- profile.html ------------------- */
+  .profile-block {
+    margin: 0 0 0 5px;
+    padding: 0.5rem;
+  }
+
+  .profile-right-block {
+    padding: 0.5rem;
+  }
+
+  .profile-image-block {
+    width: 6rem;
+    height: 6rem;
+    margin-bottom: 12px;
+  }
+
+  .profile-username {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .profile-follower-link,
+  .profile-following-link {
+    font-size: 0.9rem;
+  }
+
+  .profile-bio-heading {
+    font-size: 1.1rem;
+  }
+
+  .paragraph {
+    font-size: 1rem;
+  }
+
+  .favorite-heading {
+    font-size: 1.3rem;
+  }
+
+  .product-card {
+    height: auto;
+  }
+
+  .profile-edit-btn {
+    height: 2.5rem;
+    padding: 8px 0;
+    font-size: 1.1rem;
+  }
+
+  /* -------------------- product ---------------------- */
   .product-card {
     height: 340px;
   }
   
   .product-image-wrapper {
     height: 200px;
-  }
-
-  .product-left-block {
-    height: 300px;
   }
 
   .product-price {
@@ -5031,6 +5787,21 @@
     grid-template-columns: 1fr;
   }
 
+  /* ---------- footer ---------- */
+  .code-embed {
+    font-size: 0.7rem;
+  }
+  
+  .footer-logo {
+    width: 70px;
+    margin-right: 15px;
+  }
+  
+  .footer {
+    padding: 60px 1rem 15px;
+  }
+
+  /* -------------------- login-signup ---------------------- */
   .login-signup-left-block {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -5056,11 +5827,6 @@
 
   .sysf-input.sysf-medium {
     margin-bottom: .5rem;
-  }
-
-  .products1-actions-wrap {
-    flex-direction: column;
-    align-items: stretch;
   }
 
   .display_horizontal {
