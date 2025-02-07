@@ -1,6 +1,9 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash
 import mysql.connector
 import os
+import ChatbotPy
+from PIL import Image
+import io
 
 from werkzeug.utils import secure_filename
 
@@ -12,6 +15,8 @@ app = Flask(__name__, template_folder='kakikko')
 app.permanent_session_lifetime = timedelta(days=7)
 
 app.secret_key = 'kakikko'
+
+app.config['UPLOAD_FOLDER'] = 'kakikko/static/images/users_images'
 
 
 def conn_db():
@@ -357,7 +362,6 @@ def image_upload():
     cursor.execute(auto_increment_id('books'))
     latest_book_id = cursor.fetchone() # 取得した結果を表示 
     
-    app.config['UPLOAD_FOLDER'] = 'kakikko/static/images/users_images'
     file = request.files['image_data']
     print(file)
     file_name = f"{latest_book_id[0] - 1}_{file.filename}" # type: ignore
@@ -395,13 +399,8 @@ def submit_create():
         cover_image = f"{latest_book_id[0]}_{cover_image}" # type: ignore
         
         # 要約を生成
-        model = genai.GenerativeModel('gemini-2.0-flash-001')
-        # GOOGLE_API_KEY=userdata.get('GOOGLE_API_KEY')  👈環境変数をつかおう（めんどい）
-        genai.configure(api_key="AIzaSyAWTBtp9Nx5ZI66LL0daEU57DLQgyCoI3U")
-        # 生成なう
-        response = model.generate_content("次の内容を基に、物語の冒頭20%を使用して要約し、読者の興味を引く書籍紹介文を生成。長さは約80文字。"+data['content'])
-        re_text = response.candidates[0].content.parts[0].text
-        print(re_text)
+        text = ChatbotPy.text_summary(data['content'])
+        print(text)
 
 
         insert_sql = """
@@ -419,7 +418,7 @@ def submit_create():
         values = [
             data['title'],
             data['content'],
-            re_text,
+            text,
             data['category'],
             float(data['price']),
             cover_image,
@@ -613,6 +612,21 @@ def chatbot():
     return render_template('chatbot.html')
 
 
+@app.route('/chat_upload', methods=['POST'])
+def chat_upload():
+    # テキストを取得
+    user_text = request.form.get('user_text')
+
+    # 画像がアップロードされているか確認
+    uploaded_image = request.files.get('uploaded_image')
+
+    if uploaded_image:
+        print(uploaded_image)
+        uploaded_image = Image.open(uploaded_image)
+        response = ChatbotPy.textImageGen(user_text,uploaded_image)
+    else:
+        response = ChatbotPy.textGen(user_text)
+    return jsonify({"response": response})
 
 #---------------------F&A.html--------------------
 @app.route('/Q&A.html')
@@ -827,8 +841,7 @@ def product_details(book_id):
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
-        
-        # 移除了reviews相关的查询
+
         cursor.execute("""
             SELECT b.*, u.username, u.profile_image, u.id as owner_id,
                    (SELECT COUNT(*) FROM favorites WHERE book_id = b.book_id) as favorite_count
@@ -841,7 +854,7 @@ def product_details(book_id):
         if not book:
             return redirect(url_for('index'))
         
-        # 获取评论及其用户信息
+        # コメントとそのユーザー情報の取得
         cursor.execute("""
             SELECT c.*, u.username, u.profile_image
             FROM comments c
@@ -859,10 +872,10 @@ def product_details(book_id):
             'profile_image': comment['profile_image']
         } for comment in comments]
         
-        # 现在的用户是否是本的所有者
+        # 現在のユーザーが本の所有者かどうかをチェックする
         is_owner = book['owner_id'] == session['login_id']
         
-        # 检查当前用户是否已购买此书
+        # 現在のユーザーが本を購入したかどうかをチェックする
         cursor.execute("""
             SELECT COUNT(*) as count
             FROM transactions
@@ -871,14 +884,14 @@ def product_details(book_id):
         purchase_info = cursor.fetchone()
         is_purchased = purchase_info['count'] > 0
         
-        # 检查当前用户是否已收藏此书
+        # 現在のユーザーがこの本をお気に入りしているかどうかをチェックする
         cursor.execute("""
             SELECT 1 FROM favorites 
             WHERE user_id = %s AND book_id = %s
         """, (session['login_id'], book_id))
         is_favorited = cursor.fetchone() is not None
         
-        # 获取收藏数
+        # お気に入りの数を取得
         cursor.execute("""
             SELECT COUNT(*) as favorite_count
             FROM favorites
