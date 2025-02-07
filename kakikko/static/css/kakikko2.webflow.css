@@ -4126,73 +4126,74 @@
   margin-right: 10px;
 }
 
+/* -------------------- profile-info.html -------------------- */
 .profile-info-section {
-  background-color: #00000080;
+  width: 100%;
+  height: 100vh;
+  display: flex;
   justify-content: center;
   align-items: center;
-  display: flex;
-  position: fixed;
-  inset: 0%;
+  padding: 1.5rem;
+  background-color: #00000080;
 }
 
 .profile-info-bio-block {
   background-color: var(--white);
   border-radius: 24px;
   width: 100%;
-  max-width: 60%;
-  height: 100%;
-  max-height: 50%;
-  padding: 3rem;
+  max-width: 800px;
+  padding: 2rem;
   position: relative;
+  box-shadow: 0 2px 30px 2px rgba(0, 0, 0, 0.3);
 }
 
 .profile-detail-block {
-  width: 100%;
-  height: 100%;
   display: flex;
+  gap: 2rem;
+  align-items: flex-start;
 }
 
 .profile-detail-image-block {
-  justify-content: center;
-  align-items: center;
+  width: 150px;
+  height: 150px;
+  min-width: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+}
+
+.profile-detail-author-image {
   width: 100%;
-  max-width: 30%;
-  margin-right: 40px;
-  padding: 10px;
-  display: flex;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .profile-detail-bio-block {
-  flex-flow: column;
-  width: 100%;
-  max-width: 60%;
-  padding: 1rem;
-  display: flex;
+  flex: 1;
 }
 
 .profile-detail-bio-heading {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 1.6rem;
-  line-height: 3rem;
+  font-size: 1.3rem;
+  margin-bottom:1.5rem;
+}
+
+.profile-detail-bio-text {
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .profile-detail-btn {
-  color: var(--font);
-  padding: 5px;
-  font-size: 1.5rem;
-  font-weight: 900;
-  text-decoration: none;
   position: absolute;
-  inset: 5% 5% auto auto;
+  top: 1rem;
+  right: 2rem;
+  font-size: 1.5rem;
+  color: var(--font);
+  text-decoration: none;
 }
 
 .profile-detail-btn:hover {
   color: var(--light-gray-hover);
-}
-
-.profile-detail-bio-text {
-  overflow: auto;
 }
 
 .notification-section {
@@ -5148,7 +5149,22 @@
     font-size: 16px;
   }
 
-  
+  /* -------------------- profile-info.html -------------------- */
+  .profile-info-bio-block {
+    max-width: 600px;
+    padding: 1.5rem;
+  }
+
+  .profile-detail-block {
+    gap: 1.5rem;
+  }
+
+  .profile-detail-image-block {
+    width: 120px;
+    height: 120px;
+    min-width: 120px;
+  }
+
   .profile_img-box {
     width: 150px;
     height: 150px;
@@ -5382,6 +5398,26 @@
     max-width: 400px;
     padding: 1rem;
     margin: 10px;
+  }
+
+  /* -------------------- profile-info.html -------------------- */
+  .profile-info-section {
+    padding: 1rem;
+  }
+
+  .profile-info-bio-block {
+    padding: 1rem;
+  }
+
+  .profile-detail-block {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .profile-detail-bio-block {
+    width: 100%;
+    text-align: center;
   }
 
   /* ------------------- shopping-cart.html ------------------- */
@@ -5686,7 +5722,7 @@
     width: 90%;
     min-width: 300px;
   }
-  
+
   /* -------------------- chatroom.html ---------------------- */
   .chatroom-block {
     width: calc(100% - 35px);
@@ -5812,6 +5848,21 @@
     height: 2.5rem;
     padding: 8px 0;
     font-size: 1.1rem;
+  }
+
+  /* -------------------- profile-info.html -------------------- */
+  .profile-detail-image-block {
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+  }
+
+  .profile-detail-bio-heading {
+    font-size: 1.2rem;
+  }
+
+  .profile-detail-bio-text {
+    font-size: 1rem;
   }
 
   /* -------------------- product ---------------------- */
