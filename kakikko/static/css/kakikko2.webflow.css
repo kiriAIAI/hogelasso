@@ -3764,34 +3764,42 @@
 /* ------------------------------ read.html ------------------------------ */
 .read-block {
   width: 100%;
-  max-width: 70%;
-  margin: 0 auto;
-  padding-left: 1.5rem;
+  height: 100%;
   display: flex;
-  flex-flow: column;
-  position: relative;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 .read-function-block {
-  background-color: #f1f1f1;
-  border-bottom: 1px #0000001a;
-  border-radius: 4px;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
-  max-height: 8%;
+  width: 100%;
+  max-width: 60%;
   margin-bottom: 10px;
-  padding-left: 30px;
-  padding-right: 30px;
-  display: flex;
+  padding: 0.5rem 3rem;
+  border-radius: 4px;
+  border-bottom: 1px #0000001a;
+  background-color: #f1f1f1;
 }
 
 .read-content-block {
-  max-width: 100%;
+  width: 100%;
+  max-width: 60%;
   margin-bottom: 10px;
-  padding: 1.5rem;
   box-sizing: border-box;
   word-wrap: break-word;
+}
+
+.read-content {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-y: auto;
 }
 
 .read-progress-block {
@@ -3809,21 +3817,18 @@
 }
 
 .read-setting-block {
-  grid-column-gap: 15px;
-  grid-row-gap: 15px;
-  grid-template-rows: auto;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-columns: 1fr;
-  display: grid;
+  display: flex;
+  gap: 1rem;
 }
 
 .read-back-btn {
   color: var(--font);
   padding: 10px;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 900;
   text-decoration: none;
-  display: block;
+  display: flex;
+  align-items: center;
 }
 
 .read-back-btn:hover {
@@ -3850,10 +3855,9 @@
 }
 
 .read-fontsize-block {
-  justify-content: center;
-  align-items: center;
-  padding: 6px;
   display: flex;
+  align-items: center;
+  padding: 5px;
 }
 
 .read-fontsize-block:hover {
@@ -5251,6 +5255,17 @@
     padding: 2rem;
   }
 
+  /* -------------------- read.html -------------------- */
+  .read-function-block,
+  .read-content-block {
+    max-width: 100%;
+    padding: 1rem;
+  }
+  
+  .read-block {
+    padding: 0 1rem;
+  }
+
   .logos-wrap {
     grid-column-gap: 16px;
     grid-row-gap: 16px;
@@ -5539,7 +5554,7 @@
 
   .read-block {
     max-width: 100%;
-    padding: 15px;
+    padding: 0 0.8rem;
   }
 
   .textarea,
@@ -5764,6 +5779,7 @@
     display: flex;
   }
 
+  /* -------------------- quiz.html -------------------- */
   .quiz-block {
     max-width: 95%;
     padding: 1.5rem;
@@ -5777,6 +5793,25 @@
     height: 2.8rem;
     font-size: 1rem;
   } 
+
+  /* -------------------- read.html -------------------- */
+  .read-function-block {
+    padding: 0.8rem;
+  }
+  
+  .read-content-block {
+    padding: 0.8rem;
+  }
+  
+  .read-content {
+    min-height: 40rem;
+    max-height: 40rem;
+    font-size: 16px;
+  }
+  
+  .read-back-btn {
+    font-size: 1.3rem;
+  }
 
   .logos-wrap {
     flex-direction: row;
@@ -6153,6 +6188,32 @@
     padding-right: 2rem;
   }
 
+  /* -------------------- read.html -------------------- */
+  .read-block {
+    padding: 0 0.5rem;
+  }
+  
+  .read-function-block {
+    padding: 0.5rem;
+  }
+  
+  .read-content-block {
+    padding: 0.5rem;
+  }
+  
+  .read-content {
+    min-height: 35rem;
+    max-height: 35rem;
+    padding: 0.8rem;
+  }
+  
+  .read-fontsize-big-btn,
+  .read-fontsize-small-btn {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  /* -------------------- quiz.html -------------------- */
   .quiz-block {
     max-width: 100%;
     padding: 1rem;
