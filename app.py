@@ -2,6 +2,7 @@ from flask import Flask, render_template, send_from_directory, jsonify, request,
 import mysql.connector
 import os
 
+import google.generativeai as genai
 from werkzeug.utils import secure_filename
 
 from datetime import timedelta
@@ -71,6 +72,15 @@ def index():
     conn = conn_db()
     cursor = conn.cursor(dictionary=True)
     
+    Plofile = None
+    if 'login_id' in session:
+        cursor.execute("""
+        SELECT username, email, profile_image
+        FROM users
+        WHERE id = %s
+        """, (session["login_id"],)) 
+        Plofile = cursor.fetchone()
+    
     cursor.execute("""
         SELECT b.book_id, b.book_title, b.book_price, b.book_cover_image,
                u.username as owner_name
@@ -84,7 +94,7 @@ def index():
     cursor.close()
     conn.close()
     
-    return render_template('index.html', books=books)
+    return render_template('index.html', books=books, Plofile=Plofile)
 
 
 
@@ -218,6 +228,11 @@ def complete_registration():
 # -------------------- login.html --------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'login_id' in session:
+        session["lastpage"] = {"endpoint": "profile"}
+        
+        return redirect(url_for('profile'))
+    
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
@@ -379,21 +394,33 @@ def submit_create():
         cursor.execute(auto_increment_id('books'))
         latest_book_id = cursor.fetchone() # 取得した結果を表示 
         cover_image = f"{latest_book_id[0]}_{cover_image}" # type: ignore
-            
+        
+        # 要約を生成
+        model = genai.GenerativeModel('gemini-2.0-flash-001')
+        # GOOGLE_API_KEY=userdata.get('GOOGLE_API_KEY')  👈環境変数をつかおう（めんどい）
+        genai.configure(api_key="AIzaSyAWTBtp9Nx5ZI66LL0daEU57DLQgyCoI3U")
+        # 生成なう
+        response = model.generate_content("次の内容を基に、物語の冒頭20%を使用して要約し、読者の興味を引く書籍紹介文を生成。長さは約80文字。"+data['content'])
+        re_text = response.candidates[0].content.parts[0].text
+        print(re_text)
+
+
         insert_sql = """
         INSERT INTO books (
             book_title,
             book_content,
+            book_summary,
             book_category,
             book_price,
             book_cover_image,
             owner_id
-        ) VALUES (%s, %s, %s, %s, %s, %s)
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         
         values = [
             data['title'],
             data['content'],
+            re_text,
             data['category'],
             float(data['price']),
             cover_image,
@@ -1208,7 +1235,7 @@ def proceedToCheckout():
 
         conn.commit()
         print(f'支払い総額 : {total_price}  使用ポイント : {usepoint}  残高 : {new_currency}')
-        return redirect(url_for('payment'))
+        return redirect(url_for('purchase_history'))
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")

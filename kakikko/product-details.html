@@ -152,6 +152,7 @@
                 </script>
             </div>
             <h2 class="product-heading">{{ book.book_title | safe }}</h2>
+            <div id="summary">{{book.book_summary}}</div>
             <div class="product-price-reviews-wrapper">
                 <div class="product-price-text">￥{{ "%.0f"|format(book.book_price) }}</div>
                 <div class="product-text-divider"></div>
