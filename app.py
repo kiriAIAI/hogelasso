@@ -1,7 +1,7 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash
 import mysql.connector
 import os
-import ChatbotPy
+#import ChatbotPy
 from PIL import Image
 import io
 
