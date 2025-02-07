@@ -936,18 +936,18 @@
   height: 100%;
   padding-left: 1.5rem;
   display: flex;
+  gap: 20px;
 }
 
 .create-left-block {
   width: 100%;
-  max-width: 70% !important;
-  margin-right: 20px !important;
+  max-width: 70%;
   padding: 1rem 3rem 3rem;
 }
 
 .create-right-block {
   width: 100%;
-  max-width: 25% !important;
+  max-width: 25%;
   padding: 1rem 1.5rem 3rem;
 }
 
@@ -1020,6 +1020,10 @@
 }
 
 /* ---------- 色選択 ---------- */
+.color-picker-block {
+  margin-bottom: 2rem;
+}
+
 .color-picker-container {
   position: relative;
   width: 100%;
@@ -1064,10 +1068,16 @@
 }
 
 /* ---------- フォントサイズ ---------- */
+.fontsize-block {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
 .fontsize-adjuster {
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 100%;
 }
 
 .fontsize-btn {
@@ -1094,7 +1104,9 @@
 }
 
 .fontsize-input {
-  width: 180px;
+  flex: 1;
+  width: auto;
+  min-width: 60px;
   height: 2.5rem;
   text-align: center;
   font-size: 1rem;
@@ -1126,7 +1138,7 @@
 }
 
 
-/* font style */
+/* ---------- font style ---------- */
 .font-heading {
   font-size: 1rem;
 }
@@ -1229,6 +1241,7 @@
   font-size: .95rem;
   padding: 5px 10px;
   border-radius: 6px;
+  background-color: var(--white);
   border: 1px solid #ccc;
 }
 
@@ -1273,6 +1286,8 @@
   font-size: .95rem;
   padding: 0 10px;
   border-radius: 6px;
+  color: #333333bf;
+  background-color: var(--white);
   border: 1px solid #ccc;
 }
 
@@ -4924,6 +4939,7 @@
     min-width: 400px;
   }
 
+  /* ---------- nav-icon ---------- */
   .bell-icon {
     margin-left: -0.1rem;
   }
@@ -4937,7 +4953,7 @@
     margin: 0.7rem 0 1.5rem 0;
   }
   
-
+  /* ---------- product-card ---------- */
   .product-title {
     font-size: 22px;
     line-height: 32px;
@@ -4951,6 +4967,7 @@
     grid-template-columns: 1fr 1fr;
   }
 
+  /* ---------- category-card ---------- */
   .category-title {
     font-size: 1rem;
   }
@@ -4965,6 +4982,7 @@
     font-size: 0.9rem;
   }
 
+  /* -------------------- login-signup.html -------------------- */
   .login-signup-left-block {
     max-width: 100%;
   }
@@ -4977,6 +4995,7 @@
     background-color: #0000;
   }
 
+  /* -------------------- order-history.html -------------------- */
   .order-history-heading {
     font-size: 1.8rem;
     line-height: 2.6rem;
@@ -4988,6 +5007,9 @@
     padding-right: 1.5rem;
   }
 
+  /* -------------------- filter.html -------------------- */
+
+  /* ---------- 並べ替え ---------- */
   .dropdown-chevron {
     inset: auto 0% auto auto;
   }
@@ -5001,6 +5023,7 @@
     display: flex;
   }
 
+  /* ---------- フィルター ---------- */
   .filters2_tablet-modal-menu {
     z-index: 999;
     border-top: 1px solid var(--\<unknown\|relume-variable-border-color-1\>);
@@ -5061,8 +5084,35 @@
     overflow: scroll;
     transform: translate(0, 100%);
   }
+  
+  /* -------------------- create.html -------------------- */
+  .create-block {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 2rem;
+  }
 
-  /* ---------- chatroom.html ---------- */
+  .create-left-block,
+  .create-right-block {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .create-form-field,
+  .textarea {
+    font-size: 16px;
+  }
+
+  .color-picker-block,
+  .fontsize-block {
+    margin-bottom: 1rem;
+  }
+  
+  .fontsize-input {
+    width: 140px;
+  } 
+
+  /* -------------------- chatroom.html -------------------- */
   .chatroom-block {
     width: calc(95% - 90px);
     margin: 0 auto;
@@ -5319,6 +5369,31 @@
   .code-embed {
     font-size: 0.8rem;
   }
+
+  /* -------------------- create.html -------------------- */
+  .create-block {
+    padding: 0.5rem;
+  }
+
+  .font-style-wrapper {
+    grid-column-gap: 0.3rem;
+  }
+
+  .font-btn {
+    width: 2rem;
+    height: 2rem;
+    padding: 6px 0;
+  }
+
+  .create-category-block,
+  .price-input-block {
+    margin: 30px 0;
+  }
+
+  .image-preview-container {
+    height: 150px;
+  }
+
 
   /* ------------------- chatroom.html ------------------- */
   .chatroom-block {
@@ -5771,6 +5846,49 @@
     left: 5%;
     width: 90%;
     min-width: 300px;
+  }
+
+  /* -------------------- create.html -------------------- */
+  .create-block {
+    margin: 0 0 0 15px;
+    padding: 0;
+  }
+
+  .font-style-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .color-picker-block,
+  .fontsize-block {
+    margin-bottom: 1rem;
+  }
+
+  .fontsize-adjuster {
+    gap: 5px;
+  }
+
+  .fontsize-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .fontsize-input {
+    min-width: 40px;
+  }
+
+  .create-form-label {
+    font-size: 1.1rem;
+  }
+
+  .create-category-heading,
+  .create-price-heading,
+  .create-file-heading {
+    font-size: 1rem;
+  }
+
+  .post-btn {
+    height: 2.5rem;
+    font-size: 0.9rem;
   }
 
   /* -------------------- chatroom.html ---------------------- */
