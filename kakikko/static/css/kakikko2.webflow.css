@@ -74,7 +74,7 @@
 }
 #LoginMenu_Status{
   cursor: pointer;
-  padding: 0 20px 0 0;
+  padding: 0 20px 0 10px;
 }
 #LoginMenu_Status:hover{
   background-color: #DDD;

@@ -72,6 +72,15 @@ def index():
     conn = conn_db()
     cursor = conn.cursor(dictionary=True)
     
+    Plofile = None
+    if 'login_id' in session:
+        cursor.execute("""
+        SELECT username, email, profile_image
+        FROM users
+        WHERE id = %s
+        """, (session["login_id"],)) 
+        Plofile = cursor.fetchone()
+    
     cursor.execute("""
         SELECT b.book_id, b.book_title, b.book_price, b.book_cover_image,
                u.username as owner_name
@@ -85,7 +94,7 @@ def index():
     cursor.close()
     conn.close()
     
-    return render_template('index.html', books=books)
+    return render_template('index.html', books=books, Plofile=Plofile)
 
 
 

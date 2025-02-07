@@ -267,7 +267,7 @@ CREATE TABLE `user_profiles` (
   `address` varchar(255) default NULL,
   `phone` varchar(50) default NULL,
   `bio` text,
-  `profile_image` varchar(255) default 'default-profile.jpg',
+  `profile_image` varchar(255) default 'default-profile.png',
   PRIMARY KEY  (`user_id`),
   CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

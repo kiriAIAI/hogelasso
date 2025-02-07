@@ -255,12 +255,12 @@
   <div id="LoginMenu_Background">
     <div id="LoginMenu">
       <div id="LoginMenu_Left">
-        <div id="LoginMenu_img"><img src="{{ url_for('static', filename='images/user.svg') }}" alt="プロフィール画像"></div>
+        <div id="LoginMenu_img"><img src="" alt="プロフィール画像"></div>
       </div>
       <div id="LoginMenu_Right">
         <div id="LoginMenu_Status">
-          <div id="LoginMenu_Id">かずと</div>
-          <div id="LoginMenu_Mail">kazuto@gmail.com</div>
+          <div id="LoginMenu_Id">{{Plofile.username}}</div>
+          <div id="LoginMenu_Mail">{{Plofile.email}}</div>
         </div>
         <div id="LoginMenu_Logout">ログアウト</div>
       </div>
@@ -274,9 +274,18 @@
     const LoginMenu = document.getElementById("LoginMenu_Background");
 
     //ログイン画面用
-    document.getElementById("LoginIcon").addEventListener("click",function(){
-      ToggleMenu(LoginMenu);
-    })
+    const LoginStatus = {{ Plofile|tojson }};
+    if (LoginStatus == null){
+      document.getElementById("LoginIcon").addEventListener("click",function(){
+        window.location.href = "/login";
+      })
+    }
+    else{ 
+      document.querySelector("#LoginMenu_img img").src = "{{ url_for('static', filename='images/profiles_images/' + Plofile.profile_image if Plofile else 'default-profile.png') }}";
+      document.getElementById("LoginIcon").addEventListener("click",function(){
+        ToggleMenu(LoginMenu);
+      })
+    }
     document.getElementById("LoginMenu_Background").addEventListener("click",function(){
       ToggleMenu(LoginMenu);
     })
