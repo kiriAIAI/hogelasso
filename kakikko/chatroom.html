@@ -127,7 +127,7 @@
         </div>
       </div>
       <body class="body">
-        <!-- 省略的主体内容 -->
+        
         <div class="chatroom-block">
           <div class="chatroom-left-block">
             <div class="member-list-block">
@@ -235,7 +235,7 @@
                   const isSentByMe = msg.is_sent_by_me;
                   messageElement.classList.add('message', isSentByMe ? 'sent' : 'received');
                   
-                  // 使用发送者的头像
+                  // 送信者のアバターを使用する
                   const avatarSrc = msg.profile_image 
                     ? `/static/images/profiles_images/${msg.profile_image}`
                     : '/static/images/circle-user.svg';
@@ -257,14 +257,14 @@
               .catch(error => console.error('Error:', error));
           }
       
-          // 自动加载消息
+          // メッセージの自動読み込み
           setInterval(() => {
             if (currentRecipientId) {
               loadMessages();
             }
           }, 5000);
 
-          // 新增函数，用于从其他页面传递过来的用户名
+          // 他のページから渡されたユーザー名のための関数
           function startChatFromProfile(username) {
             sessionStorage.setItem('chatUsername', username);
             window.location.href = '/chatroom';
@@ -287,7 +287,7 @@
             loadMessages();
           }
 
-          // 在 chatroom 页面加载时处理 sessionStorage 中的用户名
+          // チャットルームのページロード時にsessionStorageでユーザー名を扱う
           document.addEventListener('DOMContentLoaded', (event) => {
             const username = sessionStorage.getItem('chatUsername');
             if (username) {
