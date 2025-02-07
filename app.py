@@ -2,7 +2,6 @@ from flask import Flask, render_template, send_from_directory, jsonify, request,
 import mysql.connector
 import os
 
-import google.generativeai as genai
 from werkzeug.utils import secure_filename
 
 from datetime import timedelta
