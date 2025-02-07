@@ -285,6 +285,7 @@
   justify-content: space-between;
   align-items: stretch;
   width: 5.6em;
+  min-width: 5.6em;
   height: 90vh;
   padding: 1.3em;
   display: flex;
@@ -2461,40 +2462,21 @@
 
 /* -------------------- shopping cart -------------------- */
 .shoppingcart-block {
-  width: 100%;
+  width: 85%;
   padding-left: 1.5rem;
   display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
 .shoppingcart-left-block {
   position: relative;
   width: 100%;
   max-width: 65%;
-  margin-right: 20px;
+  margin-right: 0;
   padding: 1rem 1.5rem 1.5rem;
-}
-#charge_site{
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  background-color: #fffa;
-  visibility: hidden;
-}
-#charge_site_outside{
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-#charge_site_outside iframe{
-  margin: 0 0 0 auto;
-  width: 80%;
-  max-width: 435px;
-  height: 100%;
-  background-color: #f1f1f1;
-  border-radius: 10px;
+  min-width: 280px;
+  flex: 1;
 }
 
 .shopping-right-block {
@@ -2502,10 +2484,12 @@
   border-radius: 10px;
   width: 100%;
   max-width: 30%;
+  min-width: 280px;
   padding: 2rem;
   position: sticky;
   top: 2rem;
   height: fit-content;
+  flex: 1;
 }
 
 .order-heading-block {
@@ -2772,28 +2756,59 @@
   font-size: 16px;
   display: flex;
 }
+#charge_site{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: #fffa;
+  visibility: hidden;
+}
+
+#charge_site_outside{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+#charge_site_outside iframe{
+  margin: 0 0 0 auto;
+  width: 80%;
+  max-width: 435px;
+  height: 100%;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
 #warning_message{
   margin-top: 40px;
   visibility: hidden;
 }
+
 #warning_message p{
   color: red;
 }
+
 #charge_button{
   display: flex;
   justify-content: center;
   width: 100%;
 }
+
 #charge_button p{
   color: #000;
 }
+
 #charge{
   margin:  0 0 0 auto;
   padding: 5px 9px;
   color: white;
   cursor: pointer;
   background-color: #333;
-  border-radius: 10px;
+  border-radius: 5px;
+  font-weight: 500;
 
 }
 
@@ -4844,12 +4859,10 @@
   }
 
   /* ---------- sidenavbar ---------- */
-  .sidenavbar.index-sidenavbar {
-    width: 5.6em;
-  }
-
-  .sidenavbar:not(.index-sidenavbar) {
-    width: 4.5em;
+  .sidenavbar {
+    flex: 0 0 4.5em;
+    width: 5em;
+    min-width: 5em;
     padding: 1em;
   }
 
@@ -5093,10 +5106,6 @@
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
     cursor: pointer;
-}
-
-  .sysf-input {
-    font-size: 16px;
   }
 
   .products1-actions-wrap {
@@ -5107,6 +5116,39 @@
     min-width: 180px;
   }
 
+  /* ------------------- shopping-cart.html ------------------- */
+  .shoppingcart-block {
+    width: calc(95% - 90px);
+    gap: 1.5rem;
+  }
+
+  .shoppingcart-left-block,
+  .shopping-right-block {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .cart-item {
+    padding: 0.8rem 0.3rem;
+  }
+
+  .cart-image-link-block {
+    width: 5rem;
+    height: 5rem;
+    margin-right: 15px;
+  }
+
+  .cart-item-image {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  /* ------------------- profile.html ------------------- */
+  .sysf-input {
+    font-size: 16px;
+  }
+
+  
   .profile_img-box {
     width: 150px;
     height: 150px;
@@ -5340,6 +5382,31 @@
     max-width: 400px;
     padding: 1rem;
     margin: 10px;
+  }
+
+  /* ------------------- shopping-cart.html ------------------- */
+  .shoppingcart-block {
+    width: calc(100% - 90px);
+    gap: 1rem;
+  }
+
+  .cart-quantity-block {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .cart-item-title-link {
+    font-size: 1.1rem;
+  }
+
+  .cart-item-price-text {
+    font-size: 1rem;
+  }
+
+  #charge_site_outside iframe {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
   }
 
   .read-block {
@@ -5619,7 +5686,7 @@
     width: 90%;
     min-width: 300px;
   }
-
+  
   /* -------------------- chatroom.html ---------------------- */
   .chatroom-block {
     width: calc(100% - 35px);
@@ -5799,6 +5866,38 @@
   
   .footer {
     padding: 60px 1rem 15px;
+  }
+
+  /* ------------------- shopping-cart.html ------------------- */
+  .shoppingcart-block {
+    padding: 0.5rem;
+  }
+
+  .cart-detail-blcok {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cart-image-link-block {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .cart-item-detail-block {
+    align-items: center;
+  }
+
+  .order-heading-block {
+    padding: 10px;
+  }
+
+  .order-headeing {
+    font-size: 1.3rem;
+  }
+
+  .shopping-cart-icon {
+    font-size: 1.3rem;
   }
 
   /* -------------------- login-signup ---------------------- */
