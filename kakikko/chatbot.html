@@ -44,54 +44,7 @@
 
 
     <script type="module">
-        import { GoogleGenerativeAI } from "@google/generative-ai";
         const chatContainer = document.getElementById('kaitouA');
-        let oldprompt = " ";
-        let oldresponse = " ";
-        let cnt = false;
-
-        //チャットボット関連の変数
-        const API_KEY = "AIzaSyAqBJyUV1K_Ry_haBSiNVDACERbtDHc8_w";
-        const genAI = new GoogleGenerativeAI(API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        let chat = model.startChat({
-            history: [
-              {
-                role: "user",
-                parts: [{ text: oldprompt }],
-              },
-              {
-                role: "model",
-                parts: [{ text: oldresponse }],
-              },
-            ],
-          });
-        
-
-        const predefinedResponses = {
-            "よくある質問":"よくある質問は<a href='http://127.0.0.1:5000/Q&A.html' target='_blank'  class='custom-link'>こちら</a>",
-            "送料": "こちらの商品はオンライン限定商品のため、送料は一切かかりません。安心してご注文いただけますので、どうぞお気軽にご利用ください。",
-            "会員登録": "会員登録は<a href='http://127.0.0.1:5000/register' target='_blank'  class='custom-link'>サインアップはこちら</a>から",
-            "パスワード": "パスワードをお忘れですか？パスワードを忘れた方は<a href='http://127.0.0.1:5000/forget-password.html' target='_blank'  class='custom-link'>こちら</a>からリセットしてください。",
-            "返品": "大変申し訳ありませんが商品の返品は受け付けておりません。購入前に商品情報をご確認いただき、ご理解の上でご注文いただきますようお願い申し上げます。",
-            "支払い方法": "JCB,Visa,Mastarcard,Apple Pay,Google Payが対応しています。",
-            "注文履歴": "マイアカウントから注文履歴を確認できます。注文履歴は<a href='http://127.0.0.1:5000/purchase-history.html' target='_blank'  class='custom-link'>こちら</a>",
-            "ダウンロード": "申し訳ありません。現在記事のオフライン保存には対応しておりません。",
-            "ポイント": "ポイントをためることで、記事を読むことができます！ぜひ、ポイントを貯めてお楽しみください。",
-            "文字サイズ": "右上のフォントサイズを変えるボタンを押すことでフォントサイズを変えることができます。",
-            "料金": "ほとんどの記事はポイントを使用してお読みいただけます。ぜひ、ポイントを貯めてお気に入りの記事をお楽しみください！",
-            "ログアウト": "ログアウトは<a href='http://127.0.0.1:5000/confirm-logout.html' target='_blank'  class='custom-link'>こちら</a>",
-            "購入履歴": "マイアカウントから注文履歴を確認できます。注文履歴は<a href='http://127.0.0.1:5000/purchase-history.html' target='_blank'  class='custom-link'>こちら</a>",
-            "記事閲覧": "購入した記事は<a href='http://127.0.0.1:5000/purchase-history.html' target='_blank'  class='custom-link'>こちら</a>から読みたい記事をクリックすれば読むことができます。",
-            "カート商品削除": "カート内の商品を削除する場合は<a href='http://127.0.0.1:5000/shopping-cart.html' target='_blank'  class='custom-link'>こちら</a>から削除したい商品の横のごみ箱アイコンを押すと消すことができます。",
-            "ポイント使用": "ショッピングカート画面から自分の使用したいポイント数を入力することで使用することができます。",
-            "アカウント作成": "アカウントの作成は<a href='http://127.0.0.1:5000/register' target='_blank'  class='custom-link'>こちら</a>から各種情報を入力することで作成することができます。",
-            "出品": "サイドバーの＋アイコンから出品することができます。<a href='http://127.0.0.1:5000/create.html' target='_blank'  class='custom-link'>こちら</a>からもアクセスできます。",
-            "検索": "サイドバーの虫眼鏡アイコンからほしい商品を探すことができます。",
-            "アカウントメリット": "商品の購入や出品をするのに必要です。さらにポイントを使って記事を読むこともできるのでお得です。ぜひアカウントを作って楽しんでください！！",
-            "ポイント獲得": "クイズに答えることでポイントがたまります。正解するとポイントが多くもらえるので頑張って答えてみてください。",
-            "プロフィール編集": "プロフィール画面から登録情報を変更することができます。",
-        };
 
 
 //ファイル添付ボタンの変更
@@ -117,41 +70,6 @@
             }, 1600, 'swing');
             }
         }
-
-
-// 定型文の表示関数
-        function checkForKeywords(userInput) {
-            for (const keyword in predefinedResponses) {
-                if (userInput.includes(keyword)) {
-                    return predefinedResponses[keyword]; // 対応する定型文を返す
-                }
-            }
-            return null;
-        }
-
-
-//画像の変換関数
-        function fileToGenerativePart(file, mimeType) {
-            return new Promise((resolve, reject) => {
-              const reader = new FileReader();
-              
-              reader.onload = function(event) {
-                const base64Data = event.target.result.split(',')[1]; // Base64部分のみ取得
-                resolve({
-                  inlineData: {
-                    data: base64Data,
-                    mimeType,
-                  },
-                });
-              };
-              
-              reader.onerror = function(error) {
-                reject(error);
-              };
-              
-              reader.readAsDataURL(file); // ファイルをBase64形式で読み込む
-            });
-          }
 //画像のプレビュー関数
         document.getElementById('fileInput').addEventListener('change', function(event) {
             const file = event.target.files[0];
@@ -195,42 +113,40 @@
             chatContainer.appendChild(userMessage);
             document.getElementById('user-input').value = '';
           }
+//-------------------------------------------------------------------------------------------------
 
-//FAQの処理
-        async function generateResponse(userInput) {
+function generation(txt){
+    const textInput = txt;
+    const imageInput = document.getElementById("fileInput");
+    const formData = new FormData();
 
-            const file = document.getElementById('fileInput').files[0];
-            try {
-                let prompt = userInput;
-                if (cnt == false){
-                    prompt = "オンライン書籍販売サイト”かきっこ”のチャットボットですべて知っています。わかりやすく200文字程度で以下の質問に回答すること。" + userInput;
-                    cnt = true;
-                }
-                //ファイルが添付されていない場合
-                if (file == undefined){
-                    const result = await chat.sendMessage(prompt);
-                    insertMessageBot(result.response.text());
-                    console.log(oldprompt);
-                    oldprompt = oldprompt + userInput + "。";
-                    oldresponse = result.response.text();
-                }
-                //ファイルが添付されている場合
-                else{
-                    const imagePart = await fileToGenerativePart(file, file.type); 
-                    let result = await chat.sendMessage([prompt,imagePart]);
-                    insertMessageBot(result.response.text());
-                    document.getElementById('fileInput').value = "";
-                    oldprompt = oldprompt + userInput + "。";
-                    oldresponse = oldresponse + result.response.text();
-                    
-                }
-            } catch (error) {
-                insertMessageBot("エラーが発生しました。しばらく時間をおいてもう一度試してください。");
-            }
-            finally{
-                scroll('response'); 
-            }
-        }
+    // テキストがあれば追加
+    formData.append("user_text", textInput);
+
+    // 画像が選ばれていれば追加
+    if (imageInput.files.length > 0) {
+        formData.append("uploaded_image", imageInput.files[0]);
+    }
+
+    // POSTリクエストを送信
+    fetch("/chat_upload", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(responseData => {
+        // 受け取ったデータに基づいて処理
+        const receivedText = responseData.response;
+        insertMessageBot(receivedText);
+        console.log("受け取ったテキスト: " + receivedText);
+    })
+    .catch(error => {
+        console.error("エラーが発生しました:", error);
+    });
+}
+
+
+//-------------------------------------------------------------------------------------------------
 
 //送信ボタンが押されたときの処理
         document.getElementById('send-btn').addEventListener('click', () => {
@@ -242,15 +158,9 @@
             document.getElementById("hint").hidden = true;
             if (userInput) {
                 insertMessageSelf(userInput);
+                const file = document.getElementById('fileInput').files[0];
+                generation(userInput);
                 console.log("メッセージが送信されました : ",userInput);
-                const predefinedResponse = checkForKeywords(userInput); // 定型文チェック
-                if (! (predefinedResponse == null)) {
-                    insertMessageBot(predefinedResponse);
-                    scroll('response'); 
-
-                }else{
-                    generateResponse(userInput);
-                }
             }
         });
 
