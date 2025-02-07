@@ -827,8 +827,7 @@ def product_details(book_id):
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
-        
-        # 移除了reviews相关的查询
+
         cursor.execute("""
             SELECT b.*, u.username, u.profile_image, u.id as owner_id,
                    (SELECT COUNT(*) FROM favorites WHERE book_id = b.book_id) as favorite_count
@@ -841,7 +840,7 @@ def product_details(book_id):
         if not book:
             return redirect(url_for('index'))
         
-        # 获取评论及其用户信息
+        # コメントとそのユーザー情報の取得
         cursor.execute("""
             SELECT c.*, u.username, u.profile_image
             FROM comments c
@@ -859,10 +858,10 @@ def product_details(book_id):
             'profile_image': comment['profile_image']
         } for comment in comments]
         
-        # 现在的用户是否是本的所有者
+        # 現在のユーザーが本の所有者かどうかをチェックする
         is_owner = book['owner_id'] == session['login_id']
         
-        # 检查当前用户是否已购买此书
+        # 現在のユーザーが本を購入したかどうかをチェックする
         cursor.execute("""
             SELECT COUNT(*) as count
             FROM transactions
@@ -871,14 +870,14 @@ def product_details(book_id):
         purchase_info = cursor.fetchone()
         is_purchased = purchase_info['count'] > 0
         
-        # 检查当前用户是否已收藏此书
+        # 現在のユーザーがこの本をお気に入りしているかどうかをチェックする
         cursor.execute("""
             SELECT 1 FROM favorites 
             WHERE user_id = %s AND book_id = %s
         """, (session['login_id'], book_id))
         is_favorited = cursor.fetchone() is not None
         
-        # 获取收藏数
+        # お気に入りの数を取得
         cursor.execute("""
             SELECT COUNT(*) as favorite_count
             FROM favorites
