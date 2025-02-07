@@ -1493,7 +1493,7 @@
   box-shadow: 0 0 0 2px rgba(59, 59, 59, 0.1);
 }
 
-/*  */
+/* ---------- message chatroom ---------- */
 .message {
   display: flex;
   gap: 10px;
@@ -5477,6 +5477,18 @@
     font-size: 0.9rem;
   }
 
+  /* ---------- message chatroom ---------- */
+  .message {
+    max-width: 85%;
+  }
+
+  .message-text {
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+
   /* ------------------- product-detail.html ------------------- */
   .product-block {
     width: 80%;
@@ -5976,6 +5988,16 @@
     font-size: 0.85rem;
   }
   
+  /* ---------- message chatroom ---------- */
+  .message {
+    max-width: 90%;
+  }
+
+  .message-text {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+  }
+
   .text-field {
     height: 2.5rem;
   }

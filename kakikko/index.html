@@ -375,22 +375,6 @@
             };
         }
     });
-
-    window.addEventListener('message', function(event) {
-      if (event.data === 'closeCharge') {
-          // index.html中
-          const chargeMenu = document.getElementById("index_charge_menu");
-          if (chargeMenu.style.visibility === "visible") {
-              ToggleMenu(chargeMenu);
-          }
-          
-          // shopping-cart.html中
-          const chargeSite = document.getElementById("charge_site");
-          if (chargeSite.style.visibility === "visible") {
-              charge_menu();
-          }
-      }
-    });
     
   </script>
   <!-- ------------------------------------------------------------------ -->

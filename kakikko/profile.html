@@ -375,7 +375,7 @@
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
-              'X-CSRFToken': getCookie('csrf_token')  // 假设你有一个获取 CSRF 令牌的函数
+              'X-CSRFToken': getCookie('csrf_token')
           },
           body: JSON.stringify({
               book_id: bookId
@@ -384,7 +384,7 @@
       .then(response => {
           if (response.status === 401) {
               alert('ログインが必要です');
-              window.location.href = '/login'; // 重定向到登录页面
+              window.location.href = '/login'; // ログインページにリダイレクト
           } else {
               return response.json();
           }

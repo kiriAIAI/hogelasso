@@ -453,7 +453,6 @@ def submit_create():
             conn.close()
 
 
-
 # -------------------- 投稿を削除する --------------------
 @app.route('/delete_post/<int:book_id>', methods=['POST'])
 def delete_post(book_id):
@@ -516,6 +515,7 @@ def delete_post(book_id):
             conn.close()
 
 
+
 # -------------------- chatroom.html --------------------
 @app.route('/chatroom')
 def chatroom():
@@ -524,6 +524,8 @@ def chatroom():
         return redirect(url_for('login'))  
     return render_template('chatroom.html')  
 
+
+# -------------------- ユーザーIDを取得する --------------------
 @app.route('/get_user_id/<username>', methods=['GET'])
 def get_user_id(username):
     connection = conn_db()
@@ -534,12 +536,14 @@ def get_user_id(username):
     connection.close()
 
     if user:
-        print(f"User found: {username} with ID {user[0]}")  # type: ignore # 添加日志
+        print(f"User found: {username} with ID {user[0]}")  # type: ignore
         return jsonify({'user_id': user[0]}) # type: ignore
     else:
-        print(f"User not found: {username}")  # 添加日志
+        print(f"User not found: {username}")
         return jsonify({'error': 'User not found'}), 404
 
+
+# -------------------- メッセージを送信する --------------------
 @app.route('/send_message', methods=['POST'])
 def send_message():
     sender_id = session.get('login_id')
@@ -560,6 +564,8 @@ def send_message():
 
     return jsonify({'success': 'Message sent'})
 
+
+# -------------------- メッセージを取得する --------------------
 @app.route('/get_messages/<int:recipient_id>', methods=['GET'])
 def get_messages(recipient_id):
     sender_id = session.get('login_id')
@@ -599,20 +605,6 @@ def get_messages(recipient_id):
     return jsonify(messages_list)
 
 
-    
-
-
-
-
-# -------------------- メッセージを送信する --------------------
-
-
-
-
-
-
-
-
 
 # -------------------- chat.html --------------------
 @app.route('/chat.html')
@@ -642,6 +634,7 @@ def chat_upload():
     else:
         response = ChatbotPy.textGen(user_text)
     return jsonify({"response": response})
+
 
 #---------------------F&A.html--------------------
 @app.route('/Q&A.html')
@@ -785,7 +778,6 @@ def search_suggestions():
             cursor.close()
         if conn:
             conn.close()
-
 
 
 # -------------------- 検索結果ページ --------------------
@@ -1005,7 +997,6 @@ def submit_data():
     return redirect(url_for('payment',account=accountID,product=productID))
 
 
-
 #----------------------------- 商品につけるコメントの処理 --------------------------
 @app.route('/submit_product-comment', methods=['POST'])
 def submit_comment():
@@ -1050,9 +1041,7 @@ def charge():
     return render_template('charge.html',current_Balance=current_Balance)
 
 
-
-
-#仮想通貨のチャージ
+# ----------------------------- 仮想通貨のチャージ -----------------------------
 @app.route('/chargeCoins', methods=['POST'])
 def chargeCoins():
     if 'login_id' not in session:
@@ -1093,6 +1082,7 @@ def chargeCoins():
         cursor.close()
         conn.close()
     return ""
+
 
 
 # -------------------- shopping-cart.html --------------------
@@ -1170,8 +1160,7 @@ def shoppingcart():
             conn.close()
 
 
-
-# -------------------- カート内のアイテムの削除 --------------------
+# ----------------------------- カート内のアイテムの削除 -----------------------------
 @app.route('/remove-shopping-cart', methods=['POST'])
 def remove_from_cart():
     cart_id = request.form.get('cart_id')
@@ -1181,8 +1170,7 @@ def remove_from_cart():
     return redirect(url_for('shoppingcart'))
 
 
-
-# -------------------- カート内のアイテムを購入 --------------------
+# ----------------------------- カート内のアイテムを購入 -----------------------------
 @app.route('/proceedToCheckout',methods=['POST']) # type: ignore
 def proceedToCheckout():
     try:
@@ -1205,7 +1193,7 @@ def proceedToCheckout():
         cursor.execute(query1, (str(accountID),))
         books = cursor.fetchall()
 
-        # 商品がカートにない場合、ショッピングカートページに���ダイレクト
+        # 商品がカートにない場合、ショッピングカートページにダイレクト
         if not books:
             flash('カート内に商品がありません')
             return redirect(url_for('shoppingcart'))
@@ -1273,7 +1261,6 @@ def proceedToCheckout():
     finally:
         cursor.close()
         conn.close()
-
 
 
 # -------------------- お気に入り機能 --------------------
@@ -1575,7 +1562,7 @@ def quiz(book_id):
         session["lastpage"] = {"endpoint": "quiz", "args": {"book_id": book_id}}
         return redirect(url_for('login'))
     
-    # Generate random question
+    # ランダムな質問を生成する
     question, correct_answer, options = generate_question()
     
     return render_template('quiz.html',
@@ -1585,46 +1572,46 @@ def quiz(book_id):
                          book_id=book_id)
 
 def generate_question():
-    # Generate random numbers and operation
+    # 乱数の生成と操作
     num1 = random.randint(1, 50)
     num2 = random.randint(1, 100)
     operations = ['+', '-', '*', '/']
     operation = random.choice(operations)
     
-    # Ensure clean division for division operations
+    # 事業部運営のためのクリーンな事業部の確保
     if operation == '/':
-        num1 = num1 * num2  # Makes sure result is whole number
+        num1 = num1 * num2  # 結果が整数であることを確認する
         
-    # Create question string
+    # 質問文字列の作成
     question = f"{num1} {operation} {num2}"
     
-    # Calculate correct answer
+    # 正解を計算する
     correct_answer = str(int(eval(question)))
     
-    # Generate wrong options
+    # 間違ったオプションを生成する
     options = [correct_answer]
     while len(options) < 4:
-        # Generate wrong answer by slightly modifying num2
+        # num2を少し修正して間違った答えを生成する。
         offset = random.randint(-5, 5)
-        if offset != 0:  # Avoid generating the correct answer
+        if offset != 0:  # 正解の生成を避ける
             try:
                 if operation == '/':
                     wrong_num = num1 / (num2 + offset)
                 else:
                     wrong_num = eval(f"{num1} {operation} {num2 + offset}")
                 wrong_answer = str(int(wrong_num))
-                if wrong_answer not in options:  # Avoid duplicates
+                if wrong_answer not in options:  # 重複を避ける
                     options.append(wrong_answer)
             except:
                 continue
     
-    # Shuffle options
+    # シャッフルオプション
     random.shuffle(options)
     
     return question, correct_answer, options
 
 
-
+# ----------------------------- クイズの回答を送信する -----------------------------
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
     if 'login_id' not in session:
@@ -1635,10 +1622,10 @@ def submit_quiz():
     correct_answer = request.form.get('correct_answer')
     book_id = request.form.get('book_id')
 
-    # Check if answer is correct
+    # 回答が正しいかどうかをチェックする
     is_correct = selected_option == correct_answer
     
-    # Update points if answer is correct
+    # 回答が正しい場合、ポイントを更新する
     if is_correct and 'login_id' in session:
         try:
             conn = conn_db()
@@ -1684,7 +1671,7 @@ def images(filename):
     return send_from_directory('kakikko/static/images', filename)
 
 
-# 设置 Flask 配置
+# ----------------------------- Flask の設定 -----------------------------
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
