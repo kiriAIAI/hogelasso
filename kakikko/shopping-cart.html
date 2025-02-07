@@ -144,7 +144,7 @@
                               <img src="{{ url_for('static', filename='images/users_images/' + item.book_cover_image) }}" loading="lazy" alt="" class="cart-item-image">
                           </a>
                           <div class="cart-item-detail-block">
-                              <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-item-title-link">{{ item.book_title }}</a>
+                              <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-item-title-link">{{ item.book_title | safe }}</a>
                               <div class="cart-item-price-text">￥{{ item.book_price }}</div>
                           </div>
                       </div>

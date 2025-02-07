@@ -1423,10 +1423,10 @@ def profile():
 
 
 # -------------------- profile-info.html --------------------
-@app.route('/profile-info.html')
-def profileinfo():
+@app.route('/profile-info/<int:user_id>')
+def profileinfo(user_id):
     if 'login_id' not in session:
-        session["lastpage"] = {"endpoint": "profileinfo"}
+        session["lastpage"] = {"endpoint": "profileinfo", "args": {"user_id": user_id}}
         return redirect(url_for('login'))
         
     try:
@@ -1435,9 +1435,12 @@ def profileinfo():
         
         cursor.execute("""
             SELECT * FROM users WHERE id = %s
-        """, (session['login_id'],))
+        """, (user_id,))
         user_info = cursor.fetchone()
         
+        if not user_info:
+            return redirect(url_for('index'))
+            
         return render_template('profile-info.html', user_info=user_info)
         
     finally:
