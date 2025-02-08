@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 from datetime import timedelta
 import random
 
+import ChatbotPy
 
 app = Flask(__name__, template_folder='kakikko')
 app.permanent_session_lifetime = timedelta(days=7)
