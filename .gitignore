@@ -1,4 +1,6 @@
 kakikko_venv/
+__pycache__/
+chroma_db/
 
 kakikko/static/images/profiles_images/*
 !kakikko/static/images/profiles_images/default-profile.jpg
