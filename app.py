@@ -615,13 +615,18 @@ def chat():
 
 # -------------------- chatbot.html --------------------
 import ChatbotPy
+PromptFlag = False
+
 @app.route('/chatbot.html')
 def chatbot():
+    global PromptFlag
+    PromptFlag = False
     return render_template('chatbot.html')
 
 
 @app.route('/chat_upload', methods=['POST'])
 def chat_upload():
+    global PromptFlag
     # テキストを取得
     user_text = request.form.get('user_text')
 
@@ -634,28 +639,23 @@ def chat_upload():
         response = ChatbotPy.textImageGen(user_text,uploaded_image)
     #画像なし
     else:
-        relevant_docs = ChatbotPy.get_relevant_docs(user_text)
-        print(relevant_docs)
-        # print(type(relevant_docs))
-        PromptText = f"""
-あなたは質問に対して、正確で分かりやすい回答を提供する”かきっこ”AIアシスタント。
-
-### 参考情報
-以下の情報は、質問に関連する文書の検索結果です。
-もし役立つ情報があれば、それを活用して回答してください。
-
-{user_text}
-
-### ユーザーの質問
-{relevant_docs[0][0]}
-
-### 回答指針
-- 80文字程度で回答すること
-- 参考情報が適切であれば、それを使って詳しく説明してください。
-- 参考情報が不十分な場合は、知識に基づいて補足してください。
-- 「わからない」とは言わず、できるだけ推測して回答してください。
-"""
-        response = ChatbotPy.textGen(PromptText)
+        if PromptFlag == False:
+            PromptFlag = True
+            
+            relevant_docs = ChatbotPy.get_relevant_docs(user_text)
+            print(relevant_docs)
+            # print(f"{relevant_docs[0]}{relevant_docs[1]}")
+            PromptText = f"""
+            あなたは質問に対して、参考資料を使用して回答を作成するアシスタント。
+            質問：{user_text}。
+            参考資料：{relevant_docs[0]}。{relevant_docs[1]}
+            参考資料を使用しない場合は「情報がありません」と出力すること。
+            80文字程度で出力。
+            """
+            response = ChatbotPy.textGen(PromptText)
+        else:
+            response = ChatbotPy.textGen(user_text)
+            
     return jsonify({"response": response})
 
 

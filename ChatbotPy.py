@@ -37,17 +37,32 @@ chroma_client = chromadb.PersistentClient(path="./chroma_db")
 collection = chroma_client.get_or_create_collection(name="documents")
 
 def embed_text(text):
-    """ Gemini APIを使ってテキストをベクトル化 """
+    """Gemini APIを使ってテキストをベクトル化"""
     response = genai.embed_content(
         model="models/text-embedding-004",
         content=text
     )
     return response["embedding"]
 
-def get_relevant_docs(query, top_k=3):
-    """ ユーザーのクエリに関連する文書を検索 """
+
+def get_relevant_docs(query, top_k=6):
+    """ユーザーのクエリに関連する文書を検索し、類似度スコアを表示"""
     query_embedding = embed_text(query)
     results = collection.query(query_embeddings=[query_embedding], n_results=top_k)
 
-    return results["documents"] if results["documents"] else ["関連情報が見つかりませんでした"]
+    documents = results.get("documents", [[]])[0]
+    distances = results.get("distances", [[]])[0]  # 取得したスコア（距離）
+
+    if not documents:
+        return ["関連情報が見つかりませんでした"]
+
+    # Cosine Distance（距離）を Cosine Similarity（類似度）に変換
+    similarities = [1 - d for d in distances]  # ChromaDBのデフォルトは距離なので、1 - d で類似度にする
+
+    # スコア付きで文書をリストにまとめる
+    ranked_results = [f"スコア: {similarity:.4f} - {doc}" for doc, similarity in zip(documents, similarities)]
+    
+    return ranked_results
+
+
 
