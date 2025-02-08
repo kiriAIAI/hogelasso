@@ -1,4 +1,5 @@
 kakikko_venv/
+__pycache__/
 
 kakikko/static/images/profiles_images/*
 !kakikko/static/images/profiles_images/default-profile.jpg

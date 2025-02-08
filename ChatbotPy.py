@@ -1,4 +1,3 @@
-# import google.generativeai as genai
 from google import genai
 
 APIKEY = "AIzaSyAWTBtp9Nx5ZI66LL0daEU57DLQgyCoI3U"
@@ -24,3 +23,31 @@ def textImageGen(text,image):
         contents=[image, text])
     print(response.text)
     return response.text
+
+
+#------------------------------RAG用データベース----------------------------------------
+import chromadb
+import google.generativeai as genai
+
+# APIキー設定
+genai.configure(api_key=APIKEY)
+
+# ChromaDBのセットアップ
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+collection = chroma_client.get_or_create_collection(name="documents")
+
+def embed_text(text):
+    """ Gemini APIを使ってテキストをベクトル化 """
+    response = genai.embed_content(
+        model="models/text-embedding-004",
+        content=text
+    )
+    return response["embedding"]
+
+def get_relevant_docs(query, top_k=3):
+    """ ユーザーのクエリに関連する文書を検索 """
+    query_embedding = embed_text(query)
+    results = collection.query(query_embeddings=[query_embedding], n_results=top_k)
+
+    return results["documents"] if results["documents"] else ["関連情報が見つかりませんでした"]
+
