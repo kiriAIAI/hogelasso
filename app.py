@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 from datetime import timedelta
 import random
 
+import ChatbotPy
 
 app = Flask(__name__, template_folder='kakikko')
 app.permanent_session_lifetime = timedelta(days=7)
@@ -594,12 +595,12 @@ def get_messages(recipient_id):
     connection.close()
 
     messages_list = [{
-        'sender_id': msg[0],
-        'username': msg[1],
-        'message': msg[2],
-        'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S'),
-        'profile_image': msg[4] if msg[4] else 'circle-user.svg',
-        'is_sent_by_me': bool(msg[5])
+        'sender_id': msg[0], # type: ignore
+        'username': msg[1], # type: ignore
+        'message': msg[2], # type: ignore
+        'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S'), # type: ignore
+        'profile_image': msg[4] if msg[4] else 'circle-user.svg', # type: ignore
+        'is_sent_by_me': bool(msg[5]) # type: ignore
     } for msg in messages]
 
     return jsonify(messages_list)
@@ -873,14 +874,14 @@ def product_details(book_id):
         
         comments = cursor.fetchall()
         comment_data = [{
-            'comment': comment['comment'],
-            'created_at': comment['timestamp'],
-            'username': comment['username'],
-            'profile_image': comment['profile_image']
+            'comment': comment['comment'], # type: ignore
+            'created_at': comment['timestamp'], # type: ignore
+            'username': comment['username'], # type: ignore
+            'profile_image': comment['profile_image'] # type: ignore
         } for comment in comments]
         
         # 現在のユーザーが本の所有者かどうかをチェックする
-        is_owner = book['owner_id'] == session['login_id']
+        is_owner = book['owner_id'] == session['login_id'] # type: ignore
         
         # 現在のユーザーが本を購入したかどうかをチェックする
         cursor.execute("""
@@ -889,7 +890,7 @@ def product_details(book_id):
             WHERE book_id = %s AND buyer_id = %s
         """, (book_id, session['login_id']))
         purchase_info = cursor.fetchone()
-        is_purchased = purchase_info['count'] > 0
+        is_purchased = purchase_info['count'] > 0 # type: ignore
         
         # 現在のユーザーがこの本をお気に入りしているかどうかをチェックする
         cursor.execute("""
@@ -904,7 +905,7 @@ def product_details(book_id):
             FROM favorites
             WHERE book_id = %s
         """, (book_id,))
-        favorite_count = cursor.fetchone()['favorite_count']
+        favorite_count = cursor.fetchone()['favorite_count'] # type: ignore
 
         return render_template('product-details.html', 
                             book=book,
