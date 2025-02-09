@@ -8,7 +8,7 @@ def view_documents():
     """ ChromaDBに登録されているドキュメントを表示 """
     results = collection.get()  # 全てのデータを取得
 
-    for doc_id, doc_text in zip(results["ids"], results["documents"]):
+    for doc_id, doc_text in zip(results["ids"], results["documents"]): # type: ignore
         print(f"ID: {doc_id} - 内容: {doc_text}")
 
 if __name__ == "__main__":
