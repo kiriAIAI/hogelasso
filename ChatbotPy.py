@@ -1,5 +1,8 @@
-# import google.generativeai as genai
 from google import genai
+import chromadb
+from sentence_transformers import SentenceTransformer
+
+
 
 APIKEY = "AIzaSyAWTBtp9Nx5ZI66LL0daEU57DLQgyCoI3U"
 geminiModel = "gemini-2.0-flash"
@@ -24,3 +27,35 @@ def textImageGen(text,image):
         contents=[image, text])
     print(response.text)
     return response.text
+
+
+#------------------------------RAG用検索----------------------------------------
+
+# モデルの遅延ロード
+model = None  
+
+# ChromaDBのセットアップ
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+collection = chroma_client.get_or_create_collection("faq_collection")
+
+
+
+def search_faq(user_query):
+    # try:
+    global model
+    if model is None:
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+    user_embedding = model.encode(user_query).tolist()  # ユーザー入力をベクトル化
+    results = collection.query(
+        query_embeddings=[user_embedding],
+        n_results=2  # 最も近いものを2つ取得
+    )
+    if results["ids"][0]:  # 一致するデータがあれば表示
+        return results["metadatas"][0][0]["answer"] + results["metadatas"][0][1]["answer"]
+    else:
+        return "すみません、該当する情報が見つかりませんでした。"
+    # except:
+    #     return "エラーが発生しました"
+
+
+
