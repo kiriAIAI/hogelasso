@@ -642,15 +642,15 @@ def chat_upload():
         if PromptFlag == False:
             PromptFlag = True
             
-            relevant_docs = ChatbotPy.get_relevant_docs(user_text)
-            print(relevant_docs)
-            # print(f"{relevant_docs[0]}{relevant_docs[1]}")
+            
+            result = ChatbotPy.search_faq(user_text)
+            print(result)
             PromptText = f"""
-            あなたは質問に対して、参考資料を使用して回答を作成するアシスタント。
-            質問：{user_text}。
-            参考資料：{relevant_docs[0]}。{relevant_docs[1]}
-            参考資料を使用しない場合は「情報がありません」と出力すること。
-            80文字程度で出力。
+                あなたは質問に対して、参考資料を使用して回答を作成するアシスタント。
+                質問：({user_text}。)
+                参考資料：({result})
+                参考資料を使用できない場合は憶測で書籍販売サイトのAIになりきって回答すること。
+                80文字程度で出力。
             """
             response = ChatbotPy.textGen(PromptText)
         else:

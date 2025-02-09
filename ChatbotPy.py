@@ -1,4 +1,8 @@
 from google import genai
+import chromadb
+from sentence_transformers import SentenceTransformer
+
+
 
 APIKEY = "AIzaSyAWTBtp9Nx5ZI66LL0daEU57DLQgyCoI3U"
 geminiModel = "gemini-2.0-flash"
@@ -25,44 +29,32 @@ def textImageGen(text,image):
     return response.text
 
 
-#------------------------------RAG用データベース----------------------------------------
-import chromadb
-import google.generativeai as genai
+#------------------------------RAG用検索----------------------------------------
 
-# APIキー設定
-genai.configure(api_key=APIKEY)
+# モデルの遅延ロード
+model = None  
 
 # ChromaDBのセットアップ
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="documents")
-
-def embed_text(text):
-    """Gemini APIを使ってテキストをベクトル化"""
-    response = genai.embed_content(
-        model="models/text-embedding-004",
-        content=text
-    )
-    return response["embedding"]
+collection = chroma_client.get_or_create_collection("faq_collection")
 
 
-def get_relevant_docs(query, top_k=6):
-    """ユーザーのクエリに関連する文書を検索し、類似度スコアを表示"""
-    query_embedding = embed_text(query)
-    results = collection.query(query_embeddings=[query_embedding], n_results=top_k)
 
-    documents = results.get("documents", [[]])[0]
-    distances = results.get("distances", [[]])[0]  # 取得したスコア（距離）
-
-    if not documents:
-        return ["関連情報が見つかりませんでした"]
-
-    # Cosine Distance（距離）を Cosine Similarity（類似度）に変換
-    similarities = [1 - d for d in distances]  # ChromaDBのデフォルトは距離なので、1 - d で類似度にする
-
-    # スコア付きで文書をリストにまとめる
-    ranked_results = [f"スコア: {similarity:.4f} - {doc}" for doc, similarity in zip(documents, similarities)]
-    
-    return ranked_results
+def search_faq(user_query):
+    try:
+        if model is None:
+            model = SentenceTransformer("all-MiniLM-L6-v2")
+        user_embedding = model.encode(user_query).tolist()  # ユーザー入力をベクトル化
+        results = collection.query(
+            query_embeddings=[user_embedding],
+            n_results=2  # 最も近いものを2つ取得
+        )
+        if results["ids"][0]:  # 一致するデータがあれば表示
+            return results["metadatas"][0][0]["answer"] + results["metadatas"][0][1]["answer"]
+        else:
+            return "すみません、該当する情報が見つかりませんでした。"
+    except:
+        return "エラーが発生しました"
 
 
 
