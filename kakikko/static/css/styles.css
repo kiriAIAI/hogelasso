@@ -512,7 +512,7 @@
 
 @media screen and (max-width: 768px) {
     .right_container div {
-        width: 100px; /* 移动端稍微缩小按钮宽度 */
+        width: 100px;
         padding: 8px 15px;
         font-size: 0.9rem;
     }
@@ -520,7 +520,7 @@
 
 @media screen and (max-width: 480px) {
     .PaymentAmount {
-        flex-direction: column; /* 在很小的屏幕上改为垂直布局 */
+        flex-direction: column;
         align-items: stretch;
     }
     
@@ -534,7 +534,7 @@
     }
     
     .right_container div {
-        width: 100%; /* 在垂直布局时占满容器宽度 */
+        width: 100%
     }
 }
 
