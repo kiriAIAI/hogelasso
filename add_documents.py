@@ -39,4 +39,4 @@ def add_database():
 
 
 #データ登録（追加するときはchromadbを削除してから実行すること）
-# add_database()
+add_database()
