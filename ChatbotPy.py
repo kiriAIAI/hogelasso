@@ -1,4 +1,8 @@
 from google import genai
+import chromadb
+from sentence_transformers import SentenceTransformer
+
+
 
 APIKEY = "AIzaSyAWTBtp9Nx5ZI66LL0daEU57DLQgyCoI3U"
 geminiModel = "gemini-2.0-flash"
@@ -25,29 +29,33 @@ def textImageGen(text,image):
     return response.text
 
 
-#------------------------------RAG用データベース----------------------------------------
-import chromadb
-import google.generativeai as genai
+#------------------------------RAG用検索----------------------------------------
 
-# APIキー設定
-genai.configure(api_key=APIKEY)
+# モデルの遅延ロード
+model = None  
 
 # ChromaDBのセットアップ
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="documents")
+collection = chroma_client.get_or_create_collection("faq_collection")
 
-def embed_text(text):
-    """ Gemini APIを使ってテキストをベクトル化 """
-    response = genai.embed_content(
-        model="models/text-embedding-004",
-        content=text
+
+
+def search_faq(user_query):
+    # try:
+    global model
+    if model is None:
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+    user_embedding = model.encode(user_query).tolist()  # ユーザー入力をベクトル化
+    results = collection.query(
+        query_embeddings=[user_embedding],
+        n_results=2  # 最も近いものを2つ取得
     )
-    return response["embedding"]
+    if results["ids"][0]:  # 一致するデータがあれば表示
+        return results["metadatas"][0][0]["answer"] + results["metadatas"][0][1]["answer"]
+    else:
+        return "すみません、該当する情報が見つかりませんでした。"
+    # except:
+    #     return "エラーが発生しました"
 
-def get_relevant_docs(query, top_k=3):
-    """ ユーザーのクエリに関連する文書を検索 """
-    query_embedding = embed_text(query)
-    results = collection.query(query_embeddings=[query_embedding], n_results=top_k)
 
-    return results["documents"] if results["documents"] else ["関連情報が見つかりませんでした"]
 
