@@ -640,20 +640,19 @@ def chat_upload():
         response = ChatbotPy.textImageGen(user_text,uploaded_image)
     #画像なし
     else:
+        result = ChatbotPy.search_faq(user_text)
+        print(result)
+        Prompt = f"質問：({user_text}。)参考資料：({result})"
         if PromptFlag == False:
             PromptFlag = True
             
-            
-            result = ChatbotPy.search_faq(user_text)
-            print(result)
             PromptText = f"""
-                あなたは質問に対して、参考資料を使用して回答を作成するアシスタント。
-                質問：({user_text}。)
-                参考資料：({result})
-                参考資料を使用できない場合は憶測で書籍販売サイトのAIになりきって回答すること。
+                あなたはオンライン書籍販売サイトのチャットボット。
+                質問に対して、参考資料をできるだけ使用して回答すること。
+                参考資料を使用できない場合は憶測で回答すること。
                 80文字程度で出力。
-            """
-            response = ChatbotPy.textGen(PromptText)
+                """
+            response = ChatbotPy.textGen(PromptText + Prompt)
         else:
             response = ChatbotPy.textGen(user_text)
             
