@@ -1,56 +1,42 @@
 import chromadb
-import google.generativeai as genai
+from sentence_transformers import SentenceTransformer
 
-import ChatbotPy
+# モデルのロード
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# APIキー設定
-genai.configure(api_key=ChatbotPy.APIKEY)
-
+# ChromaDBのセットアップ
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="documents")
+collection = chroma_client.get_or_create_collection("faq_collection")
 
-
-# 初期の構築用
-def aaa():
-    documents = [
-    "FlaskはPythonの軽量Webフレームワークです。",
-    "GeminiはGoogleの生成AIモデルです。",
-    "RAGは情報検索と生成AIを組み合わせた技術です。",
-    ] 
-    # ドキュメントを追加 
-    for i, doc in enumerate(documents):
-        doc_embedding = ChatbotPy.embed_text(doc)
-        collection.add(ids=[str(i)], embeddings=[doc_embedding], documents=[doc])
-
-        print("ドキュメントが登録されました！")
-        
-def bbb():
-    new_documents = [
-        "パスワードの再設定はトップページのアカウントアイコンから”パスワードを忘れた方はこちら”からリセットできます。",
-        "会員登録（サインアップ）はトップページのアカウントアイコンから”初めての方はこちら”からアカウントを作ることができます。",
-        "商品の返品は受け付けておりません",
-        "支払い方法はJCB,Visa,Mastarcard,Apple Pay,Google Payが対応しています。",
-        "送料は一切かかりません",
-        "購入履歴（注文履歴）は購入履歴アイコンから見ることができます",
-        "オフライン保存には対応していません。",
-        "ポイントをためることで記事を読むことができます",
-        "かきっこはすべての機能を無料で使うことができます。記事の購入には課金が必要になる可能性があります",
-        "ログアウトはログインアイコンからログアウトできます",
-        "カート内のアイテムを削除したい場合ショッピングカート画面にてゴミ箱アイコンから削除することができます",
-        "ポイントはショッピングカート画面にて使用したポイントを入力してください",
-        "投稿（出品）は投稿アイコン（プラスマーク）からできます",
-    ]
-    # 既存のIDを取得し、最大値+1を新しいIDとする
-    existing_ids = collection.get()["ids"]
-    start_id = max(map(int, existing_ids)) + 1 if existing_ids else 0
-
-    # 新しいドキュメントを追加
-    for i, doc in enumerate(new_documents):
-        doc_embedding = ChatbotPy.embed_text(doc)
-        collection.add(ids=[str(start_id + i)], embeddings=[doc_embedding], documents=[doc])
-
-        print("新しいドキュメントが追加されました！")
+# 事前に用意したFAQリスト(この形式にしてね)
+# faq_list = [
+#     ("返品はできますか？", "未使用品であれば30日以内に返品可能です。"),
+# ]
 
 
 
-bbb()
+def add_database():
+    import csv
+
+    faq_list = []
+    with open("kakikko学習データ1.csv", encoding="utf-8") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if len(row) >= 2:  # A列とB列が存在する場合のみ
+                faq_list.append((row[0], row[1]))
+    print(faq_list)
+    
+    # データをベクトル化し、ChromaDBに追加
+    for i, (question, answer) in enumerate(faq_list):
+        embedding = model.encode(question).tolist()  # ベクトル化
+        collection.add(
+            ids=[str(i)],
+            embeddings=[embedding],
+            metadatas=[{"question": question, "answer": answer}]
+        )
+    print("データベースにFAQを登録しました！")
+    
+
+
+#データ登録（追加するときはchromadbを削除してから実行すること）
+add_database()

@@ -91,13 +91,15 @@
       right: 30px;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1),
                     0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 9999 !important;
   }
   
   #button {
-      bottom: 30px;
+      bottom: 90px !important;
       right: 30px;
       width: 60px;
       height: 60px;
+      z-index: 9998 !important;
   }
 }
 
