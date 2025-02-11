@@ -1694,7 +1694,11 @@
 }
 
 .dropdown1_dropdown-list.w--open {
-  background-color: #ffffffe1;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   margin-top: .5rem;
   padding: .5rem;
@@ -1717,14 +1721,19 @@
   display: flex;
 }
 
+@supports not (backdrop-filter: blur(10px)) {
+  .dropdown1_dropdown-list.w--open {
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+}
+
 .dropdown1_dropdown-link {
-  background-color: #f8f8f8;
   padding: .6rem 1.2rem;
   transition: background-color 0.3s;
 }
 
 .dropdown1_dropdown-link:hover{
-  background-color: #c1c1c150;
+  background-color: rgba(232, 232, 232, 0.5);
   border-radius: 4px;
 }
 
