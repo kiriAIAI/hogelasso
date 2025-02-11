@@ -5551,6 +5551,14 @@
     padding: 0.5rem 0.5rem 90px 0.5rem;
   }
 
+  .create-left-block {
+    padding: 0 15px 0 0;
+  }
+
+  .create-right-block {
+    padding: 0 15px 90px 0;
+  }
+
   .font-style-wrapper {
     grid-column-gap: 0.3rem;
   }
