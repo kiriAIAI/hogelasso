@@ -5823,6 +5823,7 @@
     width: 80px;
   }
 
+  /* -------------------- login-signup.html -------------------- */
   .login-signup-left-block {
     padding-left: 3rem;
     padding-right: 3rem;
@@ -5832,13 +5833,20 @@
     font-size: 1.8rem;
   }
 
+  /* -------------------- Q&A.html -------------------- */
   .text-size-medium {
     font-size: 1rem;
   }
 
+  /* -------------------- filter.html -------------------- */
+
   .filters2_tablet-modal-menu {
     padding-top: .5rem;
     padding-bottom: .5rem;
+  }
+
+  .filter-right-block {
+    padding-bottom: 90px;
   }
 
   .filter-heading {
@@ -5847,6 +5855,8 @@
   }
 
   .filter-block {
+    margin: 0;
+    padding: 0;
     grid-column-gap: 2.5rem;
     grid-row-gap: 2.5rem;
   }
@@ -5927,6 +5937,21 @@
 
   .filter-search-image {
     width: 24px;
+  }
+
+  .no-products-message {
+    width: calc(100% - 30px); /* 左右各留15px边距 */
+    height: 150px;
+    margin: 20px 15px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+  }
+
+  .no-products-message p {
+    text-align: center;
+    justify-content: center;
+    font-size: 0.95rem;
   }
 
   .product-price-text {
@@ -6343,6 +6368,7 @@
     padding-right: 1rem;
   }
 
+  /* -------------------- order-history.html -------------------- */
   .order-history-wrapper {
     padding-left: .5rem;
     padding-right: .5rem;
@@ -6365,6 +6391,7 @@
     margin-bottom: .5rem;
   }
 
+  /* -------------------- profile.html -------------------- */
   .display_horizontal {
     margin-top: 10px;
   }
@@ -6402,6 +6429,20 @@
     width: 50%;
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  /* -------------------- filter.html -------------------- */
+  .no-products-message {
+    width: 95%;
+    height: 150px;
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  .no-products-message p {
+    color: var(--dark-gray);
+    font-size: 0.95rem;
+    font-weight: 500;
   }
 
   /* -------------------- read.html -------------------- */
