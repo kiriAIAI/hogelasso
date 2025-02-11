@@ -5754,8 +5754,34 @@
 
   /* ------------------- shopping-cart.html ------------------- */
   .shoppingcart-block {
-    width: calc(100% - 90px);
-    gap: 1rem;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 90px 0;
+  }
+
+  .shoppingcart-left-block {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .shoppingcart-right-block {
+    width: 100%;
+    max-width: 100%;
+    margin: 1rem 0 0 0;
+    padding: 0;
+  }
+
+  .cart-summary-block {
+    padding: 0 0 90px 0;
+  }
+
+  .order-heading-block {
+    width: 100%;
+    max-width: 100%;
+    margin: 10px 0 20px 0;
+    padding: 0;
   }
 
   .cart-quantity-block {
@@ -6356,7 +6382,12 @@
 
   /* ------------------- shopping-cart.html ------------------- */
   .shoppingcart-block {
-    padding: 0.5rem;
+    padding: 0;
+  }
+
+  .shoppingcart-right-block {
+    margin: 0 0 90px 0;
+    padding: 0;
   }
 
   .cart-detail-blcok {
