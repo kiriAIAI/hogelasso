@@ -1,17 +1,23 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash
 import mysql.connector
 import os
+import ChatbotPy
+from PIL import Image
+import io
 
 from werkzeug.utils import secure_filename
 
 from datetime import timedelta
 import random
 
+import ChatbotPy
 
 app = Flask(__name__, template_folder='kakikko')
 app.permanent_session_lifetime = timedelta(days=7)
 
 app.secret_key = 'kakikko'
+
+app.config['UPLOAD_FOLDER'] = 'kakikko/static/images/users_images'
 
 
 def conn_db():
@@ -357,7 +363,6 @@ def image_upload():
     cursor.execute(auto_increment_id('books'))
     latest_book_id = cursor.fetchone() # 取得した結果を表示 
     
-    app.config['UPLOAD_FOLDER'] = 'kakikko/static/images/users_images'
     file = request.files['image_data']
     print(file)
     file_name = f"{latest_book_id[0] - 1}_{file.filename}" # type: ignore
@@ -395,13 +400,8 @@ def submit_create():
         cover_image = f"{latest_book_id[0]}_{cover_image}" # type: ignore
         
         # 要約を生成
-        model = genai.GenerativeModel('gemini-2.0-flash-001')
-        # GOOGLE_API_KEY=userdata.get('GOOGLE_API_KEY')  👈環境変数をつかおう（めんどい）
-        genai.configure(api_key="AIzaSyAWTBtp9Nx5ZI66LL0daEU57DLQgyCoI3U")
-        # 生成なう
-        response = model.generate_content("次の内容を基に、物語の冒頭20%を使用して要約し、読者の興味を引く書籍紹介文を生成。長さは約80文字。"+data['content'])
-        re_text = response.candidates[0].content.parts[0].text
-        print(re_text)
+        text = ChatbotPy.text_summary(data['content'])
+        print(text)
 
 
         insert_sql = """
@@ -419,7 +419,7 @@ def submit_create():
         values = [
             data['title'],
             data['content'],
-            re_text,
+            text,
             data['category'],
             float(data['price']),
             cover_image,
@@ -452,7 +452,6 @@ def submit_create():
             cursor.close()
         if conn:
             conn.close()
-
 
 
 # -------------------- 投稿を削除する --------------------
@@ -517,6 +516,7 @@ def delete_post(book_id):
             conn.close()
 
 
+
 # -------------------- chatroom.html --------------------
 @app.route('/chatroom')
 def chatroom():
@@ -525,6 +525,8 @@ def chatroom():
         return redirect(url_for('login'))  
     return render_template('chatroom.html')  
 
+
+# -------------------- ユーザーIDを取得する --------------------
 @app.route('/get_user_id/<username>', methods=['GET'])
 def get_user_id(username):
     connection = conn_db()
@@ -535,12 +537,14 @@ def get_user_id(username):
     connection.close()
 
     if user:
-        print(f"User found: {username} with ID {user[0]}")  # type: ignore # 添加日志
+        print(f"User found: {username} with ID {user[0]}")  # type: ignore
         return jsonify({'user_id': user[0]}) # type: ignore
     else:
-        print(f"User not found: {username}")  # 添加日志
+        print(f"User not found: {username}")
         return jsonify({'error': 'User not found'}), 404
 
+
+# -------------------- メッセージを送信する --------------------
 @app.route('/send_message', methods=['POST'])
 def send_message():
     sender_id = session.get('login_id')
@@ -561,6 +565,8 @@ def send_message():
 
     return jsonify({'success': 'Message sent'})
 
+
+# -------------------- メッセージを取得する --------------------
 @app.route('/get_messages/<int:recipient_id>', methods=['GET'])
 def get_messages(recipient_id):
     sender_id = session.get('login_id')
@@ -570,33 +576,34 @@ def get_messages(recipient_id):
     connection = conn_db()
     cursor = connection.cursor()
     cursor.execute('''
-        SELECT dm.sender_id, u.username, dm.message, dm.timestamp
+        SELECT 
+            dm.sender_id, 
+            u.username, 
+            dm.message, 
+            dm.timestamp,
+            u.profile_image,
+            dm.sender_id = %s as is_sent_by_me
         FROM direct_messages dm
         JOIN users u ON dm.sender_id = u.id
-        WHERE (dm.sender_id = %s AND dm.recipient_id = %s) OR (dm.sender_id = %s AND dm.recipient_id = %s)
+        WHERE (dm.sender_id = %s AND dm.recipient_id = %s) 
+        OR (dm.sender_id = %s AND dm.recipient_id = %s)
         ORDER BY dm.timestamp ASC
-    ''', (sender_id, recipient_id, recipient_id, sender_id))
+    ''', (sender_id, sender_id, recipient_id, recipient_id, sender_id))
+    
     messages = cursor.fetchall()
     cursor.close()
     connection.close()
 
-    messages_list = [{'sender_id': msg[0], 'username': msg[1], 'message': msg[2], 'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S')} for msg in messages] # type: ignore
+    messages_list = [{
+        'sender_id': msg[0], # type: ignore
+        'username': msg[1], # type: ignore
+        'message': msg[2], # type: ignore
+        'timestamp': msg[3].strftime('%Y-%m-%d %H:%M:%S'), # type: ignore
+        'profile_image': msg[4] if msg[4] else 'circle-user.svg', # type: ignore
+        'is_sent_by_me': bool(msg[5]) # type: ignore
+    } for msg in messages]
 
     return jsonify(messages_list)
-
-
-    
-
-
-
-
-# -------------------- メッセージを送信する --------------------
-
-
-
-
-
-
 
 
 
@@ -608,10 +615,48 @@ def chat():
 
 
 # -------------------- chatbot.html --------------------
+import ChatbotPy
+PromptFlag = False
+
 @app.route('/chatbot.html')
 def chatbot():
+    global PromptFlag
+    PromptFlag = False
     return render_template('chatbot.html')
 
+
+@app.route('/chat_upload', methods=['POST'])
+def chat_upload():
+    global PromptFlag
+    # テキストを取得
+    user_text = request.form.get('user_text')
+
+    # 画像がアップロードされているか確認
+    uploaded_image = request.files.get('uploaded_image')
+
+    if uploaded_image:
+        print(uploaded_image)
+        uploaded_image = Image.open(uploaded_image)
+        response = ChatbotPy.textImageGen(user_text,uploaded_image)
+    #画像なし
+    else:
+        result = ChatbotPy.search_faq(user_text)
+        print(result)
+        Prompt = f"質問：({user_text}。)参考資料：({result})"
+        if PromptFlag == False:
+            PromptFlag = True
+            
+            PromptText = f"""
+                あなたはオンライン書籍販売サイトのチャットボット。
+                質問に対して、参考資料をできるだけ使用して回答すること。
+                参考資料を使用できない場合は憶測で回答すること。
+                80文字程度で出力。
+                """
+            response = ChatbotPy.textGen(PromptText + Prompt)
+        else:
+            response = ChatbotPy.textGen(user_text)
+            
+    return jsonify({"response": response})
 
 
 #---------------------F&A.html--------------------
@@ -758,7 +803,6 @@ def search_suggestions():
             conn.close()
 
 
-
 # -------------------- 検索結果ページ --------------------
 @app.route('/search')
 def search():
@@ -827,34 +871,36 @@ def product_details(book_id):
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
-        
-        # 書籍情報入手
+
         cursor.execute("""
-            SELECT b.*, u.username 
-            FROM books b 
-            JOIN users u ON b.owner_id = u.id 
+            SELECT b.*, u.username, u.profile_image, u.id as owner_id,
+                   (SELECT COUNT(*) FROM favorites WHERE book_id = b.book_id) as favorite_count
+            FROM books b
+            LEFT JOIN users u ON b.owner_id = u.id
             WHERE b.book_id = %s
         """, (book_id,))
+        
         book = cursor.fetchone()
         if not book:
             return redirect(url_for('index'))
         
-        #コメント情報入手
+        # コメントとそのユーザー情報の取得
         cursor.execute("""
-            SELECT c.*, u.username 
+            SELECT c.*, u.username, u.profile_image
             FROM comments c
-            JOIN users u ON c.user_id = u.id 
+            LEFT JOIN users u ON c.user_id = u.id
             WHERE c.book_id = %s
             ORDER BY c.timestamp DESC
             LIMIT 6
         """, (book_id,))
+        
         comments = cursor.fetchall()
         comment_data = [{
             'comment': comment['comment'], # type: ignore
             'created_at': comment['timestamp'], # type: ignore
-            'username': comment['username'] # type: ignore
+            'username': comment['username'], # type: ignore
+            'profile_image': comment['profile_image'] # type: ignore
         } for comment in comments]
-        
         
         # 現在のユーザーが本の所有者かどうかをチェックする
         is_owner = book['owner_id'] == session['login_id'] # type: ignore
@@ -868,14 +914,14 @@ def product_details(book_id):
         purchase_info = cursor.fetchone()
         is_purchased = purchase_info['count'] > 0 # type: ignore
         
-        # 現在のユーザーがその本をブックマークしているかチェックする。
+        # 現在のユーザーがこの本をお気に入りしているかどうかをチェックする
         cursor.execute("""
             SELECT 1 FROM favorites 
             WHERE user_id = %s AND book_id = %s
         """, (session['login_id'], book_id))
         is_favorited = cursor.fetchone() is not None
         
-        # お気に入りの数を取得する
+        # お気に入りの数を取得
         cursor.execute("""
             SELECT COUNT(*) as favorite_count
             FROM favorites
@@ -886,7 +932,6 @@ def product_details(book_id):
         return render_template('product-details.html', 
                             book=book,
                             comments=comment_data,
-                            username=book['username'], # type: ignore
                             is_owner=is_owner,
                             is_purchased=is_purchased,
                             is_favorited=is_favorited,
@@ -975,7 +1020,6 @@ def submit_data():
     return redirect(url_for('payment',account=accountID,product=productID))
 
 
-
 #----------------------------- 商品につけるコメントの処理 --------------------------
 @app.route('/submit_product-comment', methods=['POST'])
 def submit_comment():
@@ -1020,9 +1064,7 @@ def charge():
     return render_template('charge.html',current_Balance=current_Balance)
 
 
-
-
-#仮想通貨のチャージ
+# ----------------------------- 仮想通貨のチャージ -----------------------------
 @app.route('/chargeCoins', methods=['POST'])
 def chargeCoins():
     if 'login_id' not in session:
@@ -1063,6 +1105,7 @@ def chargeCoins():
         cursor.close()
         conn.close()
     return ""
+
 
 
 # -------------------- shopping-cart.html --------------------
@@ -1140,8 +1183,7 @@ def shoppingcart():
             conn.close()
 
 
-
-# -------------------- カート内のアイテムの削除 --------------------
+# ----------------------------- カート内のアイテムの削除 -----------------------------
 @app.route('/remove-shopping-cart', methods=['POST'])
 def remove_from_cart():
     cart_id = request.form.get('cart_id')
@@ -1151,8 +1193,7 @@ def remove_from_cart():
     return redirect(url_for('shoppingcart'))
 
 
-
-# -------------------- カート内のアイテムを購入 --------------------
+# ----------------------------- カート内のアイテムを購入 -----------------------------
 @app.route('/proceedToCheckout',methods=['POST']) # type: ignore
 def proceedToCheckout():
     try:
@@ -1175,7 +1216,7 @@ def proceedToCheckout():
         cursor.execute(query1, (str(accountID),))
         books = cursor.fetchall()
 
-        # 商品がカートにない場合、ショッピングカートページに���ダイレクト
+        # 商品がカートにない場合、ショッピングカートページにダイレクト
         if not books:
             flash('カート内に商品がありません')
             return redirect(url_for('shoppingcart'))
@@ -1243,7 +1284,6 @@ def proceedToCheckout():
     finally:
         cursor.close()
         conn.close()
-
 
 
 # -------------------- お気に入り機能 --------------------
@@ -1421,10 +1461,10 @@ def profile():
 
 
 # -------------------- profile-info.html --------------------
-@app.route('/profile-info.html')
-def profileinfo():
+@app.route('/profile-info/<int:user_id>')
+def profileinfo(user_id):
     if 'login_id' not in session:
-        session["lastpage"] = {"endpoint": "profileinfo"}
+        session["lastpage"] = {"endpoint": "profileinfo", "args": {"user_id": user_id}}
         return redirect(url_for('login'))
         
     try:
@@ -1433,14 +1473,125 @@ def profileinfo():
         
         cursor.execute("""
             SELECT * FROM users WHERE id = %s
-        """, (session['login_id'],))
+        """, (user_id,))
         user_info = cursor.fetchone()
         
+        if not user_info:
+            return redirect(url_for('index'))
+            
         return render_template('profile-info.html', user_info=user_info)
         
     finally:
         cursor.close()
         conn.close()
+
+
+# -------------------- フォロー機能 --------------------------
+@app.route('/follow', methods=['POST'])
+def follow():
+    try:
+        data = request.get_json()
+        follower_id = data['follower_id']
+        followed_id = data['followed_id']
+
+        conn = conn_db()
+        cursor = conn.cursor()
+
+        # すでにフォローしているか確認
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE follower_id = %s AND followed_id = %s",
+            (follower_id, followed_id)
+        )
+        result = cursor.fetchone()
+        
+        if result[0] > 0:
+            return jsonify({'success': False, 'message': 'すでにフォローしています！'})
+
+        # フォロー情報をデータベースに挿入
+        cursor.execute(
+            "INSERT INTO follows (follower_id, followed_id) VALUES (%s, %s)",
+            (follower_id, followed_id)
+        )
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({'success': True, 'message': 'フォローしました！'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+
+
+
+@app.route('/unfollow', methods=['POST'])  # 修正
+def unfollow():
+    try:
+        data = request.get_json()
+        follower_id = data['follower_id']
+        followed_id = data['followed_id']
+
+        # フォロー情報をデータベースから削除
+        conn = conn_db()
+        cursor = conn.cursor()
+        cursor.execute(
+            "DELETE FROM follows WHERE follower_id = %s AND followed_id = %s",
+            (follower_id, followed_id)
+        )
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({'success': True, 'message': 'フォローを解除しました！'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    
+@app.route('/is_following', methods=['GET'])
+def is_following():
+    try:
+        follower_id = request.args.get('follower_id')
+        followed_id = request.args.get('followed_id')
+
+        conn = conn_db()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE follower_id = %s AND followed_id = %s",
+            (follower_id, followed_id)
+        )
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        is_following = result[0] > 0
+        return jsonify({'is_following': is_following})
+    except Exception as e:
+        return jsonify({'is_following': False, 'error': str(e)})
+    
+
+@app.route('/get_follow_counts', methods=['GET'])
+def get_follow_counts():
+    try:
+        user_id = request.args.get('user_id')
+
+        conn = conn_db()
+        cursor = conn.cursor()
+
+        # フォロワー数を取得（このユーザーをフォローしている人数）
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE followed_id = %s", (user_id,)
+        )
+        follower_count = cursor.fetchone()[0]
+
+        # フォロー中の人数を取得（このユーザーがフォローしている人数）
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE follower_id = %s", (user_id,)
+        )
+        following_count = cursor.fetchone()[0]
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({'follower_count': follower_count, 'following_count': following_count})
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 
 
@@ -1542,7 +1693,7 @@ def quiz(book_id):
         session["lastpage"] = {"endpoint": "quiz", "args": {"book_id": book_id}}
         return redirect(url_for('login'))
     
-    # Generate random question
+    # ランダムな質問を生成する
     question, correct_answer, options = generate_question()
     
     return render_template('quiz.html',
@@ -1552,46 +1703,46 @@ def quiz(book_id):
                          book_id=book_id)
 
 def generate_question():
-    # Generate random numbers and operation
+    # 乱数の生成と操作
     num1 = random.randint(1, 50)
     num2 = random.randint(1, 100)
     operations = ['+', '-', '*', '/']
     operation = random.choice(operations)
     
-    # Ensure clean division for division operations
+    # 事業部運営のためのクリーンな事業部の確保
     if operation == '/':
-        num1 = num1 * num2  # Makes sure result is whole number
+        num1 = num1 * num2  # 結果が整数であることを確認する
         
-    # Create question string
+    # 質問文字列の作成
     question = f"{num1} {operation} {num2}"
     
-    # Calculate correct answer
+    # 正解を計算する
     correct_answer = str(int(eval(question)))
     
-    # Generate wrong options
+    # 間違ったオプションを生成する
     options = [correct_answer]
     while len(options) < 4:
-        # Generate wrong answer by slightly modifying num2
+        # num2を少し修正して間違った答えを生成する。
         offset = random.randint(-5, 5)
-        if offset != 0:  # Avoid generating the correct answer
+        if offset != 0:  # 正解の生成を避ける
             try:
                 if operation == '/':
                     wrong_num = num1 / (num2 + offset)
                 else:
                     wrong_num = eval(f"{num1} {operation} {num2 + offset}")
                 wrong_answer = str(int(wrong_num))
-                if wrong_answer not in options:  # Avoid duplicates
+                if wrong_answer not in options:  # 重複を避ける
                     options.append(wrong_answer)
             except:
                 continue
     
-    # Shuffle options
+    # シャッフルオプション
     random.shuffle(options)
     
     return question, correct_answer, options
 
 
-
+# ----------------------------- クイズの回答を送信する -----------------------------
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
     if 'login_id' not in session:
@@ -1602,10 +1753,10 @@ def submit_quiz():
     correct_answer = request.form.get('correct_answer')
     book_id = request.form.get('book_id')
 
-    # Check if answer is correct
+    # 回答が正しいかどうかをチェックする
     is_correct = selected_option == correct_answer
     
-    # Update points if answer is correct
+    # 回答が正しい場合、ポイントを更新する
     if is_correct and 'login_id' in session:
         try:
             conn = conn_db()
@@ -1651,7 +1802,7 @@ def images(filename):
     return send_from_directory('kakikko/static/images', filename)
 
 
-# 设置 Flask 配置
+# ----------------------------- Flask の設定 -----------------------------
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 

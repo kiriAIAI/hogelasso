@@ -136,12 +136,12 @@
         <div class="product-right-block">
             <div class="product-tag-block">
                 <a href="{{ url_for('profileinfo', user_id=book.owner_id) }}" class="user-profile-wrapper">
-                    {% if book.profile_image %}
-                        <img src="{{ book.profile_image }}" loading="lazy" alt="" class="user-profile-image">
-                    {% else %}
-                        <img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="user-profile-image">           
-                    {% endif %}
-                    <div class="user-name">{{ book.username }}</div>
+                  {% if book.profile_image %}
+                      <img src="{{ url_for('static', filename='images/profiles_images/' + book.profile_image) }}" loading="lazy" alt="" class="user-profile-image">
+                  {% else %}
+                      <img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="user-profile-image">           
+                  {% endif %}
+                  <div class="user-name">{{ book.username }}</div>
                 </a>
                 <button class="send-message-icon" onclick="startChatFromProfile('{{ book.username }}')"><i class="fa-solid fa-comment-sms"></i></button>
                 <script>
@@ -237,7 +237,11 @@
           {% for comment in comments %}
           <div class="comment-blocks">
             <div class="left-block">
-              <img src="{{ url_for('static', filename='images/circle-user.svg') }}" alt="">
+              {% if comment.profile_image %}
+                <img src="{{ url_for('static', filename='images/profiles_images/' + comment.profile_image) }}" alt="プロフィール画像">
+              {% else %}
+                <img src="{{ url_for('static', filename='images/circle-user.svg') }}" alt="デフォルトプロフィール画像">
+              {% endif %}
             </div>
             <div class="right-block">
               <div class="right-block-top">
@@ -297,7 +301,7 @@ function addChatBox(username, userId) {
   memberBlock.classList.add('member-block', 'w-inline-block');
   memberBlock.innerHTML = `
     <input type="text" value="${username}" class="username-input" readonly>
-    <button onclick="selectUserById(${userId}, '${username}')">Chat</button>
+    <button onclick="selectUserById(${userId}, '${username}')" class="send-message-icon"><i class="fa-solid fa-comment-sms"></i></button>
   `;
   memberListBlock.appendChild(memberBlock);
 }
