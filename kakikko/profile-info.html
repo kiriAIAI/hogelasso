@@ -65,9 +65,11 @@
                       if (result.is_following) {
                           followBtn.textContent = "フォロー解除";
                           followBtn.setAttribute("data-following", "true");
+                          followBtn.disabled = false;  // フォロー解除可能な状態にする
                       } else {
                           followBtn.textContent = "フォロー";
                           followBtn.setAttribute("data-following", "false");
+                          followBtn.disabled = false;  // フォロー可能な状態にする
                       }
                   })
                   .catch(error => console.error("エラー:", error));

@@ -1500,7 +1500,6 @@ def get_logged_in_user():
 @app.route('/follow', methods=['POST'])
 def follow():
     try:
-        # セッションからfollower_idを取得
         if "user_id" not in session:
             return jsonify({'success': False, 'message': 'ログインしてください！'}), 401
         
@@ -1533,6 +1532,7 @@ def follow():
         return jsonify({'success': True, 'message': 'フォローしました！'})
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)})
+
 
 
 @app.route('/unfollow', methods=['POST'])  # 修正
