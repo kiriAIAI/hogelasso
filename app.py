@@ -723,9 +723,13 @@ def filter():
             query += " AND b.book_price <= %s"
             params.append(max_price)
        
-        # 並べ替えオプションの追加
+        # 並べ替えオプションの追加  
         if sort_option == 'popularity':
-            query += " ORDER BY b.popularity DESC"
+            query += """ ORDER BY (
+                SELECT COUNT(*) 
+                FROM favorites 
+                WHERE favorites.book_id = b.book_id
+            ) DESC"""
         elif sort_option == 'newest':
             query += " ORDER BY b.created_at DESC"  # 降順にソートするには created_at フィールドを使用する。
         elif sort_option == 'price-asc':
