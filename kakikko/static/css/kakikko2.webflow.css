@@ -1913,6 +1913,11 @@
   position: relative;
 }
 
+.search-form:focus {
+  border-color: var(--dark-gray);
+  box-shadow: 0 2px 13px rgba(0, 0, 0, 0.2);
+}
+
 .search.search-desktop {
   display: block;
   width: 100%;
