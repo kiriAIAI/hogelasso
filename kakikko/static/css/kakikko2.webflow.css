@@ -4268,6 +4268,7 @@
 
 .profile-detail-bio-block {
   flex: 1;
+  position: relative;
 }
 
 .profile-detail-bio-heading {
@@ -4280,6 +4281,21 @@
   line-height: 1.6;
 }
 
+#follow-btn {
+  position: absolute;
+  right: 0;
+  margin: 20px 0 0 0;
+  padding: 8px 10px;
+  color: var(--white);
+  background-color: var(--dark-gray);
+  border-radius: 4px;
+}
+
+#follow-btn:hover {
+  background-color: var(--dark-gray-hover);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 .profile-detail-btn {
   position: absolute;
   top: 1rem;
@@ -4290,7 +4306,7 @@
 }
 
 .profile-detail-btn:hover {
-  color: var(--light-gray-hover);
+  color: var(--error);
 }
 
 .notification-section {
