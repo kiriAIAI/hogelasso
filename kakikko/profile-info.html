@@ -45,52 +45,64 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const followBtn = document.getElementById("follow-btn");
-      const followerId = followBtn.getAttribute("data-follower-id");
-      const followedId = followBtn.getAttribute("data-followed-id");
   
-      // 初回読み込み時にフォロー状態を確認
-      fetch(`/is_following?follower_id=${followerId}&followed_id=${followedId}`)
+      // **ログインユーザーの ID を取得**
+      fetch("/get_logged_in_user")
           .then(response => response.json())
-          .then(result => {
-              if (result.is_following) {
-                  followBtn.textContent = "フォロー解除";
-                  followBtn.setAttribute("data-following", "true");
-              } else {
-                  followBtn.textContent = "フォロー";
-                  followBtn.setAttribute("data-following", "false");
+          .then(data => {
+              if (!data.user_id) {
+                  console.error("ログインしていません");
+                  return;
               }
-          })
-          .catch(error => console.error("エラー:", error));
   
-      // フォロー/フォロー解除ボタンがクリックされたらフォロワー数を更新
-      followBtn.addEventListener("click", function () {
-          const isFollowing = followBtn.getAttribute("data-following") === "true";
-          const url = isFollowing ? "/unfollow" : "/follow";
-          const method = "POST";
-          const data = JSON.stringify({
-              follower_id: followerId,
-              followed_id: followedId
-          });
+              const userId = data.user_id; // ログインしているユーザーのID
+              const followedId = followBtn.getAttribute("data-followed-id");
   
-          fetch(url, {
-              method: method,
-              headers: { "Content-Type": "application/json" },
-              body: data
-          })
-          .then(response => response.json())
-          .then(result => {
-              if (result.success) {
-                  followBtn.setAttribute("data-following", !isFollowing);
-                  followBtn.textContent = isFollowing ? "フォロー" : "フォロー解除";
+              // **初回読み込み時にフォロー状態を確認**
+              fetch(`/is_following?follower_id=${userId}&followed_id=${followedId}`)
+                  .then(response => response.json())
+                  .then(result => {
+                      if (result.is_following) {
+                          followBtn.textContent = "フォロー解除";
+                          followBtn.setAttribute("data-following", "true");
+                      } else {
+                          followBtn.textContent = "フォロー";
+                          followBtn.setAttribute("data-following", "false");
+                      }
+                  })
+                  .catch(error => console.error("エラー:", error));
   
-                  // **フォロワー数の更新**
-                  updateFollowCounts(followedId);
-              } else {
-                  alert("エラー: " + result.message);
-              }
+              // **フォローボタンのクリック処理**
+              followBtn.addEventListener("click", function () {
+                  const isFollowing = followBtn.getAttribute("data-following") === "true";
+                  const url = isFollowing ? "/unfollow" : "/follow";
+                  const method = "POST";
+                  const data = JSON.stringify({
+                      follower_id: userId,  // **ログインユーザーIDを使用**
+                      followed_id: followedId
+                  });
+  
+                  fetch(url, {
+                      method: method,
+                      headers: { "Content-Type": "application/json" },
+                      body: data
+                  })
+                  .then(response => response.json())
+                  .then(result => {
+                      if (result.success) {
+                          followBtn.setAttribute("data-following", !isFollowing);
+                          followBtn.textContent = isFollowing ? "フォロー" : "フォロー解除";
+  
+                          // **フォロワー数の更新（ログインユーザー）**
+                          updateFollowCounts(userId);
+                      } else {
+                          alert("エラー: " + result.message);
+                      }
+                  })
+                  .catch(error => console.error("エラー:", error));
+              });
           })
-          .catch(error => console.error("エラー:", error));
-      });
+          .catch(error => console.error("ログインユーザー取得エラー:", error));
   });
   
 </script>
