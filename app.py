@@ -235,7 +235,6 @@ def complete_registration():
 def login():
     if 'login_id' in session:
         session["lastpage"] = {"endpoint": "profile"}
-        
         return redirect(url_for('profile'))
     
     if request.method == 'POST':
@@ -256,8 +255,10 @@ def login():
         con.close()
 
         if user:
-            session['login_id'] = user[0] # type: ignore
-            session['login_name'] = user[1] # type: ignore
+            session['login_id'] = user[0]  # ユーザーID
+            session['login_name'] = user[1]  # ユーザー名
+            session["user_id"] = user[0]  # ここでuser_idをセッションに追加
+
             if "lastpage" in session:
                 lastpage_data = session.pop("lastpage")  # セッションから削除してリダイレクト
                 return redirect(url_for(lastpage_data["endpoint"], **lastpage_data.get("args", {})))
@@ -269,6 +270,7 @@ def login():
             return render_template('login.html', error=error)
     
     return render_template('login.html')
+
 
 
 
@@ -1487,11 +1489,23 @@ def profileinfo(user_id):
 
 
 # -------------------- フォロー機能 --------------------------
+@app.route("/get_logged_in_user")
+def get_logged_in_user():
+    if "user_id" not in session:
+        print(session)  # これで現在のセッション情報を確認
+        return jsonify({"error": "Unauthorized"}), 401  # 401エラーを返す
+    return jsonify({"user_id": session["user_id"]})
+
+    
 @app.route('/follow', methods=['POST'])
 def follow():
     try:
+        # セッションからfollower_idを取得
+        if "user_id" not in session:
+            return jsonify({'success': False, 'message': 'ログインしてください！'}), 401
+        
+        follower_id = session["user_id"]
         data = request.get_json()
-        follower_id = data['follower_id']
         followed_id = data['followed_id']
 
         conn = conn_db()
@@ -1519,7 +1533,6 @@ def follow():
         return jsonify({'success': True, 'message': 'フォローしました！'})
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)})
-
 
 
 @app.route('/unfollow', methods=['POST'])  # 修正
