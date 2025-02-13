@@ -144,7 +144,7 @@
                               <img src="{{ url_for('static', filename='images/users_images/' + item.book_cover_image) }}" loading="lazy" alt="" class="cart-item-image">
                           </a>
                           <div class="cart-item-detail-block">
-                              <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-item-title-link">{{ item.book_title }}</a>
+                              <a href="{{ url_for('product_details', book_id=item.book_id) }}" class="cart-item-title-link">{{ item.book_title | safe }}</a>
                               <div class="cart-item-price-text">￥{{ item.book_price }}</div>
                           </div>
                       </div>
@@ -166,6 +166,9 @@
                 </div>
             {% endif %}
           </div>
+          <div id="charge_site">
+            <iframe src="charge.html" frameborder="0"></iframe>
+          </div>
         </div>
         <div class="shopping-right-block">
           <div class="cart-summary-block">
@@ -184,20 +187,26 @@
                     <label for="" class="own_point-label">所持ポイント <div>{{ user_points }} pt</div></label>
                   </div>
                 </div>
-                <div class="point-input">
-                  <div class="point-label">
-                    <label for="" class="field-label-2">ポイント</label>
+
+
+                <div id="point_Container">
+                  <div id="point_label">
+                    <label for="" class="field-label-2">ポイントを使用する</label>
                   </div>
-                  <div class="point-input-block">
+                  <div id="point_input">
                     <input class="text-field-3 w-input" maxlength="256" name="points" type="number" id="pointInput" min="0" max="{{ user_points }}" required>
-                    <button type="button" class="point-input-btn w-button" onclick="calculateTotal()">
-                      <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+                    <p>pt</p>
                   </div>
                 </div>
               </form>
             </div>
-            <div id="warning_message" class="warning_message">お金が足りません</div>
+            <div id="warning_message" class="warning_message">
+              <p>お金が足りません</p>
+              <div id="charge_button">
+                <p>チャージしますか？</p>
+                <div id="charge">チャージ</div>
+              </div>
+            </div>
             <div class="summary-price-block">
               <div>合計金額</div>
               <div class="text-block-3">￥<span id="totalPrice">{{ total_price }}</span></div>
@@ -212,6 +221,7 @@
   </section>
   <script>
     let purchase_check = true;
+    const change_Container_check = true;
 
     function showPopup(count) {
       const popup = document.getElementById('popup' + count);
@@ -226,16 +236,85 @@
           popup.style.top = '-100px'; // 上に消える
           popup.style.opacity = 0;    // フェードアウト
       }, 5000);
-  }
+    }
+
+    function charge_menu(){
+      const change_Container = document.getElementById("charge_site");
+      if (change_Container.style.visibility === "hidden" || change_Container.style.visibility === "") {
+        change_Container.style.visibility = "visible";
+        gsap.fromTo(change_Container, 
+          { y: "-5vh", opacity: 0 }, 
+          { y: "0vh", opacity: 1, duration: 0.2, ease: "power2.out" }
+        );
+      } else {
+        gsap.to(change_Container, { 
+          y: "-5vh", opacity: 0, duration: 0.2, ease: "power2.in", 
+          onComplete: () => {
+            change_Container.style.visibility = "hidden";
+          }
+        });
+      }
+    }
+    
+    // クリック・イベント・リスナーを修正する
+    document.getElementById("charge_site").addEventListener("click", function(e) {
+        // クリックがiframe上かどうかをチェックする
+        if (e.target.tagName.toLowerCase() !== 'iframe') {
+            charge_menu();
+        }
+    });
+    
+    document.getElementById("charge").addEventListener("click", function(){
+        charge_menu();
+    });
+    
+    // スクロールで閉じる
+    addEventListener("scroll", (event) => {
+        const change_Container = document.getElementById("charge_site");
+        if (change_Container.style.visibility === "visible") {
+            charge_menu();
+        }
+    });
+    
+    // iframeからのメッセージを聞く
+    window.addEventListener('message', function(event) {
+        if (event.data === 'closeCharge') {
+            const chargeSite = document.getElementById("charge_site");
+            if (chargeSite.style.visibility === "visible") {
+                charge_menu();
+            }
+        }
+    });
 
     document.getElementById("proceedToCheckout").addEventListener("click",function(){
+      let usepoints = parseInt(document.getElementById("pointInput").value, 10);;
+      console.log(usepoints);
+
       if (purchase_check == true){
         const items = document.getElementById("items").textContent;
         if (items == 0){
           showPopup(1);
         }
+
         else{
-          window.location.href = '/proceedToCheckout';
+          fetch('/proceedToCheckout', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ 
+                  usepoints: usepoints,
+              })
+          })
+          .then(response => {
+              if (response.redirected) {
+                  window.location.href = response.url;
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              alert('エラーが発生しました。');
+          });
         }
       }
     })
@@ -244,8 +323,8 @@
     function calculateTotal() {
       const pointInput = document.getElementById('pointInput');
       const totalPriceSpan = document.getElementById('totalPrice');
-      const originalPrice = {{ total_price }};
-      const userPoints = {{ user_points }};
+      const total_price = {{ total_price }};
+      const total_points = {{ user_points }};
       const currency = {{ currency }};
       const warning_message = document.getElementById("warning_message");
       
@@ -255,14 +334,15 @@
       if (points < 0) {
           points = 0;
           pointInput.value = 0;
-      } else if (points > userPoints) {
-          points = userPoints;
-          pointInput.value = userPoints;
-          alert('利用可能なポイントを超えています');
+      }
+      else if (points > total_points) {
+          const usepoint = Math.min(total_price,total_points);
+          pointInput.value = usepoint;
+          points = usepoint;
       }
       
       // 新しい合計金額を計算
-      const newTotal = Math.max(originalPrice - points, 0);
+      const newTotal = Math.max(total_price - points, 0);
       
       // 合計金額を更新
       totalPriceSpan.textContent = newTotal.toFixed(2);
@@ -277,9 +357,9 @@
         purchase_check = true;
       }
 
-      // 残りの所持ポイントを計算して表示を更新
-    const remainingPoints = userPoints - points;
-    document.querySelector('.own_point-label div').textContent = `${remainingPoints} pt`;
+    // 残りの所持ポイントを計算して表示を更新
+    //const remainingPoints = total_points - points;
+    //document.querySelector('.own_point-label div').textContent = `${remainingPoints} pt`;
     }
   
   // 入力フィールドの値が変更されたときにも計算を実行

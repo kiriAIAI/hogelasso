@@ -1,24 +1,33 @@
 /* チャットボットページ */
 #chatbot-body{
     margin: 0 auto;
+    padding: 0;
     height: 100vh;
-    background-color: #f7f7f7;
-}
-.title{
-    border-bottom:  1px #c1c1c159 solid;
-    background-color: #fff;
-}
-.title div{
-    padding: 10px 0 10px 20px;
-    width: fit-content;
-    font-size: 1.6rem;
-    font-weight: 700;
+    background-color: #fdfdfd;
+    font-family: 'Noto Sans JP', sans-serif;
 }
 
+.title{
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08),
+                0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.title div{
+    padding: 15px 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+}
 
 .kaitou{
-    margin: 30px auto 0 auto;
-    padding-bottom: 80px; 
+    padding: 20px;
+    padding-bottom: 80px;
+    overflow-y: auto;
+    height: calc(100vh - 140px);
 }
 
 .kaitou p{
@@ -33,12 +42,14 @@
 }
 
 .preview{
-    margin: 0 0 10px auto;
-    padding: 20px;
-    width: 50%;
-    max-width: 300px;
-    border-radius: 20px;
-    background-color: greenyellow;
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-left: auto;
+    margin-bottom: 20px;
+    display: block;
+    background-color: #FFD000
 }
 
 #kaitouA{
@@ -50,53 +61,60 @@
     display: flex;
 }
 
-.me{
-    margin: 10px 0 0 auto;
-    background-color: #d1d1d1;
-    background-color: greenyellow;
+.response {
+    max-width: 70%;
+    margin: 10px 0;
+    padding: 12px 16px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
 
-.chatbot{
-    background-color: gray;
+.me{
+    margin-left: auto;
+    background-color: #FFD000;
     color: white;
 }
 
-.response{
-    max-width: 65%;
+.chatbot{
+    background-color: #f0f0f0;
+    color: #333;
 }
+
+.response{
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
 #hint{
     font-size: 18px;
     margin: 0 5%;
 }
 
 .kensaku{
-    display: flex;
     position: fixed;
-    left: 0px;
-    right: 0px;
-    margin: 0 auto 0 auto;
-    padding: 10px 3px 3px 3px;
-    bottom: 0px;
-    justify-content: center;
-    background-color: white;
-    border-top: 1px #aaa solid;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 20px;
+    background-color: #fff;
+    border-top: 1px solid #eaeaea;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 #user-input{
-    height: 35px;
-    width: 70%;
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #e0e0e0;
     border-radius: 20px;
-    padding: 0 0 0 15px;
-    font-size: 1rem;
-    size: 40px;
-    margin: 0 10px 10px 0;
-    border: 1px #c1c1c1 solid;
-    transition: all 0.3s ease;
-}
-
-#user-input:hover {
-    border-color: #999;
-    background-color: #fafafa;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
 #user-input::placeholder{
@@ -104,83 +122,97 @@
 }
 
 #user-input:focus {
-    outline: none;
-    border-color: #666;
-    background-color: #fff;
+    border-color: #3b3b3b;
 }
 
 #send-btn{
-    cursor: pointer;
-    width: 80px;
+    padding: 8px 20px;
+    background-color: #3b3b3b;
+    color: white;
+    border: none;
     border-radius: 20px;
-    font-size: 1rem;
-    margin: 0 8px 10px 0;
-    border: 1px #c1c1c1 solid;
-    background-color: white;
-    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 #send-btn:hover {
-    color: white;
     background-color: #272727;
 }
 
-
 .X{
-    visibility: hidden;
-    cursor: pointer;
     position: fixed;
+    top: 13px;
+    right: 30px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 58px;
-    top: 0;
-    right: 0;
-    font-size: 30px;
+    justify-content: center;
+    font-size: 1.6rem;
     font-weight: 600;
-    border-left: 1px #c1c1c159 solid;
-    border-bottom: 1px #c1c1c159 solid;
-    background-color: #fff ;
-    transition: all 0.3s ease;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 1002;
 }
 
 .X:hover {
-    background-color: #ef665b;
-    color: #fff;
+    color: #ef665b;
     font-weight: 600;
 }
 
 .X div{
     width: fit-content;
+    border-radius: 50%;
 }
 
 #fileInput{
     display: none;
 }
+
 #image{
-    padding: 2px 0 0 0;
-    margin: 0 2px 0 0;
-    width: 40px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+#image:hover {
+    opacity: 1;
 }
 
 .custom-link {
-    color: aqua; /* リンクの色を赤に設定 */
+    color: #FFD000; /* リンクの色を赤に設定 */
     text-decoration: none; /* 下線を消す */
+    font-weight: 600;
 }
+
 .custom-link:hover {
     text-decoration: underline; /* ホバー時に下線を表示 */
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
     .X{
         visibility: visible;
     }
-  }
 
-
+    .response {
+        max-width: 85%;
+    }
+    
+    .kensaku {
+        padding: 10px 15px;
+    }
+    
+    #user-input {
+        font-size: 0.9rem;
+    }
+    
+    #send-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
 
 /* 商品詳細ページ--------------------------------------------------------- */
 
@@ -192,9 +224,11 @@
     margin: 0 0 40px 0;
 }
 
-/* .left-block{} */
 .left-block img{
     width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 
@@ -294,3 +328,217 @@
 .answer {
     margin-bottom: 20px;
 }
+
+/* -------------------- チャージ画面 -------------------- */
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close-button i {
+    font-size: 20px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.close-button:hover {
+    background-color: #e0e0e0;
+    transform: rotate(90deg);
+}
+
+.close-button:hover i {
+    color: #333;
+}
+
+.charge_main_Container {
+    position: relative;
+    max-width: 100%;
+    padding: 20px;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.C_container {
+    margin: 15px 0;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.top {
+    text-align: center;
+    padding: 15px 0;
+}
+
+.top div:first-child {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.top div:last-child {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.center {
+    padding: 25px 0;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.center_title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.center_sub {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    padding: 0 20px;
+}
+
+.transaction_container {
+    padding: 20px;
+}
+
+.PaymentAmount {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    margin: 10px 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.left_container {
+    width: 50%;
+}
+
+.left_container div {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.right_container {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.right_container div {
+    cursor: pointer;
+    padding: 15px 20px;
+    background-color: #3b3b3b;
+    color: white;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 60px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.right_container div:hover {
+    background-color: #2a2a2a;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.setAmount-header{
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    margin-top: 30px;
+}
+
+.setAmount {
+    display: flex;
+    align-items: center;
+}
+
+.setAmount div {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.input_number {
+    font-family: 'Noto Sans JP', sans-serif;
+    width: 120px;
+    height: 20px;
+    padding: 8px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    color: #333;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    outline: none;
+    margin-right: 10px;
+}
+
+.input_number:focus {
+    border-color: #3b3b3b;
+    box-shadow: 0 0 0 2px rgba(59, 59, 59, 0.1);
+}
+
+.input_number::-webkit-inner-spin-button,
+.input_number::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield;
+}
+
+.input_number::placeholder {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+@media screen and (max-width: 768px) {
+    .right_container div {
+        width: 100px;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .PaymentAmount {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .left_container,
+    .right_container {
+        width: 100%;
+    }
+    
+    .right_container {
+        margin-top: 10px;
+    }
+    
+    .right_container div {
+        width: 100%
+    }
+}
+
+

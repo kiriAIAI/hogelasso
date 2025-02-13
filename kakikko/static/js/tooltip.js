@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const tooltips = {
         "bell-icon": "通知",
+        "charge_img":"チャージ",
         "shopping-cart": "ショッピングカート",
         "account": "ログイン",
         "backButton": "戻る",

@@ -81,8 +81,7 @@
           <a href="{{ url_for('filter') }}" class="sidenavbar-search w-inline-block">
             <div class="square is--search"><img loading="lazy" src="{{ url_for('static', filename='images/search.svg') }}" alt="" class="navbar__icon is--search"></div>
             <div class="hide-text">
-              <p class="sidenavbar-paragraph">検索</p>
-            </div>
+              <p class="sidenavbar-paragraph">検索</p>           </div>
           </a>
           <div class="square is--line"></div>
         </div>
@@ -128,22 +127,20 @@
         </div>
       </div>
       <body class="body">
-        <!-- 省略的主体内容 -->
+        
         <div class="chatroom-block">
           <div class="chatroom-left-block">
             <div class="member-list-block">
               <div class="member-block w-inline-block">
-                <input type="text" id="username1" placeholder="Enter Username 1" class="username-input">
-                <button onclick="selectUser(1)">Chat</button>
+                <input type="text" id="username1" placeholder="Enter Username" class="username-input">
+                <button onclick="selectUser(1)" class="chat-button"><i class="fa-solid fa-message"></i></button>
               </div>
+              {% for user in chat_users %}
               <div class="member-block w-inline-block">
-                <input type="text" id="username2" placeholder="Enter Username 2" class="username-input">
-                <button onclick="selectUser(2)">Chat</button>
+                <input type="text" value="{{ user.username }}" class="username-input" readonly>
+                <button onclick="selectUserById({{ user.user_id }}, '{{ user.username }}')">Chat</button>
               </div>
-              <div class="member-block w-inline-block">
-                <input type="text" id="username3" placeholder="Enter Username 3" class="username-input">
-                <button onclick="selectUser(3)">Chat</button>
-              </div>
+              {% endfor %}
             </div>
           </div>
           <div class="chatroom-right-block">
@@ -235,20 +232,79 @@
                 chatBox.innerHTML = '';
                 messages.forEach(msg => {
                   const messageElement = document.createElement('div');
-                  messageElement.classList.add('message');
-                  messageElement.innerHTML = `<strong>${msg.username}</strong>: ${msg.message} <small>${msg.timestamp}</small>`;
+                  const isSentByMe = msg.is_sent_by_me;
+                  messageElement.classList.add('message', isSentByMe ? 'sent' : 'received');
+                  
+                  // 送信者のアバターを使用する
+                  const avatarSrc = msg.profile_image 
+                    ? `/static/images/profiles_images/${msg.profile_image}`
+                    : '/static/images/circle-user.svg';
+                  
+                    messageElement.innerHTML = `
+                    <div class="message-avatar-container">
+                      <img src="${avatarSrc}" alt="avatar" class="message-avatar">
+                      <div class="message-username">${msg.username}</div>
+                    </div>
+                    <div class="message-content">
+                      <div class="message-text">${msg.message}</div>
+                      <div class="message-time">${msg.timestamp}</div>
+                    </div>
+                    `;
                   chatBox.appendChild(messageElement);
                 });
+                chatBox.scrollTop = chatBox.scrollHeight;
               })
               .catch(error => console.error('Error:', error));
           }
       
-          // 自动加载消息
+          // メッセージの自動読み込み
           setInterval(() => {
             if (currentRecipientId) {
               loadMessages();
             }
           }, 5000);
+
+          // 他のページから渡されたユーザー名のための関数
+          function startChatFromProfile(username) {
+            sessionStorage.setItem('chatUsername', username);
+            window.location.href = '/chatroom';
+          }
+
+          function addChatBox(username, userId) {
+            const memberListBlock = document.querySelector('.member-list-block');
+            const memberBlock = document.createElement('div');
+            memberBlock.classList.add('member-block', 'w-inline-block');
+            memberBlock.innerHTML = `
+              <input type="text" value="${username}" class="username-input" readonly>
+              <button onclick="selectUserById(${userId}, '${username}')">Chat</button>
+            `;
+            memberListBlock.appendChild(memberBlock);
+          }
+
+          function selectUserById(userId, username) {
+            currentRecipientId = userId;
+            document.getElementById('chat-heading').innerText = `Chatting with ${username}`;
+            loadMessages();
+          }
+
+          // チャットルームのページロード時にsessionStorageでユーザー名を扱う
+          document.addEventListener('DOMContentLoaded', (event) => {
+            const username = sessionStorage.getItem('chatUsername');
+            if (username) {
+              sessionStorage.removeItem('chatUsername');
+              fetch(`/get_user_id/${username}`)
+                .then(response => response.json())
+                .then(data => {
+                  if (data.user_id) {
+                    addChatBox(username, data.user_id);
+                    selectUserById(data.user_id, username);
+                  } else {
+                    alert('User not found');
+                  }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+          });
         </script>
       </body>
       </html>

@@ -23,13 +23,18 @@
   <section class="profile-info-section">
     <div class="profile-info-bio-block">
       <div class="profile-detail-block">
-        <div class="profile-detail-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="profile-detail-author-image"></div>
+        <div class="profile-detail-image-block">
+            <img src="{{ url_for('static', filename='images/profiles_images/' + user_info.profile_image) if user_info.profile_image else url_for('static', filename='images/profile_book.webp') }}" 
+                 loading="lazy" 
+                 alt="プロフィール画像" 
+                 class="profile-detail-author-image">
+        </div>
         <div class="profile-detail-bio-block">
-          <h3 class="profile-detail-bio-heading">自己紹介</h3>
-          <div class="profile-detail-bio-text">ああああああああああああああああああああああああああああ</div>
-          <button id="follow-btn" data-follower-id="1" data-followed-id="2">
-            読み込み中...
-          </button>
+            <h3 class="profile-detail-bio-heading">自己紹介</h3>
+            <div class="profile-detail-bio-text">{{ user_info.bio if user_info.bio is not none else '' }}</div>
+            <button id="follow-btn" data-follower-id="1" data-followed-id="2">
+              読み込み中...
+            </button>
         </div>
       </div>
       <a href="{{ url_for('profile') }}" class="profile-detail-btn"><i class="fa-solid fa-xmark"></i></a>
