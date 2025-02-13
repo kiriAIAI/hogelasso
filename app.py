@@ -1,7 +1,6 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash
 import mysql.connector
 import os
-
 from werkzeug.utils import secure_filename
 
 from datetime import timedelta
@@ -1168,6 +1167,114 @@ def profile():
 @app.route('/profile-info.html')
 def profileinfo():
     return render_template('profile-info.html')
+
+
+# -------------------- フォロー機能 --------------------------
+@app.route('/follow', methods=['POST'])
+def follow():
+    try:
+        data = request.get_json()
+        follower_id = data['follower_id']
+        followed_id = data['followed_id']
+
+        conn = conn_db()
+        cursor = conn.cursor()
+
+        # すでにフォローしているか確認
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE follower_id = %s AND followed_id = %s",
+            (follower_id, followed_id)
+        )
+        result = cursor.fetchone()
+        
+        if result[0] > 0:
+            return jsonify({'success': False, 'message': 'すでにフォローしています！'})
+
+        # フォロー情報をデータベースに挿入
+        cursor.execute(
+            "INSERT INTO follows (follower_id, followed_id) VALUES (%s, %s)",
+            (follower_id, followed_id)
+        )
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({'success': True, 'message': 'フォローしました！'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+
+
+
+@app.route('/unfollow', methods=['POST'])  # 修正
+def unfollow():
+    try:
+        data = request.get_json()
+        follower_id = data['follower_id']
+        followed_id = data['followed_id']
+
+        # フォロー情報をデータベースから削除
+        conn = conn_db()
+        cursor = conn.cursor()
+        cursor.execute(
+            "DELETE FROM follows WHERE follower_id = %s AND followed_id = %s",
+            (follower_id, followed_id)
+        )
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({'success': True, 'message': 'フォローを解除しました！'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    
+@app.route('/is_following', methods=['GET'])
+def is_following():
+    try:
+        follower_id = request.args.get('follower_id')
+        followed_id = request.args.get('followed_id')
+
+        conn = conn_db()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE follower_id = %s AND followed_id = %s",
+            (follower_id, followed_id)
+        )
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        is_following = result[0] > 0
+        return jsonify({'is_following': is_following})
+    except Exception as e:
+        return jsonify({'is_following': False, 'error': str(e)})
+    
+
+@app.route('/get_follow_counts', methods=['GET'])
+def get_follow_counts():
+    try:
+        user_id = request.args.get('user_id')
+
+        conn = conn_db()
+        cursor = conn.cursor()
+
+        # フォロワー数を取得（このユーザーをフォローしている人数）
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE followed_id = %s", (user_id,)
+        )
+        follower_count = cursor.fetchone()[0]
+
+        # フォロー中の人数を取得（このユーザーがフォローしている人数）
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE follower_id = %s", (user_id,)
+        )
+        following_count = cursor.fetchone()[0]
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({'follower_count': follower_count, 'following_count': following_count})
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 
 
