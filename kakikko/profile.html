@@ -418,24 +418,29 @@
   <script src="{{ url_for('static', filename='js/webflow.js') }}" type="text/javascript"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const userId = "1"; // ここはサーバーから動的に取得する
-      updateFollowCounts(userId);
+      // 🔽 サーバーからログインユーザーの ID を取得
+      fetch("/get_logged_in_user")
+          .then(response => response.json())
+          .then(data => {
+              if (data.user_id) {
+                  updateFollowCounts(data.user_id);
+              }
+          })
+          .catch(error => console.error("ログインユーザー取得エラー:", error));
   
       function updateFollowCounts(userId) {
           fetch(`/get_follow_counts?user_id=${userId}`)
               .then(response => response.json())
               .then(data => {
-                  // **すべてのフォロワー数表示を更新**
+                  // **ログインユーザーのフォロワー数だけを更新**
                   document.querySelectorAll("#follower-count").forEach(elem => {
                       elem.textContent = data.follower_count;
                   });
   
-                  // **すべてのフォロー中数表示を更新**
                   document.querySelectorAll("#following-count").forEach(elem => {
                       elem.textContent = data.following_count;
                   });
   
-                  // **モーダル内のフォロワー数を更新**
                   document.querySelectorAll("#modal-follower-count").forEach(elem => {
                       elem.textContent = `フォロワー ${data.follower_count}`;
                   });
@@ -443,7 +448,6 @@
               .catch(error => console.error("フォローデータの取得エラー:", error));
       }
   });
-  
   
   </script>
 </body>
