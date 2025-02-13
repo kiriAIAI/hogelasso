@@ -808,6 +808,10 @@
   margin-bottom: 30px;
 }
 
+.login-signup-form-field:focus {
+  border-color: var(--dark-gray);
+}
+
 .login-signup-button {
   background-color: var(--dark-gray);
   text-align: center;
@@ -866,6 +870,10 @@
   color: #333333bf;
   border-radius: 6px;
   height: 3rem;
+}
+
+.login-signup-form-selectfield:focus {
+  border-color: var(--dark-gray);
 }
 
 .login-signup-btn-block {
