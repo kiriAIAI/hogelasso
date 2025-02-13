@@ -235,7 +235,6 @@ def complete_registration():
 def login():
     if 'login_id' in session:
         session["lastpage"] = {"endpoint": "profile"}
-        
         return redirect(url_for('profile'))
     
     if request.method == 'POST':
@@ -256,8 +255,10 @@ def login():
         con.close()
 
         if user:
-            session['login_id'] = user[0] # type: ignore
-            session['login_name'] = user[1] # type: ignore
+            session['login_id'] = user[0]  # ユーザーID
+            session['login_name'] = user[1]  # ユーザー名
+            session["user_id"] = user[0]  # ここでuser_idをセッションに追加
+
             if "lastpage" in session:
                 lastpage_data = session.pop("lastpage")  # セッションから削除してリダイレクト
                 return redirect(url_for(lastpage_data["endpoint"], **lastpage_data.get("args", {})))
@@ -269,6 +270,7 @@ def login():
             return render_template('login.html', error=error)
     
     return render_template('login.html')
+
 
 
 
@@ -1484,6 +1486,125 @@ def profileinfo(user_id):
     finally:
         cursor.close()
         conn.close()
+
+
+# -------------------- フォロー機能 --------------------------
+@app.route("/get_logged_in_user")
+def get_logged_in_user():
+    if "user_id" not in session:
+        print(session)  # これで現在のセッション情報を確認
+        return jsonify({"error": "Unauthorized"}), 401  # 401エラーを返す
+    return jsonify({"user_id": session["user_id"]})
+
+    
+@app.route('/follow', methods=['POST'])
+def follow():
+    try:
+        if "user_id" not in session:
+            return jsonify({'success': False, 'message': 'ログインしてください！'}), 401
+        
+        follower_id = session["user_id"]
+        data = request.get_json()
+        followed_id = data['followed_id']
+
+        conn = conn_db()
+        cursor = conn.cursor()
+
+        # すでにフォローしているか確認
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE follower_id = %s AND followed_id = %s",
+            (follower_id, followed_id)
+        )
+        result = cursor.fetchone()
+        
+        if result[0] > 0:
+            return jsonify({'success': False, 'message': 'すでにフォローしています！'})
+
+        # フォロー情報をデータベースに挿入
+        cursor.execute(
+            "INSERT INTO follows (follower_id, followed_id) VALUES (%s, %s)",
+            (follower_id, followed_id)
+        )
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({'success': True, 'message': 'フォローしました！'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+
+
+
+@app.route('/unfollow', methods=['POST'])  # 修正
+def unfollow():
+    try:
+        data = request.get_json()
+        follower_id = data['follower_id']
+        followed_id = data['followed_id']
+
+        # フォロー情報をデータベースから削除
+        conn = conn_db()
+        cursor = conn.cursor()
+        cursor.execute(
+            "DELETE FROM follows WHERE follower_id = %s AND followed_id = %s",
+            (follower_id, followed_id)
+        )
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({'success': True, 'message': 'フォローを解除しました！'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    
+@app.route('/is_following', methods=['GET'])
+def is_following():
+    try:
+        follower_id = request.args.get('follower_id')
+        followed_id = request.args.get('followed_id')
+
+        conn = conn_db()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE follower_id = %s AND followed_id = %s",
+            (follower_id, followed_id)
+        )
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        is_following = result[0] > 0
+        return jsonify({'is_following': is_following})
+    except Exception as e:
+        return jsonify({'is_following': False, 'error': str(e)})
+    
+
+@app.route('/get_follow_counts', methods=['GET'])
+def get_follow_counts():
+    try:
+        user_id = request.args.get('user_id')
+
+        conn = conn_db()
+        cursor = conn.cursor()
+
+        # フォロワー数を取得（このユーザーをフォローしている人数）
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE followed_id = %s", (user_id,)
+        )
+        follower_count = cursor.fetchone()[0]
+
+        # フォロー中の人数を取得（このユーザーがフォローしている人数）
+        cursor.execute(
+            "SELECT COUNT(*) FROM follows WHERE follower_id = %s", (user_id,)
+        )
+        following_count = cursor.fetchone()[0]
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({'follower_count': follower_count, 'following_count': following_count})
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 
 

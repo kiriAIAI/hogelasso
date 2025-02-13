@@ -808,6 +808,10 @@
   margin-bottom: 30px;
 }
 
+.login-signup-form-field:focus {
+  border-color: var(--dark-gray);
+}
+
 .login-signup-button {
   background-color: var(--dark-gray);
   text-align: center;
@@ -866,6 +870,10 @@
   color: #333333bf;
   border-radius: 6px;
   height: 3rem;
+}
+
+.login-signup-form-selectfield:focus {
+  border-color: var(--dark-gray);
 }
 
 .login-signup-btn-block {
@@ -1376,10 +1384,6 @@
   gap: 10px;
 }
 
-.member-block:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
 .username-input {
   width: 100%;
   padding: 0.5rem;
@@ -1588,6 +1592,7 @@
 
 .message-send-btn:hover {
   background-color: var(--dark-gray-hover);
+  box-shadow: 0 2px 13px rgba(0, 0, 0, 0.7);
 }
 
 
@@ -1916,6 +1921,11 @@
   position: relative;
 }
 
+.search-form:focus {
+  border-color: var(--dark-gray);
+  box-shadow: 0 2px 13px rgba(0, 0, 0, 0.2);
+}
+
 .search.search-desktop {
   display: block;
   width: 100%;
@@ -1978,11 +1988,6 @@
   padding: 10px;
   text-decoration: none;
   display: flex;
-}
-
-.member-block:hover {
-  background-color: #f5f5f5;
-  border-radius: 6px;
 }
 
 .member-username {
@@ -4263,6 +4268,7 @@
 
 .profile-detail-bio-block {
   flex: 1;
+  position: relative;
 }
 
 .profile-detail-bio-heading {
@@ -4275,6 +4281,21 @@
   line-height: 1.6;
 }
 
+#follow-btn {
+  position: absolute;
+  right: 0;
+  margin: 20px 0 0 0;
+  padding: 8px 10px;
+  color: var(--white);
+  background-color: var(--dark-gray);
+  border-radius: 4px;
+}
+
+#follow-btn:hover {
+  background-color: var(--dark-gray-hover);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 .profile-detail-btn {
   position: absolute;
   top: 1rem;
@@ -4285,7 +4306,7 @@
 }
 
 .profile-detail-btn:hover {
-  color: var(--light-gray-hover);
+  color: var(--error);
 }
 
 .notification-section {
@@ -4740,11 +4761,6 @@
     padding: 10px;
     text-decoration: none;
     display: flex;
-  }
-
-  .member-block:hover {
-    background-color: #f5f5f5;
-    border-radius: 6px;
   }
 
   .member-username {
