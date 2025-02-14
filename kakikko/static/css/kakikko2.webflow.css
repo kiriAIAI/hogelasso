@@ -4945,7 +4945,7 @@
   }
 
   .follower-close-btn:hover {
-    color: var(--light-gray-hover);
+    color: var(--error);
   }
 
   .profile-follower-link, .profile-following-link {
@@ -4957,7 +4957,7 @@
   }
 
   .following-close-btn:hover {
-    color: var(--light-gray-hover);
+    color: var(--error);
   }
 
   .profile-bio-block {
@@ -5803,6 +5803,11 @@
     max-width: 400px;
     padding: 1rem;
     margin: 10px;
+  }
+  
+  .follower-close-btn,
+  .following-close-btn {
+    inset: 4% 5% auto auto;
   }
 
   /* -------------------- profile-info.html -------------------- */
