@@ -3407,11 +3407,32 @@
   height: 25px;
 }
 
-.profile_img-box {
-  border-radius: 20px;
+.profile_img-div {
+  position: relative;
   width: 175px;
   height: 175px;
+}
+
+.profile_img-box {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: visible;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1/1;
+}
+
+#profileImage,
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
 }
 
 .profile_img {
@@ -3433,13 +3454,30 @@
 }
 
 .edit_icon-link {
-  cursor: pointer;
-  background-color: #f0f0f0;
-  border-radius: 100px;
-  padding: 8px;
   position: absolute;
-  inset: auto -6% -6% auto;
+  bottom: 0;
+  right: 0;
+  color: var(--font);
+  background-color: #f8f8f8;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.edit_icon-link:hover {
   box-shadow: 0 2px 5px #0003;
+}
+
+.edit_icon {
+  width: 25px;
+  height: 25px;
+  color: var(--font);
 }
 
 .save_button {
