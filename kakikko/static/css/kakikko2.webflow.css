@@ -855,16 +855,17 @@
 }
 
 .x-link {
+  padding: 10px;
   color: var(--dark-gray);
   font-size: 2rem;
   font-weight: 900;
   text-decoration: none;
   position: absolute;
-  inset: 5% 5% auto auto;
+  inset: 3% 3% auto auto;
 }
 
 .x-link:hover {
-  color: var(--light-gray-hover);
+  color: var(--error);
 }
 
 .login-signup-form-selectfield {
@@ -3945,7 +3946,7 @@
 }
 
 .read-back-btn:hover {
-  color: var(--light-gray-hover);
+  color: var(--error) !important;
 }
 
 .read-fontsize-small-btn {
