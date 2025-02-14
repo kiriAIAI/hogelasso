@@ -3111,6 +3111,11 @@
   padding-bottom: 10px;
 }
 
+.follower-heading-block p {
+  padding-top: 8px;
+  font-weight: 500;
+}
+
 .follower-list-block {
   width: 100%;
   height: 100%;
@@ -3169,12 +3174,13 @@
   color: var(--font);
   font-size: 1.5rem;
   text-decoration: none;
+  padding: 5px;
   position: absolute;
-  inset: 5% 5% auto auto;
+  inset: 3% 5% auto auto;
 }
 
 .follower-close-btn:hover {
-  color: var(--light-gray-hover);
+  color: var(--error) !important;
 }
 
 .profile-image-block {
@@ -3281,6 +3287,11 @@
   padding-bottom: 10px;
 }
 
+.following-heading-block p {
+  padding-top: 8px;
+  font-weight: 500;
+}
+
 .following-heading {
   text-align: center;
   font-size: 1.2rem;
@@ -3306,12 +3317,13 @@
   font-size: 1.5rem;
   font-weight: 900;
   text-decoration: none;
+  padding: 5px;
   position: absolute;
-  inset: 5.5% 5% auto auto;
+  inset: 3% 5% auto auto;
 }
 
 .following-close-btn:hover {
-  color: var(--light-gray-hover);
+  color: var(--error) !important;
 }
 
 .following-btn {
