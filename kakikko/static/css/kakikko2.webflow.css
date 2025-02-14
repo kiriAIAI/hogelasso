@@ -5810,6 +5810,16 @@
     inset: 4% 5% auto auto;
   }
 
+  .bio-close-btn {
+    color: var(--font);
+    font-size: 1.5em;
+    inset: 3% 5% auto auto;
+  }
+  
+  .bio-close-btn:hover {
+    color: var(--error);
+  }
+
   /* -------------------- profile-info.html -------------------- */
   .profile-info-section {
     padding: 1rem;
