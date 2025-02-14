@@ -670,25 +670,27 @@
 .category-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: opacity 0.3s ease;
 }
  
 .category-image.static {
   opacity: 1;
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
 }
  
 .category-image.animated {
   opacity: 0;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -3407,11 +3409,32 @@
   height: 25px;
 }
 
-.profile_img-box {
-  border-radius: 20px;
+.profile_img-div {
+  position: relative;
   width: 175px;
   height: 175px;
+}
+
+.profile_img-box {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: visible;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1/1;
+}
+
+#profileImage,
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
 }
 
 .profile_img {
@@ -3433,13 +3456,30 @@
 }
 
 .edit_icon-link {
-  cursor: pointer;
-  background-color: #f0f0f0;
-  border-radius: 100px;
-  padding: 8px;
   position: absolute;
-  inset: auto -6% -6% auto;
+  bottom: 0;
+  right: 0;
+  color: var(--font);
+  background-color: #f8f8f8;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.edit_icon-link:hover {
   box-shadow: 0 2px 5px #0003;
+}
+
+.edit_icon {
+  width: 25px;
+  height: 25px;
+  color: var(--font);
 }
 
 .save_button {
@@ -4984,16 +5024,20 @@
 
   /* ---------- nav-icon ---------- */
   .bell-icon {
-    margin-left: -0.1rem;
+    margin-left: -0.15rem;
   }
 
   .charge_img {
-    margin-left: -0.3rem;
+    margin-left: 0.1rem;
+  }
+
+  .account {
+    margin-left: 0.1rem;
   }
 
   .back-icon {
     text-align: left;
-    margin: 0.7rem 0 1.5rem 0;
+    margin: 0.8rem 0 1.8rem 0.1rem;
   }
   
   /* ---------- product-card ---------- */
