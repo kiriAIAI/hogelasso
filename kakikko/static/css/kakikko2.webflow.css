@@ -4322,6 +4322,7 @@
 .profile-detail-bio-block {
   flex: 1;
   position: relative;
+  padding-bottom: 50px;
 }
 
 .profile-detail-bio-heading {
@@ -4336,17 +4337,26 @@
 
 #follow-btn {
   position: absolute;
+  bottom: 0;
   right: 0;
-  margin: 20px 0 0 0;
   padding: 8px 10px;
   color: var(--white);
   background-color: var(--dark-gray);
+  border: none;
   border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 #follow-btn:hover {
   background-color: var(--dark-gray-hover);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+#follow-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .profile-detail-btn {
@@ -6412,6 +6422,11 @@
 
   .profile-detail-bio-text {
     font-size: 1rem;
+  }
+
+  #follow-btn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
   }
 
   /* -------------------- product ---------------------- */
