@@ -1492,8 +1492,8 @@ def profileinfo(user_id):
 @app.route("/get_logged_in_user")
 def get_logged_in_user():
     if "user_id" not in session:
-        print(session)  # これで現在のセッション情報を確認
-        return jsonify({"error": "Unauthorized"}), 401  # 401エラーを返す
+        print(session)
+        return jsonify({"error": "Unauthorized"}), 401
     return jsonify({"user_id": session["user_id"]})
 
     
@@ -1506,6 +1506,10 @@ def follow():
         follower_id = session["user_id"]
         data = request.get_json()
         followed_id = data['followed_id']
+        # 自分自身をフォローできないようにする
+        if int(follower_id) == int(followed_id):
+            return jsonify({'success': False, 'message': '自分自身をフォローすることはできません！'})
+
 
         conn = conn_db()
         cursor = conn.cursor()
@@ -1605,7 +1609,6 @@ def get_follow_counts():
         return jsonify({'follower_count': follower_count, 'following_count': following_count})
     except Exception as e:
         return jsonify({'error': str(e)})
-
 
 
 # -------------------- purchase-history.html --------------------
