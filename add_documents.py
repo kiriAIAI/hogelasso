@@ -1,8 +1,8 @@
 import chromadb, json
 from sentence_transformers import SentenceTransformer
-
 # モデルのロード
 model = SentenceTransformer("all-MiniLM-L6-v2")
+
 
 # ChromaDBのセットアップ
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
@@ -19,7 +19,7 @@ def add_database():
     import csv
 
     faq_list = []
-    with open("kakikko学習データ1.csv", encoding="utf-8") as file:
+    with open("チャットボット学習データ/kakikko学習データ_v2.csv", encoding="utf-8") as file:
         reader = csv.reader(file)
         for row in reader:
             if len(row) >= 2:  # A列とB列が存在する場合のみ
@@ -39,7 +39,7 @@ def add_database():
 
 
 #データ登録（追加するときはchromadbを削除してから実行すること）
-add_database()
+# add_database()
 
 def jsonex():
     results = collection.get(include=['embeddings', 'documents', 'metadatas'])
@@ -54,10 +54,10 @@ def jsonex():
         })
 
     # JSON ファイルに保存
-    with open("exported_data.json", "w") as f:
+    with open("チャットボット学習データ/exported_data.json", "w") as f:
         json.dump(data_to_export, f, indent=4)
 
     print("データのエクスポートが完了しました。")
     
 #jsonファイルにエクスポート
-jsonex()
+# jsonex()
