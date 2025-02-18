@@ -6,7 +6,7 @@ collection = chroma_client.get_or_create_collection("faq_collection")
 
 
 # JSON からデータを復元
-with open("exported_data.json", "r") as f:
+with open("チャットボット学習データ/exported_data.json", "r") as f:
     data = json.load(f)
     for item in data:
         collection.delete(ids=[item["id"]])  # 既存のデータを削除

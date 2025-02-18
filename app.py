@@ -618,46 +618,46 @@ def chat():
 
 # -------------------- chatbot.html --------------------
 import ChatbotPy
-PromptFlag = False
+conversation_history = None
 
 @app.route('/chatbot.html')
 def chatbot():
-    global PromptFlag
-    PromptFlag = False
+    global conversation_history
+    conversation_history = None  # 会話履歴を初期化
+
     return render_template('chatbot.html')
+
 
 
 @app.route('/chat_upload', methods=['POST'])
 def chat_upload():
-    global PromptFlag
-    # テキストを取得
+    global conversation_history
+    uploaded_image = None
+    
+    # テキストと画像を取得
     user_text = request.form.get('user_text')
-
-    # 画像がアップロードされているか確認
-    uploaded_image = request.files.get('uploaded_image')
-
-    if uploaded_image:
-        print(uploaded_image)
-        uploaded_image = Image.open(uploaded_image)
-        response = ChatbotPy.textImageGen(user_text,uploaded_image)
-    #画像なし
-    else:
-        result = ChatbotPy.search_faq(user_text)
-        print(result)
-        Prompt = f"質問：({user_text}。)参考資料：({result})"
-        if PromptFlag == False:
-            PromptFlag = True
-            
-            PromptText = f"""
-                あなたはオンライン書籍販売サイトのチャットボット。
-                質問に対して、参考資料をできるだけ使用して回答すること。
-                参考資料を使用できない場合は憶測で回答すること。
-                80文字程度で出力。
-                """
-            response = ChatbotPy.textGen(PromptText + Prompt)
-        else:
-            response = ChatbotPy.textGen(user_text)
-            
+    image = request.files.get('uploaded_image')
+    
+    formattedText = ChatbotPy.vectorSearchFunction(user_text)
+    result = ChatbotPy.search_faq(formattedText)
+    Prompt = f"質問：({formattedText}。)参考資料：({result})"
+    print(f"元のテキスト{user_text}  成形後のテキスト {formattedText}   参考資料{result}")
+    
+    # 最初のチャットの場合
+    if conversation_history == None:
+        Prompt = f"""
+        あなたはオンライン書籍販売サイトのチャットボット。
+        質問に対して、参考資料が使えるなら使って回答すること。
+        参考資料を使用できない場合は憶測で回答すること。
+        80文字程度で出力。
+        {Prompt}
+        """
+    # 画像が添付されている場合
+    if image:
+        print(image)
+        uploaded_image = Image.open(image)
+    
+    response, conversation_history = ChatbotPy.chatbot(Prompt, uploaded_image, conversation_history)
     return jsonify({"response": response})
 
 
