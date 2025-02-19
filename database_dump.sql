@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES gbk */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,7 +23,6 @@ DROP TABLE IF EXISTS `books`;
 CREATE TABLE `books` (
   `book_id` int(11) NOT NULL auto_increment,
   `book_title` varchar(255) NOT NULL,
-  `book_summary` varchar(255) NOT NULL,
   `book_content` text NOT NULL,
   `book_category` varchar(255) NOT NULL,
   `book_price` decimal(10,0) NOT NULL,
@@ -41,7 +40,7 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES (1,'','','','0','',0,'2025-01-30 03:04:09');
+INSERT INTO `books` VALUES (1,'','','','0','',0,'0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,12 +82,13 @@ CREATE TABLE `direct_messages` (
   `recipient_id` int(11) NOT NULL,
   `message` text NOT NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `read` tinyint(1) default '0',
   PRIMARY KEY  (`message_id`),
   KEY `sender_id` (`sender_id`),
   KEY `recipient_id` (`recipient_id`),
   CONSTRAINT `direct_messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
   CONSTRAINT `direct_messages_ibfk_2` FOREIGN KEY (`recipient_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `direct_messages`
@@ -96,6 +96,7 @@ CREATE TABLE `direct_messages` (
 
 LOCK TABLES `direct_messages` WRITE;
 /*!40000 ALTER TABLE `direct_messages` DISABLE KEYS */;
+INSERT INTO `direct_messages` VALUES (1,5,2,'11','2025-01-29 13:58:35',1),(2,5,5,'haha','2025-01-29 14:05:34',0),(3,5,2,'π˛π˛π˛π˛π˛','2025-01-29 14:05:49',1),(4,5,5,'1','2025-01-29 14:06:40',0),(5,5,2,'1','2025-01-29 14:13:20',1),(6,5,5,'π˛π˛','2025-01-29 16:28:18',0),(7,2,2,'1','2025-01-29 20:10:04',1),(8,2,2,'12','2025-02-06 02:34:58',1),(9,2,2,'33','2025-02-06 02:41:57',1),(10,2,3,'22','2025-02-06 02:50:50',1),(11,2,3,'22','2025-02-06 02:50:53',1),(12,2,3,'123','2025-02-19 03:36:23',1),(13,3,2,'123','2025-02-19 03:57:54',1),(14,6,2,'haha','2025-02-19 03:59:14',1),(15,2,6,'bububu','2025-02-19 04:37:32',0),(16,2,2,'aaa','2025-02-19 04:38:13',1),(17,2,2,'dada','2025-02-19 07:32:20',1);
 /*!40000 ALTER TABLE `direct_messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,8 +113,8 @@ CREATE TABLE `favorites` (
   PRIMARY KEY  (`favorite_id`),
   KEY `fk_user` (`user_id`),
   KEY `fk_book` (`book_id`),
-  CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_book` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`) ON DELETE CASCADE
+  CONSTRAINT `fk_book` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -176,6 +177,57 @@ LOCK TABLES `likes` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `messages`
+--
+
+LOCK TABLES `messages` WRITE;
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notifications`
+--
+
+DROP TABLE IF EXISTS `notifications`;
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) default NULL,
+  `message_id` int(11) default NULL,
+  `is_read` tinyint(1) default '0',
+  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `message_id` (`message_id`),
+  CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`message_id`) REFERENCES `messages` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `notifications`
+--
+
+LOCK TABLES `notifications` WRITE;
+/*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `quizzes`
 --
 
@@ -210,8 +262,8 @@ CREATE TABLE `shopping_cart` (
   KEY `user_id` (`user_id`),
   KEY `book_id` (`book_id`),
   CONSTRAINT `shopping_cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `shopping_cart_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  CONSTRAINT `shopping_cart_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `shopping_cart`
@@ -219,7 +271,6 @@ CREATE TABLE `shopping_cart` (
 
 LOCK TABLES `shopping_cart` WRITE;
 /*!40000 ALTER TABLE `shopping_cart` DISABLE KEYS */;
-INSERT INTO `shopping_cart` VALUES (1,0,0,0,'2025-01-30 03:04:09');
 /*!40000 ALTER TABLE `shopping_cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,10 +289,10 @@ CREATE TABLE `transactions` (
   KEY `book_id` (`book_id`),
   KEY `buyer_id` (`buyer_id`),
   KEY `seller_id` (`seller_id`),
-  CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`),
+  CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`) ON DELETE CASCADE,
   CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`),
   CONSTRAINT `transactions_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transactions`
@@ -249,7 +300,6 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,0,NULL,NULL,'2025-01-30 03:04:09');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +317,7 @@ CREATE TABLE `user_profiles` (
   `address` varchar(255) default NULL,
   `phone` varchar(50) default NULL,
   `bio` text,
-  `profile_image` varchar(255) default 'default-profile.png',
+  `profile_image` varchar(255) default 'default-profile.jpg',
   PRIMARY KEY  (`user_id`),
   CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -324,7 +374,7 @@ CREATE TABLE `user_security_questions` (
 
 LOCK TABLES `user_security_questions` WRITE;
 /*!40000 ALTER TABLE `user_security_questions` DISABLE KEYS */;
-INSERT INTO `user_security_questions` VALUES (NULL,'','','',''),(2,'Â∞èÂ≠¶Ê†°„ÅÆÈ†É„ÅÆ„ÅÇ„Å†Âêç','k','È´òÊ†°„ÅÆÈ†É„ÅÆ„ÅÇ„Å†Âêç','k');
+INSERT INTO `user_security_questions` VALUES (NULL,'','','',''),(2,'–°—ß–£§Œïr§Œ§¢§¿√˚','11','∏ﬂ–£§Œïr§Œ§¢§¿√˚','11'),(3,'–°—ß–£§Œïr§Œ§¢§¿√˚','22','∏ﬂ–£§Œïr§Œ§¢§¿√˚','22'),(4,'–°—ß–£§Œïr§Œ§¢§¿√˚','œË∆Ω','∏ﬂ–£§Œïr§Œ§¢§¿√˚','œË∆Ω'),(5,'–°—ß–£§Œïr§Œ§¢§¿√˚','shohei','∏ﬂ–£§Œïr§Œ§¢§¿√˚','shohei'),(6,'–°—ß–£§ŒÌï§Œ§¢§¿√˚','33','∏ﬂ–£§ŒÌï§Œ§¢§¿√˚','33');
 /*!40000 ALTER TABLE `user_security_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -346,7 +396,7 @@ CREATE TABLE `users` (
   `points` int(11) default '0',
   `currency` int(11) default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
@@ -354,7 +404,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'','','',NULL,NULL,NULL,NULL,'default-profile.jpg',0,0),(2,'k','k@gmail.com','k',NULL,NULL,NULL,NULL,'default-profile.jpg',0,0);
+INSERT INTO `users` VALUES (1,'','','',NULL,NULL,NULL,NULL,'default-profile.jpg',0,0),(2,'11','11@gmail.com','11',NULL,NULL,NULL,NULL,'default-profile.jpg',0,11500),(3,'22','22@gmail.com','22',NULL,NULL,NULL,'None','user_3_133571682160460525.jpg',0,0),(4,'œË∆Ω','ping@gmail.com','xiangping',NULL,NULL,NULL,NULL,'default-profile.jpg',0,0),(5,'shohei','shohei@gmail.com','shohei',NULL,NULL,NULL,'None','default-profile.jpg',0,0),(6,'33','33@gmail.com','33',NULL,NULL,NULL,NULL,'default-profile.jpg',0,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -367,4 +417,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-30  3:06:49
+-- Dump completed on 2025-02-19  9:27:03
