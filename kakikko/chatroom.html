@@ -132,13 +132,13 @@
           <div class="chatroom-left-block">
             <div class="member-list-block">
               <div class="member-block w-inline-block">
-                <input type="text" id="username1" placeholder="Enter Username" class="username-input">
+                <input type="text" id="username1" placeholder="Enter Username" class="username-input" onkeypress="handleKeyPress(event, 1)">
                 <button onclick="selectUser(1)" class="chat-button"><i class="fa-solid fa-message"></i></button>
               </div>
               {% for user in chat_users %}
               <div class="member-block w-inline-block">
                 <input type="text" value="{{ user.username }}" class="username-input" readonly>
-                <button onclick="selectUserById({{ user.user_id }}, '{{ user.username }}')">Chat</button>
+                <button onclick="selectUserById({{ user.user_id }}, '{{ user.username }}')" class="chat-button"><i class="fa-solid fa-message"></i></button>
               </div>
               {% endfor %}
             </div>
@@ -150,8 +150,8 @@
             <div class="chatroom-content-block" id="chat-box"></div>
             <div class="chatroom-send-block">
               <div class="chat-send-form-block w-form">
-                <form id="wf-form-Message-Send-Form" name="wf-form-Message-Send-Form" data-name="Message Send Form" method="post" class="chat-send-form">
-                  <input class="text-field w-input" maxlength="256" name="message" data-name="Message" placeholder="" type="text" id="message" required="">
+                <form id="wf-form-Message-Send-Form" name="wf-form-Message-Send-Form" data-name="Message Send Form" method="post" class="chat-send-form" onsubmit="event.preventDefault();">
+                  <input class="text-field w-input" maxlength="256" name="message" data-name="Message" placeholder="" type="text" id="message" required="" onkeypress="handleMessageKeyPress(event)">
                   <button type="button" class="message-send-btn w-button" onclick="sendMessage()">
                     <i class="fa-solid fa-paper-plane"></i>
                   </button>
@@ -276,7 +276,7 @@
             memberBlock.classList.add('member-block', 'w-inline-block');
             memberBlock.innerHTML = `
               <input type="text" value="${username}" class="username-input" readonly>
-              <button onclick="selectUserById(${userId}, '${username}')">Chat</button>
+              <button onclick="selectUserById(${userId}, '${username}')" class="chat-button"><i class="fa-solid fa-message"></i></button>
             `;
             memberListBlock.appendChild(memberBlock);
           }
@@ -285,6 +285,22 @@
             currentRecipientId = userId;
             document.getElementById('chat-heading').innerText = `Chatting with ${username}`;
             loadMessages();
+          }
+
+          // ユーザー選択ボタンのEnterキー押下時の処理
+          function handleKeyPress(event, userNumber) {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              selectUser(userNumber);
+            }
+          }
+
+          // メッセージ送信ボタンのEnterキー押下時の処理
+          function handleMessageKeyPress(event) {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              sendMessage();
+            }
           }
 
           // チャットルームのページロード時にsessionStorageでユーザー名を扱う
