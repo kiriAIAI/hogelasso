@@ -81,6 +81,7 @@ CREATE TABLE `direct_messages` (
   `message_id` int(11) NOT NULL auto_increment,
   `sender_id` int(11) NOT NULL,
   `recipient_id` int(11) NOT NULL,
+  `read` tinyint(1) default '0',
   `message` text NOT NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (`message_id`),
