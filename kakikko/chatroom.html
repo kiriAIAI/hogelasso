@@ -132,13 +132,13 @@
           <div class="chatroom-left-block">
             <div class="member-list-block">
               <div class="member-block w-inline-block">
-                <input type="text" id="username1" placeholder="Enter Username" class="username-input">
+                <input type="text" id="username1" placeholder="Enter Username" class="username-input" onkeypress="handleKeyPress(event, 1)">
                 <button onclick="selectUser(1)" class="chat-button"><i class="fa-solid fa-message"></i></button>
               </div>
               {% for user in chat_users %}
               <div class="member-block w-inline-block">
                 <input type="text" value="{{ user.username }}" class="username-input" readonly>
-                <button onclick="selectUserById({{ user.user_id }}, '{{ user.username }}')">Chat</button>
+                <button onclick="selectUserById({{ user.user_id }}, '{{ user.username }}')" class="chat-button"><i class="fa-solid fa-message"></i></button>
               </div>
               {% endfor %}
             </div>
@@ -276,7 +276,7 @@
             memberBlock.classList.add('member-block', 'w-inline-block');
             memberBlock.innerHTML = `
               <input type="text" value="${username}" class="username-input" readonly>
-              <button onclick="selectUserById(${userId}, '${username}')">Chat</button>
+              <button onclick="selectUserById(${userId}, '${username}')" class="chat-button"><i class="fa-solid fa-message"></i></button>
             `;
             memberListBlock.appendChild(memberBlock);
           }
@@ -285,6 +285,13 @@
             currentRecipientId = userId;
             document.getElementById('chat-heading').innerText = `Chatting with ${username}`;
             loadMessages();
+          }
+
+          function handleKeyPress(event, userNumber) {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              selectUser(userNumber);
+            }
           }
 
           // チャットルームのページロード時にsessionStorageでユーザー名を扱う
