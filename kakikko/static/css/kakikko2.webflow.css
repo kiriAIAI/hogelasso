@@ -4248,7 +4248,7 @@
 .dropdown-list.w--open {
   background-color: #ffffffe6;
   width: 200px;
-  height: 250px;
+  height: 80px;
   overflow: auto;
 }
 

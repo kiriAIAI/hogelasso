@@ -37,18 +37,8 @@
             </div>
             <nav class="dropdown-list w-dropdown-list">
               <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-                <div>Username</div>
+                <div>メッセージが届きました</div>
               </a>
-              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-                <div>Username</div>
-              </a>
-              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-                <div>Username</div>
-              </a>
-              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-                <div>Username</div>
-              </a>
-            </nav>
           </div>
           <div id="index_charge" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/charge.svg') }}" loading="lazy" alt="" class="navbar-icon charge_img"></div>
           <a href="{{ url_for('shoppingcart') }}" class="navbar-link shopping-cart w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
@@ -389,6 +379,39 @@
     });
     
   </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 检测新消息
+            function checkNewMessages() {
+                $.ajax({
+                    url: '/check_new_messages',
+                    method: 'GET',
+                    success: function(data) {
+                        if (data.new_messages) {
+                            $('.bell-icon img').addClass('new-message');
+                        } else {
+                            $('.bell-icon img').removeClass('new-message');
+                        }
+                    }
+                });
+            }
+
+            // 每5秒检测一次新消息
+            setInterval(checkNewMessages, 5000);
+        });
+    </script>
+    <style>
+        .new-message {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
   <!-- ------------------------------------------------------------------ -->
 
 

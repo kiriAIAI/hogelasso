@@ -683,9 +683,41 @@ def confirmlogout():
 
 
 # -------------------- notification.html --------------------
-@app.route('/notification.html')
+
+# 新しいメッセージをチェックする
+@app.route('/check_new_messages')
+def check_new_messages():
+    user_id = session.get('login_id')
+    if not user_id:
+        return jsonify({'new_messages': False})
+
+    conn = conn_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT COUNT(*) FROM direct_messages WHERE recipient_id = %s AND `read` = FALSE', (user_id,))
+    new_messages_count = cursor.fetchone()[0]
+    cursor.close()
+    conn.close()
+
+    return jsonify({'new_messages': new_messages_count > 0})
+
+# メッセージボックスページ
+@app.route('/notification')
 def notification():
-    return render_template('notification.html')
+    user_id = session.get('login_id')
+    if not user_id:
+        return redirect(url_for('login'))
+
+    conn = conn_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('SELECT dm.*, u.username as sender_username FROM direct_messages dm JOIN users u ON dm.sender_id = u.id WHERE dm.recipient_id = %s ORDER BY dm.timestamp DESC', (user_id,))
+    messages = cursor.fetchall()
+    cursor.execute('UPDATE direct_messages SET `read` = TRUE WHERE recipient_id = %s', (user_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return render_template('notification.html', messages=messages)
+
 
 
 
@@ -1827,4 +1859,4 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
-    app.run(debug=False, host="0.0.0.0", port=80)
+    app.run(debug=True, host="0.0.0.0", port=8080)

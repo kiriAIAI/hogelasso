@@ -72,47 +72,16 @@
         <h3 class="notification-heading">通知</h3>
       </div>
       <div class="notification-list-block">
-        <div class="notification-list-wrap">
-          <div class="notification-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="notification-image"></div>
-          <div class="notification-content-block">
-            <h4 class="notification-username">Username</h4>
-            <div>comment</div>
-          </div>
-        </div>
-        <div class="notification-list-wrap">
-          <div class="notification-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="notification-image"></div>
-          <div class="notification-content-block">
-            <h4 class="notification-username">Username</h4>
-            <div>comment</div>
-          </div>
-        </div>
-        <div class="notification-list-wrap">
-          <div class="notification-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="notification-image"></div>
-          <div class="notification-content-block">
-            <h4 class="notification-username">Username</h4>
-            <div>comment</div>
-          </div>
-        </div>
-        <div class="notification-list-wrap">
-          <div class="notification-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="notification-image"></div>
-          <div class="notification-content-block">
-            <h4 class="notification-username">Username</h4>
-            <div>comment</div>
-          </div>
-        </div>
-        <div class="notification-list-wrap">
-          <div class="notification-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="notification-image"></div>
-          <div class="notification-content-block">
-            <h4 class="notification-username">Username</h4>
-            <div>comment</div>
-          </div>
-        </div>
-        <div class="notification-list-wrap">
-          <div class="notification-image-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="notification-image"></div>
-          <div class="notification-content-block">
-            <h4 class="notification-username">Username</h4>
-            <div>comment</div>
-          </div>
+        <h1>Messages</h1>
+        <ul>
+            {% for message in messages %}
+            <li>
+                <strong>From:</strong> {{ message.sender_username }}<br>
+                <strong>Message:</strong> {{ message.message }}<br>
+                <strong>Time:</strong> {{ message.timestamp }}
+            </li>
+            {% endfor %}
+        </ul>
         </div>
       </div>
     </div>
