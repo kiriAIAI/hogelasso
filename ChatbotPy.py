@@ -85,17 +85,22 @@ def search_faq(user_query):
 # ーーーーーーーーーーーーーーーーーーーーーーキーワード検索ーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 import spacy
 from rank_bm25 import BM25Okapi
-# spaCyの日本語モデルをロード
-nlp = spacy.load("ja_core_news_sm") 
+
+nlp = None
 
 # 形態素解析（spaCyを使用）
 def tokenize(text):
+    global nlp
+    if nlp is None:
+        # spaCyの日本語モデルをロード
+        nlp = spacy.load("ja_core_news_sm") 
+        
     doc = nlp(text)
     return [token.text for token in doc if not token.is_stop and not token.is_punct]
 
+
 # 最も関連性の高い3つの質問文を取得する関数
 def get_top_3_similar_questions(query, vector_search_results):
-    # ベクトル検索結果の質問文をトークン化
     tokenized_corpus = [tokenize(q) for q in vector_search_results]
 
     # BM25モデルを作成

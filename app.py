@@ -1,7 +1,6 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash
 import mysql.connector
 import os
-import ChatbotPy
 from PIL import Image
 import io
 
@@ -379,7 +378,6 @@ def image_upload():
 
 
 # -------------------- 投稿を作成する --------------------
-
 @app.route('/submit_create', methods=['POST'])
 def submit_create():
     if 'login_id' not in session:
@@ -617,7 +615,6 @@ def chat():
 
 
 # -------------------- chatbot.html --------------------
-import ChatbotPy
 conversation_history = None
 
 @app.route('/chatbot.html')
@@ -697,18 +694,23 @@ def confirmlogout():
 # 新しいメッセージをチェックする
 @app.route('/check_new_messages')
 def check_new_messages():
-    user_id = session.get('login_id')
-    if not user_id:
-        return jsonify({'new_messages': False})
+    try: 
+        user_id = session.get('login_id')
+        if not user_id:
+            return jsonify({'new_messages': False})
 
-    conn = conn_db()
-    cursor = conn.cursor()
-    cursor.execute('SELECT COUNT(*) FROM direct_messages WHERE recipient_id = %s AND `read` = FALSE', (user_id,))
-    new_messages_count = cursor.fetchone()[0]
-    cursor.close()
-    conn.close()
+        conn = conn_db()
+        cursor = conn.cursor()
+        cursor.execute('SELECT COUNT(*) FROM direct_messages WHERE recipient_id = %s AND `read` = FALSE', (user_id,))
+        new_messages_count = cursor.fetchone()[0]
 
-    return jsonify({'new_messages': new_messages_count > 0})
+        return jsonify({'new_messages': new_messages_count > 0})
+    except:
+        return jsonify({'new_messages': 0})
+    finally:
+        cursor.close()
+        conn.close()
+        
 
 # メッセージボックスページ
 @app.route('/notification')
@@ -1869,4 +1871,4 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=8080)
+    app.run(debug=False, host="0.0.0.0", port=8080)
