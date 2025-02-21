@@ -90,6 +90,7 @@ nlp = None
 
 # 形態素解析（spaCyを使用）
 def tokenize(text):
+    global nlp
     if nlp is None:
         # spaCyの日本語モデルをロード
         nlp = spacy.load("ja_core_news_sm") 
