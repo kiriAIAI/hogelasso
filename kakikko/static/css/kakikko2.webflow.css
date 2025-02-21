@@ -6332,6 +6332,8 @@
   /* ------------------- product-detail.html ------------------- */
   .product-block {
     padding: 0.5rem;
+    margin-bottom: 4rem;
+    position: relative;
   }
 
   .product-left-block {
@@ -6366,7 +6368,38 @@
     font-size: 0.9rem;
   }
 
-  
+  .comment-block {
+    position: relative;
+    margin-top: 10rem;
+    padding: 0.5rem;
+    background-color: #fff;
+  }
+
+  .comment-blocks {
+    margin-bottom: 1.5rem;
+  }
+
+  .comment-window {
+    margin-bottom: 2rem;
+  }
+
+  .comment-row {
+    position: relative;
+    padding: 1rem;
+    margin-top: 1rem;
+    background-color: #fff;
+  }
+
+  .comment-input {
+    width: calc(100% - 60px);
+    margin-right: 30px;
+  }
+
+  .comment-form-button-row {
+    position: absolute;
+    right: 10px;
+    bottom: 10px
+  }
 
   /* ------------------- profile.html ------------------- */
   .profile-block {
