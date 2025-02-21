@@ -1,7 +1,6 @@
 from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash
 import mysql.connector
 import os
-import ChatbotPy
 from PIL import Image
 import io
 
@@ -379,7 +378,6 @@ def image_upload():
 
 
 # -------------------- 投稿を作成する --------------------
-
 @app.route('/submit_create', methods=['POST'])
 def submit_create():
     if 'login_id' not in session:
@@ -617,7 +615,6 @@ def chat():
 
 
 # -------------------- chatbot.html --------------------
-import ChatbotPy
 conversation_history = None
 
 @app.route('/chatbot.html')
