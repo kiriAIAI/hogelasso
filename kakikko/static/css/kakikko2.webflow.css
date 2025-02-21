@@ -388,6 +388,18 @@
   transform: translateY(-2px);
 }
 
+.navbar-icon.profile-icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: brightness(1);
+}
+
+.navbar-icon.profile-icon:hover {
+  transform: translateY(-2px);
+}
+
 .charge_img{
   height: 1.6rem;
   width:auto;

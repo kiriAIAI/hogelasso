@@ -42,7 +42,20 @@
           </div>
           <div id="index_charge" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/charge.svg') }}" loading="lazy" alt="" class="navbar-icon charge_img"></div>
           <a href="{{ url_for('shoppingcart') }}" class="navbar-link shopping-cart w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
-          <div id="LoginIcon" class="navbar-link account w-nav-link"><img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="" class="navbar-icon"></div>
+          <div id="LoginIcon" class="navbar-link account w-nav-link">
+            {% if Plofile %}
+                <img src="{{ url_for('static', filename='images/profiles_images/' + Plofile.profile_image) }}" 
+                     loading="lazy" 
+                     alt="Profile" 
+                     class="navbar-icon profile-icon" 
+                     style="border-radius: 50%; object-fit: cover;">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/user-login.svg') }}" 
+                     loading="lazy" 
+                     alt="Login" 
+                     class="navbar-icon">
+            {% endif %}
+          </div>
           <div class="back-icon">
             <i class="fa-solid fa-angles-left" id="backButton" onclick="goBack()"></i>
           </div>
