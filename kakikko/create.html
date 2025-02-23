@@ -167,10 +167,46 @@
             <div class="fontsize-block">
               <h4 class="font-editor-heading">フォントサイズ</h4>
               <div class="fontsize-adjuster">
-                <button class="fontsize-btn">−</button>
-                <input type="number" id="sizeInput" class="fontsize-input" value="1" step="0.1" min="0.5" max="5">
-                <button class="fontsize-btn">+</button>
+                <input type="range" id="sizeInput" class="fontsize-input" value="1" step="0.1" min="0.5" max="5">
+                <span id="sizeValue">1</span>
               </div>
+              <style>
+                .fontsize-adjuster {
+                  display: flex;
+                  align-items: center;
+                  margin-top: 10px;
+                }
+                .fontsize-input {
+                  margin-right: 10px;
+                  width: 100%;
+                  cursor: pointer;
+                  -webkit-appearance: none; /* Safari */
+                  appearance: none;
+                  height: 8px;
+                  background: #ddd;
+                  border-radius: 5px;
+                }
+                .fontsize-input::-webkit-slider-thumb {
+                  -webkit-appearance: none;
+                  appearance: none;
+                  width: 20px;
+                  height: 20px;
+                  background: #010eff;
+                  border-radius: 50%;
+                  cursor: pointer;
+                }
+                .fontsize-input::-moz-range-thumb {
+                  width: 20px;
+                  height: 20px;
+                  background: #010eff;
+                  border-radius: 50%;
+                  cursor: pointer;
+                }
+                #sizeValue {
+                  font-weight: bold;
+                  color: #333;
+                }
+              </style>
             </div>
           </div>
           <div class="font-style-block">

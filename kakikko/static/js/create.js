@@ -82,11 +82,11 @@
     // フォントサイズ
     let size = 1; // 初期フォントサイズ
     const sizeInput = document.getElementById('sizeInput');
-    const buttons = document.querySelectorAll('.fontsize-btn');
-    
-    // ボタンクリック時のフォントサイズ調整
-    buttons[0].addEventListener('click', () => adjustFontSize(-0.1)); // フォントサイズを小さくする
-    buttons[1].addEventListener('click', () => adjustFontSize(0.1));  // フォントサイズを大きくする
+    const sizeValue = document.getElementById('sizeValue'); // 数値表示用の要素を取得
+
+    // スライダーの初期値を設定
+    sizeInput.value = size;
+    sizeValue.textContent = size; // 初期値を表示
 
     // 入力からフォントサイズを更新
     sizeInput.addEventListener('input', function() {
@@ -99,7 +99,9 @@
         if (value > 5) value = 5;
 
         size = value;
+        sizeValue.textContent = size.toFixed(1); // 数値を更新
         updateDisplay();
+        adjustFontSize(0); // スライダーの変更に応じてフォントサイズを調整
     });
 
     // フォントサイズ調整機能
@@ -111,13 +113,17 @@
 
             if (selectedText) {
                 const span = document.createElement('span');
-                span.style.fontSize = `${size + delta}rem`;
+                size = Math.max(0.5, Math.min(size + delta, 5)); // フォントサイズを更新
+                span.style.fontSize = `${size}rem`; // 更新されたサイズを使用
                 span.textContent = selectedText;
 
                 range.deleteContents();
                 range.insertNode(span);
 
-                size = Math.max(0.5, Math.min(size + delta, 5));
+                // 行の高さを調整
+                const parentElement = span.parentNode;
+                parentElement.style.lineHeight = `${size}rem`; // 行の高さをフォントサイズに基づいて設定
+
                 updateDisplay();
             }
         }
