@@ -138,10 +138,16 @@ def category(category):
             ORDER BY b.book_id DESC
         """, (category,))
         books = cursor.fetchall()
+
+        cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (session['login_id'],))
+        user_info = cursor.fetchone()
         
         return render_template('category.html', 
                              books=books,
-                             category_name=category_names.get(category, 'Unknown Category'))
+                             category_name=category_names.get(category, 'Unknown Category'),
+                             user_info=user_info)
         
     except Exception as e:
         print(f"Error: {e}")
@@ -294,30 +300,45 @@ def create():
         session["lastpage"] = {"endpoint": "create"}
         return redirect(url_for('login'))
     
-    edit_book_id = request.args.get('edit_book_id')
-    if edit_book_id:
-        connection = conn_db()
-        cursor = connection.cursor()
-        cursor.execute('''
-            SELECT book_title, book_content, book_category, book_price, book_cover_image 
-            FROM books 
-            WHERE book_id = %s
-        ''', (edit_book_id,))
-        book = cursor.fetchone()
-        cursor.close()
-        connection.close()
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (session['login_id'],))
+        user_info = cursor.fetchone()
+        
+        edit_book_id = request.args.get('edit_book_id')
+        if edit_book_id:
+            cursor.execute('''
+                SELECT book_title, book_content, book_category, book_price, book_cover_image 
+                FROM books 
+                WHERE book_id = %s
+            ''', (edit_book_id,))
+            book = cursor.fetchone()
 
-        if book:
-            book_data = {
-                'book_title': book[0], # type: ignore
-                'book_content': book[1], # type: ignore
-                'category': book[2],  # ここで使用するキー名がテンプレートと同じであることを確認してください。 # type: ignore
-                'book_price': book[3], # type: ignore
-                'book_cover_image': book[4] # type: ignore
-            }
-            return render_template('create.html', book=book_data)
-    
-    return render_template('create.html')
+            if book:
+                book_data = {
+                    'book_title': book['book_title'],
+                    'book_content': book['book_content'],
+                    'category': book['book_category'],
+                    'book_price': book['book_price'],
+                    'book_cover_image': book['book_cover_image']
+                }
+                return render_template('create.html', book=book_data, user_info=user_info)
+        
+        return render_template('create.html', user_info=user_info)
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return render_template('create.html')
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 
 
@@ -522,8 +543,28 @@ def delete_post(book_id):
 def chatroom():
     if 'login_id' not in session:
         session["lastpage"] = {"endpoint": "chatroom"}
-        return redirect(url_for('login'))  
-    return render_template('chatroom.html')  
+        return redirect(url_for('login'))
+        
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (session['login_id'],))
+        user_info = cursor.fetchone()
+        
+        return render_template('chatroom.html', user_info=user_info)
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return render_template('chatroom.html')
+        
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 
 # -------------------- ユーザーIDを取得する --------------------
@@ -743,6 +784,11 @@ def filter():
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (session['login_id'],))
+        user_info = cursor.fetchone()
        
         # クエリパラメータの取得
         selected_categories = request.args.getlist('category')
@@ -806,7 +852,7 @@ def filter():
             'price': selected_prices
         }
        
-        return render_template('filter.html', books=books, filters=filters, category_names=category_names)
+        return render_template('filter.html', books=books, filters=filters, category_names=category_names, user_info=user_info)
        
     except Exception as e:
         print(f"Error: {e}")
@@ -923,6 +969,11 @@ def product_details(book_id):
         cursor = conn.cursor(dictionary=True)
 
         cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (session['login_id'],))
+        user_info = cursor.fetchone()
+
+        cursor.execute("""
             SELECT b.*, u.username, u.profile_image, u.id as owner_id,
                    (SELECT COUNT(*) FROM favorites WHERE book_id = b.book_id) as favorite_count
             FROM books b
@@ -985,7 +1036,8 @@ def product_details(book_id):
                             is_owner=is_owner,
                             is_purchased=is_purchased,
                             is_favorited=is_favorited,
-                            favorite_count=favorite_count)
+                            favorite_count=favorite_count,
+                            user_info=user_info)
                              
     except Exception as e:
         print(f"Error: {e}")
@@ -1169,6 +1221,11 @@ def shoppingcart():
         accountID = session['login_id']
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (accountID,))
+        user_info = cursor.fetchone()
         
         # Get user points
         cursor.execute("""
@@ -1220,6 +1277,7 @@ def shoppingcart():
             total_price=total_price,
             user_points=user_points,
             currency=currency,
+            user_info=user_info
         )
         
     except Exception as e:
@@ -1672,6 +1730,11 @@ def purchase_history():
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (login_id,))
+        user_info = cursor.fetchone()
        
         # ユーザーが出品した本
         listed_books_sql =  """
@@ -1696,7 +1759,8 @@ def purchase_history():
        
         return render_template('purchase-history.html',
                              purchased_books=purchased_books,
-                             listed_books=listed_books)
+                             listed_books=listed_books,
+                             user_info=user_info)
                              
     except Exception as e:
         print("Error:", e)
@@ -1723,6 +1787,11 @@ def read(book_id):
     try:
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (session['login_id'],))
+        user_info = cursor.fetchone()
         
         # 書籍情報を入手
         cursor.execute("""
@@ -1736,7 +1805,7 @@ def read(book_id):
         if not book:
             return redirect(url_for('purchase_history'))
             
-        return render_template('read.html', book=book)
+        return render_template('read.html', book=book, user_info=user_info)
         
     except Exception as e:
         print(f"Error: {e}")
@@ -1757,14 +1826,39 @@ def quiz(book_id):
         session["lastpage"] = {"endpoint": "quiz", "args": {"book_id": book_id}}
         return redirect(url_for('login'))
     
-    # ランダムな質問を生成する
-    question, correct_answer, options = generate_question()
-    
-    return render_template('quiz.html',
-                         question=question,
-                         options=options,
-                         correct_answer=correct_answer,
-                         book_id=book_id)
+    try:
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("""
+            SELECT * FROM users WHERE id = %s
+        """, (session['login_id'],))
+        user_info = cursor.fetchone()
+        
+        # ランダムな質問を生成する
+        question, correct_answer, options = generate_question()
+        
+        return render_template('quiz.html',
+                             question=question,
+                             options=options,
+                             correct_answer=correct_answer,
+                             book_id=book_id,
+                             user_info=user_info)
+                             
+    except Exception as e:
+        print(f"Error: {e}")
+        question, correct_answer, options = generate_question()
+        return render_template('quiz.html',
+                             question=question,
+                             options=options,
+                             correct_answer=correct_answer,
+                             book_id=book_id)
+        
+    finally:
+        if 'cursor' in locals() and cursor:
+            cursor.close()
+        if 'conn' in locals() and conn:
+            conn.close()
 
 def generate_question():
     # 乱数の生成と操作
