@@ -52,7 +52,19 @@
             </nav>
           </div>
           <a href="{{ url_for('shoppingcart') }}" class="navbar-link shopping-cart w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
-          <a href="{{ url_for('login') }}" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
+          {% if 'login_id' in session %}
+            <a href="{{ url_for('profile') }}" class="navbar-link w-nav-link">
+              {% if user_info and user_info.profile_image %}
+                <img src="{{ url_for('static', filename='images/profiles_images/' + user_info.profile_image) }}" loading="lazy" alt="" class="navbar-icon profile-icon">
+              {% else %}
+                <img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="navbar-icon">
+              {% endif %}
+            </a>
+          {% else %}
+            <a href="{{ url_for('login') }}" class="navbar-link w-nav-link">
+              <img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="" class="navbar-icon">
+            </a>
+          {% endif %}
           <div class="back-icon">
             <i class="fa-solid fa-angles-left" id="backButton" onclick="goBack()"></i>
           </div>
