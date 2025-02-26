@@ -24,132 +24,173 @@
 <body class="body">
   <div class="follower-pop-up">
     <div class="follower-popup-block">
-      <div class="follower-heading-block">
-        <p>フォロワー <span id="follower-count">--</span></p>
-      </div>
-      <div class="follower-list-block">
-        <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="follower-btn w-button">フォロー</a>
-          </div>
+        <div class="follower-heading-block">
+            <p>フォロワー <span id="follower-count">--</span></p>
         </div>
-        <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="follower-btn w-button">フォロー</a>
-          </div>
+        <div class="follower-list-block" id="follower-list">
+            <!-- ここにフォロワーリストが動的に追加される -->
         </div>
-        <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="follower-btn w-button">フォロー</a>
-          </div>
-        </div>
-        <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="follower-btn w-button">フォロー</a>
-          </div>
-        </div>
-        <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="follower-btn w-button">フォロー</a>
-          </div>
-        </div>
-        <div class="follower-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="follower-btn w-button">フォロー</a>
-          </div>
-        </div>
-      </div>
-      <a data-w-id="43d5b6bf-5e5a-e915-3afd-707a820a1a13" href="#" class="follower-close-btn"><i class="fa-solid fa-xmark"></i></a>
+        <a href="#" class="follower-close-btn" onclick="closeFollowerPopup()">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
     </div>
-  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", loadFollowers);
+
+  function loadFollowers() {
+      fetch('/get_followers')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTPエラー: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log("フォロワーデータ:", data);
+  
+          if (!data.success) {
+              console.error("フォロワー取得エラー:", data.message);
+              return;
+          }
+  
+          const followerList = document.getElementById("follower-list");
+          const followerCount = document.getElementById("follower-count");
+  
+          followerList.innerHTML = ""; // クリア
+          followerCount.textContent = data.followers.length; // フォロワー数更新
+  
+          data.followers.forEach(follower => {
+              console.log(`フォロワー: ${follower.username}, 画像: ${follower.profile_image}`);
+  
+              const userBlock = document.createElement("div");
+              userBlock.classList.add("follower-block");
+  
+              // フォロー状態に応じてボタンのテキストを設定
+              const followText = follower.is_following ? "フォロー中" : "フォロー";
+  
+              userBlock.innerHTML = `
+                  <a href="/profile/${follower.id}" class="follower-image-link-block w-inline-block">
+                      <img src="${follower.profile_image}" alt="${follower.username}" class="follower-image">
+                  </a>
+                  <div class="follower-username-block">
+                      <a href="/profile/${follower.id}" class="link">${follower.username}</a>
+                  </div>
+                  <div class="follower-btn-block">
+                      <button class="follower-btn w-button" onclick="followToggle(${follower.id}, this)">${followText}</button>
+                  </div>
+              `;
+  
+              followerList.appendChild(userBlock);
+          });
+      })
+      .catch(error => console.error("APIエラー:", error));
+  }
+  
+  function followToggle(userId, button) {
+      const isFollowing = button.innerText.trim() === "フォロー中";
+      const url = isFollowing ? "/unfollow" : "/follow";
+  
+      fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ followed_id: userId })
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTPエラー: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+          if (data.success) {
+              button.innerText = isFollowing ? "フォロー" : "フォロー中";
+          } else {
+              alert("操作に失敗しました。");
+          }
+      })
+      .catch(error => console.error("Error toggling follow:", error));
+  }
+  
+  function closeFollowerPopup() {
+      document.querySelector(".follower-pop-up").style.display = "none";
+  }  
+</script>
   <div class="following-pop-up">
     <div class="following-popup-block">
       <div class="following-heading-block">
         <p>フォロー中 <span id="following-count">--</span></p>
       </div>
-      <div class="following-list-block">
-        <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="following-btn w-button">フォロー中</a>
-          </div>
-        </div>
-        <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="following-btn w-button">フォロー中</a>
-          </div>
-        </div>
-        <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="following-btn w-button">フォロー中</a>
-          </div>
-        </div>
-        <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="following-btn w-button">フォロー中</a>
-          </div>
-        </div>
-        <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="following-btn w-button">フォロー中</a>
-          </div>
-        </div>
-        <div class="following-block">
-          <a href="profile.html" aria-current="page" class="follower-image-link-block w-inline-block w--current"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="follower-image"></a>
-          <div class="follower-username-block">
-            <a href="#" class="link">Username</a>
-          </div>
-          <div class="follower-btn-block">
-            <a href="#" class="following-btn w-button">フォロー中</a>
-          </div>
-        </div>
+      <div class="following-list-block" id="following-list">
+        <!-- ここにフォローユーザーを動的に追加 -->
       </div>
-      <a data-w-id="7b79d099-463d-4346-68a3-d78b6ee5566d" href="#" class="following-close-btn"><i class="fa-solid fa-xmark"></i></a>
+      <a href="#" class="following-close-btn" onclick="closePopup()">
+        <i class="fa-solid fa-xmark"></i>
+      </a>
     </div>
-  </div>
+</div>
+<script>
+  function loadFollowing() {
+    fetch('/get_following')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const followingList = document.getElementById("following-list");
+            const followingCount = document.getElementById("following-count");
+
+            followingList.innerHTML = ""; // リストをクリア
+            followingCount.textContent = data.following.length;
+
+            data.following.forEach(user => {
+                const userBlock = document.createElement("div");
+                userBlock.classList.add("following-block");
+                userBlock.innerHTML = `
+                    <a href="/profile/${user.id}" class="follower-image-link-block w-inline-block">
+                        <img src="${user.profile_image}" alt="${user.username}" class="follower-image">
+                    </a>
+                    <div class="follower-username-block">
+                        <a href="/profile/${user.id}" class="link">${user.username}</a>
+                    </div>
+                    <div class="follower-btn-block">
+                        <button class="following-btn w-button" onclick="unfollow(${user.id}, this)">フォロー中</button>
+                    </div>
+                `;
+                followingList.appendChild(userBlock);
+            });
+        } else {
+            alert("フォローリストの取得に失敗しました。");
+        }
+    })
+    .catch(error => console.error("Error fetching following list:", error));
+  }
+
+// フォロー解除処理
+function unfollow(userId, button) {
+  fetch(`/unfollow`, {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ followed_id: userId }) 
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          button.closest(".following-block").remove(); // UIから削除
+          document.getElementById("following-count").textContent--;
+      } else {
+          alert("フォロー解除に失敗しました。");
+      }
+  })
+  .catch(error => console.error("Error unfollowing user:", error));
+}
+
+// ポップアップを閉じる関数
+function closePopup() {
+  document.querySelector(".following-pop-up").style.display = "none";
+}
+
+// ページロード時にフォローリストを取得
+window.onload = loadFollowing;
+</script>
   <div class="bio-pop-up">
     <div class="bio-popup-block">
       <div class="profile-bio-form-block">
@@ -161,7 +202,8 @@
                   <!-- プロフィール画像を表示 -->
                   <img id="profileImage" 
                      src="{{ url_for('static', filename='images/profiles_images/' + user_info.profile_image) if user_info.profile_image else url_for('static', filename='images/profile_book.webp') }}" 
-                     alt="Profile Image">
+                     alt="Profile Image" 
+                     style="border-radius: 50%; height: auto; width: 100%; max-height: 100%; object-fit: cover;">
                 
                   <!-- 編集ボタン -->
                   <label for="profile_image" class="edit_icon-link">

@@ -1510,15 +1510,13 @@ def follow():
         follower_id = session["user_id"]
         data = request.get_json()
         followed_id = data['followed_id']
-        # 自分自身をフォローできないようにする
-        if int(follower_id) == int(followed_id):
-            return jsonify({'success': False, 'message': '自分自身をフォローすることはできません！'})
 
+        if int(follower_id) == int(followed_id):
+            return jsonify({'success': False, 'message': '自分自身をフォローできません！'}), 400
 
         conn = conn_db()
         cursor = conn.cursor()
 
-        # すでにフォローしているか確認
         cursor.execute(
             "SELECT COUNT(*) FROM follows WHERE follower_id = %s AND followed_id = %s",
             (follower_id, followed_id)
@@ -1526,9 +1524,8 @@ def follow():
         result = cursor.fetchone()
         
         if result[0] > 0:
-            return jsonify({'success': False, 'message': 'すでにフォローしています！'})
+            return jsonify({'success': False, 'message': 'すでにフォローしています！'}), 400
 
-        # フォロー情報をデータベースに挿入
         cursor.execute(
             "INSERT INTO follows (follower_id, followed_id) VALUES (%s, %s)",
             (follower_id, followed_id)
@@ -1539,20 +1536,22 @@ def follow():
 
         return jsonify({'success': True, 'message': 'フォローしました！'})
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)})
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 
-
-@app.route('/unfollow', methods=['POST'])  # 修正
+@app.route('/unfollow', methods=['POST'])
 def unfollow():
     try:
+        if "user_id" not in session:
+            return jsonify({'success': False, 'message': 'ログインしてください！'}), 401
+
+        follower_id = session["user_id"]
         data = request.get_json()
-        follower_id = data['follower_id']
         followed_id = data['followed_id']
 
-        # フォロー情報をデータベースから削除
         conn = conn_db()
         cursor = conn.cursor()
+
         cursor.execute(
             "DELETE FROM follows WHERE follower_id = %s AND followed_id = %s",
             (follower_id, followed_id)
@@ -1561,15 +1560,20 @@ def unfollow():
         cursor.close()
         conn.close()
 
-        return jsonify({'success': True, 'message': 'フォローを解除しました！'})
+        return jsonify({'success': True, 'message': 'フォロー解除しました！'})
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)})
+        return jsonify({'success': False, 'message': str(e)}), 500
+
     
 @app.route('/is_following', methods=['GET'])
 def is_following():
     try:
         follower_id = request.args.get('follower_id')
         followed_id = request.args.get('followed_id')
+
+        # 入力チェック（空の値を許容しない）
+        if not follower_id or not followed_id:
+            return jsonify({'is_following': False, 'error': '無効なリクエスト'}), 400
 
         conn = conn_db()
         cursor = conn.cursor()
@@ -1585,8 +1589,10 @@ def is_following():
         return jsonify({'is_following': is_following})
     except Exception as e:
         return jsonify({'is_following': False, 'error': str(e)})
+
     
 
+#フォローカウント
 @app.route('/get_follow_counts', methods=['GET'])
 def get_follow_counts():
     try:
@@ -1595,13 +1601,11 @@ def get_follow_counts():
         conn = conn_db()
         cursor = conn.cursor()
 
-        # フォロワー数を取得（このユーザーをフォローしている人数）
         cursor.execute(
             "SELECT COUNT(*) FROM follows WHERE followed_id = %s", (user_id,)
         )
         follower_count = cursor.fetchone()[0]
 
-        # フォロー中の人数を取得（このユーザーがフォローしている人数）
         cursor.execute(
             "SELECT COUNT(*) FROM follows WHERE follower_id = %s", (user_id,)
         )
@@ -1613,6 +1617,83 @@ def get_follow_counts():
         return jsonify({'follower_count': follower_count, 'following_count': following_count})
     except Exception as e:
         return jsonify({'error': str(e)})
+    
+    
+@app.route('/get_followers', methods=['GET'])
+def get_followers():
+    if "user_id" not in session:
+        return jsonify({'success': False, 'message': 'ログインしてください！'}), 401
+
+    try:
+        user_id = session.get("user_id")
+        print(f"Logged in user ID: {user_id}")  # デバッグ用
+
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT u.id, u.username, 
+                   COALESCE(u.profile_image, 'default-profile.jpg') AS profile_image,
+                   EXISTS(SELECT 1 FROM follows WHERE follower_id = %s AND followed_id = u.id) AS is_following
+            FROM follows f
+            JOIN users u ON f.follower_id = u.id
+            WHERE f.followed_id = %s
+        """, (user_id, user_id))  # ログインユーザーがこのフォロワーをフォローしているか確認
+
+        followers = cursor.fetchall()
+        print(f"フォロワーデータ取得: {followers}")  # デバッグ用
+
+        if not followers:
+            print("フォロワーが見つかりません")  # デバッグ
+            return jsonify({'success': True, 'followers': []})
+
+        # プロフィール画像の URL を設定
+        for follower in followers:
+            follower["profile_image"] = url_for('static', filename=f'images/profiles_images/{follower["profile_image"]}', _external=True)
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({'success': True, 'followers': followers})
+
+    except Exception as e:
+        print(f"Error in get_followers: {str(e)}")  # エラーログを詳細化
+        return jsonify({'success': False, 'message': f'フォロワー情報の取得に失敗しました: {str(e)}'}), 500
+
+
+#フォロー中一覧    
+@app.route('/get_following', methods=['GET'])
+def get_following():
+    try:
+        if "user_id" not in session:
+            return jsonify({'success': False, 'message': 'ログインしてください！'}), 401
+        
+        user_id = session["user_id"]
+
+        conn = conn_db()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT u.id, u.username, 
+                   COALESCE(u.profile_image, 'default-profile.jpg') AS profile_image
+            FROM follows f
+            JOIN users u ON f.followed_id = u.id
+            WHERE f.follower_id = %s
+        """, (user_id,))
+        
+        following_users = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        # フルパスを付与
+        for user in following_users:
+            user["profile_image"] = url_for('static', filename='images/profiles_images/' + user["profile_image"], _external=True)
+
+        return jsonify({'success': True, 'following': following_users})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+
 
 
 # -------------------- purchase-history.html --------------------
