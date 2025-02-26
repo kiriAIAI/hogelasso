@@ -1496,7 +1496,6 @@ def profileinfo(user_id):
 @app.route("/get_logged_in_user")
 def get_logged_in_user():
     if "user_id" not in session:
-        print(session)
         return jsonify({"error": "Unauthorized"}), 401
     return jsonify({"user_id": session["user_id"]})
 
@@ -1626,7 +1625,6 @@ def get_followers():
 
     try:
         user_id = session.get("user_id")
-        print(f"Logged in user ID: {user_id}")  # デバッグ用
 
         conn = conn_db()
         cursor = conn.cursor(dictionary=True)
@@ -1641,10 +1639,8 @@ def get_followers():
         """, (user_id, user_id))  # ログインユーザーがこのフォロワーをフォローしているか確認
 
         followers = cursor.fetchall()
-        print(f"フォロワーデータ取得: {followers}")  # デバッグ用
 
         if not followers:
-            print("フォロワーが見つかりません")  # デバッグ
             return jsonify({'success': True, 'followers': []})
 
         # プロフィール画像の URL を設定
