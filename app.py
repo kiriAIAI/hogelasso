@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash
+from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash,render_template_string
 import mysql.connector
 import os
 from PIL import Image
@@ -771,6 +771,28 @@ def notification():
 
     return render_template('notification.html', messages=messages)
 
+@app.route('/get-div-content')
+def get_div_content():
+    # 假设2.html中的div内容是动态生成的
+    messages = [
+        {'sender_username': 'Alice', 'message': 'Hello!', 'timestamp': '2025-02-27 10:00'},
+        {'sender_username': 'Bob', 'message': 'How are you?', 'timestamp': '2025-02-27 10:05'}
+    ]
+    div_content = """
+    <div class="notification-list-block">
+        <h1>Messages</h1>
+        <ul>
+            {% for message in messages %}
+            <li>
+                <strong>From:</strong> {{ message.sender_username }}<br>
+                <strong>Message:</strong> {{ message.message }}<br>
+                <strong>Time:</strong> {{ message.timestamp }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    """
+    return render_template_string(div_content, messages=messages)
 
 
 
@@ -2042,4 +2064,4 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
-    app.run(debug=False, host="0.0.0.0", port=8080)
+    app.run(debug=True, host="0.0.0.0", port=8080)

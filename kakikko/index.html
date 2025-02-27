@@ -37,25 +37,15 @@
             </div>
             <nav class="dropdown-list w-dropdown-list">
               <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-                <div>メッセージが届きました</div>
+
+
+                <div id="hidden-content" style="display: none;"></div>
+
               </a>
           </div>
           <div id="index_charge" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/charge.svg') }}" loading="lazy" alt="" class="navbar-icon charge_img"></div>
           <a href="{{ url_for('shoppingcart') }}" class="navbar-link shopping-cart w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
-          <div id="LoginIcon" class="navbar-link account w-nav-link">
-            {% if Plofile %}
-                <img src="{{ url_for('static', filename='images/profiles_images/' + Plofile.profile_image) }}" 
-                     loading="lazy" 
-                     alt="Profile" 
-                     class="navbar-icon profile-icon" 
-                     style="border-radius: 50%; object-fit: cover;">
-            {% else %}
-                <img src="{{ url_for('static', filename='images/user-login.svg') }}" 
-                     loading="lazy" 
-                     alt="Login" 
-                     class="navbar-icon">
-            {% endif %}
-          </div>
+          <div id="LoginIcon" class="navbar-link account w-nav-link"><img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="" class="navbar-icon"></div>
           <div class="back-icon">
             <i class="fa-solid fa-angles-left" id="backButton" onclick="goBack()"></i>
           </div>
@@ -337,6 +327,7 @@
 
     //アニメーション
     function ToggleMenu(box){
+      console.log(box);
       if (box.style.visibility === "hidden" || box.style.visibility === "") {
         box.style.visibility = "visible";
         gsap.fromTo(box, 
@@ -424,6 +415,21 @@
             100% { opacity: 1; }
         }
     </style>
+  <!通知 ------------------------------------------------------------------ -->
+    <script>
+      document.getElementById('notification-link').addEventListener('click', function(event) {
+    event.preventDefault(); // 阻止默认链接跳转行为
+    fetch('/get-div-content')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('hidden-content').innerHTML = data;
+            document.getElementById('notification-content').innerHTML = document.getElementById('hidden-content').innerHTML;
+        })
+        .catch(error => console.error('Error:', error));
+});
+    </script>
+
+
   <!-- ------------------------------------------------------------------ -->
 
 
