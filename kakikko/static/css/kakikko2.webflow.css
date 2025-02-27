@@ -1273,6 +1273,7 @@
   position: relative;
   width: 100%;
 }
+
 .create-price-input{
   width: 100%;
   height: 2.5rem;
@@ -1282,6 +1283,12 @@
   color: #333333bf;
   background-color: var(--white);
   border: 1px solid #ccc;
+}
+
+.create-price-input::-webkit-outer-spin-button,
+.create-price-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .price-currency{
