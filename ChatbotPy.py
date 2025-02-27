@@ -3,7 +3,7 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 
 
-API_KEY = "AIzaSyAWTBtp9Nx5ZI66LL0daEU57DLQgyCoI3U"
+API_KEY = "AIzaSyD7qU0L-78Bcb5ujESgokiFlCQ2-VrXy8A"
 MODEL_NAME = "gemini-2.0-flash"
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel(MODEL_NAME)
@@ -11,7 +11,7 @@ model = genai.GenerativeModel(MODEL_NAME)
 
 def text_summary(text):
     try:
-        model = genai.GenerativeModel("gemini-2.0-flash-lite-preview-02-05")
+        model = genai.GenerativeModel("gemini-2.0-flash-lite")
         prompt = f"次の内容を基に、物語の冒頭20%を使用して要約し、読者の興味を引く書籍紹介文を生成。長さは約80文字。{text}"
         response = model.generate_content(prompt).text
     except:
@@ -22,7 +22,7 @@ def text_summary(text):
 # ベクトル検索に渡す用
 def vectorSearchFunction(text):
     try:
-        model = genai.GenerativeModel("gemini-2.0-flash-lite-preview-02-05")
+        model = genai.GenerativeModel("gemini-2.0-flash-lite")
         prompt = f"以下のテキストから冗長な表現や曖昧な語句を削除した自然な日本語に変換してください。固有名詞はそのまま。出力は変換したテキストのみ。テキスト:{text}"
         response = model.generate_content(prompt)
         return response.text

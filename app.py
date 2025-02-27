@@ -712,7 +712,7 @@ def chat_upload():
 #---------------------F&A.html--------------------
 @app.route('/Q&A.html')
 def  QandA():
-    return render_template('qanda.html')
+    return render_template('QandA.html')
 
 
 
