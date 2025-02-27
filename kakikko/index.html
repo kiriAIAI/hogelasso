@@ -37,10 +37,7 @@
             </div>
             <nav class="dropdown-list w-dropdown-list">
               <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-
-
-                <div id="hidden-content" style="display: none;"></div>
-
+                <div>メッセージが届きました</div>
               </a>
           </div>
           <div id="index_charge" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/charge.svg') }}" loading="lazy" alt="" class="navbar-icon charge_img"></div>
@@ -162,7 +159,28 @@
           <div class="category-content-wrapper">
             <h3 class="category-title">文学・評論</h3>
           </div>
+          
         </a>
+        <section class="notification-section">
+          <div class="notification-block">
+            <div class="notification-heading-block">
+              <h3 class="notification-heading">通知</h3>
+            </div>
+            <div class="notification-list-block">
+              <h1>Messages</h1>
+              <ul>
+                  {% for message in messages %}
+                  <li>
+                      <strong>From:</strong> {{ message.sender_username }}<br>
+                      <strong>Message:</strong> {{ message.message }}<br>
+                      <strong>Time:</strong> {{ message.timestamp }}
+                  </li>
+                  {% endfor %}
+              </ul>
+              </div>
+            </div>
+          </div>
+        </section>
         <a href="{{ url_for('category', category='social') }}" class="category-card w-inline-block">
           <div class="category-image-wrapper"><img alt="" src="{{ url_for('static', filename='images/politics.png') }}" class="category-image static">
             <img alt="" src="{{ url_for('static', filename='images/politics.gif') }}" class="category-image animated"></div>
@@ -415,21 +433,6 @@
             100% { opacity: 1; }
         }
     </style>
-  <!通知 ------------------------------------------------------------------ -->
-    <script>
-      document.getElementById('notification-link').addEventListener('click', function(event) {
-    event.preventDefault(); // 阻止默认链接跳转行为
-    fetch('/get-div-content')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('hidden-content').innerHTML = data;
-            document.getElementById('notification-content').innerHTML = document.getElementById('hidden-content').innerHTML;
-        })
-        .catch(error => console.error('Error:', error));
-});
-    </script>
-
-
   <!-- ------------------------------------------------------------------ -->
 
 
