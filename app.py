@@ -712,7 +712,7 @@ def chat_upload():
 #---------------------F&A.html--------------------
 @app.route('/Q&A.html')
 def  QandA():
-    return render_template('qanda.html')
+    return render_template('QandA.html')
 
 
 
@@ -1609,7 +1609,8 @@ def profileinfo(user_id):
         if not user_info:
             return redirect(url_for('index'))
             
-        return render_template('profile-info.html', user_info=user_info)
+        referer = request.referrer
+        return render_template('profile-info.html', user_info=user_info, referer=referer)
         
     finally:
         cursor.close()

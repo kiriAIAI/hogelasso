@@ -19,7 +19,7 @@ def add_database():
     import csv
 
     faq_list = []
-    with open("チャットボット学習データ/kakikko学習データ_v2.csv", encoding="utf-8") as file:
+    with open("チャットボット学習データ\kakikko学習データ_v3(複数パターン).csv", encoding="utf-8") as file:
         reader = csv.reader(file)
         for row in reader:
             if len(row) >= 2:  # A列とB列が存在する場合のみ
@@ -39,7 +39,7 @@ def add_database():
 
 
 #データ登録（追加するときはchromadbを削除してから実行すること）
-# add_database()
+add_database()
 
 def jsonex():
     results = collection.get(include=['embeddings', 'documents', 'metadatas'])
@@ -60,4 +60,4 @@ def jsonex():
     print("データのエクスポートが完了しました。")
     
 #jsonファイルにエクスポート
-# jsonex()
+jsonex()
