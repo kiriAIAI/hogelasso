@@ -70,12 +70,23 @@ def update_database(where,Updated_value,sql):
 def get_user_messages(user_id):
     conn = conn_db()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute('SELECT dm.*, u.username as sender_username FROM direct_messages dm JOIN users u ON dm.sender_id = u.id WHERE dm.recipient_id = %s ORDER BY dm.timestamp DESC', (user_id,))
+
+    cursor.execute('''
+        SELECT dm.*, u.username as sender_username, 
+               COALESCE(u.profile_image, 'circle-user.svg') as sender_profile_image 
+        FROM direct_messages dm 
+        JOIN users u ON dm.sender_id = u.id 
+        WHERE dm.recipient_id = %s 
+        ORDER BY dm.timestamp DESC
+    ''', (user_id,))
     messages = cursor.fetchall()
+
     cursor.execute('UPDATE direct_messages SET `read` = TRUE WHERE recipient_id = %s', (user_id,))
     conn.commit()
+
     cursor.close()
     conn.close()
+    
     return messages
 
 
@@ -787,7 +798,6 @@ def notification():
 
     messages = get_user_messages(user_id)
     return render_template('notification.html', messages=messages, user_info=user_info)
-
 
 
 
