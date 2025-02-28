@@ -37,9 +37,19 @@
             </div>
             <nav class="dropdown-list w-dropdown-list">
               <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-                <div>メッセージが届きました</div>
+                <div>メッセージが届き</div>
               </a>
-          </div>
+              <h1>Messages</h1>
+              <ul>
+                  {% for message in messages %}
+                  <li>
+                      <strong>From:</strong> {{ message.sender_username }}<br>
+                      <strong>Message:</strong> {{ message.message }}<br>
+                      <strong>Time:</strong> {{ message.timestamp }}
+                  </li>
+                  {% endfor %}
+              </ul>
+            </div>
           <div id="index_charge" class="navbar-link w-nav-link"><img src="{{ url_for('static', filename='images/charge.svg') }}" loading="lazy" alt="" class="navbar-icon charge_img"></div>
           <a href="{{ url_for('shoppingcart') }}" class="navbar-link shopping-cart w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>
           <div id="LoginIcon" class="navbar-link account w-nav-link"><img src="{{ url_for('static', filename='images/user-login.svg') }}" loading="lazy" alt="" class="navbar-icon"></div>
@@ -159,28 +169,7 @@
           <div class="category-content-wrapper">
             <h3 class="category-title">文学・評論</h3>
           </div>
-          
         </a>
-        <section class="notification-section">
-          <div class="notification-block">
-            <div class="notification-heading-block">
-              <h3 class="notification-heading">通知</h3>
-            </div>
-            <div class="notification-list-block">
-              <h1>Messages</h1>
-              <ul>
-                  {% for message in messages %}
-                  <li>
-                      <strong>From:</strong> {{ message.sender_username }}<br>
-                      <strong>Message:</strong> {{ message.message }}<br>
-                      <strong>Time:</strong> {{ message.timestamp }}
-                  </li>
-                  {% endfor %}
-              </ul>
-              </div>
-            </div>
-          </div>
-        </section>
         <a href="{{ url_for('category', category='social') }}" class="category-card w-inline-block">
           <div class="category-image-wrapper"><img alt="" src="{{ url_for('static', filename='images/politics.png') }}" class="category-image static">
             <img alt="" src="{{ url_for('static', filename='images/politics.gif') }}" class="category-image animated"></div>

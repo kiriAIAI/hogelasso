@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash,render_template_string
+from flask import Flask, render_template, send_from_directory, jsonify, request, redirect, url_for ,session ,flash
 import mysql.connector
 import os
 from PIL import Image
@@ -67,6 +67,18 @@ def update_database(where,Updated_value,sql):
     cursor.close()
     conn.close()
 
+def get_user_messages(user_id):
+    conn = conn_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('SELECT dm.*, u.username as sender_username FROM direct_messages dm JOIN users u ON dm.sender_id = u.id WHERE dm.recipient_id = %s ORDER BY dm.timestamp DESC', (user_id,))
+    messages = cursor.fetchall()
+    cursor.execute('UPDATE direct_messages SET `read` = TRUE WHERE recipient_id = %s', (user_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return messages
+
+
 
 
 # -------------------- index.html --------------------
@@ -97,8 +109,10 @@ def index():
     
     cursor.close()
     conn.close()
+    messages = get_user_messages(user_id)
+
     
-    return render_template('index.html', books=books, Plofile=Plofile)
+    return render_template('index.html', books=books, Plofile=Plofile, messages=messages)
 
 
 
@@ -712,7 +726,7 @@ def chat_upload():
 #---------------------F&A.html--------------------
 @app.route('/Q&A.html')
 def  QandA():
-    return render_template('QandA.html')
+    return render_template('qanda.html')
 
 
 
@@ -769,30 +783,9 @@ def notification():
     cursor.close()
     conn.close()
 
+    messages = get_user_messages(user_id)
     return render_template('notification.html', messages=messages)
 
-@app.route('/get-div-content')
-def get_div_content():
-    # 假设2.html中的div内容是动态生成的
-    messages = [
-        {'sender_username': 'Alice', 'message': 'Hello!', 'timestamp': '2025-02-27 10:00'},
-        {'sender_username': 'Bob', 'message': 'How are you?', 'timestamp': '2025-02-27 10:05'}
-    ]
-    div_content = """
-    <div class="notification-list-block">
-        <h1>Messages</h1>
-        <ul>
-            {% for message in messages %}
-            <li>
-                <strong>From:</strong> {{ message.sender_username }}<br>
-                <strong>Message:</strong> {{ message.message }}<br>
-                <strong>Time:</strong> {{ message.timestamp }}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    """
-    return render_template_string(div_content, messages=messages)
 
 
 
@@ -1609,8 +1602,7 @@ def profileinfo(user_id):
         if not user_info:
             return redirect(url_for('index'))
             
-        referer = request.referrer
-        return render_template('profile-info.html', user_info=user_info, referer=referer)
+        return render_template('profile-info.html', user_info=user_info)
         
     finally:
         cursor.close()
