@@ -19,7 +19,7 @@ def add_database():
     import csv
 
     faq_list = []
-    with open("チャットボット学習データ\kakikko学習データ_v3(複数パターン).csv", encoding="utf-8") as file:
+    with open("kakikko学習データ_v3(複数パターン).csv", encoding="utf-8") as file:
         reader = csv.reader(file)
         for row in reader:
             if len(row) >= 2:  # A列とB列が存在する場合のみ
@@ -54,7 +54,7 @@ def jsonex():
         })
 
     # JSON ファイルに保存
-    with open("チャットボット学習データ/exported_data.json", "w") as f:
+    with open("exported_data.json", "w") as f:
         json.dump(data_to_export, f, indent=4)
 
     print("データのエクスポートが完了しました。")
