@@ -688,7 +688,7 @@ def chat_upload():
         
         # 最初のチャットの場合
         if conversation_history == None:
-            Prompt = f'あなたはオンライン書籍販売サイトのチャットボット。質問に対して、参考資料が使えるなら使って回答すること。参考資料を使用できない場合は回答しない。80文字程度で出力。質問:"{Prompt}"'
+            Prompt = f'あなたは"かきっこ"というオンライン書籍販売サイトのチャットボット。"かきっこ"に関する質問の場合、参考資料が使えるなら使って回答すること。使えない場合回答しない。それ以外の質問は日常会話として返すこと。80文字程度で出力。質問:"{Prompt}"'
         # 画像が添付されている場合
         if image:
             print(image)
@@ -697,7 +697,7 @@ def chat_upload():
         response, conversation_history = ChatbotPy.chatbot(Prompt, uploaded_image, conversation_history)
         
     except:
-        response = "エラーが発生しました。"
+        response = "エラーが発生しました。時間をおいてもう一度お試しください。"
         
     finally:
         return jsonify({"response": response})
