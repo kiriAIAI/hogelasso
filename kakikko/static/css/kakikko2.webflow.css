@@ -389,6 +389,7 @@
 }
 
 .navbar-icon.profile-icon {
+  margin: 3px 4px 0 0;
   width: 1.8rem;
   height: 1.8rem;
   border-radius: 50%;
