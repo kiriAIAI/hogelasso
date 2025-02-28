@@ -4450,6 +4450,7 @@
 }
 
 .notification-section {
+  min-height: calc(100vh - 80px);
   background-color: #00000080;
   justify-content: center;
   align-items: center;
@@ -4467,7 +4468,7 @@
   height: 100%;
   max-height: 60%;
   display: flex;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .notification-heading-block {
@@ -5086,9 +5087,23 @@
 }
 
 @media screen and (max-width: 991px) {
+
+  /* -------------------- メッセージ通知 -------------------- */
   .dropdown-toggle {
     margin-left: 4px;
     margin-right: 10px;
+  }
+
+  .notification-section {
+    padding: 15px;
+  }
+  
+  .notification-block {
+    max-width: 600px;
+  }
+  
+  .notification-heading {
+    font-size: 22px;
   }
 
   /* ---------- navbar ---------- */
@@ -5109,6 +5124,14 @@
   .hamburger-menu {
     color: var(--font);
     font-size: 2rem;
+  }
+
+  .dropdown-list {
+    position: fixed;
+    width: 280px;
+    max-width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
   }
 
   /* ---------- sidenavbar ---------- */
@@ -5543,6 +5566,35 @@
     width: 100%;
     justify-content: center;
     margin-top: 10px;
+  }
+
+  /* -------------------- メッセージ通知 -------------------- */
+  .dropdown-list {
+    width: 250px;
+  }
+
+  .notification-section {
+    padding: 10px;
+  }
+  
+  .notification-block {
+    border-radius: 8px;
+  }
+  
+  .notification-heading-block {
+    padding: 15px;
+  }
+  
+  .notification-heading {
+    font-size: 20px;
+  }
+  
+  .notification-list-block {
+    padding: 15px;
+  }
+  
+  .notification-item {
+    padding: 12px;
   }
 
   /* ---------- チャージメニュー ---------- */
@@ -6296,6 +6348,51 @@
     grid-column-gap: 4vw;
     grid-row-gap: 4vw;
     padding-left: 4vw;
+  }
+
+  /* -------------------- メッセージ通知 -------------------- */
+  .dropdown-list {
+    width: 220px;
+    right: 10px;
+  }
+
+  .notification-section {
+    padding: 5px;
+  }
+  
+  .notification-block {
+    margin-top: 100px;
+    border-radius: 0;
+  }
+  
+  .notification-heading-block {
+    padding: 12px;
+  }
+  
+  .notification-heading {
+    font-size: 18px;
+  }
+  
+  .notification-list-block {
+    padding: 10px;
+  }
+  
+  .notification-item {
+    padding: 10px;
+  }
+  
+  .notification-avatar {
+    width: 35px;
+    height: 35px;
+    margin-right: 12px;
+  }
+  
+  .notification-message {
+    font-size: 14px;
+  }
+  
+  .notification-time {
+    font-size: 11px;
   }
 
   /* ---------- チャージメニュー ---------- */
