@@ -4314,7 +4314,6 @@
   width: 100%;
   display: flex;
   padding: 12px;
-  border-bottom: 1px solid #eee;
 }
 
 .notification-avatar {
@@ -4519,7 +4518,6 @@
 
 .notification-list-wrap {
   width: 100%;
-  border-bottom: 1px solid #0000001a;
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
