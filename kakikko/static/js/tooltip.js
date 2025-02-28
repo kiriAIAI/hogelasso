@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "Comment_Submission": "送信",
         "removeFromCart": "削除",
         "image": "画像を添付",
-        "edit-btn": "編集",
+        "edit-btn": "投稿を編集",
     };
 
     const tooltipElement = document.createElement("div");
@@ -97,6 +97,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!element) {
             const elements = document.getElementsByClassName(identifier);
             if (elements.length > 0) {
+                if (identifier === 'button' && elements[0].classList.contains('clear-filter')) {
+                    return null;
+                }
                 element = elements[0];
             }
         }
