@@ -772,6 +772,12 @@ def notification():
 
     conn = conn_db()
     cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT * FROM users WHERE id = %s
+    """, (user_id,))
+    user_info = cursor.fetchone()
+
     cursor.execute('SELECT dm.*, u.username as sender_username FROM direct_messages dm JOIN users u ON dm.sender_id = u.id WHERE dm.recipient_id = %s ORDER BY dm.timestamp DESC', (user_id,))
     messages = cursor.fetchall()
     cursor.execute('UPDATE direct_messages SET `read` = TRUE WHERE recipient_id = %s', (user_id,))
@@ -780,7 +786,7 @@ def notification():
     conn.close()
 
     messages = get_user_messages(user_id)
-    return render_template('notification.html', messages=messages)
+    return render_template('notification.html', messages=messages, user_info=user_info)
 
 
 
