@@ -322,6 +322,7 @@
           .then(response => {
               if (response.redirected) {
                   window.location.href = response.url;
+                  alert('購入が完了しました！')
               }
           })
           .catch(error => {
