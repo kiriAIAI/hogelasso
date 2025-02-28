@@ -688,13 +688,7 @@ def chat_upload():
         
         # 最初のチャットの場合
         if conversation_history == None:
-            Prompt = f"""
-            あなたはオンライン書籍販売サイトのチャットボット。
-            質問に対して、参考資料が使えるなら使って回答すること。
-            参考資料を使用できない場合は憶測で回答すること。
-            80文字程度で出力。
-            {Prompt}
-            """
+            Prompt = f'あなたはオンライン書籍販売サイトのチャットボット。質問に対して、参考資料が使えるなら使って回答すること。参考資料を使用できない場合は回答しない。80文字程度で出力。質問:"{Prompt}"'
         # 画像が添付されている場合
         if image:
             print(image)
@@ -737,11 +731,11 @@ def confirmlogout():
 def check_new_messages():
     try: 
         user_id = session.get('login_id')
+        conn = conn_db()
+        cursor = conn.cursor()
         if not user_id:
             return jsonify({'new_messages': False})
 
-        conn = conn_db()
-        cursor = conn.cursor()
         cursor.execute('SELECT COUNT(*) FROM direct_messages WHERE recipient_id = %s AND `read` = FALSE', (user_id,))
         new_messages_count = cursor.fetchone()[0]
 

@@ -12,7 +12,7 @@ model = genai.GenerativeModel(MODEL_NAME)
 def text_summary(text):
     try:
         model = genai.GenerativeModel("gemini-2.0-flash-lite")
-        prompt = f"次の内容を基に、物語の冒頭20%を使用して要約し、読者の興味を引く書籍紹介文を生成。長さは約80文字。{text}"
+        prompt = f"次の内容を基に、物語の冒頭20%を使用して要約し、読者の興味を引く書籍紹介文を生成。長さは約50文字。{text}"
         response = model.generate_content(prompt).text
     except:
         response = ""
