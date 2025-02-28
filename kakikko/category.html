@@ -34,18 +34,27 @@
               </div>
             </div>
             <nav class="dropdown-list w-dropdown-list">
-              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-                <div>Username</div>
+              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block">
+                {% if messages %}
+                  <div>メッセージが届きました</div>
+                {% else %}
+                  <div>メッセージはありません</div>
+                {% endif %}
               </a>
-              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-                <div>Username</div>
-              </a>
-              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-                <div>Username</div>
-              </a>
-              <a href="{{ url_for('notification') }}" class="dropdown-link w-inline-block"><img src="{{ url_for('static', filename='images/circle-user.svg') }}" loading="lazy" alt="" class="bell-author-image">
-                <div>Username</div>
-              </a>
+              <div class="notification-messages">
+                {% for message in messages %}
+                <div class="notification-item">
+                  <div class="notification-avatar">
+                    <img src="{{ url_for('static', filename='images/circle-user.svg') }}" alt="user avatar" class="notification-user">
+                  </div>
+                  <div class="notification-info">
+                    <span class="notification-username">{{ message.sender_username }}</span>
+                    <p class="notification-message">{{ message.message }}</p>
+                    <span class="notification-time">{{ message.timestamp }}</span>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
             </nav>
           </div>
           <a href="{{ url_for('shoppingcart') }}" class="navbar-link shopping-cart w-nav-link"><img src="{{ url_for('static', filename='images/cart-shopping.svg') }}" loading="lazy" alt="" class="navbar-icon"></a>

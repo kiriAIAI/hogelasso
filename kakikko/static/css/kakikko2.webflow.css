@@ -4289,7 +4289,6 @@
 
 .dropdown-link {
   color: var(--font);
-  border-bottom: 1px solid #0000001a;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
