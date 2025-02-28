@@ -4482,6 +4482,22 @@
   margin-bottom: 10px;
   padding-right: 0;
   display: flex;
+  position: relative;
+}
+
+.notification-close-btn {
+  position: absolute;
+  top: 8.5px;
+  right: 10px;
+  cursor: pointer;
+  padding: 10px;
+  transition: all 0.3s ease;
+  font-size: 1.6rem;
+  color: var(--light-gray-hover);
+}
+
+.notification-close-btn:hover {
+  color: var(--error);
 }
 
 .notification-heading {
