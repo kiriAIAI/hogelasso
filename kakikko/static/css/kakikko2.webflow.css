@@ -4312,14 +4312,15 @@
 }
 
 .notification-item {
+  width: 100%;
   display: flex;
   padding: 12px;
   border-bottom: 1px solid #eee;
 }
 
 .notification-avatar {
-  width: 40px;
-  height: 40px;
+  width: 2.3rem;
+  height: 2.3rem;
   margin-right: 12px;
   border-radius: 50%;
   overflow: hidden;
@@ -4337,14 +4338,14 @@
 
 .notification-username {
   font-weight: 600;
-  font-size: 14px;
-  color: #333;
+  font-size: 1rem;
+  color: var(--font);
   display: block;
   margin-bottom: 4px;
 }
 
 .notification-message {
-  font-size: 13px;
+  font-size: 0.98rem;
   color: #666;
   margin: 0 0 4px;
 }
@@ -4502,25 +4503,14 @@
 }
 
 .notification-list-wrap {
+  width: 100%;
   border-bottom: 1px solid #0000001a;
   justify-content: flex-start;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
   padding: .5rem;
   display: flex;
-}
-
-.notification-username {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-  line-height: 1.6rem;
-}
-
-.notification-image-block {
-  width: 3rem;
-  height: 3rem;
-  margin-right: 20px;
 }
 
 @media screen and (min-width: 1440px) {
