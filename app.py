@@ -109,7 +109,9 @@ def index():
     
     cursor.close()
     conn.close()
-    messages = get_user_messages(user_id)
+    
+    user_id = session.get('login_id')
+    messages = get_user_messages(user_id) if user_id else []
 
     
     return render_template('index.html', books=books, Plofile=Plofile, messages=messages)
