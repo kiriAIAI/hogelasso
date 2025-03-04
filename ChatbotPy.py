@@ -12,11 +12,18 @@ model = genai.GenerativeModel(MODEL_NAME)
 def text_summary(text):
     try:
         model = genai.GenerativeModel("gemini-2.0-flash-lite")
-        prompt = f"次の内容を基に、物語の冒頭20%を使用して要約し、読者の興味を引く書籍紹介文を生成。長さは約50文字。{text}"
+        prompt = f"""
+                ###役割###
+                次の内容を基に、物語の冒頭20%を使用して要約し、読者の興味を引く書籍紹介文を生成。長さは約50文字。何かしら感じ取ったものを生成。絶対条件厳守
+                ###絶対条件###
+                書籍紹介文の内容のみを生成。それ以外の余計な文章や単語は生成しない。
+                ###内容###
+                {text}
+                """
         response = model.generate_content(prompt).text
     except:
         response = ""
-    return response
+    return response.translate(str.maketrans("", "", "*"))
 
 #-------------------------------------チャットボット-------------------------------------------
 # ベクトル検索に渡す用
