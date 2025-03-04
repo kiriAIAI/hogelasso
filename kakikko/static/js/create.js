@@ -345,3 +345,11 @@
           alert('エラー：' + error.message);
       });
     };
+
+document.getElementById('sizeInput').addEventListener('input', function() {
+    const value = this.value;
+    const min = this.min;
+    const max = this.max;
+    const percentage = ((value - min) / (max - min)) * 100;
+    this.style.background = `linear-gradient(to right, #6a6a6a ${percentage}%, #e0e0e0 ${percentage}%)`;
+});
